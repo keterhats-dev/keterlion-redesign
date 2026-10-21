@@ -1,0 +1,207 @@
+<title>Keterlion Design Directions</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Karantina:wght@400;700&family=Heebo:wght@300;400;500;700;900&family=Frank+Ruhl+Libre:wght@500;700;900&family=Assistant:wght@300;400;600;800&family=Rubik:wght@400;500;700;900&display=swap">
+<style>
+  /* Layout: a sticky direction switcher over one live brand specimen; the page chrome stays quiet so the three directions carry the color. */
+  :root{
+    --page:#e9e8e4; --panel:#ffffff; --text:#151515; --sub:#5d5b56; --chip:#151515; --chip-ink:#ffffff; --hair:#d6d4ce;
+    --ui:Heebo,"Segoe UI",Arial,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--page:#141413;--panel:#1f1f1d;--text:#eeede9;--sub:#a9a69f;--chip:#eeede9;--chip-ink:#141413;--hair:#34332f;color-scheme:dark}}
+  :root[data-theme="dark"]{--page:#141413;--panel:#1f1f1d;--text:#eeede9;--sub:#a9a69f;--chip:#eeede9;--chip-ink:#141413;--hair:#34332f;color-scheme:dark}
+
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--ui);background:var(--page);color:var(--text);direction:rtl}
+  img{display:block;max-width:100%}
+  .gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+  .bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--panel);border-bottom:1px solid var(--hair);padding-block:10px}
+  .bar .in{max-width:1100px;margin:0 auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .bar b{font-size:14px;margin-left:6px}
+  .bar button{font:inherit;font-size:14px;padding:8px 14px;border:1px solid var(--hair);background:transparent;color:var(--text);cursor:pointer;border-radius:999px}
+  .bar button[aria-pressed="true"]{background:var(--chip);color:var(--chip-ink);border-color:var(--chip)}
+  .bar button:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+
+  .wrap{max-width:1100px;margin:0 auto;padding-block:24px 64px;display:grid;gap:20px}
+  .intro,.notes{background:var(--panel);padding:20px;border-radius:6px;line-height:1.75}
+  .intro h1{font-size:22px;margin:0 0 6px;text-wrap:balance}
+  .intro p{color:var(--sub);font-size:15px;margin:0;max-width:65ch}
+  .notes h2{font-size:18px;margin:0 0 6px}
+  .notes ul{margin:0;padding-right:20px;font-size:15px}
+  .notes li{margin-bottom:4px}
+
+  /* ===== Brand specimen: each direction is a deliberate single look with its own explicit palette ===== */
+  .theme{background:var(--bg);color:var(--ink);font-family:var(--body);border-radius:6px;overflow:hidden;border:1px solid var(--hair)}
+  .t-a{--bg:#ecebe8;--surface:#ffffff;--ink:#0e0e0e;--muted:#64625e;--line:#d9d7d2;--accent:#e4572e;--accent-ink:#ffffff;--dark:#0e0e0e;--display:Karantina,Heebo,sans-serif;--body:Heebo,sans-serif;--dw:700;--dsize:1.25;--radius:0px;--btn-radius:0px;--track:0}
+  .t-b{--bg:#f6f0e4;--surface:#fffcf6;--ink:#1b1b1b;--muted:#6f655a;--line:#e3d8c5;--accent:#6e0014;--accent-ink:#f6f0e4;--dark:#2a0a10;--gold:#c9a96a;--display:"Frank Ruhl Libre",Georgia,serif;--body:Assistant,Arial,sans-serif;--dw:900;--dsize:1;--radius:2px;--btn-radius:2px;--track:0}
+  .t-c{--bg:#f7f7f8;--surface:#ffffff;--ink:#121212;--muted:#5f5f66;--line:#e4e4e8;--accent:#5b3fd6;--accent-ink:#ffffff;--dark:#121212;--pop1:#ff6b2c;--pop2:#2b6bff;--pop3:#ffd23f;--display:Rubik,Arial,sans-serif;--body:Rubik,Arial,sans-serif;--dw:900;--dsize:.9;--radius:16px;--btn-radius:999px;--track:-.02em}
+
+  .sec{padding:28px 24px;border-bottom:1px solid var(--line)}
+  .lbl{font-size:12px;letter-spacing:.12em;color:var(--muted);margin-bottom:14px;font-weight:500}
+  .disp{font-family:var(--display);font-weight:var(--dw);letter-spacing:var(--track);line-height:1;text-wrap:balance}
+
+  .hdr{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 24px;background:var(--surface);border-bottom:1px solid var(--line)}
+  .hdr nav{display:flex;gap:22px;font-size:15px;font-weight:500}
+  .hdr img{height:34px}
+  .hdr .cart{font-size:14px;font-weight:500}
+
+  .hero{position:relative;min-height:360px;display:flex;align-items:flex-end;color:#ffffff}
+  .hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75),rgba(0,0,0,.05) 65%)}
+  .t-b .hero::after{background:linear-gradient(to top,rgba(42,10,16,.85),rgba(42,10,16,.1) 65%)}
+  .hero .in{position:relative;z-index:2;padding:32px 24px;max-width:640px}
+  .hero h2{font-size:calc(64px*var(--dsize));margin:0}
+  .hero p{margin:12px 0 20px;font-size:17px;line-height:1.6}
+
+  .btns{display:flex;gap:10px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;height:48px;padding:0 24px;font-weight:700;font-size:15px;border-radius:var(--btn-radius);border:2px solid transparent;font-family:var(--body)}
+  .btn.p{background:var(--accent);color:var(--accent-ink)}
+  .btn.s{background:transparent;border-color:currentColor;color:inherit}
+  .btn.d{background:var(--ink);color:var(--bg)}
+
+  .sw{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+  .sw div{border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);background:var(--surface)}
+  .sw i{display:block;height:60px}
+  .sw span{display:block;padding:8px;font-size:12px;line-height:1.45}
+  .sw code{font-family:ui-monospace,Consolas,monospace;font-size:12px}
+
+  .type{display:grid;gap:12px}
+  .type .h1{font-size:calc(56px*var(--dsize))}
+  .type .h2{font-size:calc(36px*var(--dsize))}
+  .type .h3{font-size:22px;font-weight:700}
+  .type .p{font-size:16px;line-height:1.75;max-width:60ch;margin:0}
+  .type .s{font-size:13px;color:var(--muted)}
+
+  .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+  .card{background:var(--surface);border-radius:var(--radius);overflow:hidden;border:1px solid var(--line)}
+  .card .im{aspect-ratio:1;max-width:100%;background:var(--bg);position:relative}
+  .card .im img{width:100%;height:100%;object-fit:cover}
+  .tag{position:absolute;top:10px;right:10px;font-size:11px;font-weight:700;padding:4px 9px;background:var(--ink);color:var(--bg);border-radius:var(--btn-radius)}
+  .t-b .tag{background:var(--gold);color:var(--dark)}
+  .t-c .tag{background:var(--pop3);color:#121212}
+  .card .tx{padding:12px}
+  .card h4{font-size:16px;font-weight:700;margin:0}
+  .card .m{font-size:13px;color:var(--muted);margin-top:2px}
+  .card .row{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+  .card .pr{font-weight:700;font-variant-numeric:tabular-nums}
+  .dots{display:flex;gap:5px}.dots i{width:12px;height:12px;border-radius:50%;border:1px solid var(--line)}
+
+  .band{background:var(--dark);color:#ffffff;padding:36px 24px;display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:center}
+  .t-c .band{background:var(--accent)}
+  .band>div{min-width:0}
+  .band h3{font-size:calc(44px*var(--dsize));margin:0}
+  .band p{line-height:1.7;margin:10px 0 18px}
+  .band .pill{display:inline-block;font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;background:var(--accent);color:var(--accent-ink);margin-bottom:12px}
+  .t-b .band .pill{background:var(--gold);color:var(--dark)}
+  .t-c .band .pill{background:var(--pop3);color:#121212}
+  .band img{border-radius:var(--radius);aspect-ratio:4/3;object-fit:cover;width:100%}
+  .band em{font-style:normal}
+  .t-a .band em{color:var(--accent)}
+  .t-b .band em{color:var(--gold)}
+  .t-c .band em{color:var(--pop3)}
+
+  @media (max-width:760px){
+    .hdr nav{display:none}
+    .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .band{grid-template-columns:1fr}
+    .hero h2{font-size:calc(46px*var(--dsize))}
+    .type .h1{font-size:calc(42px*var(--dsize))}
+    .sec,.hero .in,.band{padding-left:16px;padding-right:16px}
+  }
+  @media (prefers-reduced-motion:no-preference){.theme{transition:background-color .25s}}
+</style>
+
+<div class="bar gut">
+  <div class="in" role="group" aria-label="בחירת כיוון עיצובי">
+    <b>כיוון עיצובי:</b>
+    <button id="dir-a" data-t="a" aria-pressed="true">א · רחוב מינימליסטי</button>
+    <button id="dir-b" data-t="b" aria-pressed="false">ב · כתר ומורשת</button>
+    <button id="dir-c" data-t="c" aria-pressed="false">ג · צבעוני ונועז</button>
+  </div>
+</div>
+
+<div class="wrap gut">
+  <div class="intro">
+    <h1>שלוש שפות עיצוביות לכתרליון</h1>
+    <p>אותו תוכן בשלושה כיוונים. החליפו ביניהם בכפתורים למעלה. כל הפונטים תומכים בעברית, והתמונות והמוצרים לקוחים מהאתר. אחרי שתבחרו כיוון, הוא יוגדר כ-Global Kit באלמנטור, וכל האתר יירש אותו.</p>
+  </div>
+
+  <div class="theme t-a" id="theme">
+    <div class="hdr">
+      <img src="assets/logo.png" alt="כתרליון">
+      <nav><span>כובעים</span><span>חולצות</span><span>עיצוב אישי</span><span>לעסקים</span><span>הסיפור</span></nav>
+      <span class="cart">סל (0)</span>
+    </div>
+
+    <div class="hero">
+      <img src="assets/hero.jpg" alt="">
+      <div class="in">
+        <h2 class="disp">הכל מתחיל בראש</h2>
+        <p>כובעים ישראליים עם אמירה, רקומים בתל אביב מאז 2016. מהקולקציה, או בעיצוב שלכם, גם כובע אחד.</p>
+        <div class="btns"><span class="btn p">לכל הכובעים</span><span class="btn s">עצבו כובע משלכם</span></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="lbl">פלטת צבעים</div>
+      <div class="sw" id="sw"></div>
+    </div>
+
+    <div class="sec type">
+      <div class="lbl">טיפוגרפיה</div>
+      <div class="disp h1">כלום לא סתם</div>
+      <div class="disp h2">קולקציית תמרורים</div>
+      <div class="h3">כובע Dad Cap בגזרה נמוכה</div>
+      <p class="p">כל כובע של כתרליון מתחיל ברעיון ישראלי ונגמר ברקמה מדויקת. אנחנו עובדים עם אמנים ישראליים ומייצרים כל דגם בכמויות קטנות.</p>
+      <div class="s">עוצב ע״י האמנית מור ראסי · משלוח חינם מעל ₪249 · משלוח לחו״ל ₪150</div>
+    </div>
+
+    <div class="sec">
+      <div class="lbl">כפתורים</div>
+      <div class="btns"><span class="btn p">הוספה לסל</span><span class="btn d">לקופה</span><span class="btn s">פרטים נוספים</span></div>
+    </div>
+
+    <div class="sec">
+      <div class="lbl">כרטיסי מוצר</div>
+      <div class="grid" id="grid"></div>
+    </div>
+
+    <div class="band">
+      <div>
+        <span class="pill">בלי מינימום · גם כובע אחד</span>
+        <h3 class="disp">מה <em>בראש</em> שלך?</h3>
+        <p>בוחרים כובע, צבע ורקמה, ואנחנו רוקמים בתל אביב. מתנה מקורית, כובע לקבוצה, או סתם כי בא לכם.</p>
+        <div class="btns"><span class="btn p">להתחיל לעצב</span></div>
+      </div>
+      <img src="assets/custom.jpg" alt="">
+    </div>
+  </div>
+
+  <div class="notes" id="notes"></div>
+</div>
+
+<script>
+const U="assets/";
+const P=[["כלום לא סתם","Dad Cap · סגול","p1.jpg",["#8a63c9"],"חדש"],["Piece of God","Dad Cap · אפור כהה","p2.jpg",["#444444","#d8d2b8"],"רב מכר"],["תמרור מעגלים","Dad Cap · כחול","p3.jpg",["#2b4a8b"],""],["Go A Head","Dad Cap · שחור משופשף","p4.jpg",["#1a1a1a"],""]];
+document.getElementById('grid').innerHTML=P.map(([n,m,i,c,t])=>`<div class="card"><div class="im"><img src="${U+i}" alt="${n}">${t?`<span class="tag">${t}</span>`:''}</div><div class="tx"><h4>${n}</h4><div class="m">${m}</div><div class="row"><span class="pr">₪149</span><span class="dots">${c.map(x=>`<i style="background:${x}"></i>`).join('')}</span></div></div></div>`).join('');
+
+const D={
+ a:{sw:[["#0e0e0e","שחור דיו: טקסט ורקעים כהים"],["#ecebe8","בטון: רקע ראשי"],["#ffffff","לבן: כרטיסים"],["#e4572e","כתום רחוב: הדגשה וכפתור ראשי"],["#64625e","אפור: טקסט משני"],["#d9d7d2","קו מפריד"]],
+  n:`<h2>א · רחוב מינימליסטי</h2><ul><li><b>תחושה:</b> מותג streetwear עכשווי. התמונות והמוצרים במרכז, והעיצוב עצמו כמעט לא מורגש.</li><li><b>פונטים:</b> Karantina, כותרות עבריות צרות וגבוהות כמו בפוסטר רחוב, ו-Heebo לטקסט.</li><li><b>צבעים:</b> שחור על אפור בטון, עם צבע הדגשה אחד: כתום של כובע אמיתי מהקולקציה.</li><li><b>יתרון:</b> הכי אופנתי. מתאים לקהל של 18–35 ומבליט את הצילומים.</li><li><b>חיסרון:</b> פחות חם. הזהות הישראלית נשענת בעיקר על התוכן ופחות על העיצוב.</li></ul>`},
+ b:{sw:[["#6e0014","בורדו כתר: הצבע שמוגדר באתר היום"],["#c9a96a","זהב מעומעם: הדגשות ותגיות"],["#f6f0e4","קלף: רקע ראשי"],["#2a0a10","בורדו כהה: רקעים כהים"],["#1b1b1b","שחור: טקסט"],["#6f655a","חום-אפור: טקסט משני"]],
+  n:`<h2>ב · כתר ומורשת</h2><ul><li><b>תחושה:</b> "כתר" ו"אריה". מותג ישראלי עם שורשים, מסורת ואיכות. חם ויוקרתי, ועדיין רחוב.</li><li><b>פונטים:</b> Frank Ruhl Libre, סריף עברי קלאסי, בכותרות, ו-Assistant לטקסט. Assistant הוא הפונט שיש באתר היום.</li><li><b>צבעים:</b> הבורדו שכבר מוגדר באתר (#6E0014), עם זהב מעומעם וקלף.</li><li><b>יתרון:</b> ממשיך את מה שקיים, הכי מבדל מול המתחרים, ומחבר את הסיפור (יהדות, ישראליות, כתר) לעיצוב.</li><li><b>חיסרון:</b> עלול להרגיש רציני מדי לקהל הצעיר, אם לא מאזנים אותו עם צילומי רחוב.</li></ul>`},
+ c:{sw:[["#121212","שחור: טקסט"],["#f7f7f8","לבן-אפור: רקע"],["#5b3fd6","סגול: הדגשה ראשית"],["#ff6b2c","כתום: משני"],["#2b6bff","כחול: משני"],["#ffd23f","צהוב: תגיות ומבצעים"]],
+  n:`<h2>ג · צבעוני ונועז</h2><ul><li><b>תחושה:</b> כיפי, אנרגטי ושובב, כמו שמות המוצרים ("כלום לא סתם", "Go A Head").</li><li><b>פונטים:</b> Rubik, עגול ושמן, גם בכותרות וגם בטקסט.</li><li><b>צבעים:</b> פלטה בהשראת צבעי הכובעים, עם פינות מעוגלות וכפתורים עגולים.</li><li><b>יתרון:</b> מתאים במיוחד לעיצוב האישי ולמתנות, ומזמין לשחק.</li><li><b>חיסרון:</b> פחות יוקרתי, ועלול להתנגש עם צבעי המוצרים בתמונות.</li></ul>`}
+};
+function set(k){
+  document.getElementById('theme').className='theme t-'+k;
+  document.getElementById('sw').innerHTML=D[k].sw.map(([c,t])=>`<div><i style="background:${c}"></i><span><code>${c}</code><br>${t}</span></div>`).join('');
+  document.getElementById('notes').innerHTML=D[k].n;
+  document.querySelectorAll('.bar button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.t===k?'true':'false'));
+  try{localStorage.setItem('kl-dir',k)}catch(e){}
+}
+document.querySelectorAll('.bar button').forEach(b=>b.addEventListener('click',()=>set(b.dataset.t)));
+let s='a';try{s=localStorage.getItem('kl-dir')||'a'}catch(e){}
+set(D[s]?s:'a');
+</script>

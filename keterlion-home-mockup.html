@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Keterlion – Home Redesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Anton&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0d0d0d; --paper:#f5f2ec; --white:#fff; --muted:#6b6862; --line:#e2ddd3;
+    --accent:#e4572e; /* כתום הכובע – צבע הדגשה יחיד */
+    --u:"https://keterlion.com/staging/wp-content/uploads";
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Heebo,system-ui,sans-serif;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1320px;margin:0 auto;padding:0 24px}
+  .display{font-family:Anton,Heebo,sans-serif;text-transform:uppercase;letter-spacing:.01em;line-height:.92}
+
+  /* Announcement */
+  .announce{background:var(--ink);color:var(--white);font-size:13px;overflow:hidden;white-space:nowrap}
+  .announce .track{display:inline-flex;gap:48px;padding:9px 0;animation:marq 28s linear infinite}
+  .announce span::before{content:"✦";margin-left:48px;color:var(--accent)}
+  @keyframes marq{to{transform:translateX(50%)}}
+
+  /* Header */
+  header{position:sticky;top:0;z-index:20;background:rgba(245,242,236,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:68px}
+  .nav ul{display:flex;gap:28px;list-style:none;font-size:14px;font-weight:500}
+  .nav ul a:hover{color:var(--accent)}
+  .logo img{height:40px}
+  .icons{display:flex;gap:20px;justify-content:flex-end;align-items:center;font-size:14px;font-weight:500}
+  .cart{display:flex;align-items:center;gap:6px}
+  .cart b{background:var(--ink);color:var(--white);border-radius:99px;font-size:11px;min-width:20px;height:20px;display:grid;place-items:center}
+  .burger{display:none;background:none;border:0;font-size:24px}
+
+  /* Hero */
+  .hero{position:relative;height:min(88vh,820px);min-height:520px;color:var(--white);overflow:hidden}
+  .hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.72) 0%,rgba(0,0,0,.15) 55%,rgba(0,0,0,.05) 100%)}
+  .hero .in{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:64px}
+  .eyebrow{font-size:13px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;opacity:.85;margin-bottom:16px}
+  .hero h1{font-size:clamp(56px,11vw,168px);direction:ltr;text-align:right}
+  .hero p{font-size:18px;max-width:440px;margin:20px 0 28px;opacity:.9;font-weight:300}
+  .btns{display:flex;gap:12px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 28px;font-weight:700;font-size:15px;border:2px solid currentColor;transition:.2s}
+  .btn.solid{background:var(--white);color:var(--ink);border-color:var(--white)}
+  .btn.solid:hover{background:var(--accent);border-color:var(--accent);color:var(--white)}
+  .btn.ghost:hover{background:var(--white);color:var(--ink)}
+  .btn.dark{background:var(--ink);color:var(--white);border-color:var(--ink)}
+  .btn.dark:hover{background:var(--accent);border-color:var(--accent)}
+
+  /* Section headings */
+  section{padding:96px 0}
+  .sh{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:40px}
+  .sh h2{font-size:clamp(40px,6vw,80px)}
+  .sh .sub{color:var(--muted);font-size:15px;margin-top:10px}
+  .link{font-weight:700;font-size:14px;border-bottom:2px solid var(--ink);padding-bottom:3px;white-space:nowrap}
+  .link:hover{color:var(--accent);border-color:var(--accent)}
+
+  /* Collections */
+  .cols{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .col{position:relative;aspect-ratio:3/4;overflow:hidden;background:#ccc;color:var(--white)}
+  .col img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+  .col:hover img{transform:scale(1.05)}
+  .col::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.6),transparent 50%)}
+  .col .lbl{position:absolute;z-index:2;bottom:20px;right:20px;left:20px;display:flex;justify-content:space-between;align-items:flex-end}
+  .col h3{font-size:24px;font-weight:900}
+  .col small{font-size:13px;opacity:.85}
+  .col .arr{width:40px;height:40px;border-radius:50%;background:var(--white);color:var(--ink);display:grid;place-items:center;font-weight:700;transition:.2s}
+  .col:hover .arr{background:var(--accent);color:var(--white)}
+  .chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+  .chips a{border:1px solid var(--ink);padding:9px 18px;border-radius:99px;font-size:14px;font-weight:500}
+  .chips a:hover{background:var(--ink);color:var(--white)}
+
+  /* Products */
+  .products{background:var(--white)}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px 20px}
+  .p .img{position:relative;aspect-ratio:1;background:var(--paper);overflow:hidden}
+  .p .img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+  .p:hover .img img{transform:scale(1.04)}
+  .tag{position:absolute;top:12px;right:12px;background:var(--ink);color:var(--white);font-size:11px;font-weight:700;padding:5px 10px;letter-spacing:.05em}
+  .quick{position:absolute;inset:auto 12px 12px 12px;background:var(--ink);color:var(--white);height:44px;display:grid;place-items:center;font-weight:700;font-size:14px;transform:translateY(130%);transition:.25s}
+  .p:hover .quick{transform:none}
+  .p h4{font-size:16px;font-weight:700;margin-top:14px}
+  .p .meta{font-size:13px;color:var(--muted);margin-top:3px}
+  .p .price{font-weight:700;margin-top:8px}
+  .sw{display:flex;gap:6px;margin-top:8px}
+  .sw i{width:14px;height:14px;border-radius:50%;border:1px solid var(--line)}
+
+  /* Manifesto */
+  .manifesto{background:var(--ink);color:var(--white);text-align:center;padding:120px 0}
+  .manifesto img{height:84px;margin:0 auto 32px;filter:invert(1)}
+  .manifesto h2{font-size:clamp(48px,9vw,128px);direction:ltr}
+  .manifesto h2 em{font-style:normal;color:var(--accent)}
+  .manifesto p{max-width:560px;margin:28px auto 36px;font-size:18px;font-weight:300;line-height:1.7;opacity:.85}
+  .manifesto .btn{color:var(--white)}
+
+  /* Store */
+  .store .box{display:grid;grid-template-columns:1.1fr 1fr;background:var(--white);min-height:480px}
+  .store .ph{position:relative;overflow:hidden}
+  .store .ph img{width:100%;height:100%;object-fit:cover}
+  .store .tx{padding:56px;display:flex;flex-direction:column;justify-content:center}
+  .store h2{font-size:clamp(40px,5vw,64px);margin-bottom:24px}
+  .store dl{display:grid;grid-template-columns:auto 1fr;gap:12px 24px;font-size:15px;margin-bottom:32px}
+  .store dt{color:var(--muted)}
+  .store dd{font-weight:500}
+
+  /* USP */
+  .usp{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:0}
+  .usp .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
+  .usp div div{padding:28px 20px;border-left:1px solid var(--line);font-size:14px}
+  .usp div div:last-child{border-left:0}
+  .usp b{display:block;font-size:15px;margin-bottom:4px}
+
+  /* Footer */
+  footer{background:var(--ink);color:#bdb9b0;padding:72px 0 32px;font-size:14px}
+  .fg{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px}
+  footer h5{color:var(--white);font-size:13px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:16px}
+  footer li{list-style:none;margin-bottom:10px}
+  footer a:hover{color:var(--white)}
+  .news{display:flex;margin-top:18px;border-bottom:1px solid #555}
+  .news input{flex:1;background:none;border:0;color:var(--white);font:inherit;padding:12px 0;outline:0}
+  .news button{background:none;border:0;color:var(--white);font:inherit;font-weight:700;cursor:pointer}
+  .copy{border-top:1px solid #2a2a2a;margin-top:56px;padding-top:24px;display:flex;justify-content:space-between;font-size:12px}
+
+  /* Delayed club popup (slide-in) */
+  .club{position:fixed;bottom:24px;left:24px;z-index:50;width:360px;max-width:calc(100% - 32px);background:var(--white);box-shadow:0 20px 60px rgba(0,0,0,.25);display:grid;grid-template-columns:110px 1fr;transform:translateY(140%);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+  .club.show{transform:none}
+  .club img{width:100%;height:100%;object-fit:cover}
+  .club .c{padding:20px;position:relative}
+  .club h4{font-size:20px;font-weight:900;margin-bottom:6px}
+  .club p{font-size:13px;color:var(--muted);margin-bottom:14px}
+  .club .x{position:absolute;top:8px;left:10px;background:none;border:0;font-size:18px;cursor:pointer}
+  .club .btn{height:40px;font-size:13px;padding:0 16px}
+
+  .note{position:fixed;top:12px;left:12px;z-index:60;background:var(--accent);color:#fff;font-size:12px;padding:6px 12px;font-weight:700}
+
+  @media (max-width:900px){
+    .nav{grid-template-columns:auto 1fr auto}
+    .nav ul{display:none}.burger{display:block}
+    .logo{justify-self:center}
+    .icons .hide-m{display:none}
+    .cols{grid-template-columns:repeat(2,1fr);gap:10px}
+    .grid{grid-template-columns:repeat(2,1fr);gap:24px 12px}
+    .quick{transform:none;height:38px;font-size:13px}
+    section{padding:64px 0}
+    .sh{flex-direction:column;align-items:flex-start}
+    .store .box{grid-template-columns:1fr}.store .ph{aspect-ratio:4/3}.store .tx{padding:32px 24px}
+    .usp .wrap{grid-template-columns:repeat(2,1fr)}
+    .usp div div{border-bottom:1px solid var(--line)}
+    .fg{grid-template-columns:1fr 1fr}
+    .fg>div:first-child{grid-column:1/-1}
+    .wrap{padding:0 16px}
+    .hero{height:82vh}
+    .club{left:16px;bottom:16px}
+  }
+</style>
+</head>
+<body>
+
+<div class="note">הדמיה – לא אתר חי</div>
+
+<div class="announce"><div class="track">
+  <span>משלוח חינם בהזמנה מעל ₪249</span><span>משלוח עד 5 ימי עסקים</span><span>עיצוב כובע אישי – בהתאמה שלך</span><span>חנות פיזית: נחלת בנימין 13, ת״א</span>
+  <span>משלוח חינם בהזמנה מעל ₪249</span><span>משלוח עד 5 ימי עסקים</span><span>עיצוב כובע אישי – בהתאמה שלך</span><span>חנות פיזית: נחלת בנימין 13, ת״א</span>
+</div></div>
+
+<header><div class="wrap nav">
+  <button class="burger" aria-label="תפריט">☰</button>
+  <ul>
+    <li><a href="#">קולקציות</a></li>
+    <li><a href="#">כובעים</a></li>
+    <li><a href="#">חולצות</a></li>
+    <li><a href="#">עיצוב אישי</a></li>
+    <li><a href="#">הסיפור שלנו</a></li>
+  </ul>
+  <a class="logo" href="#"><img src="https://keterlion.com/staging/wp-content/uploads/2024/01/Ket_Logo-lionhead-200-Kopiex2.png" alt="Keterlion"></a>
+  <div class="icons"><a class="hide-m" href="#">חיפוש</a><a class="hide-m" href="#">חשבון</a><a class="cart" href="#">סל <b>0</b></a></div>
+</div></header>
+
+<section class="hero" style="padding:0">
+  <img class="bg" src="https://keterlion.com/staging/wp-content/uploads/2024/01/Header-1.jpg" alt="">
+  <div class="wrap in">
+    <div class="eyebrow">Keterlion · Tel Aviv · Est. 2016</div>
+    <h1 class="display">It's All In<br>Your Head</h1>
+    <p>כובעים עם אמירה. רקמות בעבודת יד, גזרות Dad Cap ובייסבול, ועיצובים שנולדו ברחובות תל אביב.</p>
+    <div class="btns">
+      <a class="btn solid" href="#">לכל הכובעים ←</a>
+      <a class="btn ghost" href="#">עצבו כובע משלכם</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sh">
+      <div><h2 class="display">Collections</h2><div class="sub">כל קולקציה – סיפור אחר</div></div>
+      <a class="link" href="#">לכל הקולקציות</a>
+    </div>
+    <div class="cols">
+      <a class="col" href="#"><img src="https://keterlion.com/staging/wp-content/uploads/2024/01/WhatsApp-Image-2024-02-20-at-22.23.39-768x926.jpeg" alt=""><div class="lbl"><div><h3>KETERLION</h3><small>הקולקציה הראשית</small></div><span class="arr">←</span></div></a>
+      <a class="col" href="#"><img src="https://keterlion.com/staging/wp-content/uploads/2024/01/WhatsApp-Image-2024-02-20-at-21.57.34-768x1024.jpeg" alt=""><div class="lbl"><div><h3>Journey</h3><small>קולקציית המסע</small></div><span class="arr">←</span></div></a>
+      <a class="col" href="#"><img src="https://keterlion.com/staging/wp-content/uploads/2024/01/WhatsApp-Image-2024-02-20-at-22.18.18-1-768x1024.jpeg" alt=""><div class="lbl"><div><h3>מיינדסט</h3><small>Mindset</small></div><span class="arr">←</span></div></a>
+      <a class="col" href="#"><img src="https://keterlion.com/staging/wp-content/uploads/2024/01/WhatsApp-Image-2024-02-20-at-18.13.39-768x1024.jpeg" alt=""><div class="lbl"><div><h3>× נעמה אברהמי</h3><small>קולאב</small></div><span class="arr">←</span></div></a>
+    </div>
+    <div class="chips">
+      <a href="#">תמרורים</a><a href="#">שורשים</a><a href="#">ספורט</a><a href="#">Born and raised</a><a href="#">Other</a>
+    </div>
+  </div>
+</section>
+
+<section class="products">
+  <div class="wrap">
+    <div class="sh">
+      <div><h2 class="display">Bestsellers</h2><div class="sub">מה שכולם חובשים עכשיו</div></div>
+      <a class="link" href="#">לכל המוצרים</a>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<section class="manifesto">
+  <div class="wrap">
+    <img src="https://keterlion.com/staging/wp-content/uploads/2024/01/Ket_Logo-lionhead-200-Kopiex2.png" alt="">
+    <h2 class="display">Wear Your <em>Mind.</em></h2>
+    <p>כתרליון נולד מתוך רעיון פשוט: מה שעל הראש שלך מספר מה שבתוכו. כל כובע הוא כתר – ואתם מחליטים מה כתוב עליו.</p>
+    <a class="btn ghost" href="#">הסיפור שלנו</a>
+  </div>
+</section>
+
+<section class="store">
+  <div class="wrap">
+    <div class="box">
+      <div class="ph"><img src="https://keterlion.com/staging/wp-content/uploads/2024/01/Header-2.jpg" alt=""></div>
+      <div class="tx">
+        <div class="eyebrow" style="color:var(--muted)">The Store</div>
+        <h2 class="display">בואו לבקר</h2>
+        <dl>
+          <dt>כתובת</dt><dd>נחלת בנימין 13, תל אביב<br>מדרחוב נחלת בנימין</dd>
+          <dt>שעות</dt><dd>[שעות הפתיחה שלכם]</dd>
+        </dl>
+        <div class="btns"><a class="btn dark" href="#">ניווט ב-Waze</a><a class="btn ghost" href="#" style="color:var(--ink)">Google Maps</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="usp"><div class="wrap">
+  <div><b>משלוח חינם</b>בהזמנה מעל ₪249</div>
+  <div><b>עד 5 ימי עסקים</b>לכל הארץ</div>
+  <div><b>עיצוב אישי</b>רקמה לפי בחירה</div>
+  <div><b>החלפה קלה</b>בחנות או במשלוח</div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="fg">
+    <div>
+      <h5>Hats &amp; Friends</h5>
+      <p>הצטרפו למועדון וקבלו הטבה לרכישה הראשונה.</p>
+      <form class="news" onsubmit="return false"><input placeholder="כתובת אימייל"><button>הרשמה ←</button></form>
+    </div>
+    <div><h5>חנות</h5><ul><li><a href="#">קולקציות</a></li><li><a href="#">כובעים</a></li><li><a href="#">חולצות</a></li><li><a href="#">עיצוב אישי</a></li></ul></div>
+    <div><h5>מידע</h5><ul><li><a href="#">משלוחים והחזרות</a></li><li><a href="#">תקנון</a></li><li><a href="#">הצהרת נגישות</a></li><li><a href="#">צור קשר</a></li></ul></div>
+    <div><h5>עקבו</h5><ul><li><a href="#">Instagram</a></li><li><a href="#">Facebook</a></li><li><a href="#">TikTok</a></li></ul></div>
+  </div>
+  <div class="copy"><span>© 2026 Keterlion כתרליון</span><span>It's all in your head</span></div>
+</div></footer>
+
+<div class="club" id="club">
+  <img src="https://keterlion.com/staging/wp-content/uploads/2024/01/WhatsApp-Image-2024-02-20-at-21.57.34-768x1024.jpeg" alt="">
+  <div class="c">
+    <button class="x" onclick="document.getElementById('club').classList.remove('show')" aria-label="סגירה">✕</button>
+    <h4>כיף שכיף!</h4>
+    <p>הצטרפו ל-Hats &amp; Friends וקבלו הטבה לרכישה הראשונה.</p>
+    <a class="btn dark" href="#">להצטרפות</a>
+  </div>
+</div>
+
+<script>
+  const U="https://keterlion.com/staging/wp-content/uploads/";
+  const products=[
+    ["תמרור גמל","Dad Cap · לבן, רקמה אפורה","2021/08/Untitled-design-18-600x600.png",["#fff"],"NEW"],
+    ["Piece of God","Dad Cap · אפור כהה, קרעים","2025/06/%D7%9B%D7%95%D7%91%D7%A2-%D7%A9%D7%97%D7%95%D7%A8-%D7%9B%D7%99%D7%AA%D7%95%D7%91-%D7%A4%D7%99%D7%A1-2-600x600.jpg",["#444","#d8d2b8"],"BESTSELLER"],
+    ["תמרור מעגלים","Dad Cap · כחול, רקמה לבנה","2024/02/%D7%9B%D7%95%D7%91%D7%A2-%D7%AA%D7%9E%D7%A8%D7%95%D7%A8-%D7%9E%D7%A2%D7%92%D7%9C%D7%99%D7%9D-2-300x300.jpg",["#2b4a8b"],""],
+    ["Go A Head","Dad Cap · שחור משופשף","2025/04/%D7%9B%D7%95%D7%91%D7%A2-%D7%9B%D7%99%D7%AA%D7%95%D7%91-%D7%91%D7%90%D7%A0%D7%92%D7%9C%D7%99%D7%AA-go-a-head-2-300x300.jpg",["#1a1a1a"],""],
+    ["Piece of God","Dad Cap · בז׳-ירוק בהיר","2025/06/%D7%9B%D7%95%D7%91%D7%A2-%D7%91%D7%96-%D7%A4%D7%99%D7%A1-300x300.jpg",["#d8d2b8","#444"],""],
+    ["כלום לא סתם","Dad Cap · סגול, רקמה כחולה","2025/06/%D7%9B%D7%95%D7%91%D7%A2-%D7%A1%D7%92%D7%95%D7%9C-3-300x300.jpg",["#8a63c9"],"NEW"],
+    ["ברקמת כובע","בייסבול · שחור, רקמה לבנה","2025/06/%D7%9B%D7%95%D7%91%D7%A2-%D7%A9%D7%97%D7%95%D7%A8-%D7%A6%D7%99%D7%95%D7%A8-%D7%9B%D7%95%D7%91%D7%A2-%D7%9C%D7%91%D7%9F-3-300x300.jpg",["#111"],""],
+    ["כובע בעיצוב אישי","בחרו צבע, רקמה וטקסט","2025/06/%D7%9B%D7%95%D7%91%D7%A2-%D7%A9%D7%97%D7%95%D7%A8-%D7%9B%D7%99%D7%AA%D7%95%D7%91-%D7%A4%D7%99%D7%A1-2-600x600.jpg",["#111","#fff","#e4572e","#2b4a8b"],"CUSTOM"]
+  ];
+  document.getElementById('grid').innerHTML=products.map(([n,m,img,sw,tag])=>`
+    <a class="p" href="#">
+      <div class="img"><img loading="lazy" src="${U+img}" alt="${n}">${tag?`<span class="tag">${tag}</span>`:""}<span class="quick">הוספה מהירה לסל +</span></div>
+      <h4>${n}</h4><div class="meta">${m}</div>
+      <div class="sw">${sw.map(c=>`<i style="background:${c}"></i>`).join("")}</div>
+      <div class="price">₪149</div>
+    </a>`).join("");
+  setTimeout(()=>document.getElementById('club').classList.add('show'),6000);
+</script>
+</body>
+</html>

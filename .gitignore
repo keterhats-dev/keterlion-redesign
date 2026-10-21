@@ -1,0 +1,13 @@
+# local helpers / machine-specific
+.claude/settings.local.json
+*.tmp
+Thumbs.db
+desktop.ini
+
+# large or sensitive files stay in Google Drive, not in git
+*.zip
+*.gz
+*.sql
+*.xlsx
+*.csv
+backups/
