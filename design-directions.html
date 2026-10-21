@@ -1,7 +1,7 @@
 <title>Keterlion Design Directions</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Karantina:wght@400;700&family=Heebo:wght@300;400;500;700;900&family=Frank+Ruhl+Libre:wght@500;700;900&family=Assistant:wght@300;400;600;800&family=Rubik:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Karantina:wght@400;700&family=Heebo:wght@300;400;500;700;900&family=Frank+Ruhl+Libre:wght@500;700;900&family=Assistant:wght@300;400;600;800&family=Rubik:wght@400;500;700;900&family=Suez+One&family=Arvo:wght@400;700&display=swap">
 <style>
   /* Layout: a sticky direction switcher over one live brand specimen; the page chrome stays quiet so the three directions carry the color. */
   :root{
@@ -38,6 +38,9 @@
   .t-d{--bg:#ffffff;--surface:#ffffff;--soft:#f4f4f2;--ink:#111111;--muted:#6b6b69;--line:#e2e2df;--accent:#111111;--accent-ink:#ffffff;--dark:#111111;--gold:#e6d6ae;--gold-deep:#a8894c;--red:#c21a1a;--body:Heebo,Arial,sans-serif;--radius:0px;--btn-radius:0px;--track:0}
   .t-d.f-street{--display:Karantina,Heebo,sans-serif;--dw:700;--dsize:1.25}
   .t-d.f-classic{--display:"Frank Ruhl Libre",Georgia,serif;--dw:900;--dsize:1}
+  .t-d.f-slab{--display:"Suez One",Arvo,Rockwell,serif;--dw:400;--dsize:1}
+  .wm{font-family:Rockwell,"Rockwell Nova",Arvo,"Roboto Slab",serif;font-weight:700;letter-spacing:.08em;font-size:20px;color:var(--ink);direction:ltr}
+  .brand{display:flex;align-items:center;gap:10px}
   .t-d.f-clean{--display:Heebo,Arial,sans-serif;--dw:900;--dsize:.92;--track:-.02em}
   .t-d .card .im{background:var(--soft)}
   .t-d .hdr{border-bottom-color:var(--line)}
@@ -137,7 +140,8 @@
   </div>
   <div class="in fonts" id="fonts" role="group" aria-label="סגנון כותרות" style="margin-top:8px">
     <b>כותרות:</b>
-    <button id="font-street" data-f="street" aria-pressed="true">רחוב (Karantina)</button>
+    <button id="font-slab" data-f="slab" aria-pressed="true">סלאב, תואם Rockwell (Suez One)</button>
+    <button id="font-street" data-f="street" aria-pressed="false">רחוב (Karantina)</button>
     <button id="font-classic" data-f="classic" aria-pressed="false">קלאסי (Frank Ruhl)</button>
     <button id="font-clean" data-f="clean" aria-pressed="false">נקי (Heebo)</button>
   </div>
@@ -149,9 +153,9 @@
     <p>כיוון ד בנוי על צבעי המותג שהגדרתם: שחור, לבן, זהב בהיר וקצת אדום ואפור. בכיוון הזה אפשר גם להחליף את סגנון הכותרות. כיוונים א–ג נשארו להשוואה. כל הפונטים תומכים בעברית, והתמונות והמוצרים לקוחים מהאתר. אחרי שתבחרו כיוון, הוא יוגדר כ-Global Kit באלמנטור, וכל האתר יירש אותו.</p>
   </div>
 
-  <div class="theme t-d f-street" id="theme">
+  <div class="theme t-d f-slab" id="theme">
     <div class="hdr">
-      <img src="assets/logo.png" alt="כתרליון">
+      <span class="brand"><img src="assets/logo.png" alt=""><span class="wm">KETERLION</span></span>
       <nav><span>כובעים</span><span>חולצות</span><span>עיצוב אישי</span><span>לעסקים</span><span>הסיפור</span></nav>
       <span class="cart">סל (0)</span>
     </div>
@@ -210,7 +214,7 @@ document.getElementById('grid').innerHTML=P.map(([n,m,i,c,t])=>`<div class="card
 
 const D={
  d:{sw:[["#ffffff","לבן: רקע האתר"],["#111111","שחור: כותרות, טקסט וכפתורים"],["#6b6b69","אפור: טקסט משני, מחירים ותיאורים"],["#f4f4f2","אפור בהיר: רק מאחורי תמונות מוצר ובפס מפריד"],["#e6d6ae","זהב בהיר: נגיעות נקודתיות, כמו תגית 'חדש' או הדגשת מילה"],["#a8894c","זהב עמוק: קו דק או מסגרת קטנה"],["#c21a1a","אדום: מדי פעם, רק במבצע"]],
-  n:`<h2>ד · צבעי המותג</h2><ul><li><b>רקע:</b> לבן בכל האתר.</li><li><b>טקסט:</b> שחור לכותרות ולכפתורים, אפור לטקסט משני.</li><li><b>זהב:</b> רק נגיעות נקודתיות: תגית "חדש", קו דק מתחת לכותרת קטנה, הדגשה של מילה אחת. אין כפתורים או משטחים גדולים בזהב.</li><li><b>אדום:</b> מדי פעם בלבד, למבצע.</li><li><b>כפתורים:</b> ראשי שחור, משני עם מסגרת שחורה. על תמונה: כפתור לבן.</li><li><b>כותרות:</b> נסו את שלוש האפשרויות בשורה העליונה. הטקסט הרץ תמיד ב-Heebo.</li><li><b>מה חסר להחלטה:</b> סגנון הכותרות. אם יש לכם קוד צבע מדויק של הזהב (מהלוגו או מהשילוט בחנות), נשתמש בו.</li></ul>`},
+  n:`<h2>ד · צבעי המותג</h2><ul><li><b>רקע:</b> לבן בכל האתר.</li><li><b>טקסט:</b> שחור לכותרות ולכפתורים, אפור לטקסט משני.</li><li><b>זהב:</b> רק נגיעות נקודתיות: תגית "חדש", קו דק מתחת לכותרת קטנה, הדגשה של מילה אחת. אין כפתורים או משטחים גדולים בזהב.</li><li><b>אדום:</b> מדי פעם בלבד, למבצע.</li><li><b>כפתורים:</b> ראשי שחור, משני עם מסגרת שחורה. על תמונה: כפתור לבן.</li><li><b>שם המותג:</b> KETERLION בפונט Rockwell, בהדר ליד האריה. Rockwell הוא פונט "סלאב" (עם רגליות מרובעות), ולכן בכותרות העבריות כדאי פונט באותה משפחה: Suez One, ברירת המחדל כאן. אם Rockwell לא מותקן במחשב שלכם, הדף מציג Arvo, שדומה לו מאוד.</li><li><b>כותרות:</b> נסו את שלוש האפשרויות בשורה העליונה. הטקסט הרץ תמיד ב-Heebo.</li><li><b>מה חסר להחלטה:</b> סגנון הכותרות. אם יש לכם קוד צבע מדויק של הזהב (מהלוגו או מהשילוט בחנות), נשתמש בו.</li></ul>`},
  a:{sw:[["#0e0e0e","שחור דיו: טקסט ורקעים כהים"],["#ecebe8","בטון: רקע ראשי"],["#ffffff","לבן: כרטיסים"],["#e4572e","כתום רחוב: הדגשה וכפתור ראשי"],["#64625e","אפור: טקסט משני"],["#d9d7d2","קו מפריד"]],
   n:`<h2>א · רחוב מינימליסטי</h2><ul><li><b>תחושה:</b> מותג streetwear עכשווי. התמונות והמוצרים במרכז, והעיצוב עצמו כמעט לא מורגש.</li><li><b>פונטים:</b> Karantina, כותרות עבריות צרות וגבוהות כמו בפוסטר רחוב, ו-Heebo לטקסט.</li><li><b>צבעים:</b> שחור על אפור בטון, עם צבע הדגשה אחד: כתום של כובע אמיתי מהקולקציה.</li><li><b>יתרון:</b> הכי אופנתי. מתאים לקהל של 18–35 ומבליט את הצילומים.</li><li><b>חיסרון:</b> פחות חם. הזהות הישראלית נשענת בעיקר על התוכן ופחות על העיצוב.</li></ul>`},
  b:{sw:[["#6e0014","בורדו כתר: הצבע שמוגדר באתר היום"],["#c9a96a","זהב מעומעם: הדגשות ותגיות"],["#f6f0e4","קלף: רקע ראשי"],["#2a0a10","בורדו כהה: רקעים כהים"],["#1b1b1b","שחור: טקסט"],["#6f655a","חום-אפור: טקסט משני"]],
@@ -218,7 +222,7 @@ const D={
  c:{sw:[["#121212","שחור: טקסט"],["#f7f7f8","לבן-אפור: רקע"],["#5b3fd6","סגול: הדגשה ראשית"],["#ff6b2c","כתום: משני"],["#2b6bff","כחול: משני"],["#ffd23f","צהוב: תגיות ומבצעים"]],
   n:`<h2>ג · צבעוני ונועז</h2><ul><li><b>תחושה:</b> כיפי, אנרגטי ושובב, כמו שמות המוצרים ("כלום לא סתם", "Go A Head").</li><li><b>פונטים:</b> Rubik, עגול ושמן, גם בכותרות וגם בטקסט.</li><li><b>צבעים:</b> פלטה בהשראת צבעי הכובעים, עם פינות מעוגלות וכפתורים עגולים.</li><li><b>יתרון:</b> מתאים במיוחד לעיצוב האישי ולמתנות, ומזמין לשחק.</li><li><b>חיסרון:</b> פחות יוקרתי, ועלול להתנגש עם צבעי המוצרים בתמונות.</li></ul>`}
 };
-let cur='d',font='street';
+let cur='d',font='slab';
 function paint(){
   document.getElementById('theme').className='theme t-'+cur+(cur==='d'?' f-'+font:'');
   document.getElementById('fonts').hidden=cur!=='d';
@@ -233,8 +237,8 @@ function set(k){
   try{localStorage.setItem('kl-dir2',k)}catch(e){}
 }
 document.querySelectorAll('[data-t]').forEach(b=>b.addEventListener('click',()=>set(b.dataset.t)));
-document.querySelectorAll('[data-f]').forEach(b=>b.addEventListener('click',()=>{font=b.dataset.f;paint();try{localStorage.setItem('kl-font',font)}catch(e){}}));
-try{font=localStorage.getItem('kl-font')||'street'}catch(e){}
+document.querySelectorAll('[data-f]').forEach(b=>b.addEventListener('click',()=>{font=b.dataset.f;paint();try{localStorage.setItem('kl-font2',font)}catch(e){}}));
+try{font=localStorage.getItem('kl-font2')||'slab'}catch(e){}
 let s='d';try{s=localStorage.getItem('kl-dir2')||'d'}catch(e){}
 set(D[s]?s:'d');
 </script>
