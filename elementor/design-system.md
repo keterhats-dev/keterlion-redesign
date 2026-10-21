@@ -48,5 +48,10 @@
 - e-paragraph מסנן `<span class>`. לעיצוב בתוך טקסט משתמשים ב-CSS על האלמנט שעוטף אותו
 - פס רץ, הכהיית Hero ושכבת הכהיה על אריחי הקולקציות נמצאים ב-Custom CSS של העמוד
 
+## עמוד מוצר (KL Product 2026, תבנית 23967)
+- מבנה V4 (grid של 1.15fr ו-1fr) עם ווידג'טים של V3: breadcrumb, product-images, product-title (חייב dynamic tag `woocommerce-product-title-tag`, אחרת מוצג "כתוב את הכותרת כאן"), price, short-description, add-to-cart, product-content, related
+- ⚠️ **תנאי תצוגה:** כששומרים תבנית מעורך שנפתח לפני שהוגדרו התנאים, השמירה מוחקת את התנאים. אחרי שמגדירים תנאים ב-Theme Builder, טוענים מחדש את העורך לפני השמירה הבאה
+- רשימת ה-site-editor ב-REST מחזירה תנאים לא מעודכנים. בודקים את התוצאה בעמוד עצמו (`elementor-<id>` ב-HTML)
+
 ## השלב הבא
 Global Classes לרכיבים שחוזרים על עצמם (kl-btn-primary, kl-btn-outline, kl-btn-on-image, kl-tag-new, kl-tag-sale, kl-section, kl-eyebrow). כרגע ההדר והפוטר בנויים עם סגנונות מקומיים ועם המשתנים. כשנבנה את דף הבית, נעביר ל-classes את מה שחוזר על עצמו
