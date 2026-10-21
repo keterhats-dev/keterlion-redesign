@@ -41,12 +41,15 @@
   .t-d.f-clean{--display:Heebo,Arial,sans-serif;--dw:900;--dsize:.92;--track:-.02em}
   .t-d .card .im{background:var(--soft)}
   .t-d .hdr{border-bottom-color:var(--line)}
-  .t-d .btn.s.g{background:var(--gold);border-color:var(--gold);color:var(--ink)}
-  .t-d .tag{background:var(--gold);color:var(--ink)}
+  .t-d .tag{background:var(--ink);color:#ffffff}
+  .t-d .tag.new{background:var(--gold);color:var(--ink)}
   .t-d .tag.sale{background:var(--red);color:#ffffff}
-  .t-d .band .pill{background:var(--gold);color:var(--ink)}
-  .t-d .band em{color:var(--gold)}
-  .t-d .hero .btn.p{background:var(--gold);color:var(--ink)}
+  .t-d .hero .btn.p{background:#ffffff;color:var(--ink)}
+  .t-d .lbl::after{content:"";display:block;width:28px;height:2px;background:var(--gold-deep);margin-top:8px}
+  .t-d .band{background:var(--soft);color:var(--ink);border-top:1px solid var(--line)}
+  .t-d .band p{color:var(--muted)}
+  .t-d .band .pill{background:transparent;color:var(--gold-deep);border:1px solid var(--gold-deep)}
+  .t-d .band em{color:inherit;background:linear-gradient(transparent 62%,var(--gold) 62%)}
   .t-c{--bg:#f7f7f8;--surface:#ffffff;--ink:#121212;--muted:#5f5f66;--line:#e4e4e8;--accent:#5b3fd6;--accent-ink:#ffffff;--dark:#121212;--pop1:#ff6b2c;--pop2:#2b6bff;--pop3:#ffd23f;--display:Rubik,Arial,sans-serif;--body:Rubik,Arial,sans-serif;--dw:900;--dsize:.9;--radius:16px;--btn-radius:999px;--track:-.02em}
 
   .sec{padding:28px 24px;border-bottom:1px solid var(--line)}
@@ -203,11 +206,11 @@
 <script>
 const U="assets/";
 const P=[["כלום לא סתם","Dad Cap · סגול","p1.jpg",["#8a63c9"],"חדש"],["Piece of God","Dad Cap · אפור כהה","p2.jpg",["#444444","#d8d2b8"],"רב מכר"],["תמרור מעגלים","Dad Cap · כחול","p3.jpg",["#2b4a8b"],""],["Go A Head","Dad Cap · שחור משופשף","p4.jpg",["#1a1a1a"],"מבצע"]];
-document.getElementById('grid').innerHTML=P.map(([n,m,i,c,t])=>`<div class="card"><div class="im"><img src="${U+i}" alt="${n}">${t?`<span class="tag${t==='מבצע'?' sale':''}">${t}</span>`:''}</div><div class="tx"><h4>${n}</h4><div class="m">${m}</div><div class="row"><span class="pr">₪149</span><span class="dots">${c.map(x=>`<i style="background:${x}"></i>`).join('')}</span></div></div></div>`).join('');
+document.getElementById('grid').innerHTML=P.map(([n,m,i,c,t])=>`<div class="card"><div class="im"><img src="${U+i}" alt="${n}">${t?`<span class="tag${t==='מבצע'?' sale':t==='חדש'?' new':''}">${t}</span>`:''}</div><div class="tx"><h4>${n}</h4><div class="m">${m}</div><div class="row"><span class="pr">₪149</span><span class="dots">${c.map(x=>`<i style="background:${x}"></i>`).join('')}</span></div></div></div>`).join('');
 
 const D={
- d:{sw:[["#111111","שחור: טקסט, כפתור ראשי, רקעים כהים"],["#ffffff","לבן: כרטיסים ומשטחים"],["#e6d6ae","זהב בהיר (גבול השמנת): הדגשות, תגיות, כפתור משני"],["#a8894c","זהב עמוק: קווים ואייקונים קטנים על לבן"],["#f4f4f2","אפור בהיר: רקע לתמונות מוצר ולפסים מפרידים"],["#6b6b69","אפור: טקסט משני"],["#c21a1a","אדום: רק למבצעים ולהתראות, במשורה"]],
-  n:`<h2>ד · צבעי המותג</h2><ul><li><b>בסיס:</b> רקע לבן (נקבע 21.10) וטקסט שחור. המוצרים והצילומים הם הצבע של האתר.</li><li><b>זהב בהיר:</b> הצבע המזהה של כתרליון (הכתר). משמש לכפתורים משניים, לתגיות ולהדגשות על רקע שחור. על רקע לבן הוא חלש מדי לטקסט, ולכן לטקסט קטן על לבן יש גוון זהב עמוק יותר.</li><li><b>אדום:</b> רק למבצעים, להתראות ול"נשארו מעט". אם הוא בכל מקום, הוא מאבד את הכוח שלו.</li><li><b>אפור:</b> אפור בהיר מאוד מאחורי תמונות המוצרים ובפסים מפרידים, ואפור כהה יותר לטקסט משני.</li><li><b>כותרות:</b> נסו את שלוש האפשרויות בשורה העליונה. הטקסט הרץ תמיד ב-Heebo.</li><li><b>מה חסר להחלטה:</b> סגנון הכותרות. אם יש לכם קוד צבע מדויק של הזהב (מהלוגו או מהשילוט בחנות), נשתמש בו.</li></ul>`},
+ d:{sw:[["#ffffff","לבן: רקע האתר"],["#111111","שחור: כותרות, טקסט וכפתורים"],["#6b6b69","אפור: טקסט משני, מחירים ותיאורים"],["#f4f4f2","אפור בהיר: רק מאחורי תמונות מוצר ובפס מפריד"],["#e6d6ae","זהב בהיר: נגיעות נקודתיות, כמו תגית 'חדש' או הדגשת מילה"],["#a8894c","זהב עמוק: קו דק או מסגרת קטנה"],["#c21a1a","אדום: מדי פעם, רק במבצע"]],
+  n:`<h2>ד · צבעי המותג</h2><ul><li><b>רקע:</b> לבן בכל האתר.</li><li><b>טקסט:</b> שחור לכותרות ולכפתורים, אפור לטקסט משני.</li><li><b>זהב:</b> רק נגיעות נקודתיות: תגית "חדש", קו דק מתחת לכותרת קטנה, הדגשה של מילה אחת. אין כפתורים או משטחים גדולים בזהב.</li><li><b>אדום:</b> מדי פעם בלבד, למבצע.</li><li><b>כפתורים:</b> ראשי שחור, משני עם מסגרת שחורה. על תמונה: כפתור לבן.</li><li><b>כותרות:</b> נסו את שלוש האפשרויות בשורה העליונה. הטקסט הרץ תמיד ב-Heebo.</li><li><b>מה חסר להחלטה:</b> סגנון הכותרות. אם יש לכם קוד צבע מדויק של הזהב (מהלוגו או מהשילוט בחנות), נשתמש בו.</li></ul>`},
  a:{sw:[["#0e0e0e","שחור דיו: טקסט ורקעים כהים"],["#ecebe8","בטון: רקע ראשי"],["#ffffff","לבן: כרטיסים"],["#e4572e","כתום רחוב: הדגשה וכפתור ראשי"],["#64625e","אפור: טקסט משני"],["#d9d7d2","קו מפריד"]],
   n:`<h2>א · רחוב מינימליסטי</h2><ul><li><b>תחושה:</b> מותג streetwear עכשווי. התמונות והמוצרים במרכז, והעיצוב עצמו כמעט לא מורגש.</li><li><b>פונטים:</b> Karantina, כותרות עבריות צרות וגבוהות כמו בפוסטר רחוב, ו-Heebo לטקסט.</li><li><b>צבעים:</b> שחור על אפור בטון, עם צבע הדגשה אחד: כתום של כובע אמיתי מהקולקציה.</li><li><b>יתרון:</b> הכי אופנתי. מתאים לקהל של 18–35 ומבליט את הצילומים.</li><li><b>חיסרון:</b> פחות חם. הזהות הישראלית נשענת בעיקר על התוכן ופחות על העיצוב.</li></ul>`},
  b:{sw:[["#6e0014","בורדו כתר: הצבע שמוגדר באתר היום"],["#c9a96a","זהב מעומעם: הדגשות ותגיות"],["#f6f0e4","קלף: רקע ראשי"],["#2a0a10","בורדו כהה: רקעים כהים"],["#1b1b1b","שחור: טקסט"],["#6f655a","חום-אפור: טקסט משני"]],
