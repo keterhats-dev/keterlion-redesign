@@ -1,0 +1,20 @@
+/* KL nav fit + collections dropdown (21.10.2026). Appended to the Custom CSS of KL Header 2026 (23925).
+   Menu "KL 2026 – ראשי" (809): כובעים, קולקציות (+ כל הקולקציות and 8 collections), חולצות, SALE,
+   עיצוב אישי, לעסקים, הסיפור, החשבון שלי (hidden on desktop, the account icon covers it).
+   The 7 desktop items fit the nav column from 1200px; between 1025 and 1199px the burger is used. */
+@media (min-width:1025px){
+  .elementor-23925 .elementor-element-1eebe7e nav.elementor-nav-menu--main .elementor-nav-menu > li > a{padding-left:11px !important;padding-right:11px !important;white-space:nowrap}
+  .elementor-23925 .elementor-element-1eebe7e nav.elementor-nav-menu--main .sub-menu{background:#fff !important;border:2px solid #111 !important;border-radius:0 !important;box-shadow:4px 4px 0 #A88A4E !important;min-width:230px !important;padding:6px 0 !important}
+  .elementor-23925 .elementor-element-1eebe7e nav.elementor-nav-menu--main .sub-menu a{font-family:Heebo,sans-serif !important;font-size:15px !important;font-weight:500 !important;color:#111 !important;background:#fff !important;padding:10px 18px !important;border:0 !important}
+  .elementor-23925 .elementor-element-1eebe7e nav.elementor-nav-menu--main .sub-menu a:hover, .elementor-23925 .elementor-element-1eebe7e nav.elementor-nav-menu--main .sub-menu a:focus{background:#F4F4F2 !important;color:#111 !important}
+  .elementor-23925 .elementor-element-1eebe7e nav.elementor-nav-menu--main .sub-menu li:first-child a{font-weight:900 !important;border-bottom:1.5px solid #E2E2DF !important}
+}
+@media (min-width:1025px) and (max-width:1365px){
+  .elementor-23925 .elementor-element-1eebe7e nav.elementor-nav-menu--main .elementor-nav-menu > li > a{font-size:14px !important;padding-left:8px !important;padding-right:8px !important}
+}
+@media (min-width:1025px) and (max-width:1199px){
+  .elementor-23925 .elementor-element-1eebe7e nav.elementor-nav-menu--main{display:none !important}
+  .elementor-23925 .elementor-element-1eebe7e .elementor-menu-toggle{display:flex !important}
+  .elementor-23925 .elementor-element-1eebe7e nav.elementor-nav-menu--dropdown{display:block !important;height:auto !important}
+}
+.elementor-23925 .elementor-element-1eebe7e nav.elementor-nav-menu--dropdown .sub-menu a{padding-inline-start:36px !important;font-weight:500 !important}
