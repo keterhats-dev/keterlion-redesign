@@ -28,5 +28,18 @@
 - טיפוגרפיה: כל הפונטים עברו מ-Assistant ל-Heebo. כותרת ראשית 900, משנית 500, טקסט 400, מודגש 700
 - הערכים הקודמים שמורים ב-`kit-138-before-2026-10-21.json`
 
+## הדר ופוטר (נבנו ב-21.10.2026)
+| מה | ID | הערות |
+|---|---|---|
+| KL Header 2026 | 23925 | מבנה V4 (e-flexbox, e-paragraph, e-image). בתוכו ווידג'טים של V3: nav-menu, search-form (מסך מלא), icon (חשבון), woocommerce-menu-cart (סל צדדי). המבורגר מטאבלט ומטה |
+| KL Footer 2026 | 23933 | מבנה V4. בתוכו ווידג'טים של V3: form (מועדון, שמירה ל-Submissions), 3 nav-menu אנכיים, social-icons |
+| תפריטים | 809, 810, 811, 812 | "KL 2026 – ראשי", "– פוטר חנות", "– פוטר כתרליון", "– פוטר עזרה" |
+| לוגו (מדיה) | 23926, 23927, 23928, 23929 | wordmark שחור ולבן (PNG ב-1400px, מ-Rockwell Bold), אריה שחור ולבן (PNG, מה-SVG שבאתר 16575). המקור ב-assets/brand/ |
+
+- למה ווידג'טים של V3: ב-V4 (4.3.5) עדיין אין תפריט, סל או חיפוש
+- תיקוני פריסה ב-Custom CSS של כל תבנית (הגדרות העמוד): ווידג'טים של V3 בתוך e-flexbox מקבלים `width:auto`, וההדר דביק דרך `.elementor-location-header{position:sticky}`
+- תנאי התצוגה נשמרים רק דרך Theme Builder → Edit Conditions. ה-REST וה-ajax החזירו "הצלחה" אבל לא שמרו
+- וורדפרס חוסם העלאת SVG, ולכן הלוגו הועלה כ-PNG
+
 ## השלב הבא
-Global Classes לרכיבים שחוזרים על עצמם (kl-btn-primary, kl-btn-outline, kl-btn-on-image, kl-tag-new, kl-tag-sale, kl-section, kl-eyebrow). נבנה אותם יחד עם ההדר והפוטר (שלב 2)
+Global Classes לרכיבים שחוזרים על עצמם (kl-btn-primary, kl-btn-outline, kl-btn-on-image, kl-tag-new, kl-tag-sale, kl-section, kl-eyebrow). כרגע ההדר והפוטר בנויים עם סגנונות מקומיים ועם המשתנים. כשנבנה את דף הבית, נעביר ל-classes את מה שחוזר על עצמו
