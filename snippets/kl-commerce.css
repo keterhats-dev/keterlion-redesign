@@ -83,6 +83,17 @@ body.woocommerce-account h2{font-family:Heebo,sans-serif;font-weight:900}
 .elementor-menu-cart__footer-buttons .elementor-button--checkout{background:#111 !important;color:#fff !important}
 .elementor-menu-cart__footer-buttons .elementor-button--view-cart{background:#fff !important;color:#111 !important}
 
+/* WooCommerce notices ("removed / undo", "added to cart") as a short black toast at the bottom, fading out by itself */
+@keyframes klToast{0%{opacity:0;transform:translateY(16px)}6%{opacity:1;transform:none}88%{opacity:1;transform:none}100%{opacity:0;transform:translateY(16px);visibility:hidden}}
+html body .woocommerce-notices-wrapper .woocommerce-message{position:fixed !important;left:16px;right:16px;bottom:16px;z-index:9990;max-width:520px;margin:0 auto !important;display:flex !important;align-items:center;gap:12px;padding:14px 16px !important;background:#111 !important;color:#fff !important;border:0 !important;border-radius:0 !important;font-family:Heebo,sans-serif;font-size:14px;line-height:1.45;box-shadow:0 10px 30px rgba(0,0,0,.25);animation:klToast 7s ease forwards}
+html body .woocommerce-notices-wrapper .woocommerce-message::before{display:none !important}
+html body .woocommerce-notices-wrapper .woocommerce-message a{color:#E6D6AE !important;font-weight:900;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+html body .woocommerce-notices-wrapper .woocommerce-message a.button{order:2;margin-inline-start:auto;background:transparent !important;border:1.5px solid #E6D6AE !important;color:#E6D6AE !important;min-height:36px !important;padding:6px 12px !important;text-decoration:none;transform:none !important;box-shadow:none !important}
+@media (prefers-reduced-motion:reduce){html body .woocommerce-notices-wrapper .woocommerce-message{animation:none}}
+/* loading overlay while the cart updates: a soft veil instead of the grey WordPress block */
+html body .blockUI.blockOverlay{background:rgba(255,255,255,.55) !important;opacity:1 !important}
+html body .blockUI.blockOverlay::before{color:#111 !important}
+
 /* phones: totals and checkout button pinned at the bottom of the cart */
 @media (max-width:767px){
   body.woocommerce-cart .cart-collaterals .cart_totals{float:none;max-width:none}

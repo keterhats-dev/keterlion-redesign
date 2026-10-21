@@ -21,7 +21,8 @@ html body form.cart .quantity input.qty{border-radius:0 !important;border:2px so
 /* product cards: white tile, thin frame that turns black with a gold sticker shadow */
 ul.products li.product a img{border-radius:0 !important;border:1.5px solid var(--kl-line) !important;background:#fff !important;
   transition:transform .15s ease,box-shadow .15s ease,border-color .15s !important}
-ul.products li.product:hover a img{border-color:var(--kl-ink) !important;transform:translate(-3px,-3px);box-shadow:4px 4px 0 var(--kl-ink)}
+/* no lift/3D on product tiles (user, 21.10): just a clean black frame on hover */
+ul.products li.product:hover a img{border-color:var(--kl-ink) !important;transform:none;box-shadow:none}
 ul.products li.product .onsale{border-radius:0 !important;background:var(--kl-cream) !important;color:var(--kl-ink) !important;
   border:1.5px solid var(--kl-ink);transform:rotate(-4deg);font-weight:700}
 
