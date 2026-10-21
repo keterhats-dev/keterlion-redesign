@@ -1,39 +1,39 @@
-/* ===== KL 2026 touch: site-wide app feel (pill buttons, soft cards, glass bars, tap feedback).
-   Lives in the Custom CSS of KL Header 2026 (23925), so it loads on every page. ===== */
-:root{--kl-r-card:18px;--kl-r-img:20px;--kl-ease:cubic-bezier(.2,.8,.2,1)}
+/* ===== KL street touch (direction A, chosen 21.10): app-speed experience, streetwear look.
+   Sharp corners, heavy black frames, a hard gold "sticker" shadow that pops on hover and presses on tap,
+   sticker tags. Lives in the Custom CSS of KL Header 2026 (23925), so it loads on every page. ===== */
+:root{--kl-ink:#111;--kl-gold:#A88A4E;--kl-cream:#E6D6AE;--kl-line:#E2E2DF;--kl-pop:4px}
 html{scroll-behavior:smooth}
 
-/* header: frosted glass while scrolling */
-.elementor-location-header .e-con:has(> .e-con .elementor-widget-nav-menu){background:rgba(255,255,255,.86) !important;backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px)}
+/* buttons: sharp, framed, pop on hover, press on tap (html body beats page rules) */
+html body :is([data-elementor-type="wp-page"],[data-elementor-type="product"],[data-elementor-type="product-archive"],[data-elementor-type="product-post"]) :is(a,button).e-button-base,
+html body .woocommerce .button, html body ul.products li.product .button, html body ul.products li.product .added_to_cart,
+html body form.cart .single_add_to_cart_button, html body .elementor-widget-form .elementor-button{
+  border-radius:0 !important;border:2px solid var(--kl-ink) !important;letter-spacing:.04em;
+  transition:transform .12s ease,box-shadow .12s ease,background .15s,color .15s !important}
+html body :is([data-elementor-type="wp-page"],[data-elementor-type="product"],[data-elementor-type="product-archive"],[data-elementor-type="product-post"]) :is(a,button).e-button-base:hover,
+html body .woocommerce .button:hover, html body ul.products li.product .button:hover,
+html body form.cart .single_add_to_cart_button:hover, html body .elementor-widget-form .elementor-button:hover{
+  transform:translate(calc(var(--kl-pop) * -1),calc(var(--kl-pop) * -1));box-shadow:var(--kl-pop) var(--kl-pop) 0 var(--kl-gold)}
+html body :is(a,button).e-button-base:active, html body .button:active, html body .single_add_to_cart_button:active{
+  transform:none !important;box-shadow:none !important}
+html body form.cart .quantity input.qty{border-radius:0 !important;border:2px solid var(--kl-ink) !important}
 
-/* page content only (not header/footer logos) */
-:is([data-elementor-type="wp-page"],[data-elementor-type="product"],[data-elementor-type="product-archive"],[data-elementor-type="product-post"]) a.e-button-base,
-:is([data-elementor-type="wp-page"],[data-elementor-type="product"],[data-elementor-type="product-archive"],[data-elementor-type="product-post"]) button.e-button-base{border-radius:999px !important;transition:background .2s,color .2s,transform .15s var(--kl-ease),box-shadow .2s}
-:is(a.e-button-base,button.e-button-base,.button,.single_add_to_cart_button,.klp-go):active{transform:scale(.97)}
+/* product cards: white tile, thin frame that turns black with a gold sticker shadow */
+ul.products li.product a img{border-radius:0 !important;border:1.5px solid var(--kl-line) !important;background:#fff !important;
+  transition:transform .15s ease,box-shadow .15s ease,border-color .15s !important}
+ul.products li.product:hover a img{border-color:var(--kl-ink) !important;transform:translate(-3px,-3px);box-shadow:4px 4px 0 var(--kl-ink)}
+ul.products li.product .onsale{border-radius:0 !important;background:var(--kl-cream) !important;color:var(--kl-ink) !important;
+  border:1.5px solid var(--kl-ink);transform:rotate(-4deg);font-weight:700}
 
-/* WooCommerce buttons everywhere */
-/* "html body" beats the page-level rules that set radius:0 !important */
-html body .woocommerce .button, html body .woocommerce button.button, html body ul.products li.product .button, html body ul.products li.product .added_to_cart,
-html body form.cart .single_add_to_cart_button, html body .elementor-menu-cart__footer-buttons .elementor-button,
-html body .elementor-widget-form .elementor-button{border-radius:999px !important;transition:background .2s,transform .15s var(--kl-ease)}
+/* content images: sharp, framed */
+.woocommerce-product-gallery__image img, .flex-control-thumbs li img{border-radius:0 !important}
 
-/* product cards: soft rounded image tile, gentle lift */
-ul.products li.product a img{border-radius:var(--kl-r-card) !important;border-color:transparent !important;background:#F4F4F2 !important;transition:transform .45s var(--kl-ease),box-shadow .3s !important}
-ul.products li.product:hover a img{transform:translateY(-3px);box-shadow:0 14px 28px rgba(0,0,0,.08);border-color:transparent !important}
-ul.products li.product .onsale{border-radius:999px !important}
+/* fields: sharp, heavy frame */
+.woocommerce form .input-text, .woocommerce-ordering select, table.variations select,
+.elementor-search-form__input{border-radius:0 !important}
 
-/* content images: rounded corners */
-:is([data-elementor-type="wp-page"],[data-elementor-type="product-post"]) img.e-image-base{border-radius:var(--kl-r-img)}
-:is([data-elementor-type="wp-page"]) a.e-con:has(> img.e-image-base){border-radius:var(--kl-r-img);overflow:hidden}
-.woocommerce-product-gallery__image img, .flex-control-thumbs li img{border-radius:var(--kl-r-card) !important}
-
-/* fields: rounded */
-.woocommerce form .input-text, .woocommerce-ordering select, table.variations select, form.cart .quantity input.qty,
-.elementor-widget-form .elementor-field, .elementor-search-form__input{border-radius:14px !important}
-html body form.cart .quantity input.qty{border-radius:999px !important}
-
-/* mobile bottom add-to-cart bar on product pages: glass */
+/* mobile bottom add-to-cart bar on product pages: solid white with a heavy top rule */
 @media (max-width:767px){
-  .elementor-23967 .elementor-widget-woocommerce-product-add-to-cart:not(:has(.variations_form)){background:rgba(255,255,255,.84) !important;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+  .elementor-23967 .elementor-widget-woocommerce-product-add-to-cart:not(:has(.variations_form)){background:#fff !important;border-top:2px solid var(--kl-ink) !important;box-shadow:none !important}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none !important;scroll-behavior:auto !important}}
