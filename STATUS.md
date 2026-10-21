@@ -25,6 +25,7 @@
 - שאלות פתוחות מ-keyword-research.md: כובעי ילדים, מותגי חוץ, זמני אספקה, טמבל ב-Zakeke, רקום או מודפס, שפת עמוד החיילים
 
 ## איך עובדים משני מחשבים
-- הפרויקט נמצא ב-GitHub (repository פרטי). בתחילת עבודה: `git pull`. בסוף כל שלב: commit ו-push
+- הפרויקט נמצא ב-GitHub, ב-repository פרטי: https://github.com/keterhats-dev/keterlion-redesign. בתחילת עבודה: `git pull`. בסוף כל שלב: commit ו-push
+- **במחשב חדש:** מתקינים Git (`winget install Git.Git`), פותחים את אפליקציית Claude, ומבקשים: "תוריד את הפרויקט keterhats-dev/keterlion-redesign מ-GitHub לתיקייה C:\Keterlion-Redesign ותמשיך מ-STATUS.md"
 - Remote Control פעיל על השיחה במחשב הראשי. אפשר להמשיך אותה מ-claude.ai או מהאפליקציה, כל עוד המחשב הזה דלוק
 - גיבויי האתר וקבצים גדולים נשמרים בדרייב, לא ב-GitHub
