@@ -1,0 +1,42 @@
+<!-- @dsCard height=288 -->
+<!doctype html>
+<html lang="en" dir="ltr">
+<head><meta charset="utf-8"><title>KETERLION — cover</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400&family=Arvo:wght@700&display=swap">
+<style>
+html,body{margin:0;background:var(--white,#fff)}
+.cv{position:relative;width:960px;height:288px;overflow:hidden;background:var(--white,#fff)}
+.art{position:absolute;left:480px;top:0;width:480px;height:288px}
+.k{fill:var(--black,#111)}
+.g{fill:var(--gold,#e6d6ae)}
+.gd{fill:var(--gold-deep,#a88a4e)}
+.r{fill:var(--red,#c21a1a)}
+.cut{stroke:var(--white,#fff);stroke-width:2px;fill:none}
+.tb{position:absolute;left:32px;bottom:32px;max-width:440px}
+.nm{font-family:Rockwell,"Rockwell Nova",Arvo,serif;font-weight:700;font-size:80px;line-height:.92;letter-spacing:.06em;color:var(--black,#111);margin:0}
+.tg{font-family:Heebo,Arial,sans-serif;font-size:14px;color:var(--grey,#6b6b69);margin:12px 0 0;direction:ltr}
+</style></head>
+<body>
+<div class="cv">
+  <svg class="art" viewBox="0 0 480 288" aria-hidden="true">
+    <!--
+      blocks: black slab 256×288 (space-16×4, bleeds top/bottom) · gold 160×128 · gold-deep band 192×48 (bleeds right) · red 32×32 (small: state colour, bleeds right)
+      arrangement: one tall slab with satellites, square corners (radius-none) — the brand is square
+      pattern: editorial "borders not shadows" — the site's 2px rule token, three rules cut out of the slab and gold block in white
+      steps/radii: space-16 (64), space-8 (32), rule (2px), radius-none (0)
+    -->
+    <rect class="k" x="32" y="0" width="256" height="288"/>
+    <rect class="g" x="288" y="64" width="160" height="128"/>
+    <rect class="gd" x="288" y="192" width="192" height="48"/>
+    <rect class="r" x="448" y="32" width="32" height="32"/>
+    <line class="cut" x1="32" y1="96" x2="448" y2="96"/>
+    <line class="cut" x1="32" y1="112" x2="448" y2="112"/>
+    <line class="cut" x1="32" y1="128" x2="448" y2="128"/>
+  </svg>
+  <div class="tb">
+    <h1 class="nm">KETERLION</h1>
+    <p class="tg">It's all in your head · Israeli hats, Tel Aviv, since 2016</p>
+  </div>
+</div>
+</body>
+</html>
