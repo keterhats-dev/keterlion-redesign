@@ -1,0 +1,15 @@
+<!-- KL: site search = product search. HTML widget (class kl-hidden) inside KL Header 2026 (23925).
+     Any ?s= search without post_type is sent to the redesigned product archive (template 23976),
+     and every search form on the page gets a hidden post_type=product. Added 21.10.2026. -->
+<script>
+/* KL: site search = product search (lands on the redesigned product archive) */
+(function(){
+  if (document.body.classList.contains('search-results') || document.body.classList.contains('search-no-results')) {
+    var u = new URL(location.href);
+    if (u.searchParams.get('s') !== null && !u.searchParams.get('post_type')) { u.searchParams.set('post_type','product'); location.replace(u.toString()); }
+  }
+  function fix(){ document.querySelectorAll('form.elementor-search-form, form.search-form').forEach(function(f){
+    if (!f.querySelector('input[name=post_type]')) { var i=document.createElement('input'); i.type='hidden'; i.name='post_type'; i.value='product'; f.appendChild(i); } }); }
+  if (document.readyState==='loading') document.addEventListener('DOMContentLoaded', fix); else fix();
+})();
+</script>
