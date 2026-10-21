@@ -53,5 +53,10 @@
 - ⚠️ **תנאי תצוגה:** כששומרים תבנית מעורך שנפתח לפני שהוגדרו התנאים, השמירה מוחקת את התנאים. אחרי שמגדירים תנאים ב-Theme Builder, טוענים מחדש את העורך לפני השמירה הבאה
 - רשימת ה-site-editor ב-REST מחזירה תנאים לא מעודכנים. בודקים את התוצאה בעמוד עצמו (`elementor-<id>` ב-HTML)
 
+## עמוד קטגוריה (KL Archive 2026, תבנית 23976)
+- ווידג'טים של V3: woocommerce-breadcrumb, theme-archive-title (dynamic tag `archive-title`), woocommerce-archive-description, woocommerce-archive-products (4/3/2 עמודות, 6 שורות, מיון, ספירה ודפדוף)
+- כפתורי הסוג הם e-button. המאפיין `white-space` לא קיים בסכמה של V4, ולכן `nowrap` מוגדר ב-Custom CSS
+- כלל לכל עמוד חדש: `.elementor-ID .e-con > *{min-width:0}` ב-Custom CSS. בלי זה, עמודות גריד באייפון מתרחבות לפי רוחב התמונה והטקסט יוצא מהמסך (באג שתוקן ב-21.10)
+
 ## השלב הבא
 Global Classes לרכיבים שחוזרים על עצמם (kl-btn-primary, kl-btn-outline, kl-btn-on-image, kl-tag-new, kl-tag-sale, kl-section, kl-eyebrow). כרגע ההדר והפוטר בנויים עם סגנונות מקומיים ועם המשתנים. כשנבנה את דף הבית, נעביר ל-classes את מה שחוזר על עצמו
