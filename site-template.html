@@ -152,6 +152,8 @@ body.phone{background:#d9d8d4}
 .b2b{background:var(--black);color:var(--white)}
 .b2b .lead,.b2b .eyebrow{color:#c9c7c1}
 .b2b .eyebrow::before{background:var(--gold)}
+.b2b .bizrow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;margin-top:28px}
+.b2b .bizrow img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
 .b2b .facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:#3a3a3a;border:1px solid #3a3a3a;margin-top:30px}
 .b2b .facts div{background:var(--black);padding:20px}
 .b2b .facts b{display:block;font-size:30px;font-weight:900}
@@ -353,7 +355,7 @@ body.phone .h1{font-size:44px}body.phone .h2{font-size:32px}
 <!-- ================= HOME ================= -->
 <div data-page="home" class="on">
   <section class="hero gut">
-    <img src="assets/hero.jpg" alt="">
+    <img src="assets/photos/m-bucket-alley.jpg" alt="" style="object-position:50% 30%">
     <div class="in">
       <div class="eyebrow" style="color:rgba(255,255,255,.85)">כובעים ישראליים · תל אביב · מאז 2016</div>
       <h1 class="h1">הכל מתחיל<br>בראש</h1>
@@ -390,11 +392,11 @@ body.phone .h1{font-size:44px}body.phone .h2{font-size:32px}
     <div class="in">
       <div class="sh"><div><div class="eyebrow">קולקציות</div><h2 class="h2">כל קולקציה, סיפור</h2></div><a class="link" href="#shop" data-go="shop">לכל הקולקציות</a></div>
       <div class="cols">
-        <a class="col" href="#shop" data-go="shop"><img src="assets/col-1.jpeg" alt=""><div class="tx"><h3>KETERLION</h3><p>הקולקציה שהתחילה הכול</p></div></a>
-        <a class="col" href="#shop" data-go="shop"><img src="assets/col-2.jpeg" alt=""><div class="tx"><h3>מיינדסט</h3><p>מה שבראש, על הראש</p></div></a>
-        <a class="col" href="#shop" data-go="shop"><img src="assets/col-3.jpeg" alt=""><div class="tx"><h3>Journey</h3><p>לדרך</p></div></a>
-        <a class="col" href="#shop" data-go="shop"><img src="assets/life-2.jpg" alt=""><div class="tx"><h3>תמרורים</h3><p>שלטי הדרכים של ישראל, ברקמה</p></div></a>
-        <a class="col" href="#shop" data-go="shop"><img src="assets/life-3.jpg" alt=""><div class="tx"><h3>שורשים</h3><p>חי, שלום, ארץ ישראל</p></div></a>
+        <a class="col" href="#shop" data-go="shop"><img src="assets/photos/m-corduroy-smile.jpg" alt=""><div class="tx"><h3>KETERLION</h3><p>הקולקציה שהתחילה הכול</p></div></a>
+        <a class="col" href="#shop" data-go="shop"><img src="assets/photos/m-yellow-portrait.jpg" alt=""><div class="tx"><h3>מיינדסט</h3><p>מה שבראש, על הראש</p></div></a>
+        <a class="col" href="#shop" data-go="shop"><img src="assets/photos/m-woman-bucket.jpg" alt=""><div class="tx"><h3>Journey</h3><p>לדרך</p></div></a>
+        <a class="col" href="#shop" data-go="shop"><img src="assets/photos/m-cap-alley.jpg" alt=""><div class="tx"><h3>תמרורים</h3><p>שלטי הדרכים של ישראל, ברקמה</p></div></a>
+        <a class="col" href="#shop" data-go="shop"><img src="assets/photos/m-classic-cap.jpg" alt=""><div class="tx"><h3>שורשים</h3><p>חי, שלום, ארץ ישראל</p></div></a>
       </div>
     </div>
   </section>
@@ -439,6 +441,7 @@ body.phone .h1{font-size:44px}body.phone .h2{font-size:32px}
       <div class="eyebrow">לעסקים ולארגונים</div>
       <h2 class="h2">מרצ'נדייז <span class="gold">שאנשים באמת חובשים</span></h2>
       <p class="lead">כובעים וחולצות עם הלוגו שלכם, לצוות, ללקוחות ולאירועים. מחיר לפי כמות, חשבון עסקי, והזמנה חוזרת בלחיצה.</p>
+      <div class="bizrow"><img loading="lazy" src="assets/photos/b-13.jpg" alt=""><img loading="lazy" src="assets/photos/b-12.jpg" alt=""><img loading="lazy" src="assets/photos/g-embroidery-1.jpg" alt=""><img loading="lazy" src="assets/photos/b-11.jpg" alt=""></div>
       <div class="facts"><div><b>24</b><span>יחידות מינימום להזמנה עסקית</span></div><div><b><span class="ph">[X]</span></b><span>ימי עסקים לאספקה</span></div><div><b>1:1</b><span>נציג אישי ב-WhatsApp</span></div></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:28px"><a class="btn" href="#b2b" data-go="b2b">למחשבון המחירים</a><a class="btn out" href="#">WhatsApp לנציג</a></div>
     </div>
@@ -453,7 +456,7 @@ body.phone .h1{font-size:44px}body.phone .h2{font-size:32px}
 
   <section class="gut" style="padding-top:0">
     <div class="in store">
-      <img src="assets/life-3.jpg" alt="">
+      <img src="assets/photos/m-storefront-crowd.jpg" alt="">
       <div class="tx">
         <div class="eyebrow">החנות</div>
         <h2 class="h2">בואו לבקר</h2>
@@ -531,7 +534,7 @@ body.phone .h1{font-size:44px}body.phone .h2{font-size:32px}
         <p class="lead">כובע בעיצוב שלכם, רקום בתל אביב. שם, משפט, לוגו, או אחד העיצובים שלנו בצבע שבחרתם.</p>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:18px"><span class="pill">בלי מינימום · גם כובע אחד</span><span class="pill">מוכן תוך <span class="ph" style="background:none;padding:0">[X]</span> ימי עסקים</span></div>
       </div>
-      <div class="media"><img src="assets/custom.jpg" alt=""></div>
+      <div class="media"><img src="assets/photos/g-embroidery-2.jpg" alt="מכונת הרקמה בסטודיו"></div>
     </div>
     <div class="eyebrow">שלב 1</div><h2 class="h2" style="font-size:34px;margin-bottom:22px">בחרו מה לעצב</h2>
     <div class="pick" id="pick">
@@ -611,7 +614,7 @@ body.phone .h1{font-size:44px}body.phone .h2{font-size:32px}
 
 <!-- ================= STORY ================= -->
 <div data-page="story">
-  <section class="st-hero gut"><img src="assets/col-1.jpeg" alt=""><div class="in"><div class="eyebrow" style="color:rgba(255,255,255,.85)">הסיפור</div><h1 class="h1" style="font-size:clamp(40px,7vw,84px)">It's all in<br>your head</h1></div></section>
+  <section class="st-hero gut"><img src="assets/photos/m-storefront-ribbon.jpg" alt=""><div class="in"><div class="eyebrow" style="color:rgba(255,255,255,.85)">הסיפור</div><h1 class="h1" style="font-size:clamp(40px,7vw,84px)">It's all in<br>your head</h1></div></section>
   <section class="gut">
     <div class="in">
       <p class="quote">כל כובע הוא <em>כתר</em>. אתם מחליטים מה כתוב עליו.</p>
@@ -624,7 +627,7 @@ body.phone .h1{font-size:44px}body.phone .h2{font-size:32px}
   </section>
   <section class="gut" style="padding-top:0">
     <div class="in split">
-      <div class="media"><img src="assets/life-2.jpg" alt=""></div>
+      <div class="media"><img src="assets/photos/m-store-wall-people.jpg" alt=""></div>
       <div><div class="eyebrow">ישראליות</div><h2 class="h2">מדברים את מי שאנחנו</h2><p class="lead">ישראליות, יהדות שמדברת תרבות ומסורת, ושיתופי פעולה עם אמנים ומעצבים מקומיים. כל עיצוב מתחיל ברעיון ישראלי ונגמר ברקמה מדויקת.</p><div style="margin-top:22px"><a class="btn" href="#shop" data-go="shop">לקולקציות</a></div></div>
     </div>
   </section>
@@ -688,7 +691,7 @@ body.phone .h1{font-size:44px}body.phone .h2{font-size:32px}
   $('#types').innerHTML=T.map(t=>`<a class="type" href="#shop" data-go="shop" data-cat="${t.k}"><span class="im"><img loading="lazy" src="${A+t.i}" alt=""></span><span class="lbl">${t.n}</span></a>`).join('');
   $('#best').innerHTML=P.slice(0,8).map(card).join('');
   $('#newin').innerHTML=[P[9],P[14],P[11],P[12]].map(card).join('');
-  $('#ugc').innerHTML=['hero.jpg','col-1.jpeg','life-2.jpg','col-2.jpeg','custom.jpg','col-3.jpeg'].map(i=>`<a href="#" aria-label="פוסט באינסטגרם"><img loading="lazy" src="${A+i}" alt=""></a>`).join('');
+  $('#ugc').innerHTML=['photos/m-beanie.jpg','photos/m-couple.jpg','photos/m-dog-bw.jpg','photos/m-yellow-beanie.jpg','photos/m-caps-stack.jpg','photos/m-dog-street.jpg'].map(i=>`<a href="#" aria-label="פוסט באינסטגרם"><img loading="lazy" src="${A+i}" alt=""></a>`).join('');
   const words=['IT\'S ALL IN YOUR HEAD','כובעים ישראליים עם אמירה','רקום בתל אביב','<span class="wm">KETERLION</span>','מאז 2016','גם כובע אחד'];
   $('#strip1').innerHTML=words.concat(words).map(w=>`<span>${w}</span>`).join('');
   $('#collab').innerHTML=P.filter(p=>p.col==='× נעמה אברהמי').map(card).join('');
