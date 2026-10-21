@@ -55,7 +55,7 @@ body.phone #frame{max-width:400px;margin:20px auto;border:8px solid #111;border-
 body.phone{background:#d9d8d4}
 
 /* announcement + header */
-.ann{background:var(--soft);font-size:13px;height:36px;display:flex;align-items:center;justify-content:center;gap:8px}
+.ann{background:var(--white);border-bottom:1px solid var(--line);font-size:13px;height:36px;display:flex;align-items:center;justify-content:center;gap:8px}
 .ann i{width:4px;height:4px;border-radius:50%;background:var(--gold-deep)}
 .ann #annMsg{transition:opacity .3s}
 .hdr{background:var(--white);border-bottom:1px solid var(--line);position:sticky;top:calc(env(safe-area-inset-top,0px) + 34px);z-index:50}
@@ -124,29 +124,28 @@ body.phone{background:#d9d8d4}
 .mini .card h4{font-size:14px}
 
 /* custom block */
-.custom{background:var(--soft)}
+.custom{background:var(--white);border-top:1px solid var(--line)}
 .steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:26px 0}
-.step{background:var(--white);padding:16px;border-top:2px solid var(--gold-deep)}
+.step{background:var(--white);padding:16px;border:1px solid var(--line);border-top:2px solid var(--gold-deep)}
 .step b{display:block;font-size:15px;margin-bottom:4px}
 .step span{font-size:13px;color:var(--grey);line-height:1.5}
 .pill{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;border:1px solid var(--gold-deep);color:var(--black);padding:5px 12px;border-radius:999px}
 .pill::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold-deep)}
 .examples{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.examples figure{margin:0;background:var(--white)}
+.examples figure{margin:0;background:var(--white);border:1px solid var(--line)}
 .examples img{aspect-ratio:1;max-width:100%;width:100%;object-fit:cover}
 .examples figcaption{font-size:12px;color:var(--grey);padding:8px}
 
 /* b2b band */
-.b2b{background:var(--black);color:var(--white)}
-.b2b .lead{color:#c9c7c1}
-.b2b .facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:#333;margin-top:30px}
-.b2b .facts div{background:var(--black);padding:20px}
+.b2b{background:var(--white);color:var(--black);border-top:1px solid var(--line)}
+.b2b .facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:30px}
+.b2b .facts div{background:var(--white);padding:20px}
 .b2b .facts b{display:block;font-size:28px;font-weight:900}
-.b2b .facts span{font-size:13px;color:#c9c7c1}
-.b2b .gold{color:var(--gold)}
+.b2b .facts span{font-size:13px;color:var(--grey)}
+.b2b .gold{background:linear-gradient(transparent 64%,var(--gold) 64%)}
 
 /* store */
-.store{display:grid;grid-template-columns:1.2fr 1fr;background:var(--soft)}
+.store{display:grid;grid-template-columns:1.2fr 1fr;background:var(--white);border:1px solid var(--line)}
 .store img{width:100%;height:100%;object-fit:cover;min-height:360px}
 .store .tx{padding:clamp(28px,5vw,56px);display:flex;flex-direction:column;justify-content:center}
 .store dl{display:grid;grid-template-columns:auto 1fr;gap:10px 20px;font-size:15px;margin:22px 0 26px}
@@ -179,7 +178,7 @@ footer a:hover{text-decoration:underline;text-decoration-color:var(--gold-deep);
 .chip[aria-pressed="true"]{background:var(--black);color:#fff;border-color:var(--black)}
 .toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;border-block:1px solid var(--line);padding-block:12px;margin:26px 0 26px;font-size:14px;flex-wrap:wrap}
 .toolbar select{font:inherit;border:1px solid var(--line);padding:8px 10px;background:var(--white)}
-.fship{background:var(--soft);padding:10px 14px;font-size:13px;margin-bottom:22px}
+.fship{border:1px solid var(--line);border-right:2px solid var(--gold-deep);padding:10px 14px;font-size:13px;margin-bottom:22px}
 
 /* product page */
 .pdp{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(24px,5vw,64px);padding-block:20px 60px}
@@ -203,7 +202,7 @@ footer a:hover{text-decoration:underline;text-decoration-color:var(--gold-deep);
 .qty button{border:0;background:none;height:100%;font-size:18px}
 .trust{display:grid;gap:8px;margin-top:22px;font-size:14px;color:var(--grey)}
 .trust div::before{content:"✓";color:var(--gold-deep);font-weight:700;margin-left:8px}
-.artist{display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:center;background:var(--soft);padding:14px;margin-top:24px;font-size:14px}
+.artist{display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:center;border:1px solid var(--line);padding:14px;margin-top:24px;font-size:14px}
 .artist .av{width:56px;height:56px;border-radius:50%;background:var(--gold);display:grid;place-items:center;font-weight:900;font-size:20px}
 details{border-top:1px solid var(--line);padding:16px 0}
 details:last-of-type{border-bottom:1px solid var(--line)}
@@ -228,13 +227,13 @@ details p{color:var(--grey);line-height:1.7;margin:10px 0 0;font-size:15px}
 .faq{max-width:760px}
 
 /* b2b page */
-.calc{display:grid;grid-template-columns:1fr 1fr;gap:28px;background:var(--soft);padding:clamp(20px,4vw,40px)}
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:28px;background:var(--white);border:1px solid var(--line);padding:clamp(20px,4vw,40px)}
 .calc input[type=range]{width:100%;accent-color:var(--black)}
 .calc .big{font-size:44px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
 .tiers{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
 .tiers td,.tiers th{padding:10px 8px;border-bottom:1px solid var(--line);text-align:right}
 .tiers th{color:var(--grey);font-weight:500}
-.tiers tr.on td{font-weight:700;background:var(--white)}
+.tiers tr.on td{font-weight:700;box-shadow:inset -2px 0 0 var(--gold-deep)}
 .flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;counter-reset:s}
 .flow div{border-top:2px solid var(--black);padding-top:14px}
 .flow div::before{counter-increment:s;content:counter(s);font-weight:900;font-size:28px;display:block;margin-bottom:6px}
@@ -406,11 +405,11 @@ body.phone .h1{font-size:44px}body.phone .h2{font-size:32px}
 
   <section class="b2b gut">
     <div class="in">
-      <div class="eyebrow" style="color:#c9c7c1">לעסקים ולארגונים</div>
+      <div class="eyebrow">לעסקים ולארגונים</div>
       <h2 class="h2">מרצ'נדייז <span class="gold">שאנשים באמת חובשים</span></h2>
       <p class="lead">כובעים וחולצות עם הלוגו שלכם, לצוות, ללקוחות ולאירועים. מחיר לפי כמות, חשבון עסקי, והזמנה חוזרת בלחיצה.</p>
-      <div class="facts"><div><b>24</b><span>יחידות מינימום להזמנה עסקית</span></div><div><b><span class="ph" style="background:#222">[X]</span></b><span>ימי עסקים לאספקה</span></div><div><b>1:1</b><span>נציג אישי ב-WhatsApp</span></div></div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:28px"><a class="btn light" href="#b2b" data-go="b2b">למחשבון המחירים</a><a class="btn light-out" href="#">WhatsApp לנציג</a></div>
+      <div class="facts"><div><b>24</b><span>יחידות מינימום להזמנה עסקית</span></div><div><b><span class="ph">[X]</span></b><span>ימי עסקים לאספקה</span></div><div><b>1:1</b><span>נציג אישי ב-WhatsApp</span></div></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:28px"><a class="btn" href="#b2b" data-go="b2b">למחשבון המחירים</a><a class="btn out" href="#">WhatsApp לנציג</a></div>
     </div>
   </section>
 
@@ -515,7 +514,7 @@ body.phone .h1{font-size:44px}body.phone .h2{font-size:32px}
         <details><summary>אילו צבעי חוט יש?</summary><p>19 צבעי חוט, ורואים אותם בתוך הכלי.</p></details>
         <details><summary>אפשר להעלות לוגו?</summary><p>כן. PNG, JPG, SVG או PDF. אם צריך, נעזור להכין אותו לרקמה.</p></details>
       </div>
-      <div style="background:var(--soft);padding:28px">
+      <div style="border:1px solid var(--line);border-top:2px solid var(--gold-deep);padding:28px">
         <div class="eyebrow">מתנה?</div>
         <h3 class="h3" style="font-size:26px">כרטיס מתנה של כתרליון</h3>
         <p class="lead" style="font-size:16px">לא בטוחים מה הם אוהבים? שלחו Gift Card, והם יבחרו או יעצבו בעצמם.</p>
@@ -529,10 +528,10 @@ body.phone .h1{font-size:44px}body.phone .h2{font-size:32px}
 <div data-page="b2b">
   <section class="b2b gut" style="padding-block:clamp(56px,8vw,96px)">
     <div class="in">
-      <div class="eyebrow" style="color:#c9c7c1">לעסקים ולארגונים</div>
+      <div class="eyebrow">לעסקים ולארגונים</div>
       <h1 class="h1" style="font-size:clamp(38px,6vw,72px)">כובעים ממותגים<br><span class="gold">שלא נשארים במגירה</span></h1>
       <p class="lead">לצוות, ללקוחות, לימי גיבוש ולאירועים. רקמה איכותית בתל אביב, נציג אישי, וחשבון עסקי עם הזמנה חוזרת בלחיצה.</p>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:26px"><a class="btn light" href="#calc">חישוב מחיר</a><a class="btn light-out" href="#">פתיחת חשבון עסקי</a></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:26px"><a class="btn" href="#calc">חישוב מחיר</a><a class="btn out" href="#">פתיחת חשבון עסקי</a></div>
     </div>
   </section>
   <section class="gut" id="calc">
@@ -565,7 +564,7 @@ body.phone .h1{font-size:44px}body.phone .h2{font-size:32px}
     </div>
   </section>
   <section class="gut" style="padding-top:0">
-    <div class="in" style="background:var(--soft);padding:28px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap">
+    <div class="in" style="border:1px solid var(--line);padding:28px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap">
       <div><b style="font-size:20px">צריכים פחות מ-24?</b><div style="color:var(--grey)">העיצוב האישי עובד גם מכובע אחד</div></div>
       <a class="btn out" href="#custom" data-go="custom">לעיצוב אישי</a>
     </div>
