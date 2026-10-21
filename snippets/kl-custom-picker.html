@@ -1,0 +1,152 @@
+<!-- KL custom-hat picker (staging, product 22544 /product/customize/).
+     App-style shape + colour picker. It drives the existing WooCommerce variation selects
+     (pa_hat-shape, pa_color-customize), so Zakeke and the swatch plugin keep working.
+     Lives in an Elementor HTML widget right before the add-to-cart widget (bcc35a9). -->
+<div id="kl-picker" class="kl-picker" dir="rtl">
+  <div class="klp-preview">
+    <img id="klp-img" alt="">
+    <div class="klp-chip"><i id="klp-dot"></i><span id="klp-shape"></span> · <span id="klp-color"></span></div>
+    <div class="klp-pricechip" id="klp-pricechip"></div>
+  </div>
+  <div class="klp-step">
+    <div class="klp-label">1. בוחרים גזרה</div>
+    <div class="klp-seg" id="klp-shapes" role="radiogroup" aria-label="גזרה"><span class="klp-thumb" id="klp-thumb"></span></div>
+    <div class="klp-hint" id="klp-hint"></div>
+  </div>
+  <div class="klp-step">
+    <div class="klp-label">2. בוחרים צבע <span id="klp-cname"></span></div>
+    <div class="klp-colors" id="klp-colors" role="radiogroup" aria-label="צבע"></div>
+  </div>
+  <div class="klp-bar">
+    <div><div class="klp-price" id="klp-price"></div><div class="klp-sub">בלי מינימום · מוכן עד 7 ימים</div></div>
+    <button type="button" class="klp-go" id="klp-go">התחילו לעצב ←</button>
+  </div>
+</div>
+<script>
+(function () {
+  var SHAPES = [
+    { v: '%d7%9b%d7%95%d7%91%d7%a2-dad-cap', n: 'Dad Cap', d: 'גזרה נמוכה ורכה' },
+    { v: 'baseball-hat', n: 'בייסבול', d: 'גזרה גבוהה ומובנית' }
+  ];
+  var BLACK = '%d7%a9%d7%97%d7%95%d7%a8';
+
+  function init() {
+    var form = document.querySelector('form.variations_form');
+    var root = document.getElementById('kl-picker');
+    if (!form || !root) return setTimeout(init, 300);
+    if (root.dataset.ready) return;
+    root.dataset.ready = '1';
+
+    var vars = JSON.parse(form.getAttribute('data-product_variations') || '[]');
+    var selShape = form.querySelector('[name="attribute_pa_hat-shape"]');
+    var selColor = form.querySelector('[name="attribute_pa_color-customize"]');
+    var swatch = {};
+    form.querySelectorAll('[data-attribute="pa_color-customize"] .wpcvs-term').forEach(function (t) {
+      var img = t.querySelector('img');
+      // labels carry internal numbers ("שחור 1", "בורדו 25"); customers see just the colour name
+      swatch[t.getAttribute('data-term')] = { n: (t.getAttribute('data-label') || '').replace(/\s*\d+$/, ''), img: img ? img.src : '' };
+    });
+    var order = [].map.call(selColor.options, function (o) { return o.value; }).filter(Boolean);
+    var st = { shape: selShape.value || SHAPES[0].v, color: selColor.value || '' };
+
+    function variation(s, c) {
+      return vars.find(function (v) {
+        return v.attributes['attribute_pa_hat-shape'] === s && v.attributes['attribute_pa_color-customize'] === c && v.is_in_stock;
+      });
+    }
+    function minPrice(s) {
+      var p = vars.filter(function (v) { return !s || v.attributes['attribute_pa_hat-shape'] === s; }).map(function (v) { return v.display_price; });
+      return p.length ? Math.min.apply(null, p) : null;
+    }
+    function setSelect(sel, val) {
+      if (sel.value === val) return;
+      if (window.jQuery) jQuery(sel).val(val).trigger('change');
+      else { sel.value = val; sel.dispatchEvent(new Event('change', { bubbles: true })); }
+    }
+    if (!st.color) {
+      var black = order.find(function (c) { return c.indexOf(BLACK) === 0 && variation(st.shape, c); });
+      st.color = black || order.find(function (c) { return variation(st.shape, c); }) || '';
+    }
+
+    function render() {
+      var shapesEl = document.getElementById('klp-shapes');
+      shapesEl.querySelectorAll('.klp-shape').forEach(function (n) { n.remove(); });
+      SHAPES.forEach(function (s, i) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'klp-shape' + (st.shape === s.v ? ' on' : '');
+        b.setAttribute('role', 'radio');
+        b.setAttribute('aria-checked', st.shape === s.v);
+        b.innerHTML = '<b>' + s.n + '</b><em>₪' + minPrice(s.v) + '</em>';
+        b.onclick = function () {
+          st.shape = s.v;
+          if (!variation(st.shape, st.color)) st.color = order.find(function (c) { return variation(st.shape, c); }) || '';
+          sync();
+        };
+        shapesEl.appendChild(b);
+        if (st.shape === s.v) shapesEl.style.setProperty('--i', i);
+      });
+      var cur = SHAPES.find(function (s) { return s.v === st.shape; });
+      document.getElementById('klp-hint').textContent = cur ? cur.d : '';
+
+      var colorsEl = document.getElementById('klp-colors');
+      colorsEl.innerHTML = '';
+      order.forEach(function (c) {
+        if (!swatch[c] || !variation(st.shape, c)) return;
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'klp-color' + (st.color === c ? ' on' : '');
+        b.setAttribute('role', 'radio');
+        b.setAttribute('aria-checked', st.color === c);
+        b.setAttribute('aria-label', swatch[c].n);
+        b.title = swatch[c].n;
+        b.innerHTML = '<i style="background-image:url(\'' + swatch[c].img + '\')"></i>';
+        b.onclick = function () { st.color = c; sync(); };
+        colorsEl.appendChild(b);
+      });
+
+      var v = variation(st.shape, st.color);
+      var img = document.getElementById('klp-img');
+      var src = v && v.image && (v.image.full_src || v.image.src);
+      if (src && img.dataset.src !== src) {
+        img.dataset.src = src;
+        img.classList.add('out');
+        var pre = new Image();
+        pre.onload = pre.onerror = function () {
+          img.src = src;
+          img.alt = swatch[st.color] ? swatch[st.color].n : '';
+          requestAnimationFrame(function () { img.classList.remove('out'); });
+        };
+        pre.src = src;
+      }
+      var shape = SHAPES.find(function (s) { return s.v === st.shape; });
+      var cname = st.color && swatch[st.color] ? swatch[st.color].n : '';
+      document.getElementById('klp-shape').textContent = shape ? shape.n : '';
+      document.getElementById('klp-color').textContent = cname || 'בחרו צבע';
+      document.getElementById('klp-dot').style.backgroundImage = cname ? 'url(\'' + swatch[st.color].img + '\')' : '';
+      document.getElementById('klp-cname').textContent = cname ? '· ' + cname : '';
+      var price = '₪' + (v ? v.display_price : minPrice(st.shape));
+      document.getElementById('klp-price').textContent = price;
+      document.getElementById('klp-pricechip').textContent = price;
+      var go = document.getElementById('klp-go');
+      go.disabled = !v;
+      go.textContent = v ? 'התחילו לעצב ←' : 'בחרו צבע';
+    }
+
+    function sync() {
+      setSelect(selShape, st.shape);
+      setTimeout(function () { setSelect(selColor, st.color); setTimeout(render, 60); }, 60);
+      render();
+    }
+
+    document.getElementById('klp-go').onclick = function () {
+      var b = form.querySelector('.single_add_to_cart_button');
+      if (b && !b.classList.contains('disabled')) b.click();
+    };
+    sync();
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
