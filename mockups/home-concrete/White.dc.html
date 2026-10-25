@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="he">
+<head>
+<meta charset="utf-8">
+<title>כתרליון – דף הבית, לבן עם כחול</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&amp;display=swap">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#111111}a:hover{color:#111111}
+.kw, .kw *{box-sizing:border-box}
+.kw a{text-decoration:none}
+.kw-pad{padding-left:40px;padding-right:40px}
+.kw-nav{display:flex}
+.kw-burger{display:none}
+.kw-hero{display:grid;grid-template-columns:repeat(2, minmax(0, 1fr))}
+.kw-media{border-right:2px solid #111111}
+.kw-grid4{display:grid;grid-template-columns:repeat(4, minmax(0, 1fr));gap:20px}
+.kw-split{display:grid;grid-template-columns:repeat(2, minmax(0, 1fr))}
+.kw-steps{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr))}
+.kw-foot{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px}
+.kw-track{display:flex;width:max-content;animation:kwmarq 28s linear infinite}
+@keyframes kwmarq{from{transform:translateX(0)}to{transform:translateX(50%)}}
+@media (prefers-reduced-motion: reduce){.kw-track{animation:none}}
+@media (max-width: 760px){
+  .kw-pad{padding-left:16px;padding-right:16px}
+  .kw-nav{display:none}
+  .kw-burger{display:inline-flex}
+  .kw-hide-sm{display:none}
+  .kw-hero{grid-template-columns:minmax(0, 1fr)}
+  .kw-media{border-right:0;border-top:2px solid #111111}
+  .kw-grid4{grid-template-columns:repeat(2, minmax(0, 1fr));gap:12px}
+  .kw-split{grid-template-columns:minmax(0, 1fr)}
+  .kw-steps{grid-template-columns:minmax(0, 1fr)}
+  .kw-foot{grid-template-columns:repeat(2, minmax(0, 1fr));gap:28px}
+  .kw-foot-brand{grid-column:1 / -1}
+}
+</style>
+</helmet>
+<div class="kw" dir="rtl" style="width: 100%; background: #FFFFFF; color: #111111; font-family: 'Heebo', system-ui, sans-serif;">
+
+  <!-- top bar -->
+  <div class="kw-pad" style="background: #111111; color: {{onDark}}; font-size: 13px; font-weight: 700; letter-spacing: 0.04em; text-align: center; padding-top: 11px; padding-bottom: 11px;">משלוח חינם בהזמנה מעל ₪249 · איסוף עצמי מנחלת בנימין 13, תל אביב</div>
+
+  <!-- header -->
+  <header class="kw-pad" style="display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-top: 20px; padding-bottom: 20px; border-bottom: 2px solid #111111;">
+    <a href="#" aria-label="KETERLION – לדף הבית" style="display: flex; align-items: center; gap: 10px; direction: ltr;">
+      <img src="/_blob/f540992a8865529a2789d1d6f6715a97" alt="" style="width: 38px; height: 38px; object-fit: contain;">
+      <img src="/_blob/4cc257ca5062663e0a047b139d14ecc8" alt="KETERLION" style="height: 18px; width: auto;">
+      <span style="width: 8px; height: 8px; border-radius: 50%; background: {{accent}}; align-self: flex-end; margin-bottom: 9px;"></span>
+    </a>
+    <nav class="kw-nav" aria-label="ראשי" style="gap: 26px; align-items: center; font-size: 15px; font-weight: 700;">
+      <a href="#">כובעים</a>
+      <a href="#">קולקציות</a>
+      <a href="#">כובעי טמבל</a>
+      <a href="#">חולצות</a>
+      <a href="#">SALE</a>
+      <a href="#">עיצוב אישי</a>
+      <a href="#">לעסקים</a>
+      <a href="#">הסיפור</a>
+    </nav>
+    <div style="display: flex; gap: 10px; align-items: center;">
+      <a href="#" class="kw-hide-sm" style="display: inline-flex; align-items: center; height: 44px; padding: 0 16px; border: 2px solid #111111; font-size: 14px; font-weight: 700;">חיפוש</a>
+      <a href="#" style="display: inline-flex; align-items: center; height: 44px; padding: 0 16px; background: #111111; color: #FFFFFF; border: 2px solid #111111; font-size: 14px; font-weight: 700;">סל (0)</a>
+      <button type="button" class="kw-burger" aria-label="תפריט" style="align-items: center; justify-content: center; width: 44px; height: 44px; border: 2px solid #111111; background: transparent;">
+        <svg width="20" height="14" viewBox="0 0 20 14" aria-hidden="true"><path d="M0 1h20M0 7h20M0 13h20" stroke="#111111" stroke-width="2"></path></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- hero -->
+  <section class="kw-hero" style="border-bottom: 2px solid #111111;">
+    <div class="kw-pad" style="display: flex; flex-direction: column; justify-content: center; gap: 28px; padding-top: 72px; padding-bottom: 72px;">
+      <p style="margin: 0; display: flex; align-items: center; gap: 14px; font-size: 13px; font-weight: 700; letter-spacing: 0.22em;"><span style="width: 28px; height: 4px; background: {{accent}};"></span>תל אביב · מאז 2016</p>
+      <h1 style="margin: 0; font-size: clamp(64px, 8.4vw, 132px); font-weight: 900; line-height: 0.92; letter-spacing: -0.01em;">הכל<br>מתחיל<br>בראש<span style="color: {{accent}};">.</span></h1>
+      <p style="margin: 0; max-width: 460px; font-size: 19px; line-height: 1.6; font-weight: 500;">כובעים ישראליים עם אמירה, רקומים בתל אביב. מהקולקציות שלנו, או בעיצוב שלכם – גם כובע אחד.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+        <a href="#" style="display: inline-flex; align-items: center; min-height: 54px; padding: 0 28px; background: #111111; color: #FFFFFF; border: 2px solid #111111; font-size: 17px; font-weight: 900;">לכל הכובעים ←</a>
+        <a href="#" style="display: inline-flex; align-items: center; min-height: 54px; padding: 0 28px; border: 2px solid #111111; font-size: 17px; font-weight: 900;">עצבו כובע משלכם</a>
+      </div>
+    </div>
+    <div class="kw-media" style="position: relative; background: #F0F0EE; display: flex; align-items: center; justify-content: center; padding: 56px 48px; min-height: 560px;">
+      <img src="/_blob/0bde3cff98b7839f76b52ed6ab7dc890" alt="איש חובש כובע צהוב של כתרליון ברחוב" style="width: 100%; max-width: 420px; aspect-ratio: 4 / 5; object-fit: cover; display: block;">
+      <div style="position: absolute; top: 26px; left: 26px; width: 118px; height: 118px; border-radius: 50%; background: {{accent}}; color: {{ink}}; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 18px; font-weight: 900; line-height: 1.05; transform: rotate(-12deg);">גם כובע<br>אחד</div>
+      <p style="position: absolute; bottom: 18px; left: 26px; margin: 0; font-size: 12px; font-weight: 700; letter-spacing: 0.06em;">[נחלת בנימין, תל אביב]</p>
+    </div>
+  </section>
+
+  <!-- marquee -->
+  <div style="background: #FFFFFF; overflow: hidden; border-bottom: 2px solid #111111;" aria-hidden="true">
+    <div class="kw-track" style="padding-top: 16px; padding-bottom: 16px; font-size: 30px; font-weight: 900; white-space: nowrap;">
+      <span style="padding-left: 28px;">כובעים <span style="color: {{accent}};">✱</span> עיצוב אישי <span style="color: {{accent}};">✱</span> כובעי טמבל <span style="color: {{accent}};">✱</span> חולצות <span style="color: {{accent}};">✱</span> רקום בתל אביב <span style="color: {{accent}};">✱</span> IT'S ALL IN YOUR HEAD <span style="color: {{accent}};">✱</span></span>
+      <span style="padding-left: 28px;">כובעים <span style="color: {{accent}};">✱</span> עיצוב אישי <span style="color: {{accent}};">✱</span> כובעי טמבל <span style="color: {{accent}};">✱</span> חולצות <span style="color: {{accent}};">✱</span> רקום בתל אביב <span style="color: {{accent}};">✱</span> IT'S ALL IN YOUR HEAD <span style="color: {{accent}};">✱</span></span>
+    </div>
+  </div>
+
+  <!-- new on the shelf -->
+  <section class="kw-pad" style="padding-top: 80px; padding-bottom: 88px;">
+    <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 36px;">
+      <h2 style="margin: 0; font-size: clamp(38px, 4.6vw, 64px); font-weight: 900; line-height: 1;">חדש על המדף</h2>
+      <a href="#" style="font-size: 16px; font-weight: 700; border-bottom: 2px solid {{accent}}; padding-bottom: 2px;">לכל הכובעים ←</a>
+    </div>
+    <div class="kw-grid4">
+      <a href="#" style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="position: relative; aspect-ratio: 4 / 5; background: #F0F0EE; overflow: hidden;">
+          <img src="/_blob/1ccaf250ce2b28b59113fd242a1e2e79" alt="כובע קלאסי בגוון חאקי" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          <span style="position: absolute; top: 12px; right: 12px; background: {{accent}}; color: {{ink}}; font-size: 12px; font-weight: 900; padding: 5px 10px;">חדש</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; gap: 8px; font-size: 16px; font-weight: 700;"><span>[שם הכובע] · קלאסי</span><span>₪___</span></div>
+      </a>
+      <a href="#" style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="position: relative; aspect-ratio: 4 / 5; background: #F0F0EE; overflow: hidden;">
+          <img src="/_blob/d1a1313499027a2810c9234b385d2d04" alt="כובע גרב צהוב" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+        </div>
+        <div style="display: flex; justify-content: space-between; gap: 8px; font-size: 16px; font-weight: 700;"><span>[שם הכובע] · גרב</span><span>₪___</span></div>
+      </a>
+      <a href="#" style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="position: relative; aspect-ratio: 4 / 5; background: #F0F0EE; overflow: hidden;">
+          <img src="/_blob/17b45f23b18eab653c7fa32bb0b0787f" alt="כובע טמבל לבן" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          <span style="position: absolute; top: 12px; right: 12px; background: {{accent}}; color: {{ink}}; font-size: 12px; font-weight: 900; padding: 5px 10px;">חדש</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; gap: 8px; font-size: 16px; font-weight: 700;"><span>[שם הכובע] · טמבל</span><span>₪___</span></div>
+      </a>
+      <a href="#" style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="position: relative; aspect-ratio: 4 / 5; background: #F0F0EE; overflow: hidden;">
+          <img src="/_blob/13010ce54eff1d914f4b5f57aea57928" alt="כובע גרב אפור" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+        </div>
+        <div style="display: flex; justify-content: space-between; gap: 8px; font-size: 16px; font-weight: 700;"><span>[שם הכובע] · גרב</span><span>₪___</span></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- collections as numbered rows -->
+  <section aria-label="קולקציות">
+    <div class="kw-pad" style="display: flex; align-items: center; justify-content: space-between; padding-top: 20px; padding-bottom: 20px; border-top: 2px solid #111111;">
+      <p style="margin: 0; display: flex; align-items: center; gap: 14px; font-size: 13px; font-weight: 700; letter-spacing: 0.22em;"><span style="width: 28px; height: 4px; background: {{accent}};"></span>הקולקציות</p>
+      <a href="#" style="font-size: 15px; font-weight: 700; border-bottom: 2px solid {{accent}}; padding-bottom: 2px;">לכל הקולקציות ←</a>
+    </div>
+    <a href="#" class="kw-pad" style="display: flex; align-items: center; gap: 22px; padding-top: 22px; padding-bottom: 22px; border-top: 2px solid #111111;">
+      <span style="font-size: 18px; font-weight: 700;">01</span>
+      <span style="flex-grow: 1; font-size: clamp(40px, 6vw, 88px); font-weight: 900; line-height: 1;">KETERLION</span>
+      <span style="display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; background: {{accent}}; color: {{ink}}; font-size: 26px; font-weight: 500;">←</span>
+    </a>
+    <a href="#" class="kw-pad" style="display: flex; align-items: center; gap: 22px; padding-top: 22px; padding-bottom: 22px; border-top: 2px solid #111111;">
+      <span style="font-size: 18px; font-weight: 700;">02</span>
+      <span style="flex-grow: 1; font-size: clamp(40px, 6vw, 88px); font-weight: 900; line-height: 1;">מיינדסט</span>
+      <span style="display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; background: {{accent}}; color: {{ink}}; font-size: 26px; font-weight: 500;">←</span>
+    </a>
+    <a href="#" class="kw-pad" style="display: flex; align-items: center; gap: 22px; padding-top: 22px; padding-bottom: 22px; border-top: 2px solid #111111;">
+      <span style="font-size: 18px; font-weight: 700;">03</span>
+      <span style="flex-grow: 1; font-size: clamp(40px, 6vw, 88px); font-weight: 900; line-height: 1;">תמרורים</span>
+      <span style="display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; background: {{accent}}; color: {{ink}}; font-size: 26px; font-weight: 500;">←</span>
+    </a>
+    <a href="#" class="kw-pad" style="display: flex; align-items: center; gap: 22px; padding-top: 22px; padding-bottom: 22px; border-top: 2px solid #111111;">
+      <span style="font-size: 18px; font-weight: 700;">04</span>
+      <span style="flex-grow: 1; font-size: clamp(40px, 6vw, 88px); font-weight: 900; line-height: 1;">שורשים</span>
+      <span style="display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; background: {{accent}}; color: {{ink}}; font-size: 26px; font-weight: 500;">←</span>
+    </a>
+    <a href="#" class="kw-pad" style="display: flex; align-items: center; gap: 22px; padding-top: 22px; padding-bottom: 22px; border-top: 2px solid #111111;">
+      <span style="font-size: 18px; font-weight: 700;">05</span>
+      <span style="flex-grow: 1; font-size: clamp(40px, 6vw, 88px); font-weight: 900; line-height: 1;">כתרליון × נעמה אברהמי</span>
+      <span style="display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; background: {{accent}}; color: {{ink}}; font-size: 26px; font-weight: 500;">←</span>
+    </a>
+    <a href="#" class="kw-pad" style="display: flex; align-items: center; gap: 22px; padding-top: 22px; padding-bottom: 22px; border-top: 2px solid #111111; border-bottom: 2px solid #111111;">
+      <span style="font-size: 18px; font-weight: 700;">06</span>
+      <span style="flex-grow: 1; font-size: clamp(40px, 6vw, 88px); font-weight: 900; line-height: 1;">ספורט</span>
+      <span style="display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; background: {{accent}}; color: {{ink}}; font-size: 26px; font-weight: 500;">←</span>
+    </a>
+  </section>
+
+  <!-- custom design -->
+  <section class="kw-split" style="border-bottom: 2px solid #111111;">
+    <div class="kw-pad" style="display: flex; flex-direction: column; justify-content: center; gap: 24px; padding-top: 72px; padding-bottom: 72px;">
+      <p style="margin: 0; display: flex; align-items: center; gap: 14px; font-size: 13px; font-weight: 700; letter-spacing: 0.22em;"><span style="width: 28px; height: 4px; background: {{accent}};"></span>עיצוב אישי</p>
+      <h2 style="margin: 0; font-size: clamp(44px, 5.4vw, 80px); font-weight: 900; line-height: 0.95;">עצבו כובע משלכם.<br>גם כובע אחד<span style="color: {{accent}};">.</span></h2>
+      <p style="margin: 0; max-width: 480px; font-size: 18px; line-height: 1.6; font-weight: 500;">בלי מינימום. בוחרים כובע וצבע, מוסיפים טקסט או לוגו, ואנחנו רוקמים.</p>
+      <div class="kw-steps" style="border: 2px solid #111111;">
+        <div style="padding: 18px; border-left: 2px solid #111111;">
+          <p style="margin: 0 0 6px; font-size: 14px; font-weight: 900; color: {{accent}};">01</p>
+          <p style="margin: 0; font-size: 17px; font-weight: 700;">בוחרים כובע וצבע</p>
+        </div>
+        <div style="padding: 18px; border-left: 2px solid #111111;">
+          <p style="margin: 0 0 6px; font-size: 14px; font-weight: 900; color: {{accent}};">02</p>
+          <p style="margin: 0; font-size: 17px; font-weight: 700;">מוסיפים טקסט או לוגו</p>
+        </div>
+        <div style="padding: 18px;">
+          <p style="margin: 0 0 6px; font-size: 14px; font-weight: 900; color: {{accent}};">03</p>
+          <p style="margin: 0; font-size: 17px; font-weight: 700;">אנחנו רוקמים ושולחים</p>
+        </div>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px;">
+        <a href="#" style="display: inline-flex; align-items: center; min-height: 54px; padding: 0 28px; background: #111111; color: #FFFFFF; border: 2px solid #111111; font-size: 17px; font-weight: 900;">להתחיל לעצב ←</a>
+        <span style="font-size: 16px; font-weight: 700;">Dad Cap ₪100 · בייסבול ₪109</span>
+      </div>
+    </div>
+    <div class="kw-media" style="background: #F0F0EE; min-height: 520px;">
+      <img src="/_blob/cf5f2fd1134978522f8c4de5d574daa3" alt="מכונת רקמה רוקמת כובע שחור" style="width: 100%; height: 100%; min-height: 520px; object-fit: cover; display: block;">
+    </div>
+  </section>
+
+  <!-- statement -->
+  <section class="kw-pad" style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 32px; padding-top: 88px; padding-bottom: 88px; border-bottom: 2px solid #111111;">
+    <div style="display: flex; flex-direction: column; gap: 28px;">
+      <span style="width: 80px; height: 8px; background: {{accent}};"></span>
+      <h2 style="margin: 0; font-size: clamp(48px, 6.6vw, 104px); font-weight: 900; line-height: 0.95;">מנחלת בנימין.<br>מאז 2016<span style="color: {{accent}};">.</span></h2>
+    </div>
+    <p style="margin: 0; max-width: 400px; font-size: 17px; line-height: 1.6; font-weight: 500;">מותג אופנת רחוב ישראלי. כובעים עם אמירה, רקומים בתל אביב. <span style="direction: ltr; unicode-bidi: isolate; font-weight: 900;">It's All In Your Head.</span></p>
+  </section>
+
+  <!-- b2b -->
+  <section class="kw-split" style="background: #111111; color: #FFFFFF; border-bottom: 2px solid #111111;">
+    <div style="min-height: 480px;">
+      <img src="/_blob/fe856ec20f512480076da3e28d2f1d10" alt="ערימת כובעים ממותגים" style="width: 100%; height: 100%; min-height: 480px; object-fit: cover; display: block;">
+    </div>
+    <div class="kw-pad" style="display: flex; flex-direction: column; justify-content: center; gap: 24px; padding-top: 72px; padding-bottom: 72px;">
+      <p style="margin: 0; display: flex; align-items: center; gap: 14px; font-size: 13px; font-weight: 700; letter-spacing: 0.22em; color: {{onDark}};"><span style="width: 28px; height: 4px; background: {{onDark}};"></span>לעסקים</p>
+      <h2 style="margin: 0; font-size: clamp(40px, 4.6vw, 68px); font-weight: 900; line-height: 1;">כובעים ממותגים לחברות, צוותים ואירועים<span style="color: {{onDark}};">.</span></h2>
+      <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+        <span style="border: 2px solid #FFFFFF; padding: 8px 14px; font-size: 15px; font-weight: 700;">מ-24 יחידות</span>
+        <span style="border: 2px solid #FFFFFF; padding: 8px 14px; font-size: 15px; font-weight: 700;">הלוגו שלכם ברקמה</span>
+        <span style="border: 2px solid #FFFFFF; padding: 8px 14px; font-size: 15px; font-weight: 700;">הצעת מחיר אישית</span>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+        <a href="#" style="display: inline-flex; align-items: center; min-height: 54px; padding: 0 28px; background: {{accent}}; color: {{ink}}; border: 2px solid {{accent}}; font-size: 17px; font-weight: 900;">לבקשת הצעת מחיר ←</a>
+        <a href="#" style="display: inline-flex; align-items: center; min-height: 54px; padding: 0 28px; border: 2px solid #FFFFFF; color: #FFFFFF; font-size: 17px; font-weight: 900;">WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- store -->
+  <section class="kw-split" style="border-bottom: 2px solid #111111;">
+    <div class="kw-pad" style="display: flex; flex-direction: column; justify-content: center; gap: 22px; padding-top: 72px; padding-bottom: 72px;">
+      <p style="margin: 0; display: flex; align-items: center; gap: 14px; font-size: 13px; font-weight: 700; letter-spacing: 0.22em;"><span style="width: 28px; height: 4px; background: {{accent}};"></span>החנות</p>
+      <h2 style="margin: 0; font-size: clamp(40px, 4.6vw, 68px); font-weight: 900; line-height: 1;">נחלת בנימין 13,<br>תל אביב<span style="color: {{accent}};">.</span></h2>
+      <p style="margin: 0; font-size: 18px; line-height: 1.6; font-weight: 500;">באים למדוד, לאסוף הזמנה או לראות רקמה מקרוב.<br>שעות פתיחה: [שעות]</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+        <a href="#" style="display: inline-flex; align-items: center; min-height: 54px; padding: 0 28px; background: #111111; color: #FFFFFF; border: 2px solid #111111; font-size: 17px; font-weight: 900;">ניווט ב-Waze ←</a>
+        <a href="#" style="display: inline-flex; align-items: center; min-height: 54px; padding: 0 28px; border: 2px solid #111111; font-size: 17px; font-weight: 900;">Google Maps</a>
+      </div>
+    </div>
+    <div class="kw-media" style="min-height: 480px; background: #F0F0EE;">
+      <img src="/_blob/51044052c075adef1659b083b76fe107" alt="חזית החנות של כתרליון בנחלת בנימין עם אנשים" style="width: 100%; height: 100%; min-height: 480px; object-fit: cover; display: block;">
+    </div>
+  </section>
+
+  <!-- footer -->
+  <footer class="kw-pad" style="background: #111111; color: #FFFFFF; padding-top: 64px; padding-bottom: 36px;">
+    <div class="kw-foot">
+      <div class="kw-foot-brand" style="display: flex; flex-direction: column; gap: 18px;">
+        <div style="display: flex; align-items: flex-end; gap: 6px; direction: ltr; align-self: flex-start;">
+          <img src="/_blob/35344fec8f745a241bdc6d2fcbf52561" alt="KETERLION" style="height: 24px; width: auto;">
+          <span style="width: 9px; height: 9px; border-radius: 50%; background: {{onDark}};"></span>
+        </div>
+        <label for="kw-mail" style="font-size: 16px; font-weight: 700;">מועדון כתרליון: קולקציות חדשות והטבות לחברים</label>
+        <div style="display: flex; max-width: 560px;">
+          <input id="kw-mail" type="email" placeholder="האימייל שלכם" style="flex-grow: 1; min-width: 0; height: 52px; padding: 0 16px; border: 0; background: #FFFFFF; color: #111111; font-family: inherit; font-size: 16px;">
+          <button type="button" style="height: 52px; padding: 0 24px; border: 0; background: {{accent}}; color: {{ink}}; font-family: inherit; font-size: 16px; font-weight: 900; cursor: pointer;">הרשמה</button>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px; font-size: 15px;">
+        <p style="margin: 0 0 4px; font-weight: 900; color: {{onDark}};">חנות</p>
+        <a href="#" style="color: #FFFFFF;">כובעים</a>
+        <a href="#" style="color: #FFFFFF;">קולקציות</a>
+        <a href="#" style="color: #FFFFFF;">חולצות</a>
+        <a href="#" style="color: #FFFFFF;">SALE</a>
+        <a href="#" style="color: #FFFFFF;">Gift Card</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px; font-size: 15px;">
+        <p style="margin: 0 0 4px; font-weight: 900; color: {{onDark}};">מידע</p>
+        <a href="#" style="color: #FFFFFF;">משלוחים</a>
+        <a href="#" style="color: #FFFFFF;">החזרות</a>
+        <a href="#" style="color: #FFFFFF;">שאלות נפוצות</a>
+        <a href="#" style="color: #FFFFFF;">לעסקים</a>
+        <a href="#" style="color: #FFFFFF;">צור קשר</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px; font-size: 15px;">
+        <p style="margin: 0 0 4px; font-weight: 900; color: {{onDark}};">עקבו</p>
+        <a href="#" style="color: #FFFFFF;">Instagram</a>
+        <a href="#" style="color: #FFFFFF;">TikTok</a>
+        <a href="#" style="color: #FFFFFF;">Facebook</a>
+        <a href="#" style="color: #FFFFFF;">WhatsApp</a>
+      </div>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; margin-top: 48px; padding-top: 20px; border-top: 1px solid #555350; font-size: 13px; color: #BDBAB4;">
+      <span>© כתרליון · KETERLION</span>
+      <span>נחלת בנימין 13, תל אביב</span>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#0B3BB0","options":["#0B3BB0","#AEB083","#8A8F5C"]},"$preview":{"width":1440,"height":5200}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const accent = this.props.accent ?? '#0B3BB0';
+    const rgb = [1, 3, 5].map((i) => parseInt(accent.slice(i, i + 2), 16) / 255);
+    const lin = (c) => (c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
+    const lum = 0.2126 * lin(rgb[0]) + 0.7152 * lin(rgb[1]) + 0.0722 * lin(rgb[2]);
+    const hex = (cs) => '#' + cs.map((c) => Math.round(c * 255).toString(16).padStart(2, '0')).join('');
+    // Text on the accent: black on light accents, white on dark ones.
+    const ink = lum > 0.18 ? '#111111' : '#FFFFFF';
+    // Accent used as text on black: dark accents get a lighter tint so they stay readable.
+    const onDark = lum < 0.18 ? hex(rgb.map((c) => c + (1 - c) * 0.55)) : accent;
+    return { accent, ink, onDark };
+  }
+}
+</script>
+</body>
+</html>
