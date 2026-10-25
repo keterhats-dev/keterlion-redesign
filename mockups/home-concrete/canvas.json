@@ -1,18 +1,23 @@
 {
   "v": 3,
-  "createdOnFiles": { "v": 1, "at": "2026-10-25T13:10:00Z" },
-  "title": "דף הבית – כיוון בטון",
-  "launch": { "view": "canvas" },
-  "pages": [],
+  "attachments": {},
   "boards": {
-    "Main.dc.html": { "x": 0, "y": 0, "w": 1440, "h": 5200, "title": "כתום", "expand": "fill" },
-    "Red.dc.html": { "x": 1520, "y": 0, "w": 1440, "h": 5200, "title": "אדום", "expand": "fill" },
-    "Cream.dc.html": { "x": 3040, "y": 0, "w": 1440, "h": 5200, "title": "שמנת (הזהב הבהיר של המותג)", "expand": "fill" },
-    "Phone.dc.html": { "x": 4560, "y": 0, "w": 390, "h": 7400, "title": "טלפון · כתום" }
+    "Cream.dc.html": { "expand": "fill", "h": 5200, "title": "שמנת (הזהב הבהיר של המותג)", "w": 1440, "x": 3040, "y": 0 },
+    "Main.dc.html": { "expand": "fill", "h": 5200, "title": "כתום", "w": 1440, "x": 0, "y": 0 },
+    "Phone.dc.html": { "h": 7400, "title": "טלפון · כתום", "w": 390, "x": 4560, "y": 0 },
+    "Red.dc.html": { "expand": "fill", "h": 5200, "title": "אדום", "w": 1440, "x": 1520, "y": 0 },
+    "Lux.dc.html": { "expand": "fill", "h": 5600, "title": "גרסה 2 · יוקרתי ועדין · מחשב", "w": 1440, "x": 0, "y": 5600 },
+    "LuxPhone.dc.html": { "h": 7800, "title": "גרסה 2 · יוקרתי ועדין · טלפון", "w": 390, "x": 1520, "y": 5600 }
   },
-  "order": ["Main.dc.html", "Red.dc.html", "Cream.dc.html", "Phone.dc.html"],
+  "createdOnFiles": { "at": "2026-10-25T13:10:00Z", "v": 1 },
+  "designSystems": [],
+  "launch": { "view": "canvas" },
   "notes": {
-    "rowtitle": { "x": 0, "y": -300, "text": "דף הבית של כתרליון בכיוון בטון: כתום · אדום · שמנת · טלפון", "kind": "title1", "maxW": 4950 }
+    "rowtitle": { "kind": "title1", "maxW": 4950, "text": "דף הבית של כתרליון בכיוון בטון: כתום · אדום · שמנת · טלפון", "w": 240, "x": 0, "y": -300 },
+    "shape-7th44t": { "h": 120, "kind": "rect", "w": 120, "x": 5948, "y": 625 },
+    "row2title": { "kind": "title1", "maxW": 1910, "text": "גרסה 2: יותר מיתוגי, יוקרתי ועדין", "x": 0, "y": 5300 }
   },
-  "designSystems": []
+  "order": ["Main.dc.html", "Red.dc.html", "Cream.dc.html", "Phone.dc.html", "Lux.dc.html", "LuxPhone.dc.html"],
+  "pages": [],
+  "title": "דף הבית – כיוון בטון"
 }
