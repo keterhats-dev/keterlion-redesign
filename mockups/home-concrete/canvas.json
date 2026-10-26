@@ -9,7 +9,9 @@
     "Lux.dc.html": { "expand": "fill", "h": 5600, "title": "גרסה 2 · יוקרתי ועדין · מחשב", "w": 1440, "x": 0, "y": 5600 },
     "LuxPhone.dc.html": { "h": 7800, "title": "גרסה 2 · יוקרתי ועדין · טלפון", "w": 390, "x": 1520, "y": 5600 },
     "White.dc.html": { "expand": "fill", "h": 5200, "title": "גרסה 3 · לבן עם כחול · מחשב", "w": 1440, "x": 0, "y": 13800 },
-    "WhitePhone.dc.html": { "h": 7400, "title": "גרסה 3 · לבן עם כחול · טלפון", "w": 390, "x": 1520, "y": 13800 }
+    "WhitePhone.dc.html": { "h": 7400, "title": "גרסה 3 · לבן עם כחול · טלפון", "w": 390, "x": 1520, "y": 13800 },
+    "Simta.dc.html": { "expand": "fill", "h": 5400, "is_interactive": true, "title": "גרסה 4 · סמטה · מחשב", "w": 1440, "x": 0, "y": 21600 },
+    "SimtaPhone.dc.html": { "h": 8000, "is_interactive": true, "title": "גרסה 4 · סמטה · טלפון", "w": 390, "x": 1520, "y": 21600 }
   },
   "createdOnFiles": { "at": "2026-10-25T13:10:00Z", "v": 1 },
   "designSystems": [],
@@ -18,9 +20,10 @@
     "rowtitle": { "kind": "title1", "maxW": 4950, "text": "דף הבית של כתרליון בכיוון בטון: כתום · אדום · שמנת · טלפון", "w": 240, "x": 0, "y": -300 },
     "shape-7th44t": { "h": 120, "kind": "rect", "w": 120, "x": 5948, "y": 625 },
     "row2title": { "kind": "title1", "maxW": 1910, "text": "גרסה 2: יותר מיתוגי, יוקרתי ועדין", "x": 0, "y": 5300 },
-    "row3title": { "kind": "title1", "maxW": 1910, "text": "גרסה 3: לבן עם כחול, לפי התמונה", "x": 0, "y": 13500 }
+    "row3title": { "kind": "title1", "maxW": 1910, "text": "גרסה 3: לבן עם כחול, לפי התמונה", "x": 0, "y": 13500 },
+    "row4title": { "kind": "title1", "maxW": 1910, "text": "גרסה 4: לפי ה-PDF \"סמטה\" – לבן, שחור וזהב", "x": 0, "y": 21300 }
   },
-  "order": ["Main.dc.html", "Red.dc.html", "Cream.dc.html", "Phone.dc.html", "Lux.dc.html", "LuxPhone.dc.html", "White.dc.html", "WhitePhone.dc.html"],
+  "order": ["Main.dc.html", "Red.dc.html", "Cream.dc.html", "Phone.dc.html", "Lux.dc.html", "LuxPhone.dc.html", "White.dc.html", "WhitePhone.dc.html", "Simta.dc.html", "SimtaPhone.dc.html"],
   "pages": [],
   "title": "דף הבית – כיוון בטון"
 }
