@@ -9,7 +9,7 @@
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Suez+One&amp;family=Frank+Ruhl+Libre:wght@500;700;900&amp;family=Heebo:wght@400;500;700;900&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Suez+One&amp;family=Frank+Ruhl+Libre:wght@500;700;900&amp;family=Heebo:wght@300;400;500;700;800;900&amp;display=swap">
 <style>
 body{margin:0;background:#FFFFFF}
 a{color:#171717}a:hover{color:#171717}
@@ -18,13 +18,16 @@ a{color:#171717}a:hover{color:#171717}
 .ksm-suez .ksm-d{font-family:'Suez One', 'Frank Ruhl Libre', serif;font-weight:400}
 .ksm-serif .ksm-d{font-family:'Frank Ruhl Libre', 'Times New Roman', serif;font-weight:900}
 .ksm-sans .ksm-d{font-family:'Heebo', system-ui, sans-serif;font-weight:900}
-.ksm-h{font-family:'Heebo', system-ui, sans-serif;font-weight:900}
+.ksm-h{font-family:'Heebo', system-ui, sans-serif}
+.ksm-hl .ksm-h{font-weight:300;letter-spacing:-0.01em}
+.ksm-hl .ksm-h .ksm-b{font-weight:800}
+.ksm-hb .ksm-h, .ksm-hb .ksm-h .ksm-b{font-weight:900}
 .ksm-track{display:flex;width:max-content;animation:ksmmarq 26s linear infinite}
 @keyframes ksmmarq{from{transform:translateX(0)}to{transform:translateX(50%)}}
 @media (prefers-reduced-motion: reduce){.ksm-track{animation:none}}
 </style>
 </helmet>
-<div class="ksm {{fontClass}}" dir="rtl" style="width: 100%; background: #FFFFFF; color: #171717; font-family: 'Heebo', system-ui, sans-serif;">
+<div class="ksm {{fontClass}} {{headClass}}" dir="rtl" style="width: 100%; background: #FFFFFF; color: #171717; font-family: 'Heebo', system-ui, sans-serif;">
 
   <div style="background: #171717; color: {{onDark}}; font-size: 12px; font-weight: 500; letter-spacing: 0.04em; text-align: center; padding: 9px 16px; line-height: 1.5;">משלוח חינם מעל ₪249 <span aria-hidden="true">✱</span> איסוף עצמי מנחלת בנימין 13</div>
 
@@ -51,7 +54,7 @@ a{color:#171717}a:hover{color:#171717}
 
   <section style="display: flex; flex-direction: column; gap: 22px; padding: 44px 16px 40px;">
     <p style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 500; letter-spacing: 0.22em;"><span style="width: 24px; height: 3px; background: {{accent}};"></span>תל אביב · מאז 2016</p>
-    <h1 class="ksm-h" style="margin: 0; font-size: 68px; line-height: 0.95;">הכל<br>מתחיל<br>בראש<span style="color: {{accent}};">.</span></h1>
+    <h1 class="ksm-h" style="margin: 0; font-size: 68px; line-height: 0.95;">הכל<br>מתחיל<br><span class="ksm-b">בראש</span><span style="color: {{accent}};">.</span></h1>
     <p style="margin: 0; font-size: 17px; line-height: 1.65;">כובעים ישראליים עם אמירה, רקומים בתל אביב. מהקולקציות שלנו, או בעיצוב שלכם – גם כובע אחד.</p>
     <div style="display: flex; flex-direction: column; gap: 10px;">
       <a href="#" style="display: flex; align-items: center; justify-content: center; min-height: 56px; background: #171717; color: #FFFFFF; border-radius: 4px; font-size: 17px; font-weight: 700;">לכל הכובעים ←</a>
@@ -66,7 +69,7 @@ a{color:#171717}a:hover{color:#171717}
 
   <section style="padding: 46px 16px 54px;">
     <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 24px;">
-      <h2 class="ksm-h" style="margin: 0; font-size: 36px; line-height: 1.05;">חדש על המדף</h2>
+      <h2 class="ksm-h" style="margin: 0; font-size: 36px; line-height: 1.05;"><span class="ksm-b">חדש</span> על המדף</h2>
       <a href="#" style="font-size: 14px; font-weight: 700; border-bottom: 2px solid {{accent}}; padding-bottom: 2px;">הכל ←</a>
     </div>
     <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
@@ -138,7 +141,7 @@ a{color:#171717}a:hover{color:#171717}
 
   <section style="display: flex; flex-direction: column; gap: 20px; padding: 48px 16px 40px;">
     <p style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 500; letter-spacing: 0.22em;"><span style="width: 24px; height: 3px; background: {{accent}};"></span>עיצוב אישי</p>
-    <h2 class="ksm-h" style="margin: 0; font-size: 44px; line-height: 1;">עצבו כובע משלכם.<br>גם כובע אחד<span style="color: {{accent}};">.</span></h2>
+    <h2 class="ksm-h" style="margin: 0; font-size: 44px; line-height: 1;">עצבו כובע משלכם.<br><span class="ksm-b">גם כובע אחד</span><span style="color: {{accent}};">.</span></h2>
     <p style="margin: 0; font-size: 17px; line-height: 1.65;">בלי מינימום. בוחרים דגם וצבע, מוסיפים כיתוב או לוגו, ואנחנו רוקמים.</p>
     <div style="display: flex; flex-direction: column; gap: 20px; padding-top: 22px; border-top: 1px solid #DDD3BD;">
       <div style="display: flex; flex-direction: column; gap: 10px;">
@@ -170,7 +173,7 @@ a{color:#171717}a:hover{color:#171717}
 
   <section style="display: flex; flex-direction: column; gap: 22px; padding: 56px 16px;">
     <span style="width: 64px; height: 7px; background: {{accent}};"></span>
-    <h2 style="margin: 0; font-size: 50px; font-weight: 500; line-height: 1.04;">מנחלת בנימין.<br>לכל הארץ<span style="color: {{accent}};">.</span></h2>
+    <h2 class="ksm-h" style="margin: 0; font-size: 50px; line-height: 1.04;">מנחלת בנימין.<br><span class="ksm-b">לכל הארץ</span><span style="color: {{accent}};">.</span></h2>
     <p style="margin: 0; font-size: 16px; line-height: 1.7;">מותג אופנת רחוב ישראלי מאז 2016. כובעים עם אמירה, רקומים בתל אביב. <span style="direction: ltr; unicode-bidi: isolate; font-weight: 700;">It's All In Your Head.</span></p>
   </section>
 
@@ -178,7 +181,7 @@ a{color:#171717}a:hover{color:#171717}
     <img src="/_blob/fe856ec20f512480076da3e28d2f1d10" alt="ערימת כובעים ממותגים" style="width: 100%; height: 260px; object-fit: cover; display: block;">
     <div style="display: flex; flex-direction: column; gap: 18px; padding: 38px 16px 46px;">
       <p style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 500; letter-spacing: 0.22em; color: {{onDark}};"><span style="width: 24px; height: 3px; background: {{onDark}};"></span>לעסקים</p>
-      <h2 class="ksm-h" style="margin: 0; font-size: 36px; line-height: 1.08; color: #F4EEE1;">כובעים ממותגים לחברות, צוותים ואירועים<span style="color: {{onDark}};">.</span></h2>
+      <h2 class="ksm-h" style="margin: 0; font-size: 36px; line-height: 1.08; color: #F4EEE1;">כובעים ממותגים<br><span class="ksm-b">לחברות, צוותים ואירועים</span><span style="color: {{onDark}};">.</span></h2>
       <div style="display: flex; flex-wrap: wrap; gap: 8px;">
         <span style="border: 1px solid #F4EEE1; border-radius: 4px; padding: 6px 12px; font-size: 14px; font-weight: 500;">מ-24 יחידות</span>
         <span style="border: 1px solid #F4EEE1; border-radius: 4px; padding: 6px 12px; font-size: 14px; font-weight: 500;">הלוגו שלכם ברקמה</span>
@@ -191,7 +194,7 @@ a{color:#171717}a:hover{color:#171717}
 
   <section style="display: flex; flex-direction: column; gap: 16px; padding: 46px 16px 38px;">
     <p style="margin: 0; display: flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 500; letter-spacing: 0.22em;"><span style="width: 24px; height: 3px; background: {{accent}};"></span>החנות</p>
-    <h2 class="ksm-h" style="margin: 0; font-size: 38px; line-height: 1.05;">נחלת בנימין 13,<br>תל אביב<span style="color: {{accent}};">.</span></h2>
+    <h2 class="ksm-h" style="margin: 0; font-size: 38px; line-height: 1.05;">נחלת בנימין 13,<br><span class="ksm-b">תל אביב</span><span style="color: {{accent}};">.</span></h2>
     <p style="margin: 0; font-size: 16px; line-height: 1.65;">באים למדוד, לאסוף הזמנה או לראות רקמה מקרוב.<br>שעות פתיחה: [שעות]</p>
     <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
       <a href="#" style="display: flex; align-items: center; justify-content: center; min-height: 52px; background: #171717; color: #FFFFFF; border-radius: 4px; font-size: 16px; font-weight: 700;">Waze</a>
@@ -238,7 +241,7 @@ a{color:#171717}a:hover{color:#171717}
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#AE8E42","options":["#AE8E42","#0B3BB0","#5B6B4F","#AEB083"]},"font":{"editor":"enum","default":"Suez One","options":["Suez One","Frank Ruhl Libre","Heebo"]},"$preview":{"width":390,"height":8000}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#AE8E42","options":["#AE8E42","#0B3BB0","#5B6B4F","#AEB083"]},"font":{"editor":"enum","default":"Suez One","options":["Suez One","Frank Ruhl Libre","Heebo"]},"headings":{"editor":"enum","default":"דק עם דגש","options":["דק עם דגש","עבה"]},"$preview":{"width":390,"height":8000}}'>
 class Component extends DCLogic {
   renderVals() {
     const accent = this.props.accent ?? '#AE8E42';
@@ -278,6 +281,7 @@ class Component extends DCLogic {
     return {
       accent, ink, onDark,
       fontClass: ({ 'Suez One': 'ksm-suez', 'Frank Ruhl Libre': 'ksm-serif', Heebo: 'ksm-sans' })[font] || 'ksm-suez',
+      headClass: (this.props.headings ?? 'דק עם דגש') === 'עבה' ? 'ksm-hb' : 'ksm-hl',
       models, colors,
       colorName: colorList[color].name,
       price: modelList[model].price
