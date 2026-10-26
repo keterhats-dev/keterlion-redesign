@@ -1,12 +1,13 @@
 // KLHOMEPHOTOS({hero, custom, b2b, store}): puts the user's photos (media library attachment ids) into the image slots of the
 // Simta home page (23950, built 26.10.2026). Each slot is an e-flexbox with a grey placeholder; the page CSS makes any img inside
 // a slot fill it (object-fit: cover). Run in the editor of 23950. Needs KLLIB.
-// Run on 26.10.2026: KLHOMEPHOTOS({ hero:24556, custom:24550, b2b:24557, store:24569 }). The first save can report an error;
-// publishing once more saved it.
+// Photos in use (26.10.2026): hero 24556, apparel 24567, custom 24550, b2b 24557. To swap one: KLHOMEPHOTOS({ hero: <id> }).
+// The first save can report an error; publishing once more saves it.
 window.KLHOMEPHOTOS = async function(ids){
   eval(localStorage.getItem('KLLIB')); await KL.ready(23950);
-  const SLOT = { hero:'6c99924', custom:'edffefa', b2b:'146ff7c', store:'fa4e3a6' };
-  const SIZE = { hero:'large', custom:'1536x1536', b2b:'1536x1536', store:'1536x1536' };
+  // slots of the home page as rebuilt in the user's order (26.10 evening); the photos are already in them
+  const SLOT = { hero:'d9529ba', apparel:'d0b568d', custom:'84d3905', b2b:'a9dd4ed' };
+  const SIZE = { hero:'full', apparel:'1536x1536', custom:'1536x1536', b2b:'1536x1536' };
   const find = (c, id) => c.id === id ? c : (c.children || []).map(k => find(k, id)).find(Boolean);
   const out = [];
   for (const [k, att] of Object.entries(ids)) {
