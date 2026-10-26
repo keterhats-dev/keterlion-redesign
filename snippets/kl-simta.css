@@ -1,0 +1,48 @@
+/* ===== KL Simta (approved 26.10.2026): white, black #171717, gold #AE8E42 touches, beige hairlines #DDD3BD,
+   4px corners on things you click or type in; images, tags and bars stay square. Replaces "street sharp"
+   (kl-2026-touch.css, 21.10). Lives in the Custom CSS of KL Header 2026 (23925), so it loads on every page. ===== */
+:root{--kl-ink:#171717;--kl-gold:#AE8E42;--kl-line:#DDD3BD;--kl-cream:#F4EEE1;--kl-grey:#6B6B69;--kl-red:#C21A1A}
+html{scroll-behavior:smooth}
+
+/* buttons: 4px corners, 1px frame, calm hover (no jump, no shadow) */
+html body :is([data-elementor-type="wp-page"],[data-elementor-type="product"],[data-elementor-type="product-archive"],[data-elementor-type="product-post"],[data-elementor-type="error-404"]) :is(a,button).e-button-base,
+html body .woocommerce .button, html body ul.products li.product .button, html body ul.products li.product .added_to_cart,
+html body form.cart .single_add_to_cart_button, html body .elementor-widget-form .elementor-button{
+  border-radius:4px !important;letter-spacing:.02em;transform:none !important;box-shadow:none !important;
+  transition:background-color .15s ease,color .15s ease,border-color .15s ease,opacity .15s ease !important}
+html body :is([data-elementor-type="wp-page"],[data-elementor-type="product"],[data-elementor-type="product-archive"],[data-elementor-type="product-post"],[data-elementor-type="error-404"]) :is(a,button).e-button-base:hover,
+html body .woocommerce .button:hover, html body ul.products li.product .button:hover,
+html body form.cart .single_add_to_cart_button:hover, html body .elementor-widget-form .elementor-button:hover{opacity:.86}
+html body ul.products li.product .button, html body form.cart .single_add_to_cart_button, html body .elementor-widget-form .elementor-button{border-width:1px !important}
+html body form.cart .quantity input.qty{border-radius:4px !important;border:1px solid var(--kl-ink) !important}
+
+/* product cards: white tile, 4:5, photo not cropped, beige hairline that turns black on hover */
+ul.products li.product a img{aspect-ratio:4 / 5;object-fit:contain;border-radius:0 !important;border:1px solid var(--kl-line) !important;background:#fff !important;
+  transition:border-color .15s ease !important;transform:none !important;box-shadow:none !important}
+ul.products li.product:hover a img{border-color:var(--kl-ink) !important}
+ul.products li.product .woocommerce-loop-product__title{font-family:Heebo,sans-serif !important;font-weight:500 !important;color:var(--kl-ink) !important}
+ul.products li.product .price{color:var(--kl-ink) !important;font-variant-numeric:tabular-nums}
+ul.products li.product .price del{color:var(--kl-grey) !important}
+
+/* tags: square. Sale = red with white text (only for a real sale) */
+.woocommerce span.onsale, ul.products li.product .onsale{border-radius:0 !important;background:var(--kl-red) !important;color:#fff !important;
+  border:0 !important;transform:none !important;font-weight:700 !important;font-size:12px !important;letter-spacing:.06em;
+  min-height:0 !important;min-width:0 !important;line-height:1 !important;padding:6px 10px !important}
+
+/* gallery images: square corners, beige hairline */
+.woocommerce-product-gallery__image img, .flex-control-thumbs li img{border-radius:0 !important}
+.flex-control-thumbs li img{border:1px solid var(--kl-line)}
+.flex-control-thumbs li img.flex-active{border-color:var(--kl-ink)}
+
+/* fields: 4px corners, 1px frame */
+.woocommerce form .input-text, .woocommerce-ordering select, table.variations select,
+.elementor-search-form__input, .elementor-field-group .elementor-field{border-radius:4px !important}
+
+/* links inside running text: gold underline */
+:is([data-elementor-type="wp-page"],[data-elementor-type="product-post"]) .elementor-widget-text-editor a{text-decoration-color:var(--kl-gold) !important;text-decoration-thickness:2px;text-underline-offset:4px}
+
+/* mobile bottom add-to-cart bar on product pages: white with a beige hairline */
+@media (max-width:767px){
+  .elementor-23967 .elementor-widget-woocommerce-product-add-to-cart:not(:has(.variations_form)){background:#fff !important;border-top:1px solid var(--kl-line) !important;box-shadow:none !important}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;scroll-behavior:auto !important}}

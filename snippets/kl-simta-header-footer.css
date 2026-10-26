@@ -1,0 +1,32 @@
+/* ===== KL Simta header (26.10): logo right, menu in the middle, search / account / cart as 44px boxes on the left =====
+   Appended to the Custom CSS of KL Header 2026 (23925), after kl-simta.css, kl-commerce.css and kl-header-nav.css. */
+selector .elementor-element-efb17bc{display:grid !important;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;column-gap:24px}
+selector .elementor-element-efb17bc > .e-con{width:auto !important;min-width:0}
+selector .elementor-element-20beb6d{display:flex !important;justify-content:flex-start !important}
+selector .elementor-element-d19e573{display:flex !important;justify-content:flex-end !important}
+@media (max-width:1199px){
+  selector .elementor-element-efb17bc{grid-template-columns:minmax(0,1fr) auto auto;column-gap:10px}
+  selector .elementor-element-90aed2d{order:3}
+}
+selector .elementor-search-form__toggle{width:44px !important;height:44px !important;border:1px solid #171717;border-radius:4px;background:#fff;display:flex;align-items:center;justify-content:center}
+selector .elementor-search-form__toggle i:before{background:#171717 !important;width:20px !important;height:20px !important}
+selector .elementor-element-a5b42ad .elementor-icon{width:44px;height:44px;border:1px solid #171717;border-radius:4px;display:flex !important;align-items:center;justify-content:center;font-size:19px !important;color:#171717 !important}
+selector .elementor-element-a5b42ad .elementor-icon svg{width:19px;height:19px;fill:#171717}
+selector .elementor-element-dd9f656 .elementor-menu-cart__toggle .elementor-button{background:#171717 !important;color:#fff !important;border:0 !important;border-radius:4px !important;min-height:44px;padding:0 14px !important;gap:8px}
+selector .elementor-element-dd9f656 .elementor-menu-cart__toggle .elementor-button :is(.elementor-button-icon,.elementor-button-text){color:#fff !important}
+selector .elementor-element-dd9f656 .elementor-menu-cart__toggle .elementor-button svg{fill:#fff !important}
+selector .elementor-element-dd9f656 .elementor-menu-cart__toggle .elementor-button-icon-qty[data-counter]{background:#AE8E42 !important;color:#171717 !important;font-weight:700}
+@media (max-width:767px){
+  selector .elementor-search-form__toggle, selector .elementor-element-a5b42ad .elementor-icon{width:40px !important;height:40px !important}
+  selector .elementor-element-dd9f656 .elementor-menu-cart__toggle .elementor-button{min-height:40px;padding:0 11px !important}
+}
+
+/* ===== KL Simta footer (26.10): club on black, white field + gold button with 4px corners =====
+   Appended to the Custom CSS of KL Footer 2026 (23933). */
+selector .elementor-element-9f92550 .elementor-field-group:not(.elementor-field-type-submit) .elementor-field{background:#FFFFFF !important;color:#171717 !important;border:0 !important;border-radius:4px !important;padding:0 16px !important;min-height:54px;font-family:Heebo,sans-serif;font-size:16px}
+selector .elementor-element-9f92550 .elementor-field::placeholder{color:#6B6B69}
+selector .elementor-element-9f92550 .elementor-button{background:#AE8E42 !important;color:#171717 !important;border:0 !important;border-radius:4px !important;font-family:Heebo,sans-serif;font-weight:700 !important;min-height:54px;padding:0 26px !important}
+selector .elementor-element-9f92550 .elementor-field-label{color:#F4EEE1}
+selector .elementor-element-9f92550 .elementor-message{color:#F4EEE1}
+selector .elementor-widget-nav-menu .elementor-item{color:#FFFFFF !important}
+selector .elementor-widget-nav-menu .elementor-item:hover{color:#AE8E42 !important}
