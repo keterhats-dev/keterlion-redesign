@@ -9,14 +9,15 @@
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&amp;family=Heebo:wght@400;500;700;900&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Suez+One&amp;family=Frank+Ruhl+Libre:wght@500;700;900&amp;family=Heebo:wght@400;500;700;900&amp;display=swap">
 <style>
 body{margin:0;background:#FFFFFF}
 a{color:#171717}a:hover{color:#171717}
 .ks, .ks *{box-sizing:border-box}
 .ks a{text-decoration:none}
-.ks-serif .ks-d{font-family:'Frank Ruhl Libre', 'Times New Roman', serif}
-.ks-sans .ks-d{font-family:'Heebo', system-ui, sans-serif}
+.ks-suez .ks-d{font-family:'Suez One', 'Frank Ruhl Libre', serif;font-weight:400}
+.ks-serif .ks-d{font-family:'Frank Ruhl Libre', 'Times New Roman', serif;font-weight:900}
+.ks-sans .ks-d{font-family:'Heebo', system-ui, sans-serif;font-weight:900}
 .ks-pad{padding-left:40px;padding-right:40px}
 .ks-nav{display:flex}
 .ks-burger{display:none}
@@ -83,7 +84,7 @@ a{color:#171717}a:hover{color:#171717}
   <section class="ks-hero" style="border-bottom: 1px solid #DDD3BD;">
     <div class="ks-pad" style="display: flex; flex-direction: column; justify-content: center; gap: 30px; padding-top: 80px; padding-bottom: 80px;">
       <p style="margin: 0; display: flex; align-items: center; gap: 14px; font-size: 13px; font-weight: 500; letter-spacing: 0.24em;"><span style="width: 32px; height: 4px; background: {{accent}};"></span>תל אביב · מאז 2016</p>
-      <h1 class="ks-d" style="margin: 0; font-size: clamp(68px, 8.6vw, 140px); font-weight: 900; line-height: 1;">הכל<br>מתחיל<br>בראש<span style="color: {{accent}};">.</span></h1>
+      <h1 class="ks-d" style="margin: 0; font-size: clamp(62px, 7.8vw, 126px); line-height: 1.04;">הכל<br>מתחיל<br>בראש<span style="color: {{accent}};">.</span></h1>
       <p style="margin: 0; max-width: 460px; font-size: 19px; line-height: 1.65; font-weight: 400;">כובעים ישראליים עם אמירה, רקומים בתל אביב. מהקולקציות שלנו, או בעיצוב שלכם – גם כובע אחד.</p>
       <div style="display: flex; flex-wrap: wrap; gap: 12px;">
         <a href="#" style="display: inline-flex; align-items: center; min-height: 56px; padding: 0 30px; background: #171717; color: #FFFFFF; border-radius: 4px; font-size: 17px; font-weight: 700;">לכל הכובעים ←</a>
@@ -92,7 +93,7 @@ a{color:#171717}a:hover{color:#171717}
     </div>
     <div class="ks-media" style="position: relative; display: flex; align-items: center; justify-content: center; padding: 56px 48px; min-height: 640px;">
       <img src="/_blob/f6d572330b708c3961705f89eb8cb36c" alt="איש עם כובע כתרליון בסמטה בתל אביב" style="width: 100%; max-width: 460px; aspect-ratio: 4 / 5; object-fit: cover; display: block;">
-      <div class="ks-d" style="position: absolute; top: 34px; left: 34px; width: 128px; height: 128px; border-radius: 50%; background: #171717; color: #FFFFFF; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 21px; font-weight: 700; line-height: 1.05; transform: rotate(-10deg);">גם כובע<br>אחד</div>
+      <div class="ks-d" style="position: absolute; top: 34px; left: 34px; width: 128px; height: 128px; border-radius: 50%; background: #171717; color: #FFFFFF; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 20px; line-height: 1.1; transform: rotate(-10deg);">גם כובע<br>אחד</div>
     </div>
   </section>
 
@@ -107,7 +108,7 @@ a{color:#171717}a:hover{color:#171717}
   <!-- new on the shelf -->
   <section class="ks-pad" style="padding-top: 84px; padding-bottom: 92px;">
     <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 40px;">
-      <h2 class="ks-d" style="margin: 0; font-size: clamp(40px, 4.2vw, 60px); font-weight: 900; line-height: 1.05;">חדש על המדף</h2>
+      <h2 class="ks-d" style="margin: 0; font-size: clamp(36px, 3.8vw, 54px); line-height: 1.1;">חדש על המדף</h2>
       <a href="#" style="font-size: 16px; font-weight: 700; border-bottom: 2px solid {{accent}}; padding-bottom: 3px;">לכל הכובעים ←</a>
     </div>
     <div class="ks-grid4">
@@ -148,32 +149,32 @@ a{color:#171717}a:hover{color:#171717}
     </div>
     <a href="#" class="ks-pad ks-row" style="display: flex; align-items: center; gap: 24px; padding-top: 22px; padding-bottom: 22px; border-top: 1px solid #DDD3BD;">
       <span style="width: 32px; font-size: 16px; font-weight: 500; color: #6B6B69;">א׳</span>
-      <span class="ks-d" style="flex-grow: 1; font-size: clamp(44px, 5.6vw, 84px); font-weight: 900; line-height: 1.1;">KETERLION</span>
+      <span class="ks-d" style="flex-grow: 1; font-size: clamp(40px, 5.2vw, 78px); line-height: 1.15;">KETERLION</span>
       <span style="display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; background: #171717; color: #FFFFFF; border-radius: 4px; font-size: 24px;">←</span>
     </a>
     <a href="#" class="ks-pad ks-row" style="display: flex; align-items: center; gap: 24px; padding-top: 22px; padding-bottom: 22px; border-top: 1px solid #DDD3BD;">
       <span style="width: 32px; font-size: 16px; font-weight: 500; color: #6B6B69;">ב׳</span>
-      <span class="ks-d" style="flex-grow: 1; font-size: clamp(44px, 5.6vw, 84px); font-weight: 900; line-height: 1.1;">מיינדסט</span>
+      <span class="ks-d" style="flex-grow: 1; font-size: clamp(40px, 5.2vw, 78px); line-height: 1.15;">מיינדסט</span>
       <span style="display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; background: #171717; color: #FFFFFF; border-radius: 4px; font-size: 24px;">←</span>
     </a>
     <a href="#" class="ks-pad ks-row" style="display: flex; align-items: center; gap: 24px; padding-top: 22px; padding-bottom: 22px; border-top: 1px solid #DDD3BD;">
       <span style="width: 32px; font-size: 16px; font-weight: 500; color: #6B6B69;">ג׳</span>
-      <span class="ks-d" style="flex-grow: 1; font-size: clamp(44px, 5.6vw, 84px); font-weight: 900; line-height: 1.1;">תמרורים</span>
+      <span class="ks-d" style="flex-grow: 1; font-size: clamp(40px, 5.2vw, 78px); line-height: 1.15;">תמרורים</span>
       <span style="display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; background: #171717; color: #FFFFFF; border-radius: 4px; font-size: 24px;">←</span>
     </a>
     <a href="#" class="ks-pad ks-row" style="display: flex; align-items: center; gap: 24px; padding-top: 22px; padding-bottom: 22px; border-top: 1px solid #DDD3BD;">
       <span style="width: 32px; font-size: 16px; font-weight: 500; color: #6B6B69;">ד׳</span>
-      <span class="ks-d" style="flex-grow: 1; font-size: clamp(44px, 5.6vw, 84px); font-weight: 900; line-height: 1.1;">שורשים</span>
+      <span class="ks-d" style="flex-grow: 1; font-size: clamp(40px, 5.2vw, 78px); line-height: 1.15;">שורשים</span>
       <span style="display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; background: #171717; color: #FFFFFF; border-radius: 4px; font-size: 24px;">←</span>
     </a>
     <a href="#" class="ks-pad ks-row" style="display: flex; align-items: center; gap: 24px; padding-top: 22px; padding-bottom: 22px; border-top: 1px solid #DDD3BD;">
       <span style="width: 32px; font-size: 16px; font-weight: 500; color: #6B6B69;">ה׳</span>
-      <span class="ks-d" style="flex-grow: 1; font-size: clamp(44px, 5.6vw, 84px); font-weight: 900; line-height: 1.1;">כתרליון × נעמה אברהמי</span>
+      <span class="ks-d" style="flex-grow: 1; font-size: clamp(40px, 5.2vw, 78px); line-height: 1.15;">כתרליון × נעמה אברהמי</span>
       <span style="display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; background: #171717; color: #FFFFFF; border-radius: 4px; font-size: 24px;">←</span>
     </a>
     <a href="#" class="ks-pad ks-row" style="display: flex; align-items: center; gap: 24px; padding-top: 22px; padding-bottom: 22px; border-top: 1px solid #DDD3BD; border-bottom: 1px solid #DDD3BD;">
       <span style="width: 32px; font-size: 16px; font-weight: 500; color: #6B6B69;">ו׳</span>
-      <span class="ks-d" style="flex-grow: 1; font-size: clamp(44px, 5.6vw, 84px); font-weight: 900; line-height: 1.1;">ספורט</span>
+      <span class="ks-d" style="flex-grow: 1; font-size: clamp(40px, 5.2vw, 78px); line-height: 1.15;">ספורט</span>
       <span style="display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; background: #171717; color: #FFFFFF; border-radius: 4px; font-size: 24px;">←</span>
     </a>
   </section>
@@ -182,7 +183,7 @@ a{color:#171717}a:hover{color:#171717}
   <section class="ks-split" style="border-bottom: 1px solid #DDD3BD;">
     <div class="ks-pad" style="display: flex; flex-direction: column; gap: 26px; padding-top: 84px; padding-bottom: 84px;">
       <p style="margin: 0; display: flex; align-items: center; gap: 14px; font-size: 13px; font-weight: 500; letter-spacing: 0.24em;"><span style="width: 32px; height: 4px; background: {{accent}};"></span>עיצוב אישי</p>
-      <h2 class="ks-d" style="margin: 0; font-size: clamp(44px, 5vw, 76px); font-weight: 900; line-height: 1.02;">עצבו כובע משלכם.<br>גם כובע אחד<span style="color: {{accent}};">.</span></h2>
+      <h2 class="ks-d" style="margin: 0; font-size: clamp(40px, 4.5vw, 68px); line-height: 1.08;">עצבו כובע משלכם.<br>גם כובע אחד<span style="color: {{accent}};">.</span></h2>
       <p style="margin: 0; max-width: 480px; font-size: 18px; line-height: 1.65;">בלי מינימום. בוחרים דגם וצבע, מוסיפים כיתוב או לוגו, ואנחנו רוקמים.</p>
       <div style="display: flex; flex-direction: column; gap: 22px; max-width: 520px; padding-top: 26px; border-top: 1px solid #DDD3BD;">
         <div style="display: flex; flex-direction: column; gap: 10px;">
@@ -229,7 +230,7 @@ a{color:#171717}a:hover{color:#171717}
     </div>
     <div class="ks-pad" style="display: flex; flex-direction: column; justify-content: center; gap: 26px; padding-top: 80px; padding-bottom: 80px;">
       <p style="margin: 0; display: flex; align-items: center; gap: 14px; font-size: 13px; font-weight: 500; letter-spacing: 0.24em; color: {{onDark}};"><span style="width: 32px; height: 4px; background: {{onDark}};"></span>לעסקים</p>
-      <h2 class="ks-d" style="margin: 0; font-size: clamp(40px, 4.4vw, 66px); font-weight: 900; line-height: 1.08; color: #F4EEE1;">כובעים ממותגים לחברות, צוותים ואירועים<span style="color: {{onDark}};">.</span></h2>
+      <h2 class="ks-d" style="margin: 0; font-size: clamp(36px, 4vw, 58px); line-height: 1.12; color: #F4EEE1;">כובעים ממותגים לחברות, צוותים ואירועים<span style="color: {{onDark}};">.</span></h2>
       <div style="display: flex; flex-wrap: wrap; gap: 10px;">
         <span style="border: 1px solid #F4EEE1; border-radius: 4px; padding: 8px 14px; font-size: 15px; font-weight: 500;">מ-24 יחידות</span>
         <span style="border: 1px solid #F4EEE1; border-radius: 4px; padding: 8px 14px; font-size: 15px; font-weight: 500;">הלוגו שלכם ברקמה</span>
@@ -246,7 +247,7 @@ a{color:#171717}a:hover{color:#171717}
   <section class="ks-split" style="border-bottom: 1px solid #DDD3BD;">
     <div class="ks-pad" style="display: flex; flex-direction: column; justify-content: center; gap: 24px; padding-top: 80px; padding-bottom: 80px;">
       <p style="margin: 0; display: flex; align-items: center; gap: 14px; font-size: 13px; font-weight: 500; letter-spacing: 0.24em;"><span style="width: 32px; height: 4px; background: {{accent}};"></span>החנות</p>
-      <h2 class="ks-d" style="margin: 0; font-size: clamp(40px, 4.4vw, 66px); font-weight: 900; line-height: 1.08;">נחלת בנימין 13,<br>תל אביב<span style="color: {{accent}};">.</span></h2>
+      <h2 class="ks-d" style="margin: 0; font-size: clamp(36px, 4vw, 58px); line-height: 1.12;">נחלת בנימין 13,<br>תל אביב<span style="color: {{accent}};">.</span></h2>
       <p style="margin: 0; font-size: 18px; line-height: 1.65;">באים למדוד, לאסוף הזמנה או לראות רקמה מקרוב.<br>שעות פתיחה: [שעות]</p>
       <div style="display: flex; flex-wrap: wrap; gap: 12px;">
         <a href="#" style="display: inline-flex; align-items: center; min-height: 56px; padding: 0 30px; background: #171717; color: #FFFFFF; border-radius: 4px; font-size: 17px; font-weight: 700;">ניווט ב-Waze ←</a>
@@ -304,11 +305,11 @@ a{color:#171717}a:hover{color:#171717}
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#AE8E42","options":["#AE8E42","#0B3BB0","#5B6B4F","#AEB083"]},"font":{"editor":"enum","default":"סריף","options":["סריף","Heebo"]},"$preview":{"width":1440,"height":5400}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#AE8E42","options":["#AE8E42","#0B3BB0","#5B6B4F","#AEB083"]},"font":{"editor":"enum","default":"Suez One","options":["Suez One","Frank Ruhl Libre","Heebo"]},"$preview":{"width":1440,"height":5400}}'>
 class Component extends DCLogic {
   renderVals() {
     const accent = this.props.accent ?? '#AE8E42';
-    const font = this.props.font ?? 'סריף';
+    const font = this.props.font ?? 'Suez One';
     const rgb = [1, 3, 5].map((i) => parseInt(accent.slice(i, i + 2), 16) / 255);
     const lin = (c) => (c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
     const lum = 0.2126 * lin(rgb[0]) + 0.7152 * lin(rgb[1]) + 0.0722 * lin(rgb[2]);
@@ -346,7 +347,8 @@ class Component extends DCLogic {
 
     return {
       accent, ink, onDark,
-      fontClass: font === 'Heebo' ? 'ks-sans' : 'ks-serif',
+      // Headings: Suez One (chosen 26.10); the other two stay for comparison.
+      fontClass: ({ 'Suez One': 'ks-suez', 'Frank Ruhl Libre': 'ks-serif', Heebo: 'ks-sans' })[font] || 'ks-suez',
       models, colors,
       colorName: colorList[color].name,
       price: modelList[model].price
