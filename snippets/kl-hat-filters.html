@@ -1,0 +1,55 @@
+<!-- KL hat filters (26.10.2026). HTML widget f0c47ef in KL Archive 2026 (23976), right after the chips row 3736f5d.
+     On hat pages it shows two rows: hat type (main) and collection (second), and hides the old chips row.
+     On other archives (shirts, collections, search) it hides itself and the old chips row stays. -->
+<div class="klf" id="klf" hidden></div>
+<style>
+.klf{display:flex;flex-direction:column;gap:14px;font-family:Heebo,sans-serif;color:#171717}
+.klf-row{display:flex;align-items:center;gap:12px;min-width:0}
+.klf-label{flex:0 0 auto;min-width:72px;font-size:13px;font-weight:500;color:#6B6B69;letter-spacing:.04em}
+.klf-chips{display:flex;flex-wrap:wrap;gap:8px;min-width:0}
+.klf a{display:inline-flex;align-items:center;min-height:40px;padding:0 16px;border:1px solid #171717;border-radius:4px;background:#fff;color:#171717 !important;font-size:14px;font-weight:500;line-height:1;text-decoration:none !important;white-space:nowrap;transition:background-color .15s,color .15s,border-color .15s}
+.klf a:hover{background:#FAF8F3}
+.klf a.on,.klf a.on:hover{background:#171717;border-color:#171717;color:#fff !important}
+.klf a[hidden]{display:none}
+.klf-row--col a{min-height:36px;padding:0 14px;border-color:#DDD3BD;font-size:13px}
+.klf a:focus-visible{outline:2px solid #AE8E42;outline-offset:2px}
+body.kl-hat-filters .elementor-element-3736f5d{display:none !important}
+@media (max-width:767px){
+.klf-row{flex-direction:column;align-items:stretch;gap:8px}
+.klf-chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:0 16px 2px}
+.klf-chips::-webkit-scrollbar{display:none}
+.klf-label{min-width:0}
+}
+</style>
+<script>
+/* KL hat filters (26.10): main filter = hat type, second filter = collection. Only on hat pages.
+   Type + collection uses WordPress's AND syntax: /product-category/<type>+<collection>/ */
+(function(){
+var R=document.getElementById('klf'); if(!R||R.dataset.on) return; R.dataset.on='1';
+var BASE='https://keterlion.com/staging/product-category/', P='סוג-כובע';
+var T=[[P,'כל הכובעים',203],['dad-cap','Dad Cap',218],['מצחיה-מעוגלת-כובע-בייסבול','בייסבול',72],['כובע-מצחייה-שטוחה','סנאפבק',91],['buckethat','טמבל',221],['כובע-לא-מצחייה','ללא מצחייה',766],['wool-hat','כובעי צמר',262],['קסקט','קסקט',264],['כובע-5-פאנל','5 פאנל',769]];
+var C=[['keterlion','KETERLION',762],['מיינדסט','מיינדסט',760],['קולקציית-התמרורים','תמרורים',757],['שורשים','שורשים',758],['כתרליון-x-נעמה-אברהמי','כתרליון × נעמה אברהמי',759],['ספורט','ספורט',808],['local','Born and raised',761],['other','Other',763]];
+function hide(){ var w=R.closest('.elementor-widget'); if(w) w.style.display='none'; }
+var path=decodeURIComponent(location.pathname), i=path.indexOf('/product-category/'); if(i<0) return hide();
+var rest=path.slice(i+18).replace(/\/page\/\d+\/?$/,'').replace(/\/+$/,'');
+var parts=rest.split('/'), terms=parts[parts.length-1].split('+');
+function find(list,s){ for(var k=0;k<list.length;k++) if(list[k][0]===s) return list[k]; return null; }
+var t=null,c=null;
+terms.forEach(function(s){ if(find(T,s)) t=find(T,s); else if(find(C,s)) c=find(C,s); });
+if(!t) return hide();
+function enc(s){ return encodeURIComponent(s).toLowerCase(); }
+var q=location.search.replace(/([?&])kl=[^&]*&?/,'$1').replace(/[?&]$/,'');
+function url(ts,cs){ if(!cs) return BASE+enc(P)+'/'+(ts===P?'':enc(ts)+'/')+q; return BASE+enc(ts)+'+'+enc(cs)+'/'+q; }
+function row(cls,label,items,on,href){ return '<div class="klf-row '+cls+'"><span class="klf-label">'+label+'</span><div class="klf-chips">'+items.map(function(x){ var a=on(x); return '<a href="'+href(x)+'" data-cat="'+(x[2]||'')+'"'+(a?' class="on" aria-current="page"':'')+'>'+x[1]+'</a>'; }).join('')+'</div></div>'; }
+R.innerHTML=row('klf-row--type','סוג כובע',T,function(x){return x===t;},function(x){return url(x[0],c&&c[0]);})
+ + row('klf-row--col','קולקציה',[['','הכל','']].concat(C),function(x){return c?x===c:!x[0];},function(x){return url(t[0],x[0]||null);});
+R.hidden=false; document.body.classList.add('kl-hat-filters');
+/* on phones, if a chosen chip sits past the left edge of its row, scroll the row to it */
+function reveal(){ if(window.innerWidth>=768) return; R.querySelectorAll('a.on').forEach(function(on){ var pr=on.parentNode.getBoundingClientRect(), ar=on.getBoundingClientRect(); if(ar.left<pr.left+16) on.parentNode.scrollLeft+=ar.left-pr.left-16; }); }
+(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(function(){ requestAnimationFrame(reveal); });
+/* hide choices that would show no products */
+function count(a,b,el){ fetch('https://keterlion.com/staging/wp-json/wc/store/v1/products?per_page=1&category='+a+','+b+'&category_operator=and').then(function(r){ if(r.ok && +r.headers.get('X-WP-Total')===0 && !el.classList.contains('on')) el.hidden=true; }).catch(function(){}); }
+C.forEach(function(x){ var el=R.querySelector('.klf-row--col a[data-cat="'+x[2]+'"]'); if(el) count(t[2],x[2],el); });
+if(c) T.forEach(function(x){ var el=R.querySelector('.klf-row--type a[data-cat="'+x[2]+'"]'); if(el&&x!==t) count(x[2],c[2],el); });
+})();
+</script>
