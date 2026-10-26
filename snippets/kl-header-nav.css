@@ -1,6 +1,6 @@
 /* KL nav fit + shop dropdown (21.10.2026; Simta colours and lines 26.10). Appended to the Custom CSS of KL Header 2026 (23925).
-   Menu "KL 2026 – ראשי" (809), as the user asked on 26.10: חנות (dropdown: כל המוצרים, SALE, כל הקולקציות and 8 collections),
-   כובעים, עיצוב אישי, ביגוד, סיטונאות, החשבון שלי (hidden on desktop, the account icon covers it). הסיפור is a draft item (in the footer).
+   Menu "KL 2026 – ראשי" (809), as the user asked on 26.10: חנות (straight to all products, no dropdown), כובעים, עיצוב אישי,
+   ביגוד, סיטונאות, החשבון שלי (hidden on desktop, the account icon covers it). הסיפור, SALE and the collections are draft items.
    The 5 desktop items fit from 1025px; the burger is used up to 1024px. */
 @media (min-width:1025px){
   .elementor-23925 .elementor-element-1eebe7e nav.elementor-nav-menu--main .elementor-nav-menu > li > a{padding-left:11px !important;padding-right:11px !important;white-space:nowrap}
