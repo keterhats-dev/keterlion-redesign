@@ -4,9 +4,10 @@ selector .elementor-element-efb17bc{display:grid !important;grid-template-column
 selector .elementor-element-efb17bc > .e-con{width:auto !important;min-width:0}
 selector .elementor-element-20beb6d{display:flex !important;justify-content:flex-start !important}
 selector .elementor-element-d19e573{display:flex !important;justify-content:flex-end !important}
-@media (max-width:1199px){
-  selector .elementor-element-efb17bc{grid-template-columns:minmax(0,1fr) auto auto;column-gap:10px}
-  selector .elementor-element-90aed2d{order:3}
+/* up to 1024px: burger on the right next to the logo, search and cart on the left (26.10) */
+@media (max-width:1024px){
+  selector .elementor-element-efb17bc{grid-template-columns:auto minmax(0,1fr) auto;column-gap:10px}
+  selector .elementor-element-90aed2d{order:-1}
 }
 selector .elementor-search-form__toggle{width:44px !important;height:44px !important;border:1px solid #171717;border-radius:4px;background:#fff;display:flex;align-items:center;justify-content:center}
 selector .elementor-search-form__toggle i:before{background:#171717 !important;width:20px !important;height:20px !important}

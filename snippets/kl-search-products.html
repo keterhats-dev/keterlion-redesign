@@ -13,3 +13,13 @@
   if (document.readyState==='loading') document.addEventListener('DOMContentLoaded', fix); else fix();
 })();
 </script>
+<script>
+/* KL: clicking a parent item's name opens its page (חנות -> all products), on the computer and in the phone menu.
+   The list opens on hover, or with the arrow next to the name (26.10) */
+document.addEventListener('click', function (e) {
+  var a = e.target.closest && e.target.closest('.elementor-nav-menu a.has-submenu');
+  if (!a || e.target.closest('.sub-arrow')) return;
+  e.preventDefault(); e.stopImmediatePropagation();
+  window.location.href = a.href;
+}, true);
+</script>

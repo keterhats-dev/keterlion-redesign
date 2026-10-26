@@ -1,7 +1,7 @@
-/* KL nav fit + collections dropdown (21.10.2026; Simta colours and lines 26.10). Appended to the Custom CSS of KL Header 2026 (23925).
-   Menu "KL 2026 – ראשי" (809): כובעים, קולקציות (+ כל הקולקציות and 8 collections), חולצות, SALE,
-   עיצוב אישי, לעסקים, הסיפור, החשבון שלי (hidden on desktop, the account icon covers it).
-   The 7 desktop items fit the nav column from 1200px; between 1025 and 1199px the burger is used. */
+/* KL nav fit + shop dropdown (21.10.2026; Simta colours and lines 26.10). Appended to the Custom CSS of KL Header 2026 (23925).
+   Menu "KL 2026 – ראשי" (809), as the user asked on 26.10: חנות (dropdown: כל המוצרים, SALE, כל הקולקציות and 8 collections),
+   כובעים, עיצוב אישי, ביגוד, סיטונאות, החשבון שלי (hidden on desktop, the account icon covers it). הסיפור is a draft item (in the footer).
+   The 5 desktop items fit from 1025px; the burger is used up to 1024px. */
 @media (min-width:1025px){
   .elementor-23925 .elementor-element-1eebe7e nav.elementor-nav-menu--main .elementor-nav-menu > li > a{padding-left:11px !important;padding-right:11px !important;white-space:nowrap}
   .elementor-23925 .elementor-element-1eebe7e nav.elementor-nav-menu--main .sub-menu{background:#fff !important;border:1px solid #DDD3BD !important;border-radius:4px !important;box-shadow:none !important;min-width:230px !important;padding:6px 0 !important}
@@ -11,10 +11,5 @@
 }
 @media (min-width:1025px) and (max-width:1365px){
   .elementor-23925 .elementor-element-1eebe7e nav.elementor-nav-menu--main .elementor-nav-menu > li > a{font-size:14px !important;padding-left:8px !important;padding-right:8px !important}
-}
-@media (min-width:1025px) and (max-width:1199px){
-  .elementor-23925 .elementor-element-1eebe7e nav.elementor-nav-menu--main{display:none !important}
-  .elementor-23925 .elementor-element-1eebe7e .elementor-menu-toggle{display:flex !important}
-  .elementor-23925 .elementor-element-1eebe7e nav.elementor-nav-menu--dropdown{display:block !important;height:auto !important}
 }
 .elementor-23925 .elementor-element-1eebe7e nav.elementor-nav-menu--dropdown .sub-menu a{padding-inline-start:36px !important;font-weight:500 !important}
