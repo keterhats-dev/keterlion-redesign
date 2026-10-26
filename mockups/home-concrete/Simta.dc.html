@@ -310,7 +310,7 @@ a{color:#171717}a:hover{color:#171717}
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#AE8E42","options":["#AE8E42","#0B3BB0","#5B6B4F","#AEB083"]},"font":{"editor":"enum","default":"Suez One","options":["Suez One","Frank Ruhl Libre","Heebo"]},"headings":{"editor":"enum","default":"דק עם דגש","options":["דק עם דגש","עבה"]},"$preview":{"width":1440,"height":5400}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#AE8E42","options":["#AE8E42","#0B3BB0","#5B6B4F","#AEB083"]},"font":{"editor":"enum","default":"Suez One","options":["Suez One","Frank Ruhl Libre","Heebo"]},"headings":{"editor":"enum","default":"עבה","options":["עבה","דק עם דגש"]},"$preview":{"width":1440,"height":5400}}'>
 class Component extends DCLogic {
   renderVals() {
     const accent = this.props.accent ?? '#AE8E42';
@@ -354,8 +354,8 @@ class Component extends DCLogic {
       accent, ink, onDark,
       // Main headings (.ks-h) and collection names (.ks-m) are Heebo. Only the sticker follows this tweak (Suez One, chosen 26.10).
       fontClass: ({ 'Suez One': 'ks-suez', 'Frank Ruhl Libre': 'ks-serif', Heebo: 'ks-sans' })[font] || 'ks-suez',
-      // Main headings: thin with bold key words (from version 2), or all heavy.
-      headClass: (this.props.headings ?? 'דק עם דגש') === 'עבה' ? 'ks-hb' : 'ks-hl',
+      // Main headings: all heavy (chosen 26.10), or thin with bold key words as in version 2.
+      headClass: (this.props.headings ?? 'עבה') === 'דק עם דגש' ? 'ks-hl' : 'ks-hb',
       models, colors,
       colorName: colorList[color].name,
       price: modelList[model].price
