@@ -7,31 +7,33 @@
 html,body{margin:0;background:var(--white,#fff)}
 .cv{position:relative;width:960px;height:288px;overflow:hidden;background:var(--white,#fff)}
 .art{position:absolute;left:480px;top:0;width:480px;height:288px}
-.k{fill:var(--black,#111)}
-.g{fill:var(--gold,#e6d6ae)}
-.gd{fill:var(--gold-deep,#a88a4e)}
+.k{fill:var(--black,#171717)}
+.c{fill:var(--cream,#f4eee1)}
+.g{fill:var(--gold,#ae8e42)}
 .r{fill:var(--red,#c21a1a)}
-.cut{stroke:var(--white,#fff);stroke-width:2px;fill:none}
+.rule{stroke:var(--line,#ddd3bd);stroke-width:var(--hairline,1px);fill:none}
 .tb{position:absolute;left:32px;bottom:32px;max-width:440px}
-.nm{font-family:Rockwell,"Rockwell Nova",Arvo,serif;font-weight:700;font-size:80px;line-height:.92;letter-spacing:.06em;color:var(--black,#111);margin:0}
+.nm{font-family:Rockwell,"Rockwell Nova",Arvo,serif;font-weight:700;font-size:80px;line-height:.92;letter-spacing:.06em;color:var(--black,#171717);margin:0}
 .tg{font-family:Heebo,Arial,sans-serif;font-size:14px;color:var(--grey,#6b6b69);margin:12px 0 0;direction:ltr}
 </style></head>
 <body>
 <div class="cv">
   <svg class="art" viewBox="0 0 480 288" aria-hidden="true">
     <!--
-      blocks: black slab 256×288 (space-16×4, bleeds top/bottom) · gold 160×128 · gold-deep band 192×48 (bleeds right) · red 32×32 (small: state colour, bleeds right)
-      arrangement: one tall slab with satellites, square corners (radius-none) — the brand is square
-      pattern: editorial "borders not shadows" — the site's 2px rule token, three rules cut out of the slab and gold block in white
-      steps/radii: space-16 (64), space-8 (32), rule (2px), radius-none (0)
+      blocks: black slab 192×288 (bleeds top/bottom) · cream 192×128 · gold band 224×48 (bleeds right) · red 32×32 (state colour, small) · black disc r40 (radius-pill: the round sticker)
+      arrangement: one tall slab with satellites, square corners (radius-none) except the disc
+      pattern: editorial hairlines — README: "קווים דקים בבז'"; four 1px rules in line crossing the slab and the ground
+      steps/radii: space-20 (80), space-8 (32), hairline (1px), radius-none (0), radius-pill
     -->
-    <rect class="k" x="32" y="0" width="256" height="288"/>
-    <rect class="g" x="288" y="64" width="160" height="128"/>
-    <rect class="gd" x="288" y="192" width="192" height="48"/>
+    <rect class="k" x="32" y="0" width="192" height="288"/>
+    <rect class="c" x="224" y="64" width="192" height="128"/>
+    <rect class="g" x="256" y="192" width="224" height="48"/>
     <rect class="r" x="448" y="32" width="32" height="32"/>
-    <line class="cut" x1="32" y1="96" x2="448" y2="96"/>
-    <line class="cut" x1="32" y1="112" x2="448" y2="112"/>
-    <line class="cut" x1="32" y1="128" x2="448" y2="128"/>
+    <circle class="k" cx="352" cy="128" r="40"/>
+    <line class="rule" x1="0" y1="24" x2="480" y2="24"/>
+    <line class="rule" x1="0" y1="256" x2="480" y2="256"/>
+    <line class="rule" x1="0" y1="264" x2="480" y2="264"/>
+    <line class="rule" x1="0" y1="272" x2="480" y2="272"/>
   </svg>
   <div class="tb">
     <h1 class="nm">KETERLION</h1>

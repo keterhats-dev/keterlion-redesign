@@ -1,20 +1,21 @@
-<!-- @dsCard group="Actions" height=150 -->
+<!-- @dsCard group="Actions" height=176 -->
 <!doctype html>
 <html lang="he" dir="rtl">
 <head><meta charset="utf-8"><title>Button — preview</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap">
 <style>
-body{margin:0;font-family:Heebo,Arial,sans-serif;color:var(--black,#111)}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:16px}
-.dark{background:var(--black,#111)}
-.btn{display:inline-flex;align-items:center;height:50px;padding:0 26px;font-weight:700;font-size:15px;border:1.5px solid var(--black,#111);background:var(--black,#111);color:var(--white,#fff)}
-.out{background:transparent;color:var(--black,#111)}
-.light{background:var(--white,#fff);color:var(--black,#111);border-color:var(--white,#fff)}
-.light-out{background:transparent;color:var(--white,#fff);border-color:var(--white,#fff)}
-.link{font-weight:700;font-size:14px;border-bottom:2px solid var(--gold-deep,#a88a4e);padding-bottom:2px}
+body{margin:0;font-family:Heebo,Arial,sans-serif;color:var(--black,#171717);background:var(--white,#fff)}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;padding:16px}
+.dark{background:var(--black,#171717)}
+.btn{display:inline-flex;align-items:center;min-height:56px;padding:0 30px;font-weight:700;font-size:17px;border-radius:var(--radius-sm,4px);background:var(--black,#171717);color:var(--white,#fff);border:1px solid var(--black,#171717)}
+.out{background:transparent;color:var(--black,#171717)}
+.light{background:var(--white,#fff);color:var(--black,#171717);border-color:var(--white,#fff)}
+.gold{background:var(--gold,#ae8e42);color:var(--black,#171717);border-color:var(--gold,#ae8e42)}
+.arrow{display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:var(--radius-sm,4px);background:var(--black,#171717);color:var(--white,#fff);font-size:24px}
+.link{font-weight:700;font-size:16px;border-bottom:2px solid var(--gold,#ae8e42);padding-bottom:3px}
 </style></head>
 <body>
-<div class="row"><span class="btn">הוספה לסל</span><span class="btn out">פרטים נוספים</span><span class="link">לכל הכובעים</span></div>
-<div class="row dark"><span class="btn light">למחשבון המחירים</span><span class="btn light-out">WhatsApp לנציג</span></div>
+<div class="row"><span class="btn">לכל הכובעים ←</span><span class="btn out">עצבו כובע משלכם</span><span class="arrow" aria-hidden="true">←</span><span class="link">לכל הכובעים ←</span></div>
+<div class="row dark"><span class="btn gold">לבקשת הצעת מחיר ←</span><span class="btn light">WhatsApp</span></div>
 </body>
 </html>
