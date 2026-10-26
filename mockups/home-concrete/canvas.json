@@ -2,29 +2,164 @@
   "v": 3,
   "attachments": {},
   "boards": {
-    "Cream.dc.html": { "expand": "fill", "h": 5200, "title": "שמנת (הזהב הבהיר של המותג)", "w": 1440, "x": 3040, "y": 0 },
-    "Main.dc.html": { "expand": "fill", "h": 5200, "title": "כתום", "w": 1440, "x": 0, "y": 0 },
-    "Phone.dc.html": { "h": 7400, "title": "טלפון · כתום", "w": 390, "x": 4560, "y": 0 },
-    "Red.dc.html": { "expand": "fill", "h": 5200, "title": "אדום", "w": 1440, "x": 1520, "y": 0 },
-    "Lux.dc.html": { "expand": "fill", "h": 5600, "title": "גרסה 2 · יוקרתי ועדין · מחשב", "w": 1440, "x": 0, "y": 5600 },
-    "LuxPhone.dc.html": { "h": 7800, "title": "גרסה 2 · יוקרתי ועדין · טלפון", "w": 390, "x": 1520, "y": 5600 },
-    "White.dc.html": { "expand": "fill", "h": 5200, "title": "גרסה 3 · לבן עם כחול · מחשב", "w": 1440, "x": 0, "y": 13800 },
-    "WhitePhone.dc.html": { "h": 7400, "title": "גרסה 3 · לבן עם כחול · טלפון", "w": 390, "x": 1520, "y": 13800 },
-    "Simta.dc.html": { "expand": "fill", "h": 5400, "is_interactive": true, "title": "גרסה 4 · סמטה · מחשב", "w": 1440, "x": 0, "y": 21600 },
-    "SimtaPhone.dc.html": { "h": 8000, "is_interactive": true, "title": "גרסה 4 · סמטה · טלפון", "w": 390, "x": 1520, "y": 21600 },
-    "Fonts.dc.html": { "expand": "fill", "h": 2300, "title": "גרסה 4 · איזה פונט לכותרות? (9 אפשרויות)", "w": 1440, "x": 1990, "y": 21600 }
+    "Cream.dc.html": {
+      "expand": "fill",
+      "h": 5200,
+      "title": "שמנת (הזהב הבהיר של המותג)",
+      "w": 1440,
+      "x": 3040,
+      "y": 0
+    },
+    "Fonts.dc.html": {
+      "expand": "fill",
+      "h": 2300,
+      "title": "גרסה 4 · איזה פונט לכותרות? (9 אפשרויות)",
+      "w": 1440,
+      "x": 1990,
+      "y": 21600
+    },
+    "Fonts2.dc.html": {
+      "expand": "fill",
+      "h": 2300,
+      "title": "גרסה 4 · פונטים, סבב 2: עדינים ומיוחדים",
+      "w": 1440,
+      "x": 3510,
+      "y": 21600
+    },
+    "Lux.dc.html": {
+      "expand": "fill",
+      "h": 5600,
+      "title": "גרסה 2 · יוקרתי ועדין · מחשב",
+      "w": 1440,
+      "x": 0,
+      "y": 5600
+    },
+    "LuxPhone.dc.html": {
+      "h": 7800,
+      "title": "גרסה 2 · יוקרתי ועדין · טלפון",
+      "w": 390,
+      "x": 1520,
+      "y": 5600
+    },
+    "Main.dc.html": {
+      "expand": "fill",
+      "h": 5200,
+      "title": "כתום",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    },
+    "Phone.dc.html": {
+      "h": 7400,
+      "title": "טלפון · כתום",
+      "w": 390,
+      "x": 4560,
+      "y": 0
+    },
+    "Red.dc.html": {
+      "expand": "fill",
+      "h": 5200,
+      "title": "אדום",
+      "w": 1440,
+      "x": 1520,
+      "y": 0
+    },
+    "Simta.dc.html": {
+      "expand": "fill",
+      "h": 5400,
+      "is_interactive": true,
+      "title": "גרסה 4 · סמטה · מחשב",
+      "w": 1440,
+      "x": 0,
+      "y": 21600
+    },
+    "SimtaPhone.dc.html": {
+      "h": 8000,
+      "is_interactive": true,
+      "title": "גרסה 4 · סמטה · טלפון",
+      "w": 390,
+      "x": 1520,
+      "y": 21600
+    },
+    "White.dc.html": {
+      "expand": "fill",
+      "h": 5200,
+      "title": "גרסה 3 · לבן עם כחול · מחשב",
+      "w": 1440,
+      "x": 0,
+      "y": 13800
+    },
+    "WhitePhone.dc.html": {
+      "h": 7400,
+      "title": "גרסה 3 · לבן עם כחול · טלפון",
+      "w": 390,
+      "x": 1520,
+      "y": 13800
+    }
   },
-  "createdOnFiles": { "at": "2026-10-25T13:10:00Z", "v": 1 },
+  "createdOnFiles": {
+    "at": "2026-10-25T13:10:00Z",
+    "v": 1
+  },
   "designSystems": [],
-  "launch": { "view": "canvas" },
-  "notes": {
-    "rowtitle": { "kind": "title1", "maxW": 4950, "text": "דף הבית של כתרליון בכיוון בטון: כתום · אדום · שמנת · טלפון", "w": 240, "x": 0, "y": -300 },
-    "shape-7th44t": { "h": 120, "kind": "rect", "w": 120, "x": 5948, "y": 625 },
-    "row2title": { "kind": "title1", "maxW": 1910, "text": "גרסה 2: יותר מיתוגי, יוקרתי ועדין", "x": 0, "y": 5300 },
-    "row3title": { "kind": "title1", "maxW": 1910, "text": "גרסה 3: לבן עם כחול, לפי התמונה", "x": 0, "y": 13500 },
-    "row4title": { "kind": "title1", "maxW": 3430, "text": "גרסה 4: לפי ה-PDF \"סמטה\" – לבן, שחור וזהב, ובחירת פונט", "x": 0, "y": 21300 }
+  "launch": {
+    "view": "canvas"
   },
-  "order": ["Main.dc.html", "Red.dc.html", "Cream.dc.html", "Phone.dc.html", "Lux.dc.html", "LuxPhone.dc.html", "White.dc.html", "WhitePhone.dc.html", "Simta.dc.html", "SimtaPhone.dc.html", "Fonts.dc.html"],
+  "notes": {
+    "row2title": {
+      "kind": "title1",
+      "maxW": 1910,
+      "text": "גרסה 2: יותר מיתוגי, יוקרתי ועדין",
+      "w": 240,
+      "x": 0,
+      "y": 5300
+    },
+    "row3title": {
+      "kind": "title1",
+      "maxW": 1910,
+      "text": "גרסה 3: לבן עם כחול, לפי התמונה",
+      "w": 240,
+      "x": 0,
+      "y": 13500
+    },
+    "row4title": {
+      "kind": "title1",
+      "maxW": 4950,
+      "text": "גרסה 4: לפי ה-PDF \"סמטה\" – לבן, שחור וזהב, ובחירת פונט",
+      "w": 240,
+      "x": 0,
+      "y": 21300
+    },
+    "rowtitle": {
+      "kind": "title1",
+      "maxW": 4950,
+      "text": "דף הבית של כתרליון בכיוון בטון: כתום · אדום · שמנת · טלפון",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    },
+    "shape-7th44t": {
+      "h": 120,
+      "kind": "rect",
+      "w": 120,
+      "x": 5948,
+      "y": 625
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Red.dc.html",
+    "Cream.dc.html",
+    "Phone.dc.html",
+    "Lux.dc.html",
+    "LuxPhone.dc.html",
+    "White.dc.html",
+    "WhitePhone.dc.html",
+    "Simta.dc.html",
+    "SimtaPhone.dc.html",
+    "Fonts.dc.html",
+    "Fonts2.dc.html"
+  ],
   "pages": [],
   "title": "דף הבית – כיוון בטון"
 }
