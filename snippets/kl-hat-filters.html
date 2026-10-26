@@ -1,55 +1,107 @@
-<!-- KL hat filters (26.10.2026). HTML widget f0c47ef in KL Archive 2026 (23976), right after the chips row 3736f5d.
-     On hat pages it shows two rows: hat type (main) and collection (second), and hides the old chips row.
-     On other archives (shirts, collections, search) it hides itself and the old chips row stays. -->
+<!-- KL hat filters, v2 (26.10.2026). HTML widget f0c47ef in KL Archive 2026 (23976), right after the chips row 3736f5d.
+     On hat pages: two rows, hat type (main) and collection (second). A click filters in place: the chip turns on at once,
+     products come from the WooCommerce Store API (cached by LiteSpeed for guests), the URL, title and result count update,
+     and "טען עוד" replaces the numbered pagination. Choices with no products stay in place but turn off.
+     On other archives (shirts, collections, search) the widget hides itself and the old chips row stays. -->
 <div class="klf" id="klf" hidden></div>
 <style>
 .klf{display:flex;flex-direction:column;gap:14px;font-family:Heebo,sans-serif;color:#171717}
 .klf-row{display:flex;align-items:center;gap:12px;min-width:0}
 .klf-label{flex:0 0 auto;min-width:72px;font-size:13px;font-weight:500;color:#6B6B69;letter-spacing:.04em}
 .klf-chips{display:flex;flex-wrap:wrap;gap:8px;min-width:0}
-.klf a{display:inline-flex;align-items:center;min-height:40px;padding:0 16px;border:1px solid #171717;border-radius:4px;background:#fff;color:#171717 !important;font-size:14px;font-weight:500;line-height:1;text-decoration:none !important;white-space:nowrap;transition:background-color .15s,color .15s,border-color .15s}
+.klf a{display:inline-flex;align-items:center;min-height:40px;padding:0 16px;border:1px solid #171717;border-radius:4px;background:#fff;color:#171717 !important;font-size:14px;font-weight:500;line-height:1;text-decoration:none !important;white-space:nowrap;transition:background-color .15s,color .15s,border-color .15s,opacity .15s}
 .klf a:hover{background:#FAF8F3}
 .klf a.on,.klf a.on:hover{background:#171717;border-color:#171717;color:#fff !important}
-.klf a[hidden]{display:none}
-.klf-row--col a{min-height:36px;padding:0 14px;border-color:#DDD3BD;font-size:13px}
+.klf a.off{opacity:.35;pointer-events:none}
+.klf-row.c a{min-height:36px;padding:0 14px;border-color:#DDD3BD;font-size:13px}
 .klf a:focus-visible{outline:2px solid #AE8E42;outline-offset:2px}
-body.kl-hat-filters .elementor-element-3736f5d{display:none !important}
+.klf-busy ul.products{opacity:.35;transition:opacity .15s}
+.klf-more{display:flex;justify-content:center;margin-top:32px}
+.klf-more button{min-height:52px;padding:0 32px;border:1px solid #171717;border-radius:4px;background:#fff;color:#171717;font:700 16px Heebo,sans-serif;cursor:pointer}
+.klf-more button:hover{background:#FAF8F3}
+.klf-more button[disabled]{opacity:.5;cursor:default}
+.klf-empty{padding:48px 0;text-align:center;font:500 16px Heebo,sans-serif;color:#6B6B69}
+/* hat pages (by WordPress's term-<id> body class): hide the old chips row and the keyword text before anything paints */
+body:is(.term-203,.term-218,.term-72,.term-91,.term-221,.term-766,.term-262,.term-264,.term-769) .elementor-element-3736f5d{display:none !important}
+body:is(.term-203,.term-218,.term-72,.term-91,.term-221,.term-766,.term-262,.term-264,.term-769) .elementor-element-6318cc7 .elementor-widget-woocommerce-archive-description{display:none}
+.klf-seo{margin-top:56px;padding-top:24px;border-top:1px solid #DDD3BD;font-size:13px;line-height:1.7;color:#6B6B69}
 @media (max-width:767px){
 .klf-row{flex-direction:column;align-items:stretch;gap:8px}
 .klf-chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:0 16px 2px}
 .klf-chips::-webkit-scrollbar{display:none}
 .klf-label{min-width:0}
+.klf-more button{width:100%}
 }
 </style>
 <script>
-/* KL hat filters (26.10): main filter = hat type, second filter = collection. Only on hat pages.
-   Type + collection uses WordPress's AND syntax: /product-category/<type>+<collection>/ */
 (function(){
 var R=document.getElementById('klf'); if(!R||R.dataset.on) return; R.dataset.on='1';
-var BASE='https://keterlion.com/staging/product-category/', P='סוג-כובע';
+var S='https://keterlion.com/staging', BASE=S+'/product-category/', API=S+'/wp-json/wc/store/v1/products', P='סוג-כובע';
+/* only products shown in the shop (as the page itself counts them); every hat category id, for "all hats + collection" */
+var VIS='&catalog_visibility=catalog', HATS=[203,218,72,219,91,221,766,262,264,769,220];
 var T=[[P,'כל הכובעים',203],['dad-cap','Dad Cap',218],['מצחיה-מעוגלת-כובע-בייסבול','בייסבול',72],['כובע-מצחייה-שטוחה','סנאפבק',91],['buckethat','טמבל',221],['כובע-לא-מצחייה','ללא מצחייה',766],['wool-hat','כובעי צמר',262],['קסקט','קסקט',264],['כובע-5-פאנל','5 פאנל',769]];
-var C=[['keterlion','KETERLION',762],['מיינדסט','מיינדסט',760],['קולקציית-התמרורים','תמרורים',757],['שורשים','שורשים',758],['כתרליון-x-נעמה-אברהמי','כתרליון × נעמה אברהמי',759],['ספורט','ספורט',808],['local','Born and raised',761],['other','Other',763]];
+var C=[['','הכל',0],['keterlion','KETERLION',762],['מיינדסט','מיינדסט',760],['קולקציית-התמרורים','תמרורים',757],['שורשים','שורשים',758],['כתרליון-x-נעמה-אברהמי','כתרליון × נעמה אברהמי',759],['ספורט','ספורט',808],['local','Born and raised',761],['other','Other',763]];
 function hide(){ var w=R.closest('.elementor-widget'); if(w) w.style.display='none'; }
-var path=decodeURIComponent(location.pathname), i=path.indexOf('/product-category/'); if(i<0) return hide();
-var rest=path.slice(i+18).replace(/\/page\/\d+\/?$/,'').replace(/\/+$/,'');
-var parts=rest.split('/'), terms=parts[parts.length-1].split('+');
 function find(list,s){ for(var k=0;k<list.length;k++) if(list[k][0]===s) return list[k]; return null; }
-var t=null,c=null;
-terms.forEach(function(s){ if(find(T,s)) t=find(T,s); else if(find(C,s)) c=find(C,s); });
-if(!t) return hide();
+function parse(pathname){ var path=decodeURIComponent(pathname), i=path.indexOf('/product-category/'); if(i<0) return null;
+  var rest=path.slice(i+18).replace(/\/page\/\d+\/?$/,'').replace(/\/+$/,''), parts=rest.split('/'), t=null, c=C[0];
+  parts[parts.length-1].split('+').forEach(function(s){ if(find(T,s)) t=find(T,s); else if(s&&find(C,s)) c=find(C,s); });
+  return t?{t:t,c:c}:null; }
+var st=parse(location.pathname); if(!st) return hide();
 function enc(s){ return encodeURIComponent(s).toLowerCase(); }
-var q=location.search.replace(/([?&])kl=[^&]*&?/,'$1').replace(/[?&]$/,'');
-function url(ts,cs){ if(!cs) return BASE+enc(P)+'/'+(ts===P?'':enc(ts)+'/')+q; return BASE+enc(ts)+'+'+enc(cs)+'/'+q; }
-function row(cls,label,items,on,href){ return '<div class="klf-row '+cls+'"><span class="klf-label">'+label+'</span><div class="klf-chips">'+items.map(function(x){ var a=on(x); return '<a href="'+href(x)+'" data-cat="'+(x[2]||'')+'"'+(a?' class="on" aria-current="page"':'')+'>'+x[1]+'</a>'; }).join('')+'</div></div>'; }
-R.innerHTML=row('klf-row--type','סוג כובע',T,function(x){return x===t;},function(x){return url(x[0],c&&c[0]);})
- + row('klf-row--col','קולקציה',[['','הכל','']].concat(C),function(x){return c?x===c:!x[0];},function(x){return url(t[0],x[0]||null);});
-R.hidden=false; document.body.classList.add('kl-hat-filters');
-/* on phones, if a chosen chip sits past the left edge of its row, scroll the row to it */
+function url(t,c){ return c[0]?BASE+enc(t[0])+'+'+enc(c[0])+'/':BASE+enc(P)+'/'+(t[0]===P?'':enc(t[0])+'/'); }
+function label(t,c){ return c[0]?(t[0]===P?'כובעים':t[1])+' · '+c[1]:t[1]; }
+function chips(cls,name,list,cur,href){ return '<div class="klf-row '+cls+'"><span class="klf-label">'+name+'</span><div class="klf-chips">'+list.map(function(x){ var on=x===cur; return '<a href="'+href(x)+'" data-k="'+cls+'|'+x[0]+'"'+(on?' class="on" aria-current="page"':'')+'>'+x[1]+'</a>'; }).join('')+'</div></div>'; }
+function draw(){ R.innerHTML=chips('t','סוג כובע',T,st.t,function(x){return url(x,st.c);})+chips('c','קולקציה',C,st.c,function(x){return url(st.t,x);}); }
+draw(); R.hidden=false; document.body.classList.add('kl-hat-filters');
+var h1=document.querySelector('.elementor-element-6318cc7 h1'); if(h1) h1.textContent=label(st.t,st.c);
+
+/* which choices have products: one Store API call per row, cached by LiteSpeed for guests */
+function mark(){ var my=st;
+  function counts(ids,cb){ fetch(API+'/collection-data?calculate_taxonomy_counts[]=product_cat&category='+ids.join(',')+(ids.length>1?'&category_operator=and':'')+VIS).then(function(r){return r.json();}).then(function(j){ var m={}; (j.taxonomy_counts||[]).forEach(function(x){ m[x.term]=x.count; }); if(my===st) cb(m); }).catch(function(){}); }
+  counts([st.t[2]],function(m){ R.querySelectorAll('.klf-row.c a').forEach(function(a){ var x=find(C,a.dataset.k.split('|')[1]); a.classList.toggle('off',!!x[2]&&!m[x[2]]&&x!==st.c); }); });
+  counts(st.c[2]?[st.c[2]]:[203],function(m){ R.querySelectorAll('.klf-row.t a').forEach(function(a){ var x=find(T,a.dataset.k.split('|')[1]); a.classList.toggle('off',!m[x[2]]&&x!==st.t); }); });
+}
+mark();
+
+/* products in place */
+var W=document.querySelector('.elementor-element-11c6bb9'), cache={}, page=1, pages=1, total=0, busy=false;
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(ch){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]; }); }
+function sort(){ var v=(document.querySelector('.woocommerce-ordering select')||{}).value||'';
+  return {'price':'&orderby=price&order=asc','price-desc':'&orderby=price&order=desc','date':'&orderby=date&order=desc','popularity':'&orderby=popularity&order=desc','rating':'&orderby=rating&order=desc'}[v]||'&orderby=menu_order&order=asc'; }
+/* the Store API's AND does not include child categories, so "all hats + collection" takes the whole collection and keeps the hats */
+function q(t,c,pg){ if(t[0]===P&&c[2]) return API+'?per_page=100&page=1&category='+c[2]+sort()+VIS; var ids=[t[2]]; if(c[2]) ids.push(c[2]); return API+'?per_page=32&page='+pg+'&category='+ids.join(',')+(ids.length>1?'&category_operator=and':'')+sort()+VIS; }
+function get(u){ if(!cache[u]) cache[u]=fetch(u).then(function(r){ if(!r.ok) throw r; return r.json().then(function(j){ return {items:j,total:+r.headers.get('X-WP-Total')||0,pages:+r.headers.get('X-WP-TotalPages')||1}; }); }); return cache[u]; }
+function card(p){ var im=p.images&&p.images[0], cart=p.add_to_cart||{};
+  var img=im?'<img width="300" height="300" src="'+esc(im.thumbnail||im.src)+'"'+(im.srcset?' srcset="'+esc(im.srcset)+'" sizes="(max-width: 767px) 50vw, 300px"':'')+' class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt="'+esc(im.alt||'')+'" loading="lazy" decoding="async">':'';
+  var btn=(p.type==='simple'&&p.is_purchasable&&p.is_in_stock)
+    ?'<a href="?add-to-cart='+p.id+'" data-quantity="1" class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="'+p.id+'" data-product_sku="'+esc(p.sku)+'" rel="nofollow">'+esc(cart.text)+'</a>'
+    :'<a href="'+esc(cart.url||p.permalink)+'" class="button product_type_'+esc(p.type)+'">'+esc(cart.text)+'</a>';
+  return '<li class="product type-product product-type-'+esc(p.type)+(p.is_in_stock?' instock':' outofstock')+(p.on_sale?' sale':'')+'"><a href="'+esc(p.permalink)+'" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">'+(p.on_sale?'<span class="onsale">מבצע!</span>':'')+img+'<h2 class="woocommerce-loop-product__title">'+p.name+'</h2><span class="price">'+p.price_html+'</span></a>'+btn+'</li>'; }
+function count(shown){ var el=W&&W.querySelector('.woocommerce-result-count'); if(el) el.textContent=total?('מציג '+shown+' מתוך '+total+' תוצאות'):'אין מוצרים בבחירה הזאת'; }
+function more(){ var box=W.querySelector('.klf-more'); if(!box){ box=document.createElement('div'); box.className='klf-more'; box.innerHTML='<button type="button">טען עוד</button>'; (W.querySelector('ul.products')||W).after(box); box.firstChild.onclick=function(){ load(page+1); }; } box.hidden=page>=pages; }
+function load(pg){ if(!W||busy) return; var ul=W.querySelector('ul.products'); if(!ul) return location.assign(url(st.t,st.c)); busy=true; var my=st;
+  if(pg===1) W.classList.add('klf-busy'); else W.querySelector('.klf-more button').disabled=true;
+  get(q(st.t,st.c,pg)).then(function(d){ if(my!==st) return;
+    if(st.t[0]===P&&st.c[2]){ var it=d.items.filter(function(p){ return (p.categories||[]).some(function(x){ return HATS.indexOf(x.id)>=0; }); }); d={items:it,total:it.length,pages:1}; }
+    page=pg; pages=d.pages; total=d.total;
+    var html=d.items.map(card).join('');
+    if(pg===1){ ul.innerHTML=html||''; var e=W.querySelector('.klf-empty'); if(!html&&!e){ e=document.createElement('p'); e.className='klf-empty'; e.textContent='אין כרגע מוצרים בבחירה הזאת'; ul.after(e); } else if(html&&e) e.remove(); }
+    else ul.insertAdjacentHTML('beforeend',html);
+    var nav=W.querySelector('.woocommerce-pagination'); if(nav) nav.hidden=true;
+    count(ul.children.length); more();
+  }).catch(function(){ location.assign(url(st.t,st.c)); }).then(function(){ busy=false; W.classList.remove('klf-busy'); var b=W.querySelector('.klf-more button'); if(b) b.disabled=false; }); }
+function go(t,c){ if(t===st.t&&c===st.c) return; st={t:t,c:c}; draw(); mark(); if(h1) h1.textContent=label(t,c);
+  document.title=label(t,c)+' , כתרליון, KETERLION'; history.pushState({kl:1},'',url(t,c)); reveal(); load(1); }
+R.addEventListener('click',function(e){ var a=e.target.closest('a[data-k]'); if(!a||e.metaKey||e.ctrlKey||e.shiftKey) return; e.preventDefault();
+  var k=a.dataset.k.split('|'); if(k[0]==='t') go(find(T,k[1]),st.c); else go(st.t,find(C,k[1])); });
+/* start the request when the finger or mouse reaches a chip */
+['pointerenter','touchstart'].forEach(function(ev){ R.addEventListener(ev,function(e){ var a=e.target.closest&&e.target.closest('a[data-k]'); if(!a) return; var k=a.dataset.k.split('|'); var t=k[0]==='t'?find(T,k[1]):st.t, c=k[0]==='c'?find(C,k[1]):st.c; get(q(t,c,1)); },{passive:true,capture:true}); });
+window.addEventListener('popstate',function(){ location.reload(); });
+
+/* keyword text goes under the products; phones: show the chosen chip */
+document.addEventListener('DOMContentLoaded',function(){ var d=document.querySelector('.elementor-element-6318cc7 .elementor-widget-woocommerce-archive-description'); if(d&&W){ d.classList.add('klf-seo'); W.after(d); } });
 function reveal(){ if(window.innerWidth>=768) return; R.querySelectorAll('a.on').forEach(function(on){ var pr=on.parentNode.getBoundingClientRect(), ar=on.getBoundingClientRect(); if(ar.left<pr.left+16) on.parentNode.scrollLeft+=ar.left-pr.left-16; }); }
 (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(function(){ requestAnimationFrame(reveal); });
-/* hide choices that would show no products */
-function count(a,b,el){ fetch('https://keterlion.com/staging/wp-json/wc/store/v1/products?per_page=1&category='+a+','+b+'&category_operator=and').then(function(r){ if(r.ok && +r.headers.get('X-WP-Total')===0 && !el.classList.contains('on')) el.hidden=true; }).catch(function(){}); }
-C.forEach(function(x){ var el=R.querySelector('.klf-row--col a[data-cat="'+x[2]+'"]'); if(el) count(t[2],x[2],el); });
-if(c) T.forEach(function(x){ var el=R.querySelector('.klf-row--type a[data-cat="'+x[2]+'"]'); if(el&&x!==t) count(x[2],c[2],el); });
 })();
 </script>
