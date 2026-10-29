@@ -39,7 +39,7 @@ var R=document.getElementById('klf'); if(!R||R.dataset.on) return; R.dataset.on=
 var S='https://keterlion.com/staging', BASE=S+'/product-category/', API=S+'/wp-json/wc/store/v1/products', P='סוג-כובע';
 /* only products shown in the shop (as the page itself counts them); every hat category id, for "all hats + collection" */
 var VIS='&catalog_visibility=catalog', HATS=[203,218,72,219,91,221,766,262,264,769,220];
-var T=[[P,'כל הכובעים',203],['dad-cap','Dad Cap',218],['מצחיה-מעוגלת-כובע-בייסבול','בייסבול',72],['כובע-מצחייה-שטוחה','סנאפבק',91],['buckethat','טמבל',221],['כובע-לא-מצחייה','ללא מצחייה',766],['wool-hat','כובעי צמר',262],['קסקט','קסקט',264],['כובע-5-פאנל','5 פאנל',769]];
+var T=[[P,'כל הכובעים',203],['dad-cap','דד קאפ',218],['מצחיה-מעוגלת-כובע-בייסבול','בייסבול',72],['כובע-מצחייה-שטוחה','סנאפבק',91],['buckethat','באקט',221],['כובע-לא-מצחייה','ללא מצחייה',766],['wool-hat','כובעי צמר',262],['קסקט','קסקט',264],['כובע-5-פאנל','5 פאנל',769]];
 var C=[['','הכל',0],['keterlion','KETERLION',762],['מיינדסט','מיינדסט',760],['קולקציית-התמרורים','תמרורים',757],['שורשים','שורשים',758],['כתרליון-x-נעמה-אברהמי','כתרליון × נעמה אברהמי',759],['ספורט','ספורט',808],['local','Born and raised',761],['other','Other',763]];
 function hide(){ var w=R.closest('.elementor-widget'); if(w) w.style.display='none'; }
 function find(list,s){ for(var k=0;k<list.length;k++) if(list[k][0]===s) return list[k]; return null; }
