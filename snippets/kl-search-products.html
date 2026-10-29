@@ -1,3 +1,4 @@
+<!-- Header HTML widget e28350b in KL Header 2026 (23925): site search = product search; parent menu items open their page; product card gallery. -->
 <!-- KL: site search = product search. HTML widget (class kl-hidden) inside KL Header 2026 (23925).
      Any ?s= search without post_type is sent to the redesigned product archive (template 23976),
      and every search form on the page gets a hidden post_type=product. Added 21.10.2026. -->
@@ -22,4 +23,45 @@ document.addEventListener('click', function (e) {
   e.preventDefault(); e.stopImmediatePropagation();
   window.location.href = a.href;
 }, true);
+</script>
+<style>
+/* KL product card gallery (29.10): hover shows the next photo; swipe, arrows and dots move between photos without opening the product */
+.klg{position:relative;grid-column:1 / -1;margin:0 0 14px}
+.klg-track{display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;aspect-ratio:4 / 5;background:#fff}
+.klg-track::-webkit-scrollbar{display:none}
+html body ul.products li.product .klg-track img{flex:0 0 100%;width:100% !important;height:100% !important;max-width:none !important;aspect-ratio:auto !important;object-fit:contain;scroll-snap-align:start;scroll-snap-stop:always;margin:0 !important;border:0 !important;background:#fff !important}
+.klg-dots{position:absolute;left:0;right:0;bottom:8px;display:flex;justify-content:center;gap:6px;pointer-events:none}
+.klg-dots i{width:6px;height:6px;border-radius:50%;background:#DDD3BD;transition:background-color .15s}
+.klg-dots i.on{background:#171717}
+.klg-nav{position:absolute;top:50%;z-index:2;display:flex;align-items:center;justify-content:center;width:32px;height:32px;margin-top:-16px;background:#fff;border:1px solid #DDD3BD;border-radius:4px;color:#171717;font:400 16px/1 Heebo,sans-serif;opacity:0;transition:opacity .15s;cursor:pointer}
+.klg-prev{right:8px}.klg-next{left:8px}
+li.product:hover .klg-nav{opacity:1}
+.klg-nav:hover{border-color:#171717}
+.klg-nav[hidden]{display:none}
+@media (hover:none){.klg-nav{display:none}}
+</style>
+<script>
+(function(){
+var API='https://keterlion.com/staging/wp-json/wc/store/v1/products', MAX=5, seen=new WeakSet(), queue=[], timer=null;
+var rtl=getComputedStyle(document.documentElement).direction==='rtl', hover=window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+function pid(li){ var m=li.className.match(/\bpost-(\d+)\b/); if(m) return m[1]; var b=li.querySelector('[data-product_id]'); return b&&b.getAttribute('data-product_id'); }
+function scan(root){ (root||document).querySelectorAll('ul.products li.product').forEach(function(li){ if(seen.has(li)) return; seen.add(li); var id=pid(li); if(id) queue.push([li,id]); }); if(queue.length&&!timer) timer=setTimeout(flush,60); }
+function flush(){ timer=null; var batch=queue.splice(0,100); if(!batch.length) return;
+  fetch(API+'?per_page=100&include='+batch.map(function(x){return x[1];}).join(',')).then(function(r){ return r.json(); }).then(function(list){ var m={}; list.forEach(function(p){ m[p.id]=p.images||[]; }); batch.forEach(function(x){ build(x[0],m[x[1]]||[]); }); }).catch(function(){});
+  if(queue.length) timer=setTimeout(flush,60); }
+function build(li,imgs){ if(imgs.length<2) return; var a=li.querySelector('a.woocommerce-LoopProduct-link'), first=a&&a.querySelector(':scope > img'); if(!first) return;
+  var w=document.createElement('div'), tr=document.createElement('div'); w.className='klg'; tr.className='klg-track'; w.appendChild(tr); first.replaceWith(w); tr.appendChild(first); first.removeAttribute('loading');
+  imgs.slice(1,MAX).forEach(function(im){ var i=document.createElement('img'); i.src=im.thumbnail||im.src; if(im.srcset){ i.srcset=im.srcset; i.sizes=first.getAttribute('sizes')||'(max-width: 767px) 50vw, 300px'; } i.alt=im.alt||''; i.loading='lazy'; i.decoding='async'; tr.appendChild(i); });
+  var n=tr.children.length, dots=document.createElement('div'); dots.className='klg-dots'; for(var k=0;k<n;k++) dots.appendChild(document.createElement('i')); w.appendChild(dots);
+  var prev=document.createElement('span'), next=document.createElement('span'); prev.className='klg-nav klg-prev'; next.className='klg-nav klg-next'; prev.textContent='→'; next.textContent='←'; prev.setAttribute('role','button'); next.setAttribute('role','button'); prev.setAttribute('aria-label','לתמונה הקודמת'); next.setAttribute('aria-label','לתמונה הבאה'); w.appendChild(prev); w.appendChild(next);
+  function idx(){ return Math.round(Math.abs(tr.scrollLeft)/(tr.clientWidth||1)); }
+  function to(i,smooth){ i=Math.max(0,Math.min(n-1,i)); tr.scrollTo({left:(rtl?-1:1)*i*tr.clientWidth,behavior:smooth?'smooth':'auto'}); }
+  function sync(){ var i=idx(); [].forEach.call(dots.children,function(d,k){ d.className=k===i?'on':''; }); prev.hidden=i===0; next.hidden=i===n-1; }
+  tr.addEventListener('scroll',function(){ requestAnimationFrame(sync); },{passive:true}); sync();
+  [prev,next].forEach(function(b){ b.addEventListener('click',function(e){ e.preventDefault(); e.stopPropagation(); to(idx()+(b===next?1:-1),true); }); });
+  if(hover){ li.addEventListener('mouseenter',function(){ if(idx()===0) to(1,false); }); li.addEventListener('mouseleave',function(){ to(0,false); }); }
+}
+function start(){ scan(); new MutationObserver(function(ms){ ms.forEach(function(m){ m.addedNodes.forEach(function(nd){ if(nd.nodeType===1&&(nd.matches('li.product')||nd.querySelector('li.product'))) scan(nd.parentNode||nd); }); }); }).observe(document.body,{childList:true,subtree:true}); }
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',start); else start();
+})();
 </script>

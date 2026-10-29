@@ -70,8 +70,10 @@ function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(ch){ ret
 function sort(){ var v=(document.querySelector('.woocommerce-ordering select')||{}).value||'';
   return {'price':'&orderby=price&order=asc','price-desc':'&orderby=price&order=desc','date':'&orderby=date&order=desc','popularity':'&orderby=popularity&order=desc','rating':'&orderby=rating&order=desc'}[v]||'&orderby=menu_order&order=asc'; }
 /* the Store API's AND does not include child categories, so "all hats + collection" takes the whole collection and keeps the hats */
-function q(t,c,pg){ if(t[0]===P&&c[2]) return API+'?per_page=100&page=1&category='+c[2]+sort()+VIS; var ids=[t[2]]; if(c[2]) ids.push(c[2]); return API+'?per_page=32&page='+pg+'&category='+ids.join(',')+(ids.length>1?'&category_operator=and':'')+sort()+VIS; }
+function q(t,c,pg){ if(t[0]===P&&c[2]) return API+'?per_page=100&page=1&category='+c[2]+sort()+VIS; var ids=[t[2]]; if(c[2]) ids.push(c[2]); return API+'?per_page=100&page='+pg+'&category='+ids.join(',')+(ids.length>1?'&category_operator=and':'')+sort()+VIS; }
 function get(u){ if(!cache[u]) cache[u]=fetch(u).then(function(r){ if(!r.ok) throw r; return r.json().then(function(j){ return {items:j,total:+r.headers.get('X-WP-Total')||0,pages:+r.headers.get('X-WP-TotalPages')||1}; }); }); return cache[u]; }
+/* every product at once (user, 29.10: no "load more"): page 1, then the remaining pages together */
+function all(t,c){ return get(q(t,c,1)).then(function(d){ if(d.pages<=1) return d; var ps=[]; for(var i=2;i<=d.pages;i++) ps.push(get(q(t,c,i))); return Promise.all(ps).then(function(rest){ return {items:d.items.concat.apply(d.items,rest.map(function(x){ return x.items; })),total:d.total,pages:1}; }); }); }
 function card(p){ var im=p.images&&p.images[0], cart=p.add_to_cart||{};
   var img=im?'<img width="300" height="300" src="'+esc(im.thumbnail||im.src)+'"'+(im.srcset?' srcset="'+esc(im.srcset)+'" sizes="(max-width: 767px) 50vw, 300px"':'')+' class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt="'+esc(im.alt||'')+'" loading="lazy" decoding="async">':'';
   var btn=(p.type==='simple'&&p.is_purchasable&&p.is_in_stock)
@@ -82,7 +84,7 @@ function count(shown){ var el=W&&W.querySelector('.woocommerce-result-count'); i
 function more(){ var box=W.querySelector('.klf-more'); if(!box){ box=document.createElement('div'); box.className='klf-more'; box.innerHTML='<button type="button">טען עוד</button>'; (W.querySelector('ul.products')||W).after(box); box.firstChild.onclick=function(){ load(page+1); }; } box.hidden=page>=pages; }
 function load(pg){ if(!W||busy) return; var ul=W.querySelector('ul.products'); if(!ul) return location.assign(url(st.t,st.c)); busy=true; var my=st;
   if(pg===1) W.classList.add('klf-busy'); else W.querySelector('.klf-more button').disabled=true;
-  get(q(st.t,st.c,pg)).then(function(d){ if(my!==st) return;
+  all(st.t,st.c).then(function(d){ if(my!==st) return;
     if(st.t[0]===P&&st.c[2]){ var it=d.items.filter(function(p){ return (p.categories||[]).some(function(x){ return HATS.indexOf(x.id)>=0; }); }); d={items:it,total:it.length,pages:1}; }
     page=pg; pages=d.pages; total=d.total;
     var html=d.items.map(card).join('');

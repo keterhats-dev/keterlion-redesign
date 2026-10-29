@@ -16,10 +16,10 @@ html body form.cart .single_add_to_cart_button:hover, html body .elementor-widge
 html body ul.products li.product .button, html body form.cart .single_add_to_cart_button, html body .elementor-widget-form .elementor-button{border-width:1px !important}
 html body form.cart .quantity input.qty{border-radius:4px !important;border:1px solid var(--kl-ink) !important}
 
-/* product cards: white tile, 4:5, photo not cropped, beige hairline that turns black on hover */
-ul.products li.product a img{aspect-ratio:4 / 5;object-fit:contain;border-radius:0 !important;border:1px solid var(--kl-line) !important;background:#fff !important;
+/* product cards: white tile, 4:5, photo not cropped, no frame (user, 29.10). Hover shows the next photo
+   (gallery in kl-search-products.html, the header HTML widget) */
+ul.products li.product a img{aspect-ratio:4 / 5;object-fit:contain;border-radius:0 !important;border:0 !important;background:#fff !important;
   transition:border-color .15s ease !important;transform:none !important;box-shadow:none !important}
-ul.products li.product:hover a img{border-color:var(--kl-ink) !important}
 ul.products li.product .woocommerce-loop-product__title{font-family:Heebo,sans-serif !important;font-weight:500 !important;color:var(--kl-ink) !important}
 ul.products li.product .price{color:var(--kl-ink) !important;font-variant-numeric:tabular-nums}
 ul.products li.product .price del{color:var(--kl-grey) !important}
