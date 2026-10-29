@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="he">
+<head>
+<meta charset="utf-8">
+<title>פוטר ב · לוח מערכת</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&amp;display=swap">
+<style>
+body{margin:0;background:#171717}
+a{color:#FFFFFF}a:hover{color:#AE8E42}
+.kfb,.kfb *{box-sizing:border-box}
+.kfb a{text-decoration:none;transition:color .15s ease}
+.kfb-status{display:flex;flex-wrap:wrap}
+.kfb-status > span{border-inline-start:1px solid #3A3936}
+.kfb-status > span:first-child{border-inline-start:0}
+.kfb-in::placeholder{color:#6B6B69}
+.kfb-row{display:grid;grid-template-columns:72px 200px minmax(0,1fr) 56px;align-items:center;transition:background-color .15s ease}
+.kfb-row:hover{background:#1F1E1D}
+.kfb-caret{animation:kfbblink 1.1s steps(1) infinite}
+@keyframes kfbblink{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.kfb-caret{animation:none}}
+@media (max-width:900px){.kfb-top{grid-template-columns:minmax(0,1fr) !important}.kfb-row{grid-template-columns:48px minmax(0,1fr)}.kfb-row .kfb-links{grid-column:1 / -1}.kfb-row .kfb-arrow{display:none}}
+</style>
+</helmet>
+<footer class="kfb" dir="rtl" style="background: #171717; color: #FFFFFF; font-family: 'Heebo', system-ui, sans-serif;">
+
+  <div class="kfb-status" style="border-bottom: 1px solid #3A3936; font-size: 13px; letter-spacing: 0.04em; color: #BDB7AA;">
+    <span style="display: flex; align-items: center; gap: 8px; padding: 14px 32px;"><span style="width: 7px; height: 7px; border-radius: 50%; background: {{accent}};"></span>שעות פתיחה <span style="color: #F4EEE1; font-variant-numeric: tabular-nums;">10:00–19:00</span> · שישי עד <span style="color: #F4EEE1; font-variant-numeric: tabular-nums;">15:00</span></span>
+    <span style="display: flex; align-items: center; gap: 8px; padding: 14px 24px;">משלוח חינם מעל <span style="color: #F4EEE1;">₪249</span></span>
+    <span style="display: flex; align-items: center; gap: 8px; padding: 14px 24px;">עד 5 ימי עסקים לכל הארץ</span>
+    <span style="display: flex; align-items: center; gap: 8px; padding: 14px 24px;">משלוח לחו״ל <span style="color: #F4EEE1;">₪150</span></span>
+    <span style="display: flex; align-items: center; gap: 8px; padding: 14px 24px;">איסוף עצמי · נחלת בנימין 13</span>
+  </div>
+
+  <div class="kfb-top" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: end; gap: 56px; padding: 80px 40px 72px;">
+    <div style="display: flex; flex-direction: column; gap: 22px;">
+      <p style="margin: 0; display: flex; align-items: center; gap: 14px; font-size: 13px; font-weight: 500; letter-spacing: 0.24em; color: {{accent}};"><span style="width: 32px; height: 4px; background: {{accent}};"></span>Hats &amp; Friends · מועדון כתרליון</p>
+      <h2 style="margin: 0; font-size: 72px; font-weight: 900; line-height: 0.98; color: #F4EEE1;">הצטרפו<br>למועדון<span style="color: {{accent}};">.</span></h2>
+      <p style="margin: 0; font-size: 16px; line-height: 1.65; color: #BDB7AA;">קולקציות חדשות, קולאבים והטבות לחברי המועדון.</p>
+    </div>
+    <form style="display: flex; align-items: center; gap: 16px; padding-bottom: 14px; border-bottom: 1px solid #F4EEE1;">
+      <span class="kfb-caret" aria-hidden="true" style="width: 12px; height: 28px; background: {{accent}};"></span>
+      <label for="kfb-mail" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">אימייל</label>
+      <input id="kfb-mail" class="kfb-in" type="email" placeholder="האימייל שלכם" style="flex-grow: 1; min-width: 0; height: 56px; padding: 0; border: 0; background: transparent; color: #FFFFFF; font-family: inherit; font-size: 26px; font-weight: 500;">
+      <button type="button" aria-label="הצטרפות" style="display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 56px; height: 56px; border: 0; border-radius: 4px; background: {{accent}}; color: #171717; font-family: inherit; font-size: 24px; cursor: pointer;">←</button>
+    </form>
+  </div>
+
+  <div style="border-top: 1px solid #3A3936;">
+    <div class="kfb-row" style="padding: 22px 40px; border-bottom: 1px solid #3A3936;">
+      <span style="font-size: 13px; font-weight: 500; color: {{accent}}; font-variant-numeric: tabular-nums; letter-spacing: 0.08em;">01</span>
+      <span style="font-size: 20px; font-weight: 500; color: #F4EEE1;">חנות</span>
+      <nav class="kfb-links" aria-label="חנות" style="display: flex; flex-wrap: wrap; gap: 10px 32px; font-size: 16px;"><a href="#">כובעים</a><a href="#">ביגוד</a><a href="#">עיצוב אישי</a><a href="#">SALE</a><a href="#">Gift Card</a></nav>
+      <span class="kfb-arrow" aria-hidden="true" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; justify-self: end; border: 1px solid #3A3936; border-radius: 4px; font-size: 18px; color: #BDB7AA;">←</span>
+    </div>
+    <div class="kfb-row" style="padding: 22px 40px; border-bottom: 1px solid #3A3936;">
+      <span style="font-size: 13px; font-weight: 500; color: {{accent}}; font-variant-numeric: tabular-nums; letter-spacing: 0.08em;">02</span>
+      <span style="font-size: 20px; font-weight: 500; color: #F4EEE1;">כתרליון</span>
+      <nav class="kfb-links" aria-label="כתרליון" style="display: flex; flex-wrap: wrap; gap: 10px 32px; font-size: 16px;"><a href="#">הסיפור</a><a href="#">סיטונאות</a><a href="#">Partnership</a><a href="#">Hats for Israeli Soldiers</a></nav>
+      <span class="kfb-arrow" aria-hidden="true" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; justify-self: end; border: 1px solid #3A3936; border-radius: 4px; font-size: 18px; color: #BDB7AA;">←</span>
+    </div>
+    <div class="kfb-row" style="padding: 22px 40px; border-bottom: 1px solid #3A3936;">
+      <span style="font-size: 13px; font-weight: 500; color: {{accent}}; font-variant-numeric: tabular-nums; letter-spacing: 0.08em;">03</span>
+      <span style="font-size: 20px; font-weight: 500; color: #F4EEE1;">עזרה</span>
+      <nav class="kfb-links" aria-label="עזרה" style="display: flex; flex-wrap: wrap; gap: 10px 32px; font-size: 16px;"><a href="#">שאלות נפוצות</a><a href="#">משלוחים</a><a href="#">החזרות וביטולים</a><a href="#">צור קשר</a><a href="#">הצהרת נגישות</a></nav>
+      <span class="kfb-arrow" aria-hidden="true" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; justify-self: end; border: 1px solid #3A3936; border-radius: 4px; font-size: 18px; color: #BDB7AA;">←</span>
+    </div>
+    <div class="kfb-row" style="padding: 22px 40px; border-bottom: 1px solid #3A3936;">
+      <span style="font-size: 13px; font-weight: 500; color: {{accent}}; font-variant-numeric: tabular-nums; letter-spacing: 0.08em;">04</span>
+      <span style="font-size: 20px; font-weight: 500; color: #F4EEE1;">דברו איתנו</span>
+      <nav class="kfb-links" aria-label="דברו איתנו" style="display: flex; flex-wrap: wrap; gap: 10px 32px; font-size: 16px;"><a href="#" dir="ltr" style="font-variant-numeric: tabular-nums;">03-9385005</a><a href="#">WhatsApp</a><a href="#">Instagram</a><a href="#">TikTok</a><a href="#">Facebook</a></nav>
+      <span class="kfb-arrow" aria-hidden="true" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; justify-self: end; border: 1px solid #3A3936; border-radius: 4px; font-size: 18px; color: #BDB7AA;">←</span>
+    </div>
+  </div>
+
+  <div aria-hidden="true" style="height: 132px; overflow: hidden; padding: 0 40px;">
+    <img src="/_blob/35344fec8f745a241bdc6d2fcbf52561" alt="" style="width: 100%; height: auto; display: block; margin-top: 36px;">
+  </div>
+
+  <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 16px 40px; border-top: 1px solid #3A3936; font-size: 12px; letter-spacing: 0.06em; color: #BDB7AA;">
+    <span>© 2026 כתרליון KETERLION · נחלת בנימין 13, תל אביב</span>
+    <span dir="ltr" style="letter-spacing: 0.22em;"><span style="color: {{accent}};">IT'S ALL IN YOUR HEAD</span> · TEL AVIV · SINCE 2016</span>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#AE8E42","options":["#AE8E42","#C2A35C","#F4EEE1"]},"$preview":{"width":1440,"height":980}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { accent: this.props.accent ?? '#AE8E42' };
+  }
+}
+</script>
+</body>
+</html>
