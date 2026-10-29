@@ -13,32 +13,36 @@
     "FooterGrid.dc.html": {
       "expand": "fill",
       "h": 900,
+      "page": "footer",
       "title": "פוטר א · גריד מדויק · מחשב",
       "w": 1440,
       "x": 0,
-      "y": 30200
+      "y": 300
     },
     "FooterGridPhone.dc.html": {
       "h": 1700,
+      "page": "footer",
       "title": "פוטר א · גריד מדויק · טלפון",
       "w": 390,
       "x": 1520,
-      "y": 30200
+      "y": 300
     },
     "FooterSystem.dc.html": {
       "expand": "fill",
       "h": 980,
+      "page": "footer",
       "title": "פוטר ב · לוח מערכת · מחשב",
       "w": 1440,
       "x": 1990,
-      "y": 30200
+      "y": 300
     },
     "FooterSystemPhone.dc.html": {
       "h": 1600,
+      "page": "footer",
       "title": "פוטר ב · לוח מערכת · טלפון",
       "w": 390,
       "x": 3510,
-      "y": 30200
+      "y": 300
     },
     "Fonts.dc.html": {
       "expand": "fill",
@@ -133,7 +137,8 @@
   },
   "designSystems": [],
   "launch": {
-    "view": "canvas"
+    "view": "canvas",
+    "page": "footer"
   },
   "notes": {
     "row2title": {
@@ -163,10 +168,11 @@
     "row5title": {
       "kind": "title1",
       "maxW": 3900,
+      "page": "footer",
       "text": "פוטר: מדויק יותר, באווירת הייטק (29.10)",
       "w": 240,
       "x": 0,
-      "y": 29900
+      "y": 0
     },
     "rowtitle": {
       "kind": "title1",
@@ -202,6 +208,15 @@
     "FooterSystem.dc.html",
     "FooterSystemPhone.dc.html"
   ],
-  "pages": [],
+  "pages": [
+    {
+      "id": "home",
+      "name": "דף הבית"
+    },
+    {
+      "id": "footer",
+      "name": "פוטר"
+    }
+  ],
   "title": "דף הבית – כיוון בטון"
 }
