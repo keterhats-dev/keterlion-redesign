@@ -1,0 +1,499 @@
+<title>עורך הטקסטים</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap">
+<style>
+:root{
+  --bg:#FFFFFF; --ink:#171717; --muted:#6B6B69; --line:#DDD3BD; --soft:#F4F4F2;
+  --field:#FFFFFF; --focus:#171717; --pending:#FBF6EA; --ok:#2E6B3A; --red:#C21A1A;
+  --gold:#AE8E42; --bar:#171717; --bar-ink:#FFFFFF; --bar-muted:#BDB7AA; --cream:#F4EEE1;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#121212; --ink:#F1EEE7; --muted:#A19D94; --line:#3A3936; --soft:#1D1C1B;
+    --field:#1A1A19; --focus:#F4EEE1; --pending:#26211A; --ok:#8FC79A; --red:#F07070;
+    --bar:#0A0A0A; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121212; --ink:#F1EEE7; --muted:#A19D94; --line:#3A3936; --soft:#1D1C1B;
+  --field:#1A1A19; --focus:#F4EEE1; --pending:#26211A; --ok:#8FC79A; --red:#F07070;
+  --bar:#0A0A0A; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.55 'Heebo',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:2px;text-underline-offset:3px}
+[hidden]{display:none !important}
+
+.top{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 24px;padding:12px 24px;background:var(--bar);color:var(--bar-ink)}
+.brand{display:flex;align-items:baseline;gap:14px;margin:0}
+.brand b{font-weight:900;font-size:20px;letter-spacing:.01em}
+.brand b span{color:var(--gold)}
+.brand small{font-size:15px;font-weight:500;color:var(--cream)}
+.st{margin:0;font-size:14px;color:var(--bar-muted)}
+.st b{color:var(--gold);font-weight:500}
+
+.how{display:flex;flex-wrap:wrap;gap:6px 28px;margin:0;padding:10px 24px;border-bottom:1px solid var(--line);font-size:14px;color:var(--muted);list-style:none}
+.how li{display:flex;align-items:baseline;gap:8px}
+.how li span{font-weight:500;color:var(--ink)}
+
+.banner{margin:16px 24px 0;padding:10px 14px;border:1px solid var(--red);color:var(--red);font-size:14px}
+
+.layout{display:grid;grid-template-columns:280px minmax(0,1fr);align-items:start}
+.side{position:sticky;top:var(--toph,56px);max-height:calc(100vh - var(--toph,56px));overflow:auto;padding:20px 16px 32px;border-inline-end:1px solid var(--line)}
+.find{display:flex;gap:8px}
+.find input,.side select{width:100%;height:44px;padding:0 12px;border:1px solid var(--line);border-radius:4px;background:var(--field)}
+.find input:focus,.side select:focus{outline:none;border-color:var(--focus);box-shadow:inset 0 0 0 1px var(--focus)}
+.side select{display:none;margin-top:8px}
+.chg{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;height:44px;margin-top:12px;padding:0 12px;border:1px solid var(--ink);border-radius:4px;background:transparent;font-weight:500;cursor:pointer}
+.chg.on{background:var(--ink);color:var(--bg)}
+.grp{margin:22px 0 6px;font-size:12px;font-weight:500;letter-spacing:.08em;color:var(--muted)}
+.doc{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-height:36px;padding:6px 10px;border:0;border-radius:4px;background:transparent;text-align:start;cursor:pointer}
+.doc:hover{background:var(--soft)}
+.doc.on{background:var(--ink);color:var(--bg)}
+.doc .cnt{font-size:12px;color:var(--muted)}
+.doc.on .cnt{color:inherit;opacity:.7}
+.badge{min-width:22px;padding:1px 7px;background:#171717;color:var(--gold);font-size:12px;font-weight:500;text-align:center;border:1px solid var(--gold)}
+
+main{min-width:0;max-width:880px;padding:28px 40px 96px}
+.head h1{margin:0;font-size:clamp(28px,4vw,40px);font-weight:900;line-height:1.05}
+.head h1 span{color:var(--gold)}
+.head p{margin:8px 0 0;font-size:14px;color:var(--muted)}
+.empty{margin:28px 0;color:var(--muted)}
+.sec{margin-top:34px}
+.sec h2{display:flex;align-items:center;gap:10px;margin:0;padding-bottom:8px;border-bottom:1px solid var(--line);font-size:13px;font-weight:500;letter-spacing:.06em;color:var(--muted)}
+.sec h2::before{content:"";flex:none;width:24px;height:3px;background:var(--gold)}
+.sec h2 a{margin-inline-start:auto;font-size:13px;letter-spacing:0}
+
+.item{padding:14px 0;border-bottom:1px solid var(--line)}
+.meta{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;min-height:22px;margin-bottom:6px;font-size:12px;color:var(--muted)}
+.kind{font-weight:500;letter-spacing:.04em}
+.chip{padding:1px 8px;background:#171717;color:var(--gold);border:1px solid var(--gold);font-weight:500}
+.is-applied .chip{background:transparent;color:var(--ok);border-color:currentColor}
+.save{margin-inline-start:auto}
+.save.err{color:var(--red);cursor:pointer;text-decoration:underline}
+textarea{display:block;width:100%;min-height:44px;padding:9px 12px;border:1px solid var(--line);border-radius:4px;background:var(--field);resize:none;overflow:hidden;line-height:1.5}
+textarea:hover{border-color:var(--muted)}
+textarea:focus{outline:none;border-color:var(--focus);box-shadow:inset 0 0 0 1px var(--focus)}
+textarea[readonly]{cursor:progress;color:var(--muted)}
+.k-title textarea{font-size:22px;font-weight:700;line-height:1.25}
+.k-q textarea{font-size:17px;font-weight:500}
+.k-btn textarea{font-weight:500}
+.k-long textarea{font-size:15px;line-height:1.7}
+.is-pending textarea{background:var(--pending);border-inline-start:3px solid var(--gold)}
+.foot{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:8px 16px;margin-top:8px}
+.was{flex:1 1 260px;margin:0;font-size:13px;color:var(--muted);white-space:pre-wrap}
+.was b{font-weight:500}
+.undo{flex:none;height:32px;padding:0 12px;border:1px solid var(--ink);border-radius:4px;background:transparent;font-size:13px;font-weight:500;cursor:pointer}
+.undo:hover{background:var(--ink);color:var(--bg)}
+.locked{max-height:180px;overflow:auto;margin:0;padding:9px 12px;background:var(--soft);color:var(--muted);font-size:14px;white-space:pre-wrap}
+.note{margin:6px 0 0;font-size:13px;color:var(--muted)}
+.foot-note{margin-top:48px;font-size:12px;color:var(--muted)}
+
+@media (max-width:820px){
+  .top{padding:10px 16px}
+  .how{padding:8px 16px;gap:4px 18px;font-size:13px}
+  .banner{margin:12px 16px 0}
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .side{position:static;max-height:none;padding:12px 16px 14px;border-inline-end:0;border-bottom:1px solid var(--line)}
+  .side select{display:block}
+  #docList{display:none}
+  main{padding:22px 16px 72px}
+  .k-long textarea{font-size:16px}
+  textarea{font-size:16px}
+  .k-title textarea{font-size:20px}
+}
+</style>
+
+<header class="top" id="top">
+  <p class="brand"><b>כתרליון<span>.</span></b><small>עורך הטקסטים</small></p>
+  <p class="st" id="st">טוען…</p>
+</header>
+<ol class="how">
+  <li><span>1</span>בוחרים עמוד</li>
+  <li><span>2</span>לוחצים על טקסט וכותבים מחדש. השינוי נשמר לבד</li>
+  <li><span>3</span>כשמסיימים, כותבים ל-Claude: עדכן</li>
+</ol>
+<p class="banner" id="banner" hidden></p>
+<div class="layout">
+  <nav class="side" aria-label="עמודי האתר">
+    <div class="find">
+      <input id="q" type="search" placeholder="חיפוש טקסט בכל האתר" aria-label="חיפוש טקסט בכל האתר">
+    </div>
+    <select id="docSelect" aria-label="בחירת עמוד"></select>
+    <button class="chg" id="chg" type="button"><span>כל השינויים</span><span class="badge" id="chgN" hidden></span></button>
+    <div id="docList"></div>
+  </nav>
+  <main id="main"><p class="empty">טוען את הטקסטים…</p></main>
+</div>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const h = (tag, props = {}, ...kids) => {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(props)) {
+    if (v == null || v === false) continue;
+    if (k === 'class') n.className = v;
+    else if (k === 'text') n.textContent = v;
+    else if (k.startsWith('on')) n.addEventListener(k.slice(2), v);
+    else n.setAttribute(k, v === true ? '' : v);
+  }
+  for (const c of kids.flat()) if (c != null && c !== false) n.append(c);
+  return n;
+};
+
+const GROUPS = [
+  { name: 'בכל האתר', types: ['header', 'footer'] },
+  { name: 'עמודים', types: ['wp-page'] },
+  { name: 'תבניות', types: ['product-archive', 'product', 'error-404'] },
+];
+const KIND_CLASS = { 'כותרת': 'k-title', 'כפתור': 'k-btn', 'טקסט ארוך': 'k-long', 'שאלה': 'k-q' };
+const SAVE_DELAY = 900;
+
+let DATA = null, DOCS = [];
+const docsById = {}, itemsByDoc = {}, itemsByKey = {};
+let edits = {};
+let db = null, user = null, uid = null, ready = false;
+const timers = new Map();
+let view = { type: 'doc', id: 23950 };
+let unsub = null;
+
+const norm = s => String(s ?? '').replace(/\r\n?/g, '\n');
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch {} },
+};
+
+// What the live staging site shows now, and what the editor shows now
+const siteText = key => { const e = edits[key]; return e && e.site != null ? norm(e.site) : itemsByKey[key].text; };
+const currentText = key => { const e = edits[key]; return e ? norm(e.value) : itemsByKey[key].text; };
+const stateOf = key => { const e = edits[key]; return !e ? null : e.status === 'applied' ? 'applied' : 'pending'; };
+const pendingKeys = () => Object.keys(edits).filter(k => itemsByKey[k] && stateOf(k) === 'pending');
+const pendingIn = docId => (itemsByDoc[docId] || []).filter(it => stateOf(it.key) === 'pending').length;
+
+const rtf = new Intl.RelativeTimeFormat('he', { numeric: 'auto' });
+function ago(iso) {
+  const t = Date.parse(iso); if (!t) return '';
+  const s = (t - Date.now()) / 1000, a = Math.abs(s);
+  if (a < 60) return 'עכשיו';
+  if (a < 3600) return rtf.format(Math.round(s / 60), 'minute');
+  if (a < 86400) return rtf.format(Math.round(s / 3600), 'hour');
+  return rtf.format(Math.round(s / 86400), 'day');
+}
+
+function banner(msg) { const b = $('#banner'); b.textContent = msg; b.hidden = !msg; }
+function grow(ta) { ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 2 + 'px'; }
+
+/* ---------- saving ---------- */
+function setSave(key, state) {
+  const s = $(`.item[data-key="${key}"] .save`);
+  if (!s) return;
+  s.classList.toggle('err', state === 'error');
+  s.textContent = { saving: 'שומר…', saved: 'נשמר ✓', error: 'לא נשמר. ללחוץ לניסיון נוסף' }[state] || '';
+  if (state === 'saved') setTimeout(() => { if (s.textContent === 'נשמר ✓') s.textContent = ''; }, 2200);
+}
+
+async function write(fn) {
+  try { return await fn(); }
+  catch (e) {
+    if (e && e.code === 'unavailable') {
+      await new Promise(r => setTimeout(r, 400 + Math.random() * 600));
+      return fn();
+    }
+    throw e;
+  }
+}
+
+async function commit(key, value) {
+  clearTimeout(timers.get(key)); timers.delete(key);
+  if (!db || !ready) return;
+  const it = itemsByKey[key], e = edits[key];
+  value = norm(value);
+  const site = siteText(key);
+  const ref = db.collection('edits').doc(key);
+  setSave(key, 'saving');
+  try {
+    if (value === site) {
+      if (!e || e.status === 'applied') { setSave(key, null); return; }
+      if (site === it.text) await write(() => ref.delete());
+      else await write(() => ref.set({ ...e, value: site, status: 'applied' }));
+    } else {
+      if (e && e.status !== 'applied' && norm(e.value) === value) { setSave(key, 'saved'); return; }
+      const d = docsById[it.doc];
+      await write(() => ref.set({
+        value, site, original: it.text,
+        doc: it.doc, el: it.el, field: it.field, kind: it.kind,
+        page: d ? d.name : '', section: it.section,
+        status: 'pending', by: uid, at: new Date().toISOString(),
+      }));
+    }
+    setSave(key, 'saved');
+  } catch (err) {
+    setSave(key, 'error');
+    if (err && err.code === 'quota_exceeded') banner('נגמר המקום לשינויים. כתבו ל-Claude "עדכן" כדי שיעדכן את האתר וינקה את הרשימה.');
+    else if (err && err.code === 'revoked') lockAll('הגישה לעמוד הזה השתנתה. רעננו את העמוד.');
+  }
+}
+
+function flushAll() {
+  for (const key of [...timers.keys()]) {
+    const ta = $(`.item[data-key="${key}"] textarea`);
+    if (ta) commit(key, ta.value); else { clearTimeout(timers.get(key)); timers.delete(key); }
+  }
+}
+
+function lockAll(msg) {
+  ready = false;
+  banner(msg);
+  document.querySelectorAll('#main textarea').forEach(t => t.readOnly = true);
+}
+
+/* ---------- cards ---------- */
+function card(it, showWhere) {
+  const key = it.key;
+  const art = h('article', { class: 'item ' + (KIND_CLASS[it.kind] || 'k-text'), 'data-key': key },
+    h('div', { class: 'meta' },
+      h('span', { class: 'kind', text: it.kind }),
+      showWhere ? h('span', { text: it.section }) : null,
+      h('span', { class: 'chip', hidden: true }),
+      h('span', { class: 'who' }),
+      h('span', { class: 'save', 'aria-live': 'polite', onclick: e => { if (e.currentTarget.classList.contains('err')) { const ta = $('textarea', art); if (ta) commit(key, ta.value); } } }),
+    ));
+  if (it.locked) {
+    art.append(
+      h('p', { class: 'locked', dir: 'auto', text: it.text }),
+      h('p', { class: 'note', text: 'יש כאן קישור או רשימה, ולכן אי אפשר לערוך את זה כאן. כתבו ל-Claude מה לשנות.' }));
+    return art;
+  }
+  const ta = h('textarea', { dir: 'auto', rows: 1, 'aria-label': `${it.kind}: ${it.text.slice(0, 50)}` });
+  ta.value = currentText(key);
+  ta.readOnly = !ready;
+  ta.addEventListener('input', () => {
+    grow(ta);
+    clearTimeout(timers.get(key));
+    timers.set(key, setTimeout(() => commit(key, ta.value), SAVE_DELAY));
+  });
+  ta.addEventListener('blur', () => { if (timers.has(key)) commit(key, ta.value); });
+  art.append(ta, h('div', { class: 'foot' },
+    h('p', { class: 'was', hidden: true }),
+    h('button', { class: 'undo', type: 'button', hidden: true, text: 'ביטול השינוי', onclick: () => {
+      ta.value = siteText(key); grow(ta); commit(key, ta.value);
+    } })));
+  return art;
+}
+
+function updateCard(art) {
+  const key = art.dataset.key, it = itemsByKey[key], st = stateOf(key);
+  art.classList.toggle('is-pending', st === 'pending');
+  art.classList.toggle('is-applied', st === 'applied');
+  const chip = $('.chip', art);
+  chip.hidden = !st;
+  chip.textContent = st === 'pending' ? 'ממתין לעדכון' : st === 'applied' ? 'עודכן באתר ✓' : '';
+  if (!st) $('.who', art).textContent = '';
+  if (it.locked) return;
+  const ta = $('textarea', art);
+  if (document.activeElement !== ta && !timers.has(key)) {
+    const v = currentText(key);
+    if (ta.value !== v) { ta.value = v; grow(ta); }
+  }
+  const was = $('.was', art);
+  was.hidden = st !== 'pending';
+  if (st === 'pending') was.replaceChildren(h('b', { text: 'באתר עכשיו: ' }), h('span', { dir: 'auto', text: siteText(key) }));
+  $('.undo', art).hidden = st !== 'pending';
+}
+
+async function resolveNames() {
+  const arts = [...document.querySelectorAll('#main .item')].filter(a => edits[a.dataset.key]);
+  if (!arts.length) return;
+  const ids = [...new Set(arts.map(a => edits[a.dataset.key].by).filter(Boolean))];
+  const ps = user && ids.length ? await user.profiles(ids) : {};
+  for (const a of arts) {
+    const e = edits[a.dataset.key]; if (!e) continue;
+    const name = e.by && ps[e.by] ? ps[e.by].name : '';
+    $('.who', a).textContent = [name, ago(e.at)].filter(Boolean).join(' · ');
+  }
+}
+
+/* ---------- navigation ---------- */
+function renderSide() {
+  const list = $('#docList'), sel = $('#docSelect');
+  list.replaceChildren(); sel.replaceChildren();
+  if (view.type !== 'doc') sel.append(h('option', { value: '', text: view.type === 'changes' ? 'כל השינויים' : 'תוצאות חיפוש', selected: true }));
+  for (const g of GROUPS) {
+    const docs = DOCS.filter(d => g.types.includes(d.type));
+    if (!docs.length) continue;
+    list.append(h('p', { class: 'grp', text: g.name }));
+    const og = h('optgroup', { label: g.name });
+    for (const d of docs) {
+      const n = pendingIn(d.id), on = view.type === 'doc' && view.id === d.id;
+      list.append(h('button', { type: 'button', class: 'doc' + (on ? ' on' : ''), 'aria-current': on ? 'page' : null, onclick: () => go({ type: 'doc', id: d.id }) },
+        h('span', { text: d.name }),
+        n ? h('span', { class: 'badge', text: String(n), title: 'שינויים שמחכים' }) : h('span', { class: 'cnt', text: String(itemsByDoc[d.id].length) })));
+      og.append(h('option', { value: d.id, selected: on, text: d.name + (n ? ` (${n} שינויים)` : '') }));
+    }
+    sel.append(og);
+  }
+  const total = pendingKeys().length;
+  const chg = $('#chg');
+  chg.classList.toggle('on', view.type === 'changes');
+  $('#chgN').hidden = !total; $('#chgN').textContent = total;
+  const applied = Object.keys(edits).filter(k => itemsByKey[k] && stateOf(k) === 'applied').length;
+  const st = $('#st');
+  st.replaceChildren();
+  if (!ready) st.textContent = db === null && DATA ? 'צפייה בלבד' : 'מתחבר…';
+  else if (total) st.append(h('b', { text: `${total} שינויים` }), ' מחכים לעדכון באתר', applied ? ` · ${applied} כבר עודכנו` : '');
+  else st.textContent = applied ? `אין שינויים שמחכים · ${applied} כבר עודכנו באתר` : 'אין שינויים שמחכים';
+}
+
+function sections(items) {
+  const out = []; let cur = null;
+  for (const it of items) {
+    if (!cur || cur.idx !== it.sectionIndex) { cur = { idx: it.sectionIndex, name: it.section, items: [] }; out.push(cur); }
+    cur.items.push(it);
+  }
+  return out;
+}
+
+function docLine(d) {
+  if (d.url) return h('a', { href: d.url, target: '_blank', rel: 'noopener', text: 'לפתוח ב-staging ↗' });
+  if (d.type === 'header' || d.type === 'footer') return 'מופיע בכל עמודי האתר';
+  return 'תבנית: משפיעה על כל העמודים מהסוג הזה';
+}
+
+function renderMain() {
+  const m = $('#main');
+  m.replaceChildren();
+  if (view.type === 'doc') {
+    const d = docsById[view.id], items = itemsByDoc[d.id];
+    m.append(h('div', { class: 'head' },
+      h('h1', {}, d.name, h('span', { text: '.' })),
+      h('p', {}, `${items.length} טקסטים · `, docLine(d))));
+    for (const s of sections(items)) m.append(h('section', { class: 'sec' }, h('h2', { text: s.name }), s.items.map(it => card(it))));
+  } else {
+    const isChanges = view.type === 'changes';
+    let list;
+    if (isChanges) {
+      list = Object.keys(edits).map(k => itemsByKey[k]).filter(Boolean)
+        .sort((a, b) => (stateOf(a.key) === 'pending' ? 0 : 1) - (stateOf(b.key) === 'pending' ? 0 : 1)
+          || docsById[a.doc].order - docsById[b.doc].order || a.sectionIndex - b.sectionIndex || a.order - b.order);
+    } else {
+      const q = view.q.toLowerCase();
+      list = DATA.items.filter(it => (it.text + '\n' + currentText(it.key)).toLowerCase().includes(q))
+        .sort((a, b) => docsById[a.doc].order - docsById[b.doc].order || a.sectionIndex - b.sectionIndex || a.order - b.order)
+        .slice(0, 200);
+    }
+    m.append(h('div', { class: 'head' },
+      h('h1', {}, isChanges ? 'כל השינויים' : `חיפוש: ${view.q}`, h('span', { text: '.' })),
+      h('p', { text: isChanges
+        ? 'כל מה שנערך כאן. מה שמחכה מופיע ראשון. כשמסיימים, כותבים ל-Claude: עדכן'
+        : `${list.length} טקסטים נמצאו` })));
+    if (!list.length) m.append(h('p', { class: 'empty', text: isChanges ? 'עוד אין שינויים. בוחרים עמוד ולוחצים על טקסט.' : 'לא נמצא טקסט כזה.' }));
+    const byDoc = new Map();
+    for (const it of list) { if (!byDoc.has(it.doc)) byDoc.set(it.doc, []); byDoc.get(it.doc).push(it); }
+    for (const [docId, items] of byDoc) {
+      const d = docsById[docId];
+      m.append(h('section', { class: 'sec' },
+        h('h2', {}, d.name, h('a', { href: '#', text: 'לכל העמוד', onclick: e => { e.preventDefault(); go({ type: 'doc', id: d.id }); } })),
+        items.map(it => card(it, true))));
+    }
+  }
+  m.append(h('p', { class: 'foot-note', text: `הטקסטים נלקחו מ-staging ב-${new Date(DATA.extractedAt).toLocaleDateString('he-IL')}. אחרי כל עדכון Claude מסמן את השינויים "עודכן באתר".` }));
+  m.querySelectorAll('.item').forEach(updateCard);
+  requestAnimationFrame(() => m.querySelectorAll('textarea').forEach(grow));
+  resolveNames();
+}
+
+function go(v) {
+  flushAll();
+  view = v;
+  if (v.type === 'doc') { store.set('kl-te-doc', String(v.id)); $('#q').value = ''; }
+  renderSide(); renderMain();
+  window.scrollTo({ top: 0 });
+}
+
+function refresh() {
+  renderSide();
+  if (view.type === 'changes') {
+    const shown = [...document.querySelectorAll('#main .item')].map(a => a.dataset.key).sort().join();
+    const want = Object.keys(edits).filter(k => itemsByKey[k]).sort().join();
+    if (shown !== want && !document.activeElement?.matches('#main textarea')) { renderMain(); return; }
+  }
+  document.querySelectorAll('#main .item').forEach(updateCard);
+  resolveNames();
+}
+
+/* ---------- data ---------- */
+function subscribe() {
+  if (unsub) unsub();
+  unsub = db.collection('edits').onSnapshot(snap => {
+    const next = {};
+    for (const d of snap.docs) next[d.id] = d.data();
+    edits = next;
+    if (!ready) {
+      ready = true;
+      document.querySelectorAll('#main textarea').forEach(t => t.readOnly = false);
+    }
+    refresh();
+  }, err => {
+    if (err && err.code === 'unavailable') { setTimeout(subscribe, 2000); return; }
+    lockAll(err && err.code === 'revoked' ? 'הגישה לעמוד הזה השתנתה. רעננו את העמוד.' : 'יש בעיה בחיבור לשמירה. רעננו את העמוד.');
+    renderSide();
+  });
+}
+
+function measureTop() { document.documentElement.style.setProperty('--toph', $('#top').offsetHeight + 'px'); }
+
+(async function init() {
+  measureTop();
+  window.addEventListener('resize', () => { measureTop(); document.querySelectorAll('#main textarea').forEach(grow); });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) flushAll(); });
+
+  try {
+    const r = await fetch('texts.json');
+    if (!r.ok) throw new Error(r.status);
+    DATA = await r.json();
+  } catch {
+    $('#main').replaceChildren(h('p', { class: 'empty', text: 'לא הצלחתי לטעון את הטקסטים. רעננו את העמוד.' }));
+    return;
+  }
+  for (const d of DATA.docs) docsById[d.id] = d;
+  for (const it of DATA.items) {
+    it.text = norm(it.text);
+    itemsByKey[it.key] = it;
+    (itemsByDoc[it.doc] ||= []).push(it);
+  }
+  for (const k in itemsByDoc) itemsByDoc[k].sort((a, b) => a.sectionIndex - b.sectionIndex || a.order - b.order);
+  DOCS = DATA.docs.filter(d => itemsByDoc[d.id]?.length).sort((a, b) => a.order - b.order);
+
+  const last = Number(store.get('kl-te-doc'));
+  if (itemsByDoc[last]) view = { type: 'doc', id: last };
+  else if (!itemsByDoc[view.id]) view = { type: 'doc', id: DOCS[0].id };
+
+  let qt;
+  $('#q').addEventListener('input', e => {
+    clearTimeout(qt);
+    const q = e.target.value.trim();
+    qt = setTimeout(() => {
+      if (q.length >= 2) { flushAll(); view = { type: 'search', q }; renderSide(); renderMain(); }
+      else if (!q && view.type === 'search') go({ type: 'doc', id: Number(store.get('kl-te-doc')) || DOCS[0].id });
+    }, 200);
+  });
+  $('#docSelect').addEventListener('change', e => { if (e.target.value) go({ type: 'doc', id: Number(e.target.value) }); });
+  $('#chg').addEventListener('click', () => go({ type: 'changes' }));
+
+  renderSide(); renderMain();
+
+  const c = window.claude;
+  [db, user] = c ? await Promise.all([c.use('db'), c.use('user')]) : [null, null];
+  uid = user ? await user.id() : null;
+  if (!db) {
+    banner('השמירה לא זמינה בתצוגה הזו. פתחו את העמוד ב-claude.ai כדי לערוך.');
+    renderSide();
+    return;
+  }
+  subscribe();
+})();
+</script>
