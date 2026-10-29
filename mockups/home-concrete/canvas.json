@@ -17,12 +17,46 @@
       "title": "פוטר א · גריד מדויק · מחשב",
       "w": 1440,
       "x": 0,
-      "y": 300
+      "y": 2100
     },
     "FooterGridPhone.dc.html": {
       "h": 1700,
       "page": "footer",
       "title": "פוטר א · גריד מדויק · טלפון",
+      "w": 390,
+      "x": 1520,
+      "y": 2100
+    },
+    "FooterQuiet.dc.html": {
+      "expand": "fill",
+      "h": 760,
+      "page": "footer",
+      "title": "פוטר ד · שקט · מחשב",
+      "w": 1440,
+      "x": 1990,
+      "y": 300
+    },
+    "FooterQuietPhone.dc.html": {
+      "h": 1060,
+      "page": "footer",
+      "title": "פוטר ד · שקט · טלפון",
+      "w": 390,
+      "x": 3510,
+      "y": 300
+    },
+    "FooterRaw.dc.html": {
+      "expand": "fill",
+      "h": 1180,
+      "page": "footer",
+      "title": "פוטר ג · פוסטר מחוספס · מחשב",
+      "w": 1440,
+      "x": 0,
+      "y": 300
+    },
+    "FooterRawPhone.dc.html": {
+      "h": 1300,
+      "page": "footer",
+      "title": "פוטר ג · פוסטר מחוספס · טלפון",
       "w": 390,
       "x": 1520,
       "y": 300
@@ -34,7 +68,7 @@
       "title": "פוטר ב · לוח מערכת · מחשב",
       "w": 1440,
       "x": 1990,
-      "y": 300
+      "y": 2100
     },
     "FooterSystemPhone.dc.html": {
       "h": 1600,
@@ -42,7 +76,7 @@
       "title": "פוטר ב · לוח מערכת · טלפון",
       "w": 390,
       "x": 3510,
-      "y": 300
+      "y": 2100
     },
     "Fonts.dc.html": {
       "expand": "fill",
@@ -169,7 +203,16 @@
       "kind": "title1",
       "maxW": 3900,
       "page": "footer",
-      "text": "פוטר: מדויק יותר, באווירת הייטק (29.10)",
+      "text": "פוטר, סבב 1: מדויק יותר, באווירת הייטק (29.10)",
+      "w": 240,
+      "x": 0,
+      "y": 1800
+    },
+    "row6title": {
+      "kind": "title1",
+      "maxW": 3900,
+      "page": "footer",
+      "text": "פוטר, סבב 2: מחוספס, מאוורר ומצומצם (29.10)",
       "w": 240,
       "x": 0,
       "y": 0
@@ -206,7 +249,11 @@
     "FooterGrid.dc.html",
     "FooterGridPhone.dc.html",
     "FooterSystem.dc.html",
-    "FooterSystemPhone.dc.html"
+    "FooterSystemPhone.dc.html",
+    "FooterRaw.dc.html",
+    "FooterRawPhone.dc.html",
+    "FooterQuiet.dc.html",
+    "FooterQuietPhone.dc.html"
   ],
   "pages": [
     {
