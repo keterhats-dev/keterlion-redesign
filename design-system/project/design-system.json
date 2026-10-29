@@ -30,9 +30,9 @@
     "Logos"
   ],
   "lastChange": {
-    "at": "2026-10-26T12:00:00Z",
+    "at": "2026-10-29T12:00:00Z",
     "by": "shneor",
-    "note": "Updated to the approved 'Simta' direction (26.10.2026): black #171717, gold #AE8E42, cream, beige hairlines, 4px corners on controls, Heebo 900/500/400 and Suez One for the sticker. Added CollectionRow.",
+    "note": "Product photos without a frame; a small gallery inside the product card (next photo on hover, arrows, swipe, dots); shop listings show every product on one page (29.10.2026).",
     "via": "Claude Code"
   },
   "layout": "files",
