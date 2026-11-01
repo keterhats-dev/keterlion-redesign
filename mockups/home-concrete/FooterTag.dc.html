@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="he">
+<head>
+<meta charset="utf-8">
+<title>פוטר ז · תגית כובע</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&amp;display=swap">
+<style>
+body{margin:0;background:#FFFFFF}
+.kft,.kft *{box-sizing:border-box}
+.kft a{color:inherit;text-decoration:none}
+.kft a:focus-visible,.kft button:focus-visible,.kft input:focus-visible{outline:3px solid #AE8E42;outline-offset:3px}
+.kft-num{font-variant-numeric:tabular-nums}
+.kft-lb{margin:0;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500;letter-spacing:.12em;color:#6B6B69}
+.kft-lb::before{content:"";width:24px;height:2px;background:#AE8E42}
+.kft-big a{display:block;width:fit-content;font-size:30px;font-weight:500;line-height:1.55}
+.kft-big a:hover,.kft-mini a:hover,.kft-store a:hover{text-decoration:underline;text-decoration-color:#AE8E42;text-decoration-thickness:2px;text-underline-offset:6px}
+.kft-tag{clip-path:polygon(22% 0,78% 0,100% 9%,100% 100%,0 100%,0 9%)}
+.kft-spec{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px dotted #6B6B69;font-size:14px}
+.kft-spec dt{color:#BDB7AA}
+.kft-spec dd{margin:0;font-weight:500;color:#FFFFFF}
+.kft-in::placeholder{color:#8A877F}
+.kft-soc{display:flex;align-items:center;gap:12px;min-height:60px;padding:0 18px;border-radius:4px;background:#171717;color:#FFFFFF !important;font-size:17px;font-weight:500;transition:background .15s ease}
+.kft-soc:hover{background:#3A3936}
+.kft-soc svg{width:24px;height:24px;flex-shrink:0}
+</style>
+</helmet>
+<footer class="kft" dir="rtl" style="min-height: 100vh; background: {{bg}}; color: #171717; font-family: 'Heebo', system-ui, sans-serif; border-top: 1px solid #DDD3BD; padding: 0 64px 40px;">
+  <div style="display: grid; grid-template-columns: minmax(0, 1fr) 400px minmax(0, 1fr); gap: 80px; align-items: start;">
+
+    <!-- קישורים -->
+    <nav aria-label="ניווט בפוטר" style="padding-top: 150px;">
+      <p class="kft-lb">באתר</p>
+      <div class="kft-big" style="margin-top: 16px;">
+        <a href="#">כובעים</a><a href="#">ביגוד</a><a href="#">עיצוב אישי</a><a href="#">סיטונאות</a><a href="#">Gift Card</a>
+      </div>
+      <p class="kft-mini" style="margin: 26px 0 0; max-width: 400px; font-size: 15px; line-height: 2; color: #4A4A48;"><a href="#">הסיפור</a> · <a href="#">Partnership</a> · <a href="#">Hats for Israeli Soldiers</a> · <a href="#">שאלות נפוצות</a> · <a href="#">משלוחים</a> · <a href="#">החזרות וביטולים</a> · <a href="#">צור קשר</a> · <a href="#">הצהרת נגישות</a></p>
+    </nav>
+
+    <!-- התגית -->
+    <div style="position: relative; padding-top: 110px;">
+      <svg viewBox="0 0 400 150" width="400" height="150" aria-hidden="true" style="position: absolute; top: 0; left: 0; z-index: 2;"><path d="M206,0 C190,52 222,92 200,138 C194,150 186,142 192,134" fill="none" stroke="#171717" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <div class="kft-tag" style="position: relative; background: #171717; color: #FFFFFF; padding: 86px 44px 38px; text-align: center;">
+        <span aria-hidden="true" style="position: absolute; top: 14px; left: 50%; transform: translateX(-50%); width: 30px; height: 30px; border-radius: 50%; background: {{bg}}; border: 5px solid #AE8E42;"></span>
+        <img src="/_blob/f540992a8865529a2789d1d6f6715a97" alt="" style="width: 62px; height: 62px; object-fit: contain; display: block; margin: 0 auto; filter: brightness(0) invert(1);">
+        <img src="/_blob/35344fec8f745a241bdc6d2fcbf52561" alt="KETERLION" style="height: 22px; width: auto; display: block; margin: 14px auto 0;">
+        <p dir="ltr" style="margin: 12px 0 0; font-size: 12px; font-weight: 500; letter-spacing: 0.22em; color: #AE8E42;">IT'S ALL IN YOUR HEAD</p>
+
+        <dl style="margin: 26px 0 0; text-align: start;">
+          <div class="kft-spec" style="border-top: 1px dotted #6B6B69;"><dt>דגם</dt><dd>מועדון כתרליון</dd></div>
+          <div class="kft-spec"><dt>מידה</dt><dd>אחת לכולם</dd></div>
+          <div class="kft-spec"><dt>מחיר</dt><dd class="kft-num">₪0</dd></div>
+        </dl>
+        <p style="margin: 20px 0 0; font-size: 15px; line-height: 1.6; color: #F4EEE1;">קולקציות חדשות והטבות<br>לחברי המועדון.</p>
+        <form style="margin-top: 18px; text-align: start;" onsubmit="return false">
+          <label for="kft-mail" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">האימייל שלכם</label>
+          <input id="kft-mail" class="kft-in" type="email" autocomplete="email" placeholder="האימייל שלכם" style="display: block; width: 100%; height: 50px; padding: 0 2px; border: 0; border-bottom: 1px solid #F4EEE1; background: transparent; color: #FFFFFF; font-family: inherit; font-size: 16px;">
+          <button type="submit" style="display: block; width: 100%; height: 52px; margin-top: 14px; border: 0; border-radius: 4px; background: #AE8E42; color: #171717; font-family: inherit; font-size: 16px; font-weight: 700; cursor: pointer;">הצטרפות למועדון</button>
+        </form>
+        <p dir="ltr" style="margin: 22px 0 0; font-size: 11px; letter-spacing: 0.2em; color: #6B6B69;">SINCE 2016 ✱ TEL AVIV</p>
+      </div>
+    </div>
+
+    <!-- חנות ורשתות -->
+    <div style="padding-top: 150px;">
+      <p class="kft-lb">בחנות</p>
+      <div class="kft-store" style="margin-top: 16px; font-size: 17px; line-height: 1.8;">
+        <p style="margin: 0; font-weight: 500;">נחלת בנימין 13, תל אביב</p>
+        <p style="margin: 0; color: #4A4A48;"><span class="kft-num">10:00–19:00</span> · שישי <span class="kft-num">10:00–15:00</span></p>
+        <p style="margin: 0; color: #4A4A48;"><a href="#" dir="ltr" class="kft-num">03-9385005</a></p>
+      </div>
+      <p id="kft-soc-t" class="kft-lb" style="margin-top: 48px;">עקבו אחרינו</p>
+      <ul aria-labelledby="kft-soc-t" style="list-style: none; margin: 18px 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 400px;">
+        <li><a class="kft-soc" href="#" target="_blank" rel="noopener" aria-label="Instagram, נפתח בחלון חדש"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.3" cy="6.7" r="1.3" fill="currentColor"/></svg>Instagram</a></li>
+        <li><a class="kft-soc" href="#" target="_blank" rel="noopener" aria-label="TikTok, נפתח בחלון חדש"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.6 3c.3 2.4 1.9 4 4.4 4.2v3.3c-1.6.1-3.1-.4-4.4-1.3v6.3c0 3.6-2.6 5.8-5.7 5.8a5.6 5.6 0 0 1-5.6-5.7c0-3.4 2.9-6 6.6-5.5v3.4c-1.7-.4-3.2.6-3.2 2.1 0 1.3 1 2.3 2.3 2.3 1.4 0 2.4-.9 2.4-2.6V3h3.2z"/></svg>TikTok</a></li>
+        <li><a class="kft-soc" href="#" target="_blank" rel="noopener" aria-label="Facebook, נפתח בחלון חדש"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.5-1.5h1.6V4.3c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21h3.1z"/></svg>Facebook</a></li>
+        <li><a class="kft-soc" href="#" target="_blank" rel="noopener" aria-label="WhatsApp, נפתח בחלון חדש"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2a8.8 8.8 0 0 0-7.6 13.2L3.2 20.8l4.5-1.2A8.8 8.8 0 1 0 12 3.2z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path fill="currentColor" d="M9.3 7.8c-.3 0-.6.1-.9.4-.3.4-1 1-1 2.4s1 2.7 1.2 2.9c.1.2 2 3.1 4.9 4.2 2.4.9 2.9.8 3.4.7.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3l-1.9-.9c-.3-.1-.5-.2-.7.2l-.9 1.1c-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.8-.7-1.4-1.6-1.6-1.9-.2-.3 0-.4.1-.6l.5-.5.3-.5c.1-.2 0-.4 0-.5l-.9-2.1c-.2-.5-.4-.5-.6-.5h-.5z"/></svg>WhatsApp</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 32px; margin-top: 72px; padding-top: 18px; border-top: 1px solid #DDD3BD; font-size: 12px; letter-spacing: 0.08em; color: #6B6B69;">
+    <span>© כתרליון KETERLION</span>
+    <span>משלוח חינם מעל ₪249 <span style="color: #AE8E42;">✱</span> עד 5 ימי עסקים <span style="color: #AE8E42;">✱</span> איסוף עצמי מנחלת בנימין 13</span>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"bg":{"editor":"enum","default":"לבן","options":["לבן","אפור בהיר"]},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { bg: (this.props.bg ?? 'לבן') === 'אפור בהיר' ? '#F4F4F2' : '#FFFFFF' };
+  }
+}
+</script>
+</body>
+</html>

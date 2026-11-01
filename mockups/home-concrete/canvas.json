@@ -10,6 +10,42 @@
       "x": 3040,
       "y": 0
     },
+    "FooterReceipt.dc.html": {
+      "expand": "fill",
+      "h": 1100,
+      "page": "footer",
+      "title": "פוטר ה · קבלה מהחנות · מחשב",
+      "w": 1440,
+      "x": 0,
+      "y": 300
+    },
+    "FooterPostcard.dc.html": {
+      "expand": "fill",
+      "h": 1060,
+      "page": "footer",
+      "title": "פוטר ו · גלויה מנחלת בנימין · מחשב",
+      "w": 1440,
+      "x": 1520,
+      "y": 300
+    },
+    "FooterTag.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "page": "footer",
+      "title": "פוטר ז · תגית כובע · מחשב",
+      "w": 1440,
+      "x": 3040,
+      "y": 300
+    },
+    "FooterPatch.dc.html": {
+      "expand": "fill",
+      "h": 840,
+      "page": "footer",
+      "title": "פוטר ח · טלאים רקומים · מחשב",
+      "w": 1440,
+      "x": 4560,
+      "y": 300
+    },
     "FooterGrid.dc.html": {
       "expand": "fill",
       "h": 900,
@@ -17,7 +53,7 @@
       "title": "פוטר א · גריד מדויק · מחשב",
       "w": 1440,
       "x": 0,
-      "y": 2100
+      "y": 3800
     },
     "FooterGridPhone.dc.html": {
       "h": 1700,
@@ -25,7 +61,7 @@
       "title": "פוטר א · גריד מדויק · טלפון",
       "w": 390,
       "x": 1520,
-      "y": 2100
+      "y": 3800
     },
     "FooterQuiet.dc.html": {
       "expand": "fill",
@@ -34,7 +70,7 @@
       "title": "פוטר ד · שקט · מחשב",
       "w": 1440,
       "x": 1990,
-      "y": 300
+      "y": 2000
     },
     "FooterQuietPhone.dc.html": {
       "h": 1060,
@@ -42,7 +78,7 @@
       "title": "פוטר ד · שקט · טלפון",
       "w": 390,
       "x": 3510,
-      "y": 300
+      "y": 2000
     },
     "FooterRaw.dc.html": {
       "expand": "fill",
@@ -51,7 +87,7 @@
       "title": "פוטר ג · פוסטר מחוספס · מחשב",
       "w": 1440,
       "x": 0,
-      "y": 300
+      "y": 2000
     },
     "FooterRawPhone.dc.html": {
       "h": 1300,
@@ -59,7 +95,7 @@
       "title": "פוטר ג · פוסטר מחוספס · טלפון",
       "w": 390,
       "x": 1520,
-      "y": 300
+      "y": 2000
     },
     "FooterSystem.dc.html": {
       "expand": "fill",
@@ -68,7 +104,7 @@
       "title": "פוטר ב · לוח מערכת · מחשב",
       "w": 1440,
       "x": 1990,
-      "y": 2100
+      "y": 3800
     },
     "FooterSystemPhone.dc.html": {
       "h": 1600,
@@ -76,7 +112,7 @@
       "title": "פוטר ב · לוח מערכת · טלפון",
       "w": 390,
       "x": 3510,
-      "y": 2100
+      "y": 3800
     },
     "Fonts.dc.html": {
       "expand": "fill",
@@ -206,13 +242,22 @@
       "text": "פוטר, סבב 1: מדויק יותר, באווירת הייטק (29.10)",
       "w": 240,
       "x": 0,
-      "y": 1800
+      "y": 3500
     },
     "row6title": {
       "kind": "title1",
       "maxW": 3900,
       "page": "footer",
       "text": "פוטר, סבב 2: מחוספס, מאוורר ומצומצם (29.10)",
+      "w": 240,
+      "x": 0,
+      "y": 1700
+    },
+    "row7title": {
+      "kind": "title1",
+      "maxW": 6000,
+      "page": "footer",
+      "text": "פוטר, סבב 3: נפרד מהאתר, קליל ומיוחד, עם כפתורי רשתות בולטים (1.11)",
       "w": 240,
       "x": 0,
       "y": 0
@@ -253,7 +298,11 @@
     "FooterRaw.dc.html",
     "FooterRawPhone.dc.html",
     "FooterQuiet.dc.html",
-    "FooterQuietPhone.dc.html"
+    "FooterQuietPhone.dc.html",
+    "FooterReceipt.dc.html",
+    "FooterPostcard.dc.html",
+    "FooterTag.dc.html",
+    "FooterPatch.dc.html"
   ],
   "pages": [
     {
