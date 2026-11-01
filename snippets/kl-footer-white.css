@@ -1,0 +1,124 @@
+/* Custom CSS of KL Footer 2026 (template 23933) on staging, as saved on 1.11.2026.
+   Footer א on white: beige grid lines, store column, labeled social buttons, black lion and wordmark.
+   Replaces the footer part of kl-simta-header-footer.css (club on black, gold button). */
+selector .elementor-widget{width:auto;max-width:none}
+selector .elementor-widget-form{width:100%}
+selector .elementor-widget-form .elementor-field-group{margin-bottom:0}
+selector .elementor-widget-form .elementor-field{padding:12px 0}
+selector .elementor-widget-nav-menu .elementor-nav-menu--main .elementor-item{padding-inline:0}
+
+/* ===== KL footer A on white (1.11.2026): beige grid lines, store column, labeled social buttons, black lion and wordmark ===== */
+selector .elementor-element-4bc71cc{background:#FFFFFF !important;padding:0 !important;gap:0 !important;color:#171717}
+selector .elementor-element-4bc71cc a:focus-visible{outline:3px solid #AE8E42;outline-offset:3px}
+selector .elementor-element-7d60683{border-bottom:1px solid #DDD3BD !important}
+selector :is([data-id="b4713bc"],[data-id="ae7d8d2"],[data-id="1454163"])::before{font-size:12px;font-weight:500;letter-spacing:.08em;color:#6B6B69;margin-inline-end:10px;font-variant-numeric:tabular-nums}
+selector [data-id="b4713bc"]::before{content:"01"}
+selector [data-id="ae7d8d2"]::before{content:"02"}
+selector [data-id="1454163"]::before{content:"03"}
+
+/* main row: club | shop | keterlion | help | store */
+selector .elementor-element-ebb3ffb{display:grid !important;grid-template-columns:4fr 2fr 2fr 2fr 3fr;gap:0 !important;padding:0 !important;align-items:stretch !important}
+selector .elementor-element-ebb3ffb > *{min-width:0;margin:0 !important;padding:52px 32px 56px !important;border-inline-start:1px solid #DDD3BD;width:auto !important;max-width:none !important}
+selector .elementor-element-ebb3ffb > :first-child{border-inline-start:0}
+
+/* club */
+selector .elementor-element-617a118{background:transparent !important;text-align:start !important;align-items:flex-start !important;justify-content:flex-start !important;gap:20px !important}
+selector .elementor-element-205a9b0{justify-content:flex-start !important;align-items:center !important;gap:14px !important;margin:0 !important}
+selector [data-id="b43e4bf"]{color:#6B6B69 !important}
+selector [data-id="cedfc3f"]{color:#171717 !important;font-size:44px !important;line-height:1.05 !important;margin:0 !important;text-align:start !important}
+selector [data-id="cedfc3f"]::after{content:".";color:#AE8E42}
+selector [data-id="b178bbc"]{color:#4A4A48 !important;max-width:380px;margin:0 !important;text-align:start !important}
+selector .elementor-element-040ee68{width:100% !important;max-width:440px !important;margin:0 !important;justify-content:flex-start !important}
+selector .elementor-element-9f92550 .elementor-field-group:not(.elementor-field-type-submit) .elementor-field{background:#FFFFFF !important;color:#171717 !important;border:1px solid #171717 !important;border-radius:0 4px 4px 0 !important;padding:0 16px !important;min-height:52px;font-family:Heebo,sans-serif;font-size:16px}
+selector .elementor-element-9f92550 .elementor-field::placeholder{color:#8A877F}
+selector .elementor-element-9f92550 .elementor-button{background:#171717 !important;color:#FFFFFF !important;border:0 !important;border-radius:4px 0 0 4px !important;font-family:Heebo,sans-serif;font-weight:700 !important;min-height:52px;padding:0 24px !important}
+selector .elementor-element-9f92550 .elementor-button:hover{background:#3A3936 !important}
+selector .elementor-element-9f92550 .elementor-field-label,selector .elementor-element-9f92550 .elementor-message{color:#171717}
+
+/* column headings with numbers 04-07 */
+selector :is([data-id="89944d4"],[data-id="a6e765d"],[data-id="9a98036"]),selector .kl-fh{color:#171717 !important;font-size:13px !important;font-weight:500 !important;letter-spacing:.12em !important;line-height:1.4 !important;margin:0 0 6px !important;display:flex;align-items:baseline;gap:10px}
+selector :is([data-id="89944d4"],[data-id="a6e765d"],[data-id="9a98036"],.kl-fh)::before{font-size:12px;font-weight:500;letter-spacing:.08em;color:#6B6B69;font-variant-numeric:tabular-nums}
+selector [data-id="89944d4"]::before{content:"04"}
+selector [data-id="a6e765d"]::before{content:"05"}
+selector [data-id="9a98036"]::before{content:"06"}
+selector .kl-fh::before{content:"07"}
+selector .elementor-widget-nav-menu .elementor-item{color:#171717 !important;font-size:15px !important}
+selector .elementor-widget-nav-menu .elementor-item:hover,selector .elementor-widget-nav-menu .elementor-item:focus{color:#171717 !important;text-decoration:underline !important;text-decoration-color:#AE8E42 !important;text-decoration-thickness:2px !important;text-underline-offset:5px}
+selector .elementor-widget-nav-menu .elementor-item::before,selector .elementor-widget-nav-menu .elementor-item::after{display:none !important}
+
+/* store column (html widget) */
+selector .kl-fstore{font-size:15px;line-height:1.5;color:#171717}
+selector .kl-fstore p{margin:0 0 10px}
+selector .kl-fstore .kl-fh{margin-bottom:16px !important}
+selector .kl-fstore a{color:#171717;text-decoration:none}
+selector .kl-fstore a:hover{text-decoration:underline;text-decoration-color:#AE8E42;text-decoration-thickness:2px;text-underline-offset:5px}
+selector .kl-fs-hours{display:flex;align-items:center;gap:10px;font-weight:500;font-variant-numeric:tabular-nums}
+selector .kl-fs-dot{width:8px;height:8px;border-radius:50%;background:#AE8E42;flex-shrink:0}
+selector .kl-fs-sub{color:#6B6B69;font-size:14px}
+selector .kl-fs-nav{margin-top:16px !important}
+selector .kl-fs-nav a{font-weight:700;border-bottom:2px solid #AE8E42;padding-bottom:2px}
+selector .kl-fs-nav a:hover{text-decoration:none}
+
+/* brand row: lion + wordmark | social buttons */
+selector .elementor-element-4708763{position:relative;display:flex !important;flex-direction:row !important;flex-wrap:wrap !important;align-items:center !important;justify-content:space-between !important;gap:28px 40px !important;padding:52px 32px 48px !important;border-top:1px solid #DDD3BD !important;margin:0 !important;background:transparent !important}
+selector .elementor-element-4708763::before,selector .elementor-element-4708763::after{content:"";position:absolute;top:-7px;width:13px;height:13px;background:linear-gradient(#AE8E42,#AE8E42) center/1px 100% no-repeat,linear-gradient(#AE8E42,#AE8E42) center/100% 1px no-repeat}
+selector .elementor-element-4708763::before{right:26px}
+selector .elementor-element-4708763::after{left:26px}
+selector .elementor-element-9cfcc42{gap:16px !important;align-items:center !important}
+selector [data-id="68d3fd3"]{width:auto !important;height:70px !important;object-fit:contain}
+selector [data-id="c434fcc"]{width:auto !important;height:52px !important;max-width:none !important}
+selector .kl-fsoc{display:flex;flex-direction:column;gap:12px}
+selector .kl-fsoc-t{margin:0;font-size:13px;font-weight:500;letter-spacing:.12em;color:#6B6B69}
+selector .kl-fsoc ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+selector .kl-fsoc a{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:56px;padding:0 20px;border:1px solid #171717;border-radius:4px;background:#FFFFFF;color:#171717;font-size:16px;font-weight:500;line-height:1;text-decoration:none;transition:background .15s ease,color .15s ease}
+selector .kl-fsoc a:hover,selector .kl-fsoc a:focus-visible{background:#171717;color:#FFFFFF}
+selector .kl-fsoc svg{width:22px;height:22px;flex-shrink:0}
+
+/* bottom row: copyright and tagline | slogan */
+selector .elementor-element-332afed{display:flex !important;flex-direction:row !important;flex-wrap:wrap !important;align-items:center !important;justify-content:flex-start !important;gap:6px 0 !important;padding:18px 32px !important;border-top:1px solid #DDD3BD !important;margin:0 !important;background:transparent !important}
+selector :is([data-id="76f5ee1"],[data-id="5b3afa7"]){color:#6B6B69 !important;font-size:13px !important;margin:0 !important}
+selector [data-id="5b3afa7"]::before{content:"\00a0·\00a0"}
+selector .elementor-element-31e663e{margin-inline-start:auto !important}
+selector .kl-fslogan{margin:0;font-size:12px;font-weight:500;letter-spacing:.2em;color:#6B6B69}
+
+@media (max-width:1100px){
+  selector .elementor-element-ebb3ffb{grid-template-columns:repeat(2,minmax(0,1fr))}
+  selector .elementor-element-ebb3ffb > *{border-inline-start:0;border-bottom:1px solid #DDD3BD}
+  selector .elementor-element-ebb3ffb > :first-child{grid-column:1 / -1}
+  selector .elementor-element-ebb3ffb > :nth-child(odd):not(:first-child){border-inline-start:1px solid #DDD3BD}
+}
+@media (max-width:767px){
+  selector .elementor-element-ebb3ffb > *{padding:28px 16px !important}
+  selector .elementor-element-ebb3ffb > :first-child{padding:36px 16px 32px !important}
+  selector [data-id="cedfc3f"]{font-size:34px !important}
+  selector .elementor-element-4708763{flex-direction:column !important;align-items:stretch !important;padding:44px 16px 32px !important;gap:24px !important;border-top:0 !important}
+  selector .elementor-element-4708763::before{right:10px}
+  selector .elementor-element-4708763::after{left:10px}
+  selector .elementor-element-9cfcc42{align-self:flex-start !important;gap:12px !important}
+  selector [data-id="68d3fd3"]{height:50px !important}
+  selector [data-id="c434fcc"]{height:27px !important}
+  selector .kl-fsoc ul{display:grid;grid-template-columns:1fr 1fr}
+  selector .kl-fsoc a{padding:0 12px}
+  selector .elementor-element-332afed{flex-direction:column !important;align-items:flex-start !important;gap:8px !important;padding:16px 16px 24px !important}
+  selector [data-id="5b3afa7"]::before{content:none}
+  selector .elementor-element-31e663e{margin-inline-start:0 !important}
+  selector .kl-fslogan{font-size:10px;letter-spacing:.18em}
+}
+
+/* fixes after the first check (1.11): social buttons beside the logo, join button on one line */
+selector .elementor-element-08223af{width:auto !important;max-width:100% !important;flex:0 1 auto !important;margin:0 !important}
+selector .elementor-element-9cfcc42{flex:0 0 auto !important;width:auto !important}
+selector .elementor-element-9f92550 .elementor-button{white-space:nowrap !important}
+selector .elementor-element-9f92550 .elementor-field-type-submit{width:auto !important;flex:0 0 auto !important}
+@media (max-width:767px){selector .elementor-element-08223af{width:100% !important}}
+
+/* fixes after the second check (1.11): email and join button on one row, full-width social buttons on phones */
+selector .elementor-element-9f92550 .elementor-form-fields-wrapper{flex-wrap:nowrap !important}
+selector .elementor-element-9f92550 .elementor-field-group:not(.elementor-field-type-submit){flex:1 1 auto !important;width:auto !important;max-width:none !important;min-width:0}
+selector .kl-fsoc li{display:flex}
+@media (max-width:767px){
+  selector .kl-fsoc a{width:100%}
+  selector .elementor-element-31e663e{align-self:stretch !important}
+  selector .kl-fslogan{text-align:right}
+}
+@media (max-width:1100px){selector .elementor-element-4708763{border-top:0 !important}}

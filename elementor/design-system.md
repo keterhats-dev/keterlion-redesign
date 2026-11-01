@@ -32,7 +32,7 @@
 | מה | ID | הערות |
 |---|---|---|
 | KL Header 2026 | 23925 | מבנה V4 (e-flexbox, e-paragraph, e-image). בתוכו ווידג'טים של V3: nav-menu, search-form (מסך מלא), icon (חשבון), woocommerce-menu-cart (סל צדדי). המבורגר מטאבלט ומטה |
-| KL Footer 2026 | 23933 | מבנה V4. בתוכו ווידג'טים של V3: form (מועדון, שמירה ל-Submissions), 3 nav-menu אנכיים, social-icons |
+| KL Footer 2026 | 23933 | מבנה V4. בתוכו ווידג'טים של V3: form (מועדון, שמירה ל-Submissions), 3 nav-menu אנכיים, ו-3 ווידג'טים של HTML (עמודת החנות, כפתורי רשתות עם שם, סלוגן). מ-1.11.2026 על רקע לבן, והעיצוב כולו ב-Custom CSS של התבנית (snippets/kl-footer-white.css) |
 | תפריטים | 809, 810, 811, 812 | "KL 2026 – ראשי", "– פוטר חנות", "– פוטר כתרליון", "– פוטר עזרה" |
 | לוגו (מדיה) | 23926, 23927, 23928, 23929 | wordmark שחור ולבן (PNG ב-1400px, מ-Rockwell Bold), אריה שחור ולבן (PNG, מה-SVG שבאתר 16575). המקור ב-assets/brand/ |
 
