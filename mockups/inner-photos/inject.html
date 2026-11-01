@@ -1,0 +1,57 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=block">
+<style>
+.kl-mock-photo{margin:0;padding:0;max-width:100%;box-sizing:border-box}
+.kl-mock-photo img{display:block;width:100%;height:auto;max-width:100%}
+.kl-mock-row{display:flex;gap:56px;align-items:center;max-width:100%;box-sizing:border-box}
+.kl-mock-text{flex:1 1 auto;display:flex;flex-direction:column;min-width:0}
+.kl-mock-row .kl-mock-photo{flex:0 0 340px}
+@media (max-width:767px){
+  .kl-mock-row{flex-direction:column;align-items:stretch;gap:28px}
+  .kl-mock-row .kl-mock-photo{flex:none;width:100%}
+}
+</style>
+<script>
+(function () {
+  var U = 'https://keterlion.com/staging/wp-content/uploads/2026/11/';
+  var cfg = {
+    '16435': { mode: 'under', src: U + 'kl-our-story.jpg' },
+    '11618': { mode: 'under', src: U + 'kl-store.jpg' },
+    '16266': { mode: 'under', src: U + 'kl-soldiers.jpg' },
+    '16992': { mode: 'side', src: U + 'kl-gift-card.jpg' },
+    '24022': { mode: 'b2b', src: U + 'WhatsApp-Image-2025-12-16-at-16.34.37-1.jpeg' }
+  };
+  var done = false;
+  function run() {
+    if (done) return; done = true;
+    var page = document.querySelector('[data-elementor-type="wp-page"]'); if (!page) return;
+    var c = cfg[page.dataset.elementorId]; if (!c) return;
+    var h1 = page.querySelector('h1'), hdr = h1.parentElement;
+    var fig = document.createElement('figure'); fig.className = 'kl-mock-photo';
+    fig.innerHTML = '<img src="' + c.src + '" alt="">';
+    var cs = getComputedStyle(hdr), w = hdr.getBoundingClientRect().width;
+    if (c.mode === 'under') {
+      hdr.after(fig);
+      fig.style.width = w + 'px'; fig.style.marginLeft = cs.marginLeft; fig.style.marginRight = cs.marginRight; fig.style.alignSelf = cs.alignSelf;
+    } else {
+      var row = document.createElement('div'); row.className = 'kl-mock-row';
+      var text = document.createElement('div'); text.className = 'kl-mock-text';
+      var box = c.mode === 'b2b' ? hdr : hdr.parentElement;
+      var bcs = getComputedStyle(box);
+      text.style.gap = bcs.rowGap; text.style.alignItems = bcs.alignItems;
+      var kids = Array.prototype.slice.call(box.children), stats = null, rest;
+      if (c.mode === 'b2b') {
+        stats = box.querySelector(':scope > [data-id="5d7698d"]');
+        rest = kids.filter(function (e) { return e !== stats; });
+      } else {
+        rest = kids.slice(kids.indexOf(hdr) + 1);
+      }
+      rest.forEach(function (e) { text.appendChild(e); });
+      row.appendChild(text); row.appendChild(fig);
+      if (stats) box.insertBefore(row, stats); else hdr.after(row);
+      if (c.mode !== 'b2b') { row.style.width = w + 'px'; row.style.marginLeft = cs.marginLeft; row.style.marginRight = cs.marginRight; row.style.alignSelf = cs.alignSelf; }
+    }
+  }
+  window.addEventListener('load', run);
+  setTimeout(run, 4000);
+})();
+</script>
