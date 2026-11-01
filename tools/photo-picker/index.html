@@ -58,7 +58,7 @@ h1 span{color:var(--gold)}
 .strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:12px;margin-top:16px}
 .ph{position:relative;display:block;width:100%;padding:0;border:0;background:var(--soft);aspect-ratio:1;overflow:hidden}
 .ph img{width:100%;height:100%;object-fit:cover;display:block}
-.ph .n{position:absolute;inset-inline-start:0;bottom:0;padding:2px 8px;background:#171717;color:var(--gold);font-size:13px;font-weight:500;font-variant-numeric:tabular-nums}
+.ph .n{position:absolute;inset-inline-start:0;bottom:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:2px 8px;background:#171717;color:var(--gold);font-size:13px;font-weight:500;font-variant-numeric:tabular-nums}
 .ph .u{position:absolute;inset-inline-end:0;top:0;padding:2px 8px;background:#FFFFFF;color:#171717;font-size:12px;font-weight:500}
 
 /* spot cards */
@@ -99,7 +99,7 @@ h1 span{color:var(--gold)}
 .opt{display:flex;flex-direction:column;gap:6px;padding:0;border:0;background:transparent;text-align:start}
 .opt .box{transition:outline-color .15s}
 .opt:hover .box,.opt.on .box{outline:3px solid var(--gold);outline-offset:-3px}
-.opt b{font-size:14px;font-weight:500;font-variant-numeric:tabular-nums}
+.opt b{font-size:14px;font-weight:500;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .big{display:block;max-width:100%;max-height:78vh;margin:0 auto}
 @media (max-width:760px){
   .cards{grid-template-columns:minmax(0,1fr)}
@@ -116,7 +116,7 @@ h1 span{color:var(--gold)}
 </div></header>
 <ul class="how wrap">
   <li><span>1</span>לוחצים "לבחור תמונה" ליד מקום באתר</li>
-  <li><span>2</span>בוחרים אחת מ-15 התמונות, ורואים איך היא תיחתך שם</li>
+  <li><span>2</span>בוחרים אחת מהתמונות שבתיקייה, ורואים איך היא תיחתך שם</li>
   <li><span>3</span>הבחירה נשמרת מיד ומשותפת לכל הצוות</li>
   <li><span>4</span>בסוף כותבים ל-Claude "סיימנו"</li>
 </ul>
@@ -128,7 +128,7 @@ h1 span{color:var(--gold)}
 
   <section class="sec" aria-labelledby="ph-h">
     <h2 id="ph-h">התמונות מהתיקייה "תמונות לאתר"<em id="ph-c"></em></h2>
-    <p class="note">לחיצה על תמונה מגדילה אותה. המספר הוא המספר של הקובץ אצל מנשה. בפינה רואים בכמה מקומות היא כבר נבחרה.</p>
+    <p class="note">לחיצה על תמונה מגדילה אותה. מתחת לכל תמונה כתוב שם הקובץ בתיקייה (בצילומים של מנשה, המספר שלו). בפינה רואים בכמה מקומות היא כבר נבחרה.</p>
     <div class="strip" id="strip"></div>
   </section>
 
@@ -138,11 +138,9 @@ h1 span{color:var(--gold)}
 <div class="ov" id="ov" hidden></div>
 
 <script>
-const PHOTOS = [
-  ['p01',1000,667],['p02',1000,667],['p19',667,1000],['p43',1000,667],['p44',667,1000],
-  ['p105',1000,666],['p173',1000,667],['p183',1000,667],['p193',1000,667],['p221',667,1000],
-  ['p233',1000,667],['p234',667,1000],['p275',667,1000],['p276',1000,667],['p286',667,1000]
-].map(([id, w, h]) => ({ id, w, h, num: id.slice(1), src: 'photos/' + id + '.jpg' }));
+/* every photo in the folder "תמונות לאתר" (1.11.2026). Menashe's files keep their number as the name */
+const PHOTOS = [{"id":"p01","label":"01","w":1000,"h":667},{"id":"p02","label":"02","w":1000,"h":667},{"id":"p105","label":"105","w":1000,"h":666},{"id":"p173","label":"173","w":1000,"h":667},{"id":"p183","label":"183","w":1000,"h":667},{"id":"p193","label":"193","w":1000,"h":667},{"id":"p19","label":"19","w":667,"h":1000},{"id":"p221","label":"221","w":667,"h":1000},{"id":"p233","label":"233","w":1000,"h":667},{"id":"p234","label":"234","w":667,"h":1000},{"id":"p275","label":"275","w":667,"h":1000},{"id":"p276","label":"276","w":1000,"h":667},{"id":"p286","label":"286","w":667,"h":1000},{"id":"p43","label":"43","w":1000,"h":667},{"id":"p44","label":"44","w":667,"h":1000},{"id":"f28ab1f23","label":"IMG_0073","w":1000,"h":561},{"id":"fa6e5c85f","label":"IMG_0701","w":1000,"h":561},{"id":"f2dcc4e34","label":"IMG_5263 copyb (2)","w":1000,"h":1000},{"id":"f9efb8293","label":"IMG_5284 copy","w":1000,"h":1000},{"id":"f4aa92e1d","label":"IMG_5289 copy","w":1000,"h":1000},{"id":"f3a33cd25","label":"IMG_5296 copy","w":1000,"h":1000},{"id":"f038de34f","label":"IMG_5527","w":750,"h":1000},{"id":"fae34c69b","label":"IMG_9681","w":750,"h":1000},{"id":"f350ff3a3","label":"WhatsApp Image 2025-12-16 at 16.34.37 (1)","w":667,"h":1000},{"id":"f2ef945f8","label":"WhatsApp Image 2025-12-16 at 16.34.37","w":750,"h":1000},{"id":"f4db870f2","label":"WhatsApp Image 2025-12-16 at 16.34.38 (1)","w":667,"h":1000},{"id":"f77aaa371","label":"WhatsApp Image 2025-12-16 at 16.34.38 (2)","w":667,"h":1000},{"id":"fd32610ea","label":"WhatsApp Image 2025-12-16 at 16.34.38","w":667,"h":1000},{"id":"f410fb532","label":"כובע אפור כובע 2","w":1000,"h":1000},{"id":"f28326607","label":"כובע בורדו","w":1000,"h":1000},{"id":"f194aefc7","label":"כובע בלי עין הרע לבן","w":1000,"h":1000},{"id":"f051e5d4b","label":"כובע כתרליון חום צהוב","w":1000,"h":1000},{"id":"f7c9d77bd","label":"כובע כתרליון תכלת","w":1000,"h":1000},{"id":"f90bcd275","label":"כובע ציפור 2","w":1000,"h":1000},{"id":"f426c100b","label":"כתרליון כובע אפור","w":1000,"h":1000},{"id":"f7d4bcefb","label":"צIMG_8291","w":1000,"h":1000}]
+  .map(p => ({ ...p, short: p.label.replace(/^WhatsApp Image \d{4}-\d{2}-\d{2} at /, 'WhatsApp ').replace(/ copy.*$/, ''), src: 'photos/' + p.id + '.jpg' }));
 const PH = Object.fromEntries(PHOTOS.map(p => [p.id, p]));
 
 /* every spot with a photo today (doc + element on staging), and new spots on pages that have none */
@@ -246,7 +244,7 @@ async function save(key, patch) {
 function choiceLabel(c, slot) {
   if (!c) return 'עוד לא נבחר';
   if (c === 'keep') return slot.isNew ? 'בלי תמונה' : 'נשאר כמו שיש';
-  return 'תמונה ' + (PH[c] ? PH[c].num : c);
+  return 'תמונה ' + (PH[c] ? PH[c].short : c);
 }
 function renderTop() {
   const n = SLOTS.filter(s => picks[s.key] && picks[s.key].choice).length;
@@ -260,9 +258,9 @@ function usage() {
 function renderStrip() {
   const u = usage();
   $('#ph-c').textContent = PHOTOS.length + ' תמונות';
-  $('#strip').replaceChildren(...PHOTOS.map(p => h('button', { class: 'ph', type: 'button', 'aria-label': 'להגדיל את תמונה ' + p.num, onclick: () => showBig(p) },
+  $('#strip').replaceChildren(...PHOTOS.map(p => h('button', { class: 'ph', type: 'button', 'aria-label': 'להגדיל את התמונה ' + p.short, onclick: () => showBig(p) },
     h('img', { src: p.src, alt: '', loading: 'lazy' }),
-    h('span', { class: 'n', text: p.num }),
+    h('span', { class: 'n', text: p.short }),
     u[p.id] ? h('span', { class: 'u', text: u[p.id] === 1 ? 'במקום אחד' : `ב-${u[p.id]} מקומות` }) : null)));
 }
 function renderPages() {
@@ -326,13 +324,13 @@ function openPick(key) {
   openOv(h('div', { class: 'pan', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'pk-h' },
     h('header', {}, h('div', {}, h('h2', { id: 'pk-h', text: `${slot.page} · ${slot.name}` }), h('p', { text: slot.fit === 'contain' ? 'כך תיראה כל תמונה במקום הזה: כל התמונה, על רקע לבן.' : 'כך תיחתך כל תמונה במקום הזה.' })),
       h('button', { class: 'btn', type: 'button', onclick: closeOv }, 'סגירה')),
-    h('div', { class: 'grid' }, ...PHOTOS.map(p => h('button', { class: 'opt' + (cur === p.id ? ' on' : ''), type: 'button', 'aria-label': 'לבחור את תמונה ' + p.num, onclick: () => { closeOv(); save(key, { choice: p.id }); } },
-      frame(slot, p.src, 'תמונה ' + p.num, false), h('b', { text: 'תמונה ' + p.num + (cur === p.id ? ' · נבחרה' : '') }))))));
+    h('div', { class: 'grid' }, ...PHOTOS.map(p => h('button', { class: 'opt' + (cur === p.id ? ' on' : ''), type: 'button', 'aria-label': 'לבחור את התמונה ' + p.short, onclick: () => { closeOv(); save(key, { choice: p.id }); } },
+      frame(slot, p.src, 'תמונה ' + p.short, false), h('b', { text: p.short + (cur === p.id ? ' · נבחרה' : '') }))))));
 }
 function showBig(p) {
   openOv(h('div', { class: 'pan', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'bg-h' },
-    h('header', {}, h('h2', { id: 'bg-h', text: 'תמונה ' + p.num }), h('button', { class: 'btn', type: 'button', onclick: closeOv }, 'סגירה')),
-    h('img', { class: 'big', src: p.src, alt: 'תמונה ' + p.num })));
+    h('header', {}, h('h2', { id: 'bg-h', text: p.label }), h('button', { class: 'btn', type: 'button', onclick: closeOv }, 'סגירה')),
+    h('img', { class: 'big', src: p.src, alt: p.label })));
 }
 $('#ov').addEventListener('click', e => { if (e.target.id === 'ov') closeOv(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#ov').hidden) closeOv(); });
