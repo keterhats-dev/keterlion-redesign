@@ -10,6 +10,23 @@
       "x": 3040,
       "y": 0
     },
+    "FooterGridWhite.dc.html": {
+      "expand": "fill",
+      "h": 700,
+      "page": "footer",
+      "title": "פוטר א על לבן · מחשב (1.11)",
+      "w": 1440,
+      "x": 0,
+      "y": 300
+    },
+    "FooterGridWhitePhone.dc.html": {
+      "h": 1350,
+      "page": "footer",
+      "title": "פוטר א על לבן · טלפון (1.11)",
+      "w": 390,
+      "x": 1520,
+      "y": 300
+    },
     "FooterReceipt.dc.html": {
       "expand": "fill",
       "h": 1100,
@@ -17,7 +34,7 @@
       "title": "פוטר ה · קבלה מהחנות · מחשב",
       "w": 1440,
       "x": 0,
-      "y": 300
+      "y": 2200
     },
     "FooterPostcard.dc.html": {
       "expand": "fill",
@@ -26,7 +43,7 @@
       "title": "פוטר ו · גלויה מנחלת בנימין · מחשב",
       "w": 1440,
       "x": 1520,
-      "y": 300
+      "y": 2200
     },
     "FooterTag.dc.html": {
       "expand": "fill",
@@ -35,7 +52,7 @@
       "title": "פוטר ז · תגית כובע · מחשב",
       "w": 1440,
       "x": 3040,
-      "y": 300
+      "y": 2200
     },
     "FooterPatch.dc.html": {
       "expand": "fill",
@@ -44,7 +61,7 @@
       "title": "פוטר ח · חותמת, על לבן · מחשב (1.11)",
       "w": 1440,
       "x": 4560,
-      "y": 300
+      "y": 2200
     },
     "FooterPatchPhone.dc.html": {
       "h": 1400,
@@ -52,7 +69,7 @@
       "title": "פוטר ח · חותמת, על לבן · טלפון (1.11)",
       "w": 390,
       "x": 6080,
-      "y": 300
+      "y": 2200
     },
     "FooterGrid.dc.html": {
       "expand": "fill",
@@ -61,7 +78,7 @@
       "title": "פוטר א · גריד מדויק · מחשב",
       "w": 1440,
       "x": 0,
-      "y": 3800
+      "y": 5900
     },
     "FooterGridPhone.dc.html": {
       "h": 1700,
@@ -69,7 +86,7 @@
       "title": "פוטר א · גריד מדויק · טלפון",
       "w": 390,
       "x": 1520,
-      "y": 3800
+      "y": 5900
     },
     "FooterQuiet.dc.html": {
       "expand": "fill",
@@ -78,7 +95,7 @@
       "title": "פוטר ד · שקט · מחשב",
       "w": 1440,
       "x": 1990,
-      "y": 2000
+      "y": 4100
     },
     "FooterQuietPhone.dc.html": {
       "h": 1060,
@@ -86,7 +103,7 @@
       "title": "פוטר ד · שקט · טלפון",
       "w": 390,
       "x": 3510,
-      "y": 2000
+      "y": 4100
     },
     "FooterRaw.dc.html": {
       "expand": "fill",
@@ -95,7 +112,7 @@
       "title": "פוטר ג · פוסטר מחוספס · מחשב",
       "w": 1440,
       "x": 0,
-      "y": 2000
+      "y": 4100
     },
     "FooterRawPhone.dc.html": {
       "h": 1300,
@@ -103,7 +120,7 @@
       "title": "פוטר ג · פוסטר מחוספס · טלפון",
       "w": 390,
       "x": 1520,
-      "y": 2000
+      "y": 4100
     },
     "FooterSystem.dc.html": {
       "expand": "fill",
@@ -112,7 +129,7 @@
       "title": "פוטר ב · לוח מערכת · מחשב",
       "w": 1440,
       "x": 1990,
-      "y": 3800
+      "y": 5900
     },
     "FooterSystemPhone.dc.html": {
       "h": 1600,
@@ -120,7 +137,7 @@
       "title": "פוטר ב · לוח מערכת · טלפון",
       "w": 390,
       "x": 3510,
-      "y": 3800
+      "y": 5900
     },
     "Fonts.dc.html": {
       "expand": "fill",
@@ -250,7 +267,7 @@
       "text": "פוטר, סבב 1: מדויק יותר, באווירת הייטק (29.10)",
       "w": 240,
       "x": 0,
-      "y": 3500
+      "y": 5600
     },
     "row6title": {
       "kind": "title1",
@@ -259,13 +276,22 @@
       "text": "פוטר, סבב 2: מחוספס, מאוורר ומצומצם (29.10)",
       "w": 240,
       "x": 0,
-      "y": 1700
+      "y": 3800
     },
     "row7title": {
       "kind": "title1",
       "maxW": 6470,
       "page": "footer",
       "text": "פוטר, סבב 3: נפרד מהאתר, קליל ומיוחד, עם כפתורי רשתות בולטים (1.11)",
+      "w": 240,
+      "x": 0,
+      "y": 1900
+    },
+    "row8title": {
+      "kind": "title1",
+      "maxW": 1910,
+      "page": "footer",
+      "text": "פוטר, סבב 4: חוזרים ל-א, על רקע לבן, עם רשתות בולטות ואריה (1.11)",
       "w": 240,
       "x": 0,
       "y": 0
@@ -311,7 +337,9 @@
     "FooterPostcard.dc.html",
     "FooterTag.dc.html",
     "FooterPatch.dc.html",
-    "FooterPatchPhone.dc.html"
+    "FooterPatchPhone.dc.html",
+    "FooterGridWhite.dc.html",
+    "FooterGridWhitePhone.dc.html"
   ],
   "pages": [
     {
