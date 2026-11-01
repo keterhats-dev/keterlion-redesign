@@ -1,0 +1,363 @@
+<title>בחירת תמונות לאתר</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap">
+<style>
+/* Layout: black top bar, the 15 photos as a strip, then every photo spot on the site as a card, grouped by page */
+:root{
+  --bg:#FFFFFF; --ink:#171717; --muted:#6B6B69; --line:#DDD3BD; --soft:#F4F4F2;
+  --gold:#AE8E42; --bar:#171717; --bar-ink:#FFFFFF; --bar-muted:#BDB7AA; --cream:#F4EEE1;
+  --ok:#2E6B3A; --red:#C21A1A; --shade:rgba(23,23,23,.72); --frame:#FFFFFF;
+  --font:'Heebo',system-ui,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#121212; --ink:#F1EEE7; --muted:#A19D94; --line:#3A3936; --soft:#1D1C1B;
+    --bar:#0A0A0A; --ok:#8FC79A; --red:#F07070; --shade:rgba(0,0,0,.8); --frame:#FFFFFF; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121212; --ink:#F1EEE7; --muted:#A19D94; --line:#3A3936; --soft:#1D1C1B;
+  --bar:#0A0A0A; --ok:#8FC79A; --red:#F07070; --shade:rgba(0,0,0,.8); --frame:#FFFFFF; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--font);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bar)}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bar);color:var(--bar-ink)}
+.top .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 24px;padding-block:12px}
+.brand{margin:0;display:flex;align-items:baseline;gap:12px}
+.brand b{font-weight:900;font-size:20px}
+.brand b span{color:var(--gold)}
+.brand small{font-size:15px;font-weight:500;color:var(--cream)}
+.st{margin:0;font-size:14px;color:var(--bar-muted)}
+.st b{color:var(--gold);font-weight:500}
+
+.how{display:flex;flex-wrap:wrap;gap:6px 28px;margin:0;padding-block:10px;border-bottom:1px solid var(--line);font-size:14px;color:var(--muted);list-style:none}
+.how li{display:flex;gap:8px}
+.how li span{font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums}
+.banner{margin:16px 0 0;padding:10px 14px;border:1px solid var(--red);color:var(--red);font-size:14px}
+
+main{max-width:1180px;margin:0 auto;padding-block:28px 96px}
+h1{margin:0;font-size:clamp(28px,4vw,40px);font-weight:900;line-height:1.05;text-wrap:balance}
+h1 span{color:var(--gold)}
+.lead{margin:8px 0 0;max-width:68ch;font-size:15px;color:var(--muted)}
+.sec{margin-top:40px}
+.sec>h2{display:flex;align-items:center;gap:10px;margin:0;padding-bottom:8px;border-bottom:1px solid var(--line);font-size:13px;font-weight:500;letter-spacing:.06em;color:var(--muted)}
+.sec>h2::before{content:"";flex:none;width:24px;height:3px;background:var(--gold)}
+.sec>h2 em{margin-inline-start:auto;font-style:normal;font-variant-numeric:tabular-nums}
+.note{margin:12px 0 0;max-width:72ch;font-size:14px;color:var(--muted)}
+
+/* the 15 photos */
+.strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:12px;margin-top:16px}
+.ph{position:relative;display:block;width:100%;padding:0;border:0;background:var(--soft);aspect-ratio:1;overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph .n{position:absolute;inset-inline-start:0;bottom:0;padding:2px 8px;background:#171717;color:var(--gold);font-size:13px;font-weight:500;font-variant-numeric:tabular-nums}
+.ph .u{position:absolute;inset-inline-end:0;top:0;padding:2px 8px;background:#FFFFFF;color:#171717;font-size:12px;font-weight:500}
+
+/* spot cards */
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:18px}
+.card{display:flex;flex-direction:column;gap:12px;min-width:0;padding:18px;border:1px solid var(--line)}
+.card.wide{grid-column:1 / -1}
+.card.done{border-color:var(--ink)}
+.card h3{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;font-size:19px;font-weight:700;line-height:1.3}
+.card h3 .tag{padding:1px 8px;background:#171717;color:var(--gold);font-size:12px;font-weight:500}
+.card .d{margin:0;font-size:14px;color:var(--muted)}
+.frames{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.card.wide .frames{grid-template-columns:minmax(0,1fr) minmax(0,2fr)}
+.fr{display:flex;flex-direction:column;gap:6px;min-width:0}
+.fr>span{font-size:12px;font-weight:500;letter-spacing:.06em;color:var(--muted)}
+.box{position:relative;width:100%;max-width:100%;aspect-ratio:var(--ar);background:var(--soft);overflow:hidden;display:flex;align-items:center;justify-content:center}
+.box.contain{background:var(--frame)}
+.box img{width:100%;height:100%;object-fit:var(--fit);display:block}
+.box .empty{padding:8px;font-size:13px;color:var(--muted);text-align:center}
+.box.chosen{outline:2px solid var(--ink);outline-offset:-2px}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 16px;border:1px solid var(--ink);border-radius:4px;background:transparent;font-weight:500}
+.btn.main{background:var(--ink);color:var(--bg)}
+.btn.on{background:var(--ink);color:var(--bg)}
+.btn:disabled{opacity:.45;cursor:default}
+.who{margin-inline-start:auto;font-size:13px;color:var(--muted)}
+.nt{width:100%;min-height:44px;padding:10px 12px;border:1px solid var(--line);border-radius:4px;background:transparent;resize:vertical;font-size:15px}
+.nt:focus{outline:none;border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.save{font-size:13px;color:var(--muted)}
+.save.err{color:var(--red)}
+
+/* overlay (pick a photo / see a photo) */
+.ov{position:fixed;inset:0;z-index:20;display:flex;align-items:flex-start;justify-content:center;padding:max(24px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(24px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:var(--shade);overflow:auto}
+.pan{width:min(1100px,100%);padding:20px;background:var(--bg);border:1px solid var(--line)}
+.pan header{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px}
+.pan h2{margin:0;font-size:22px;font-weight:900;line-height:1.2}
+.pan p{margin:4px 0 0;font-size:14px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px}
+.opt{display:flex;flex-direction:column;gap:6px;padding:0;border:0;background:transparent;text-align:start}
+.opt .box{transition:outline-color .15s}
+.opt:hover .box,.opt.on .box{outline:3px solid var(--gold);outline-offset:-3px}
+.opt b{font-size:14px;font-weight:500;font-variant-numeric:tabular-nums}
+.big{display:block;max-width:100%;max-height:78vh;margin:0 auto}
+@media (max-width:760px){
+  .cards{grid-template-columns:minmax(0,1fr)}
+  .card.wide .frames{grid-template-columns:minmax(0,1fr)}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .who{margin-inline-start:0;width:100%}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important}}
+</style>
+
+<header class="top" id="top"><div class="wrap">
+  <p class="brand"><b>KETERLION<span>.</span></b><small>בחירת תמונות לאתר</small></p>
+  <p class="st" id="st">טוען…</p>
+</div></header>
+<ul class="how wrap">
+  <li><span>1</span>לוחצים "לבחור תמונה" ליד מקום באתר</li>
+  <li><span>2</span>בוחרים אחת מ-15 התמונות, ורואים איך היא תיחתך שם</li>
+  <li><span>3</span>הבחירה נשמרת מיד ומשותפת לכל הצוות</li>
+  <li><span>4</span>בסוף כותבים ל-Claude "סיימנו"</li>
+</ul>
+
+<main class="wrap">
+  <div class="banner" id="banner" hidden></div>
+  <h1>איזו תמונה הולכת לאן<span>.</span></h1>
+  <p class="lead">לכל מקום באתר שיש בו תמונה רואים מה יש שם היום, ובוחרים במקומה תמונה מהתיקייה "תמונות לאתר". אחרי הבחירה אכניס את התמונות ל-staging, תבדקו, ורק אז הן עולות לאתר החי.</p>
+
+  <section class="sec" aria-labelledby="ph-h">
+    <h2 id="ph-h">התמונות מהתיקייה "תמונות לאתר"<em id="ph-c"></em></h2>
+    <p class="note">לחיצה על תמונה מגדילה אותה. המספר הוא המספר של הקובץ אצל מנשה. בפינה רואים בכמה מקומות היא כבר נבחרה.</p>
+    <div class="strip" id="strip"></div>
+  </section>
+
+  <div id="pages"></div>
+</main>
+
+<div class="ov" id="ov" hidden></div>
+
+<script>
+const PHOTOS = [
+  ['p01',1000,667],['p02',1000,667],['p19',667,1000],['p43',1000,667],['p44',667,1000],
+  ['p105',1000,666],['p173',1000,667],['p183',1000,667],['p193',1000,667],['p221',667,1000],
+  ['p233',1000,667],['p234',667,1000],['p275',667,1000],['p276',1000,667],['p286',667,1000]
+].map(([id, w, h]) => ({ id, w, h, num: id.slice(1), src: 'photos/' + id + '.jpg' }));
+const PH = Object.fromEntries(PHOTOS.map(p => [p.id, p]));
+
+/* every spot with a photo today (doc + element on staging), and new spots on pages that have none */
+const PAGES = [
+  { name: 'דף הבית', note: '', slots: [
+    { key: 'home-hero', el: 'a33252a', doc: 23950, name: 'התמונה הראשית', d: 'בראש העמוד, מתחת לכותרת "הכל מתחיל בראש."', ar: 1425 / 518, fit: 'cover', cur: 'cur/a33252a.jpg' },
+    { key: 'home-clothing', el: '5e50af3', doc: 23950, name: 'ביגוד', d: 'האזור "אופנה ישראלית. דרופים מתחלפים"', ar: 712 / 560, fit: 'cover', cur: 'cur/5e50af3.jpg' },
+    { key: 'home-custom', el: '68ed83f', doc: 23950, name: 'עיצוב אישי', d: 'האזור "עצבו כובע משלכם. גם כובע אחד."', ar: 712 / 834, fit: 'cover', cur: 'cur/68ed83f.jpg' },
+    { key: 'home-b2b', el: '1e5e4c5', doc: 23950, name: 'לעסקים', d: 'האזור "FASHION YOUR BRAND."', ar: 712 / 645, fit: 'cover', cur: 'cur/1e5e4c5.jpg' },
+  ]},
+  { name: 'דף הבית · אריחי סוגי הכובעים', note: 'באריחים האלה מוצגת כל התמונה, בלי חיתוך, על רקע לבן. היום יש בהם צילומי מוצר של כובע אחד.', slots: [
+    { key: 'home-type-dad', el: '7358dd7', doc: 23950, name: 'דד קאפ', d: 'אריח בשורת סוגי הכובעים', ar: 207 / 259, fit: 'contain', cur: 'cur/7358dd7.jpg' },
+    { key: 'home-type-baseball', el: '48f3e21', doc: 23950, name: 'בייסבול', d: 'אריח בשורת סוגי הכובעים', ar: 207 / 259, fit: 'contain', cur: 'cur/48f3e21.jpg' },
+    { key: 'home-type-snapback', el: 'eee8fa7', doc: 23950, name: 'סנאפבק', d: 'אריח בשורת סוגי הכובעים', ar: 207 / 259, fit: 'contain', cur: 'cur/eee8fa7.jpg' },
+    { key: 'home-type-bucket', el: '472b09f', doc: 23950, name: 'באקט', d: 'אריח בשורת סוגי הכובעים', ar: 207 / 259, fit: 'contain', cur: 'cur/472b09f.jpg' },
+    { key: 'home-type-nobrim', el: 'ae9f2a5', doc: 23950, name: 'ללא מצחייה', d: 'אריח בשורת סוגי הכובעים', ar: 207 / 259, fit: 'contain', cur: 'cur/ae9f2a5.jpg' },
+    { key: 'home-type-wool', el: '0440aa3', doc: 23950, name: 'כובעי צמר', d: 'אריח בשורת סוגי הכובעים', ar: 207 / 259, fit: 'contain', cur: 'cur/0440aa3.jpg' },
+  ]},
+  { name: 'עיצוב אישי', note: 'בשלושת הריבועים של בחירת הגזרה מוצגת כל התמונה, בלי חיתוך, על רקע לבן.', slots: [
+    { key: 'custom-hero', el: 'd72e6be', doc: 23988, name: 'התמונה הראשית', d: 'ליד הכותרת "כובע בעיצוב אישי. מה בראש שלך?"', ar: 612 / 765, fit: 'cover', cur: 'cur/d72e6be.jpg' },
+    { key: 'custom-dad', el: 'ce95918', doc: 23988, name: 'דד קאפ', d: 'בחירת גזרה: "דד קאפ – כובע נמוך ורך"', ar: 1, fit: 'contain', cur: 'cur/ce95918.jpg' },
+    { key: 'custom-baseball', el: '03fc60b', doc: 23988, name: 'בייסבול', d: 'בחירת גזרה: "בייסבול – כובע גבוה וקשיח"', ar: 1, fit: 'contain', cur: 'cur/03fc60b.jpg' },
+    { key: 'custom-shirt', el: '908e03d', doc: 23988, name: 'חולצה', d: 'בחירת גזרה: "חולצה · בקרוב"', ar: 1, fit: 'contain', cur: 'cur/908e03d.jpg' },
+  ]},
+  { name: 'עמודים בלי תמונה היום', note: 'בעמודים האלה אין היום תמונה. אם תבחרו כאן תמונה, אכין קודם הדמיה של המקום שלה בעמוד ואחכה לאישור. הלוגואים של הלקוחות והכובעים שעשינו להם בעמוד "לעסקים" נשארים כמו שהם.', slots: [
+    { key: 'b2b-new', doc: 24022, name: 'לעסקים', d: 'תמונה לראש העמוד', ar: 16 / 9, fit: 'cover', cur: null, isNew: true },
+    { key: 'story-new', doc: 16435, name: 'הסיפור', d: 'תמונה לעמוד הסיפור', ar: 16 / 9, fit: 'cover', cur: null, isNew: true },
+    { key: 'store-new', doc: 11618, name: 'החנות בנחלת בנימין', d: 'תמונה לעמוד החנות', ar: 16 / 9, fit: 'cover', cur: null, isNew: true },
+    { key: 'soldiers-new', doc: 16266, name: 'Hats for Israeli Soldiers', d: 'תמונה לעמוד החיילים', ar: 16 / 9, fit: 'cover', cur: null, isNew: true },
+    { key: 'gift-new', doc: 16992, name: 'Gift Card', d: 'תמונה לעמוד Gift Card', ar: 16 / 9, fit: 'cover', cur: null, isNew: true },
+  ]},
+];
+const SLOTS = PAGES.flatMap(p => p.slots.map(s => ({ ...s, page: p.name })));
+const SL = Object.fromEntries(SLOTS.map(s => [s.key, s]));
+
+let db = null, user = null, uid = null, ready = false, picks = {}, unsub = null;
+const timers = new Map();
+
+const $ = (s, r = document) => r.querySelector(s);
+function h(tag, attrs = {}, ...kids) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v == null || v === false) continue;
+    if (k === 'text') e.textContent = v;
+    else if (k === 'style') e.setAttribute('style', v);
+    else if (k.startsWith('on')) e.addEventListener(k.slice(2), v);
+    else e.setAttribute(k, v === true ? '' : v);
+  }
+  for (const c of kids.flat()) if (c != null) e.append(c);
+  return e;
+}
+const rtf = new Intl.RelativeTimeFormat('he', { numeric: 'auto' });
+function ago(iso) {
+  const t = Date.parse(iso); if (!t) return '';
+  const s = (t - Date.now()) / 1000, a = Math.abs(s);
+  if (a < 60) return 'עכשיו';
+  if (a < 3600) return rtf.format(Math.round(s / 60), 'minute');
+  if (a < 86400) return rtf.format(Math.round(s / 3600), 'hour');
+  return rtf.format(Math.round(s / 86400), 'day');
+}
+function banner(msg) { const b = $('#banner'); b.textContent = msg; b.hidden = !msg; }
+
+function frame(slot, src, label, chosen) {
+  const box = h('div', { class: 'box' + (slot.fit === 'contain' ? ' contain' : '') + (chosen ? ' chosen' : ''), style: `--ar:${slot.ar};--fit:${slot.fit}` },
+    src ? h('img', { src, alt: label, loading: 'lazy' }) : h('span', { class: 'empty', text: label }));
+  return box;
+}
+
+/* ---------- saving ---------- */
+async function write(fn) {
+  try { return await fn(); }
+  catch (e) {
+    if (e && e.code === 'unavailable') { await new Promise(r => setTimeout(r, 400 + Math.random() * 600)); return fn(); }
+    throw e;
+  }
+}
+function setSave(key, state) {
+  const s = $(`.card[data-key="${key}"] .save`); if (!s) return;
+  s.classList.toggle('err', state === 'error');
+  s.textContent = { saving: 'שומר…', saved: 'נשמר ✓', error: 'לא נשמר. נסו שוב' }[state] || '';
+  if (state === 'saved') setTimeout(() => { if (s.textContent === 'נשמר ✓') s.textContent = ''; }, 2200);
+}
+async function save(key, patch) {
+  if (!db || !ready) return;
+  const slot = SL[key], prev = picks[key] || {};
+  const next = { choice: prev.choice || '', note: prev.note || '', ...patch, page: slot.page, slot: slot.name, doc: slot.doc, el: slot.el || '', by: uid, at: new Date().toISOString() };
+  picks[key] = next; renderCard(key); renderTop(); renderStrip();
+  setSave(key, 'saving');
+  try {
+    const ref = db.collection('picks').doc(key);
+    if (!next.choice && !next.note) await write(() => ref.delete());
+    else await write(() => ref.set(next));
+    setSave(key, 'saved');
+  } catch (err) {
+    setSave(key, 'error');
+    if (err && err.code === 'revoked') banner('הגישה לעמוד הזה השתנתה. רעננו את העמוד.');
+  }
+}
+
+/* ---------- rendering ---------- */
+function choiceLabel(c, slot) {
+  if (!c) return 'עוד לא נבחר';
+  if (c === 'keep') return slot.isNew ? 'בלי תמונה' : 'נשאר כמו שיש';
+  return 'תמונה ' + (PH[c] ? PH[c].num : c);
+}
+function renderTop() {
+  const n = SLOTS.filter(s => picks[s.key] && picks[s.key].choice).length;
+  $('#st').replaceChildren('נבחרו ', h('b', { text: String(n) }), ` מתוך ${SLOTS.length} מקומות`);
+}
+function usage() {
+  const u = {};
+  for (const k in picks) { const c = picks[k] && picks[k].choice; if (c && PH[c]) u[c] = (u[c] || 0) + 1; }
+  return u;
+}
+function renderStrip() {
+  const u = usage();
+  $('#ph-c').textContent = PHOTOS.length + ' תמונות';
+  $('#strip').replaceChildren(...PHOTOS.map(p => h('button', { class: 'ph', type: 'button', 'aria-label': 'להגדיל את תמונה ' + p.num, onclick: () => showBig(p) },
+    h('img', { src: p.src, alt: '', loading: 'lazy' }),
+    h('span', { class: 'n', text: p.num }),
+    u[p.id] ? h('span', { class: 'u', text: u[p.id] === 1 ? 'במקום אחד' : `ב-${u[p.id]} מקומות` }) : null)));
+}
+function renderPages() {
+  $('#pages').replaceChildren(...PAGES.map((p, i) => h('section', { class: 'sec', 'aria-labelledby': 'pg' + i },
+    h('h2', { id: 'pg' + i, text: p.name }),
+    p.note ? h('p', { class: 'note', text: p.note }) : null,
+    h('div', { class: 'cards' }, ...p.slots.map(s => h('article', { class: 'card' + (s.ar > 1.6 && !s.isNew ? ' wide' : ''), 'data-key': s.key }))))));
+  SLOTS.forEach(s => renderCard(s.key));
+}
+function renderCard(key) {
+  const slot = SL[key], art = $(`.card[data-key="${key}"]`); if (!art) return;
+  const pk = picks[key] || {}, c = pk.choice || '';
+  const keepTxt = slot.isNew ? 'בלי תמונה' : 'להשאיר כמו שיש';
+  const chosenSrc = c && PH[c] ? PH[c].src : (c === 'keep' && slot.cur ? slot.cur : null);
+  const noteId = 'nt-' + key;
+  const oldNote = $('.nt', art);
+  const keepFocus = oldNote && document.activeElement === oldNote;
+  art.classList.toggle('done', !!c);
+  art.replaceChildren(
+    h('h3', {}, slot.name, slot.isNew ? h('span', { class: 'tag', text: 'מקום חדש' }) : null),
+    h('p', { class: 'd', text: slot.d }),
+    h('div', { class: 'frames' },
+      h('div', { class: 'fr' }, h('span', { text: 'עכשיו באתר' }), frame(slot, slot.cur, slot.cur ? 'התמונה שיש היום' : 'אין היום תמונה', false)),
+      h('div', { class: 'fr' }, h('span', { text: 'הבחירה: ' + choiceLabel(c, slot) }), frame(slot, chosenSrc, c === 'keep' ? choiceLabel(c, slot) : 'לוחצים "לבחור תמונה"', !!c))),
+    h('div', { class: 'row' },
+      h('button', { class: 'btn main', type: 'button', disabled: !ready, onclick: () => openPick(key) }, c && PH[c] ? 'להחליף תמונה' : 'לבחור תמונה'),
+      h('button', { class: 'btn' + (c === 'keep' ? ' on' : ''), type: 'button', disabled: !ready, 'aria-pressed': c === 'keep' ? 'true' : 'false', onclick: () => save(key, { choice: c === 'keep' ? '' : 'keep' }) }, keepTxt),
+      c ? h('button', { class: 'btn', type: 'button', disabled: !ready, onclick: () => save(key, { choice: '' }) }, 'לבטל בחירה') : null,
+      h('span', { class: 'who' }, h('span', { class: 'save' }), ' ', h('span', { class: 'by', 'data-by': pk.by || '', 'data-at': pk.at || '' }))),
+    h('label', { class: 'fr', for: noteId }, h('span', { text: 'הערה (לא חובה), למשל איך לחתוך' }),
+      h('textarea', { class: 'nt', id: noteId, rows: '1', readonly: !ready, oninput: e => { clearTimeout(timers.get(key)); timers.set(key, setTimeout(() => save(key, { note: e.target.value.trim() }), 900)); } })));
+  const ta = $('.nt', art);
+  ta.value = keepFocus ? oldNote.value : (pk.note || '');
+  if (keepFocus) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
+  resolveName(art);
+}
+async function resolveName(art) {
+  const el = $('.by', art); if (!el) return;
+  const by = el.dataset.by, at = el.dataset.at;
+  if (!by && !at) { el.textContent = ''; return; }
+  let name = '';
+  if (user && by) { try { const ps = await user.profiles([by]); name = (ps[by] && ps[by].name) || ''; } catch {} }
+  el.textContent = [name, ago(at)].filter(Boolean).join(' · ');
+}
+
+/* ---------- overlays ---------- */
+let lastFocus = null;
+function openOv(panel) {
+  lastFocus = document.activeElement;
+  const ov = $('#ov'); ov.replaceChildren(panel); ov.hidden = false;
+  document.body.style.overflow = 'hidden';
+  const f = panel.querySelector('button'); if (f) f.focus();
+}
+function closeOv() {
+  const ov = $('#ov'); ov.hidden = true; ov.replaceChildren();
+  document.body.style.overflow = '';
+  if (lastFocus) lastFocus.focus();
+}
+function openPick(key) {
+  const slot = SL[key], cur = (picks[key] || {}).choice;
+  openOv(h('div', { class: 'pan', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'pk-h' },
+    h('header', {}, h('div', {}, h('h2', { id: 'pk-h', text: `${slot.page} · ${slot.name}` }), h('p', { text: slot.fit === 'contain' ? 'כך תיראה כל תמונה במקום הזה: כל התמונה, על רקע לבן.' : 'כך תיחתך כל תמונה במקום הזה.' })),
+      h('button', { class: 'btn', type: 'button', onclick: closeOv }, 'סגירה')),
+    h('div', { class: 'grid' }, ...PHOTOS.map(p => h('button', { class: 'opt' + (cur === p.id ? ' on' : ''), type: 'button', 'aria-label': 'לבחור את תמונה ' + p.num, onclick: () => { closeOv(); save(key, { choice: p.id }); } },
+      frame(slot, p.src, 'תמונה ' + p.num, false), h('b', { text: 'תמונה ' + p.num + (cur === p.id ? ' · נבחרה' : '') }))))));
+}
+function showBig(p) {
+  openOv(h('div', { class: 'pan', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'bg-h' },
+    h('header', {}, h('h2', { id: 'bg-h', text: 'תמונה ' + p.num }), h('button', { class: 'btn', type: 'button', onclick: closeOv }, 'סגירה')),
+    h('img', { class: 'big', src: p.src, alt: 'תמונה ' + p.num })));
+}
+$('#ov').addEventListener('click', e => { if (e.target.id === 'ov') closeOv(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#ov').hidden) closeOv(); });
+
+/* ---------- data ---------- */
+function subscribe() {
+  if (unsub) unsub();
+  unsub = db.collection('picks').onSnapshot(snap => {
+    const next = {};
+    for (const d of snap.docs) next[d.id] = d.data();
+    picks = next; ready = true;
+    renderTop(); renderStrip(); SLOTS.forEach(s => renderCard(s.key));
+  }, err => {
+    if (err && err.code === 'unavailable') { setTimeout(subscribe, 2000); return; }
+    banner(err && err.code === 'revoked' ? 'הגישה לעמוד הזה השתנתה. רעננו את העמוד.' : 'יש בעיה בחיבור לשמירה. רעננו את העמוד.');
+  });
+}
+
+(async function init() {
+  renderStrip(); renderPages();
+  $('#st').textContent = 'מתחבר לשמירה…';
+  const c = window.claude;
+  [db, user] = c ? await Promise.all([c.use('db'), c.use('user')]) : [null, null];
+  uid = user ? await user.id() : null;
+  if (!db) { $('#st').textContent = 'תצוגה בלבד'; banner('השמירה לא זמינה בתצוגה הזו. פתחו את העמוד ב-claude.ai כדי לבחור.'); return; }
+  subscribe();
+})();
+</script>
