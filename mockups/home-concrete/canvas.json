@@ -39,11 +39,19 @@
     },
     "FooterPatch.dc.html": {
       "expand": "fill",
-      "h": 840,
+      "h": 860,
       "page": "footer",
-      "title": "פוטר ח · טלאים רקומים · מחשב",
+      "title": "פוטר ח · טלאים רקומים · מחשב (מלוטש, 1.11)",
       "w": 1440,
       "x": 4560,
+      "y": 300
+    },
+    "FooterPatchPhone.dc.html": {
+      "h": 1400,
+      "page": "footer",
+      "title": "פוטר ח · טלאים רקומים · טלפון",
+      "w": 390,
+      "x": 6080,
       "y": 300
     },
     "FooterGrid.dc.html": {
@@ -255,7 +263,7 @@
     },
     "row7title": {
       "kind": "title1",
-      "maxW": 6000,
+      "maxW": 6470,
       "page": "footer",
       "text": "פוטר, סבב 3: נפרד מהאתר, קליל ומיוחד, עם כפתורי רשתות בולטים (1.11)",
       "w": 240,
@@ -302,7 +310,8 @@
     "FooterReceipt.dc.html",
     "FooterPostcard.dc.html",
     "FooterTag.dc.html",
-    "FooterPatch.dc.html"
+    "FooterPatch.dc.html",
+    "FooterPatchPhone.dc.html"
   ],
   "pages": [
     {
