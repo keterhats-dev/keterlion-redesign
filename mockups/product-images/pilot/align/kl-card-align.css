@@ -1,0 +1,4 @@
+/* Mockup 2.11.2026: product cards in one row end on the same line (price and button at the bottom of the card) */
+html body ul.products li.product{display:flex !important;flex-direction:column !important;align-items:stretch !important}
+html body ul.products li.product > a.woocommerce-LoopProduct-link{display:flex !important;flex-direction:column !important;flex:1 1 auto !important;width:100%}
+html body ul.products li.product .price{margin-top:auto !important}
