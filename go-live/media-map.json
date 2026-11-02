@@ -1,0 +1,22 @@
+{
+  "note": "Photos the new pages and templates use that exist only on staging (ID above 23900, the last media on the live site on 15.10.2026). Upload the file to the live media library, write its new live ID in live_id, and the copy script swaps staging_id for live_id. Built 2.11.2026 from 38 documents (all templates and every page changed since 16.10).",
+  "upload": [
+    { "staging_id": 23926, "file": "assets/brand/kl-wordmark-black.png", "used_in": "header, footer", "live_id": null },
+    { "staging_id": 23928, "file": "assets/brand/kl-lion-black.png", "used_in": "header, footer", "live_id": null },
+    { "staging_id": 24567, "file": "assets/photos/m-shirts-rack.jpg", "used_in": "home: clothing", "live_id": null },
+    { "staging_id": 24799, "file": "assets/photos/site-2026-11/kl-bucket-tile.jpg", "used_in": "home: bucket tile", "live_id": null },
+    { "staging_id": 24803, "file": "assets/photos/site-2026-11/kl-custom-design.jpg", "used_in": "home: custom design; b2b-2026 hero", "live_id": null },
+    { "staging_id": 24805, "file": "assets/photos/site-2026-11/kl-business.jpg", "used_in": "home: b2b", "live_id": null },
+    { "staging_id": 24809, "file": "assets/photos/site-2026-11/kl-dad-cap-tile.jpg", "used_in": "home: dad cap tile", "live_id": null },
+    { "staging_id": 24812, "file": "assets/photos/site-2026-11/kl-custom-baseball.jpg", "used_in": "custom-2026: baseball", "live_id": null },
+    { "staging_id": 24814, "file": "assets/photos/site-2026-11/kl-baseball-tile.jpg", "used_in": "home: baseball tile", "live_id": null },
+    { "staging_id": 24815, "file": "assets/photos/site-2026-11/kl-custom-dad-cap.jpg", "used_in": "custom-2026: dad cap", "live_id": null },
+    { "staging_id": 24822, "file": "assets/photos/site-2026-11/kl-store.jpg", "used_in": "store page 11618", "live_id": null },
+    { "staging_id": 24829, "file": "assets/photos/site-2026-11/kl-custom-shirt.jpg", "used_in": "custom-2026: shirt", "live_id": null },
+    { "staging_id": 24831, "file": "assets/photos/site-2026-11/kl-gift-card.jpg", "used_in": "gift card 16992", "live_id": null },
+    { "staging_id": 24832, "file": "assets/photos/site-2026-11/kl-home-hero.jpg", "used_in": "home: hero", "live_id": null },
+    { "staging_id": 24833, "file": "assets/photos/site-2026-11/kl-our-story.jpg", "used_in": "our story 16435", "live_id": null },
+    { "staging_id": 24834, "file": "assets/photos/site-2026-11/kl-soldiers.jpg", "used_in": "soldiers 16266", "live_id": null }
+  ],
+  "already_on_live": [327, 337, 343, 7777, 7810, 7812, 7816, 7818, 7824, 7826, 7828, 7830, 7833, 12057, 12330, 12336, 12344, 12346, 12351, 12353, 12354, 12357, 12358, 12437, 12438, 12439, 12440, 12441, 12444, 12445, 12446, 12447, 12455, 12456, 12457, 12671, 13203, 17842, 17843, 17844, 17845, 17846, 17847, 19220, 22651, 23592, 23637, 23736, 23866, 23875, 23889]
+}
