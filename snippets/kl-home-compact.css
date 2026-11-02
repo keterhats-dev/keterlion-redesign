@@ -47,3 +47,11 @@ selector [data-id="84d3905"] img[data-id="68ed83f"],selector [data-id="a9dd4ed"]
   selector a[data-id="624ce73"]{align-self:stretch !important;width:100% !important}
   selector [data-id="84d3905"] img[data-id="68ed83f"],selector [data-id="a9dd4ed"] img[data-id="1e5e4c5"]{max-width:240px !important}
 }
+@media (max-width:767px){
+  /* custom design on phones: the photo comes before the button, so the custom and B2B photos don't follow each other (2.11.2026) */
+  selector .elementor-element-897afa4{row-gap:14px !important;padding:28px 0 !important}
+  selector .elementor-element-9c4ac08{display:contents !important}
+  selector .elementor-element-9c4ac08 > :not([data-id="624ce73"]){order:1;margin-inline:16px !important}
+  selector .elementor-element-84d3905{order:2;border-top:0 !important;padding:0 !important}
+  selector a[data-id="624ce73"]{order:3;margin:4px 16px 0 !important;width:auto !important}
+}
