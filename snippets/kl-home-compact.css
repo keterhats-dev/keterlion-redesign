@@ -1,0 +1,49 @@
+/* Added to the end of the Custom CSS of the home page (23950) on staging, 2.11.2026. Approved mockup: mockups/home-compact.
+   In the editor: the hats (8d29aa4) and shirts (1e5f962) product widgets are set to 3 each and sit together in the new flexbox 1f5e27e.
+   The "new in clothing" section 61b9e5b was removed. The picker (d5efd5e) was removed, and 624ce73 is a copy of the hero button 4406150. */
+
+/* ===== Shorter home page (2.11.2026, approved mockup in mockups/home-compact) ===== */
+/* new in store: the newest 3 hats (8d29aa4) and the newest 3 shirts (1e5f962) in one row, in turns */
+selector .elementor-element-1f5e27e{display:grid !important;grid-template-columns:repeat(6,minmax(0,1fr));gap:24px 20px !important;width:100%;padding:0 !important;margin:0 !important}
+selector .elementor-element-1f5e27e :is(.elementor-widget-woocommerce-products,.elementor-widget-container,.woocommerce,ul.products){display:contents !important}
+selector .elementor-element-1f5e27e :is(.elementor-widget-woocommerce-products,.elementor-widget-container,.woocommerce,ul.products)::before,selector .elementor-element-1f5e27e :is(.elementor-widget-woocommerce-products,.elementor-widget-container,.woocommerce,ul.products)::after{content:none !important;display:none !important}
+selector .elementor-element-1f5e27e li.product{width:auto !important;margin:0 !important;min-width:0}
+selector .elementor-element-1f5e27e .woocommerce > :not(ul.products){display:none !important}
+selector [data-id="8d29aa4"] li.product:nth-child(1){order:1}
+selector [data-id="8d29aa4"] li.product:nth-child(2){order:3}
+selector [data-id="8d29aa4"] li.product:nth-child(3){order:5}
+selector [data-id="1e5f962"] li.product:nth-child(1){order:2}
+selector [data-id="1e5f962"] li.product:nth-child(2){order:4}
+selector [data-id="1e5f962"] li.product:nth-child(3){order:6}
+/* hat types: "all hats" is a link like the one in the new-in-store block, not a black button */
+selector a[data-id="fb8ef72"],selector a[data-id="fb8ef72"]:hover,selector a[data-id="fb8ef72"]:focus{background:transparent !important;color:#171717 !important;border:0 !important;border-bottom:2px solid #AE8E42 !important;padding:0 0 3px !important;min-height:52px}
+/* custom design: one button to the design page, no picker and no price */
+selector a[data-id="624ce73"]{align-self:flex-start !important;width:auto !important;margin-top:8px}
+/* the two tall photos (custom design, B2B): whole, but smaller */
+selector :is([data-id="84d3905"],[data-id="a9dd4ed"]){display:flex !important;align-items:center !important;justify-content:center !important}
+selector [data-id="84d3905"] img[data-id="68ed83f"],selector [data-id="a9dd4ed"] img[data-id="1e5e4c5"]{width:100% !important;max-width:414px !important;height:auto !important;margin-inline:auto !important;object-fit:contain !important}
+@media (max-width:1024px){
+  selector .elementor-element-1f5e27e{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (max-width:767px){
+  /* tighter sections */
+  selector :is(.elementor-element-0bc64e3,.elementor-element-b28af08){padding-top:28px !important;padding-bottom:30px !important}
+  selector :is(.elementor-element-0bc64e3,.elementor-element-b28af08) > *{gap:16px !important}
+  selector .elementor-element-2824f2d{padding-top:22px !important;padding-bottom:28px !important;gap:12px !important}
+  selector :is(.elementor-element-9c4ac08,.elementor-element-7b5ed01){padding-top:28px !important;padding-bottom:28px !important;gap:14px !important}
+  selector :is(.elementor-element-84d3905,.elementor-element-a9dd4ed){padding-bottom:24px !important}
+  selector .elementor-element-0d75e0c{gap:0 !important}
+  /* two buttons side by side: hero and B2B */
+  selector :is(.elementor-element-180d9df,.elementor-element-5ab788c){flex-direction:row !important;gap:10px !important}
+  selector :is(.elementor-element-180d9df,.elementor-element-5ab788c) > *{flex:1 1 0 !important;min-width:0 !important;width:auto !important;padding-inline:8px !important;justify-content:center !important}
+  /* hat types: the link under the title */
+  selector .elementor-element-9616192{gap:12px !important}
+  selector .elementor-element-58210da{width:auto !important;align-self:flex-start !important}
+  /* new in store: a row you swipe sideways */
+  selector .elementor-element-1f5e27e{display:flex !important;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px !important;margin-inline:-16px !important;padding-inline:16px !important;width:auto;scrollbar-width:none}
+  selector .elementor-element-1f5e27e::-webkit-scrollbar{display:none}
+  selector .elementor-element-1f5e27e li.product{flex:0 0 44% !important;scroll-snap-align:start}
+  /* custom design button full width, photos up to 240px wide */
+  selector a[data-id="624ce73"]{align-self:stretch !important;width:100% !important}
+  selector [data-id="84d3905"] img[data-id="68ed83f"],selector [data-id="a9dd4ed"] img[data-id="1e5e4c5"]{max-width:240px !important}
+}

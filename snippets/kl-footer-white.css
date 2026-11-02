@@ -122,3 +122,57 @@ selector .kl-fsoc li{display:flex}
   selector .kl-fslogan{text-align:right}
 }
 @media (max-width:1100px){selector .elementor-element-4708763{border-top:0 !important}}
+
+/* ===== Shorter footer (2.11.2026, approved mockup in mockups/home-compact) ===== */
+@media (min-width:768px){
+  selector .elementor-element-7d60683 > *{padding-top:16px !important;padding-bottom:16px !important}
+  selector .elementor-element-ebb3ffb > *{padding:34px 28px 36px !important}
+  selector .elementor-element-617a118{gap:14px !important}
+  selector [data-id="cedfc3f"]{font-size:36px !important}
+  selector .elementor-element-4708763{padding:26px 32px !important;gap:20px 32px !important}
+  selector [data-id="68d3fd3"]{height:46px !important}
+  selector [data-id="c434fcc"]{height:34px !important}
+  selector .kl-fsoc{flex-direction:row !important;align-items:center !important;gap:16px !important}
+  selector .kl-fsoc a{height:44px !important;padding:0 16px !important;font-size:15px !important}
+  selector .kl-fsoc svg{width:20px !important;height:20px !important}
+  selector .elementor-element-332afed{padding:14px 32px !important}
+}
+@media (max-width:767px){
+  /* service strip: one row of three, without the second lines */
+  selector .elementor-element-7d60683{display:grid !important;grid-template-columns:repeat(3,minmax(0,1fr)) !important;gap:0 !important}
+  selector .elementor-element-7d60683 > *{padding:14px 6px !important;border:0 !important;border-inline-start:1px solid #DDD3BD !important;align-items:center !important;text-align:center !important;min-width:0}
+  selector .elementor-element-7d60683 > :first-child{border-inline-start:0 !important}
+  selector :is([data-id="32381fb"],[data-id="5d5a012"],[data-id="cd1e76c"]){display:none !important}
+  selector :is([data-id="b4713bc"],[data-id="ae7d8d2"],[data-id="1454163"]){font-size:13px !important;text-align:center !important}
+  selector :is([data-id="b4713bc"],[data-id="ae7d8d2"],[data-id="1454163"])::before{content:none !important}
+  /* club, tighter */
+  selector .elementor-element-ebb3ffb{grid-template-columns:1fr !important}
+  selector .elementor-element-ebb3ffb > :first-child{padding:28px 16px 26px !important}
+  selector [data-id="cedfc3f"]{font-size:28px !important}
+  /* link groups: one row each. They close only once the script in 31e663e runs (html.kl-facc), so without it every link stays visible */
+  selector .elementor-element-ebb3ffb > :not(:first-child){padding:0 16px !important;border:0 !important;border-bottom:1px solid #DDD3BD !important}
+  selector .elementor-element-ebb3ffb > :nth-child(2){border-top:1px solid #DDD3BD !important}
+  selector :is([data-id="34b92cf"],[data-id="5165407"],[data-id="3c3be31"]){gap:0 !important}
+  selector .kl-fstore{padding:0 !important;margin:0 !important}
+  selector :is([data-id="89944d4"],[data-id="a6e765d"],[data-id="9a98036"]),selector .kl-fstore .kl-fh{display:flex !important;align-items:center !important;min-height:52px;margin:0 !important;line-height:1 !important;width:100%;font-size:14px !important}
+  html.kl-facc selector :is([data-id="89944d4"],[data-id="a6e765d"],[data-id="9a98036"],.kl-fh){cursor:pointer;-webkit-tap-highlight-color:transparent}
+  html.kl-facc selector :is([data-id="89944d4"],[data-id="a6e765d"],[data-id="9a98036"],.kl-fh)::after{content:"+";margin-inline-start:auto;font-size:22px !important;font-weight:300;line-height:1;letter-spacing:0;color:#171717}
+  html.kl-facc selector :is([data-id="89944d4"],[data-id="a6e765d"],[data-id="9a98036"],.kl-fh)[aria-expanded="true"]::after{content:"−"}
+  html.kl-facc selector :is([data-id="b58b024"],[data-id="8354ca3"],[data-id="5f3e923"]):not(.kl-open){display:none !important}
+  html.kl-facc selector .kl-fstore:not(.kl-open) > :not(.kl-fh){display:none !important}
+  selector :is([data-id="b58b024"],[data-id="8354ca3"],[data-id="5f3e923"]),selector .kl-fstore{padding-bottom:14px !important}
+  html.kl-facc selector .kl-fstore:not(.kl-open){padding-bottom:0 !important}
+  /* brand row and socials: 4 icon buttons in one row (each has its name for screen readers) */
+  selector .elementor-element-4708763{padding:24px 16px 20px !important;gap:16px !important}
+  selector .elementor-element-9cfcc42{align-self:center !important}
+  selector [data-id="68d3fd3"]{height:36px !important}
+  selector [data-id="c434fcc"]{height:20px !important}
+  selector .kl-fsoc{gap:10px !important}
+  selector .kl-fsoc-t{text-align:center}
+  selector .kl-fsoc ul{grid-template-columns:repeat(4,1fr) !important;gap:8px !important}
+  selector .kl-fsoc a{height:48px !important;padding:0 !important;font-size:0 !important;gap:0 !important}
+  selector .kl-fsoc svg{width:22px !important;height:22px !important}
+  selector .elementor-element-332afed{padding:12px 16px 18px !important;gap:4px !important;align-items:center !important;text-align:center}
+  selector .elementor-element-31e663e{align-self:center !important}
+  selector .kl-fslogan{text-align:center !important}
+}
