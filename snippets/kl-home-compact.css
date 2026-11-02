@@ -39,10 +39,9 @@ selector [data-id="84d3905"] img[data-id="68ed83f"],selector [data-id="a9dd4ed"]
   /* hat types: the link under the title */
   selector .elementor-element-9616192{gap:12px !important}
   selector .elementor-element-58210da{width:auto !important;align-self:flex-start !important}
-  /* new in store: a row you swipe sideways */
-  selector .elementor-element-1f5e27e{display:flex !important;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px !important;margin-inline:-16px !important;padding-inline:16px !important;width:auto;scrollbar-width:none}
-  selector .elementor-element-1f5e27e::-webkit-scrollbar{display:none}
-  selector .elementor-element-1f5e27e li.product{flex:0 0 44% !important;scroll-snap-align:start}
+  /* new in store on phones: a fixed 2x2 grid (2 hats, 2 shirts). A sideways strip fought with the photo swipe inside each card (2.11.2026) */
+  selector .elementor-element-1f5e27e{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:20px 12px !important}
+  selector :is([data-id="8d29aa4"],[data-id="1e5f962"]) li.product:nth-child(3){display:none !important}
   /* custom design button full width, photos up to 240px wide */
   selector a[data-id="624ce73"]{align-self:stretch !important;width:100% !important}
   selector [data-id="84d3905"] img[data-id="68ed83f"],selector [data-id="a9dd4ed"] img[data-id="1e5e4c5"]{max-width:240px !important}
