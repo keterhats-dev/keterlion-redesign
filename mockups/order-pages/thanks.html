@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Thank-you page mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#171717;--white:#fff;--gold:#AE8E42;--line:#DDD3BD;--grey:#6B6B69;--soft:#F4F4F2}
+  *{box-sizing:border-box}
+  body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,Arial,sans-serif;font-size:15px;line-height:1.6}
+  .bar{background:var(--ink);color:var(--gold);text-align:center;font-size:13px;padding:8px 16px;letter-spacing:.02em}
+  header{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--line)}
+  header .logo{display:flex;align-items:center;gap:8px}
+  header .logo img{height:26px}
+  header .logo i{width:7px;height:7px;border-radius:50%;background:var(--gold);display:block;margin-top:14px}
+  header nav{display:flex;gap:22px;font-size:14px}
+  header .icons{display:flex;gap:8px}
+  header .icons span{width:40px;height:40px;border:1px solid var(--ink);border-radius:4px;display:block}
+  header .icons span.cart{background:var(--ink)}
+  main{max-width:1120px;margin:0 auto;padding:40px 32px 64px}
+  .eyebrow{display:flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.12em;color:var(--grey)}
+  .eyebrow::before{content:"";width:28px;height:4px;background:var(--gold)}
+  h1{font-weight:900;font-size:44px;line-height:1.1;margin:12px 0 10px}
+  h1 b{color:var(--gold)}
+  .lead{color:var(--grey);font-size:16px;margin:0 0 28px}
+  .overview{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:36px}
+  .overview div{padding:16px 0 16px 16px}
+  .overview div+div{border-right:1px solid var(--line);padding-right:16px}
+  .overview small{display:block;color:var(--grey);font-size:12px;letter-spacing:.06em}
+  .overview strong{font-weight:900;font-size:20px}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+  h2{font-weight:500;font-size:20px;margin:0 0 14px}
+  .steps{list-style:none;margin:0 0 28px;padding:0;border-top:1px solid var(--line)}
+  .steps li{display:flex;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+  .steps .n{font-weight:900;font-size:14px;color:var(--gold);min-width:24px}
+  .steps b{display:block;font-weight:500}
+  .steps span{color:var(--grey);font-size:14px}
+  .note{background:var(--soft);border-right:3px solid var(--gold);padding:12px 16px;font-size:14px;margin-bottom:28px}
+  .btns{display:flex;gap:12px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 26px;border-radius:4px;font-weight:700;font-size:16px;text-decoration:none}
+  .btn.primary{background:var(--ink);color:#fff}
+  .btn.secondary{border:1px solid var(--ink);color:var(--ink)}
+  .card{border:1px solid var(--line);padding:20px 22px}
+  .item{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+  .item img{width:64px;height:64px;object-fit:contain;background:#fff}
+  .item small{display:block;color:var(--grey);font-size:13px}
+  .item .p{font-weight:700}
+  .row{display:flex;justify-content:space-between;padding:8px 0;font-size:14px}
+  .row.total{border-top:1px solid var(--ink);margin-top:6px;padding-top:12px;font-size:18px;font-weight:900}
+  .addr{margin-top:20px;font-size:14px;color:var(--grey)}
+  .addr b{display:block;color:var(--ink);font-weight:500;margin-bottom:4px}
+  footer{background:var(--ink);color:#fff;padding:28px 32px;text-align:center;font-size:13px}
+  footer img{height:22px;margin-bottom:8px}
+  footer small{display:block;color:#bdbdba}
+  @media (max-width:767px){
+    header{padding:12px 16px}
+    header nav{display:none}
+    header .logo img{height:20px}
+    main{padding:28px 16px 48px}
+    h1{font-size:32px}
+    .overview{grid-template-columns:1fr 1fr}
+    .overview div:nth-child(3){border-right:0;padding-right:0}
+    .overview div:nth-child(n+3){border-top:1px solid var(--line)}
+    .cols{grid-template-columns:1fr;gap:28px}
+    .btn{width:100%}
+  }
+</style>
+</head>
+<body>
+<div class="bar">משלוח חינם מעל ₪249 &nbsp;✱&nbsp; איסוף עצמי מנחלת בנימין 13 &nbsp;✱&nbsp; עיצוב אישי</div>
+<header>
+  <div class="logo"><img src="keterlion-wordmark-black.png" alt="KETERLION"><i></i></div>
+  <nav><span>חנות</span><span>כובעים</span><span>עיצוב אישי</span><span>ביגוד</span><span>סיטונאות</span></nav>
+  <div class="icons"><span></span><span></span><span class="cart"></span></div>
+</header>
+<main>
+  <div class="eyebrow">ההזמנה התקבלה</div>
+  <h1>תודה, דנה! ההזמנה אצלנו<b>.</b></h1>
+  <p class="lead">שלחנו אישור עם כל הפרטים ל-dana@example.com</p>
+
+  <div class="overview">
+    <div><small>מספר הזמנה</small><strong>#12345</strong></div>
+    <div><small>תאריך</small><strong>2 בנובמבר 2026</strong></div>
+    <div><small>סה״כ</small><strong>₪263</strong></div>
+    <div><small>תשלום</small><strong>Bit</strong></div>
+  </div>
+
+  <div class="cols">
+    <section>
+      <h2>מה קורה עכשיו</h2>
+      <ol class="steps">
+        <li><span class="n">01</span><div><b>מכינים את ההזמנה</b><span>ההזמנה עוברת אלינו להכנה ולאריזה</span></div></li>
+        <li><span class="n">02</span><div><b>יוצאת אליך</b><span>משלוח עד 5 ימי עסקים</span></div></li>
+        <li><span class="n">03</span><div><b>מגיעה הביתה</b><span>בחרת איסוף עצמי? נעדכן כשההזמנה מחכה לך בנחלת בנימין 13</span></div></li>
+      </ol>
+      <div class="note"><b>יש בהזמנה עיצוב אישי?</b> לפני שמתחילים לרקום נשלח לך סקיצה לאישור ב-WhatsApp.</div>
+      <div class="btns">
+        <a class="btn primary" href="#">להמשיך לקנות ←</a>
+        <a class="btn secondary" href="#">שאלה על ההזמנה? WhatsApp</a>
+      </div>
+    </section>
+
+    <section>
+      <h2>פרטי ההזמנה</h2>
+      <div class="card">
+        <div class="item"><img src="https://keterlion.com/wp-content/uploads/2026/11/kl-card-20660-300x300.jpg" alt=""><div>כובע grateful, Dad Cap<small>כמות: 1</small></div><span class="p">₪149</span></div>
+        <div class="item"><img src="https://keterlion.com/wp-content/uploads/2026/11/kl-card-19885-300x300.jpg" alt=""><div>כובע לירי, Faith<small>כמות: 1</small></div><span class="p">₪79</span></div>
+        <div class="row"><span>סכום ביניים</span><span>₪228</span></div>
+        <div class="row"><span>משלוח (שליח עד הבית)</span><span>₪35</span></div>
+        <div class="row total"><span>סה״כ</span><span>₪263</span></div>
+        <div class="addr"><b>כתובת למשלוח</b>דנה ישראלי · רחוב הדוגמה 1, תל אביב · 050-0000000</div>
+      </div>
+    </section>
+  </div>
+</main>
+<footer><img src="keterlion-wordmark-white.png" alt="KETERLION"><small>נחלת בנימין 13, תל אביב · 03-9385005 · info@keterlion.com</small></footer>
+</body>
+</html>
