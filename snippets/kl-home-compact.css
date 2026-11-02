@@ -55,3 +55,11 @@ selector [data-id="84d3905"] img[data-id="68ed83f"],selector [data-id="a9dd4ed"]
   selector .elementor-element-84d3905{order:2;border-top:0 !important;padding:0 !important}
   selector a[data-id="624ce73"]{order:3;margin:4px 16px 0 !important;width:auto !important}
 }
+@media (max-width:767px){
+  /* B2B on phones: the photo comes after the text, above the buttons, like custom design (2.11.2026) */
+  selector .elementor-element-e6651d5{row-gap:14px !important;padding:28px 0 !important}
+  selector .elementor-element-7b5ed01{display:contents !important}
+  selector .elementor-element-7b5ed01 > :not([data-id="5ab788c"]){order:1;margin-inline:16px !important;width:auto !important;max-width:none !important}
+  selector .elementor-element-a9dd4ed{order:2;border:0 !important;padding:0 !important}
+  selector .elementor-element-5ab788c{order:3;margin:4px 16px 0 !important;width:auto !important}
+}
