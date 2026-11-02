@@ -1,0 +1,145 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=block">
+<style>
+/* ===== Mockup, 2.11.2026: a shorter home page and footer ===== */
+body.kl-mock .kl-hide{display:none !important}
+body.kl-mock .kl-contents{display:contents !important}
+
+/* new in store: one block, 3 hats + 3 shirts */
+body.kl-mock .kl-new-strip{display:grid !important;grid-template-columns:repeat(6,minmax(0,1fr));gap:24px 20px;width:100%}
+body.kl-mock .kl-new-strip li.product{width:auto !important;margin:0 !important;min-width:0}
+body.kl-mock .kl-new-strip .kl-contents::before,body.kl-mock .kl-new-strip .kl-contents::after{content:none !important;display:none !important}
+
+/* custom design: one plain button instead of the picker */
+body.kl-mock .kl-cta{display:flex;margin-top:8px}
+
+/* the two tall photos: whole, but not taller than this */
+html body.kl-mock [data-id="68ed83f"],html body.kl-mock [data-id="1e5e4c5"]{width:100% !important;max-width:414px !important;max-height:none !important;height:auto !important;aspect-ratio:2/3;margin-inline:auto !important;object-fit:contain !important}
+body.kl-mock [data-id="84d3905"],body.kl-mock [data-id="a9dd4ed"]{display:flex !important;align-items:center !important;justify-content:center !important}
+
+/* footer, desktop: less padding, smaller logo and buttons */
+body.kl-mock .elementor-element-7d60683 > *{padding-top:16px !important;padding-bottom:16px !important}
+body.kl-mock .elementor-element-ebb3ffb > *{padding:34px 28px 36px !important}
+body.kl-mock .elementor-element-617a118{gap:14px !important}
+body.kl-mock [data-id="cedfc3f"]{font-size:36px !important}
+body.kl-mock .elementor-element-4708763{padding:26px 32px !important;gap:20px 32px !important}
+body.kl-mock [data-id="68d3fd3"]{height:46px !important}
+body.kl-mock [data-id="c434fcc"]{height:34px !important}
+body.kl-mock .kl-fsoc{flex-direction:row !important;align-items:center !important;gap:16px !important}
+body.kl-mock .kl-fsoc a{height:44px !important;padding:0 16px !important;font-size:15px !important}
+body.kl-mock .kl-fsoc svg{width:20px !important;height:20px !important}
+body.kl-mock .elementor-element-332afed{padding:14px 32px !important}
+
+@media (max-width:767px){
+  /* tighter sections */
+  body.kl-mock .elementor-element-0bc64e3,body.kl-mock .elementor-element-b28af08{padding-top:28px !important;padding-bottom:30px !important}
+  body.kl-mock .elementor-element-0bc64e3 > *,body.kl-mock .elementor-element-b28af08 > *{gap:16px !important}
+
+  /* hero: the two buttons side by side */
+  body.kl-mock .elementor-element-180d9df{flex-direction:row !important;gap:10px !important}
+  body.kl-mock .elementor-element-180d9df > *{flex:1 1 0 !important;min-width:0 !important;width:auto !important;padding-inline:8px !important;justify-content:center !important}
+
+  /* hat types: the "all hats" link next to the title, like the other blocks */
+  body.kl-mock .elementor-element-9616192{flex-direction:row !important;align-items:flex-end !important;justify-content:space-between !important;gap:12px !important}
+  body.kl-mock .elementor-element-58210da{width:auto !important;flex:0 0 auto !important}
+
+  /* new in store: a row you swipe sideways */
+  body.kl-mock .kl-new-strip{display:flex !important;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin-inline:-16px;padding-inline:16px;width:auto;scrollbar-width:none}
+  body.kl-mock .kl-new-strip li.product{flex:0 0 44% !important;scroll-snap-align:start}
+
+  /* clothing banner: tighter text */
+  body.kl-mock .elementor-element-2824f2d{padding-top:22px !important;padding-bottom:28px !important;gap:12px !important}
+
+  /* custom design and B2B: tighter, photos up to 360px tall, buttons side by side */
+  html body.kl-mock [data-id="68ed83f"],html body.kl-mock [data-id="1e5e4c5"]{max-width:240px !important}
+  body.kl-mock .elementor-element-9c4ac08,body.kl-mock .elementor-element-7b5ed01{padding-top:28px !important;padding-bottom:28px !important;gap:14px !important}
+  body.kl-mock .elementor-element-84d3905,body.kl-mock .elementor-element-a9dd4ed{padding-bottom:24px !important}
+  body.kl-mock .elementor-element-5ab788c{flex-direction:row !important;gap:10px !important}
+  body.kl-mock .elementor-element-5ab788c > *{flex:1 1 0 !important;min-width:0 !important;width:auto !important;padding-inline:8px !important;justify-content:center !important}
+  body.kl-mock .elementor-element-0d75e0c{gap:0 !important}
+  body.kl-mock .kl-cta > *{width:100% !important;justify-content:center !important}
+
+  /* footer, phone */
+  body.kl-mock .elementor-element-7d60683{display:grid !important;grid-template-columns:repeat(3,minmax(0,1fr)) !important}
+  body.kl-mock .elementor-element-7d60683 > *{padding:14px 6px !important;border:0 !important;border-inline-start:1px solid #DDD3BD !important;align-items:center !important;text-align:center !important;min-width:0}
+  body.kl-mock .elementor-element-7d60683 > :first-child{border-inline-start:0 !important}
+  body.kl-mock :is([data-id="32381fb"],[data-id="5d5a012"],[data-id="cd1e76c"]){display:none !important}
+  body.kl-mock :is([data-id="b4713bc"],[data-id="ae7d8d2"],[data-id="1454163"]){font-size:13px !important;text-align:center !important}
+  body.kl-mock :is([data-id="b4713bc"],[data-id="ae7d8d2"],[data-id="1454163"])::before{content:none !important}
+
+  body.kl-mock .elementor-element-ebb3ffb{grid-template-columns:1fr !important}
+  body.kl-mock .elementor-element-ebb3ffb > :first-child{padding:28px 16px 26px !important}
+  body.kl-mock [data-id="cedfc3f"]{font-size:28px !important}
+  body.kl-mock .elementor-element-ebb3ffb > :not(:first-child){padding:0 16px !important;border:0 !important;border-bottom:1px solid #DDD3BD !important}
+  body.kl-mock .elementor-element-ebb3ffb > :nth-child(2){border-top:1px solid #DDD3BD !important}
+  body.kl-mock :is([data-id="b58b024"],[data-id="8354ca3"],[data-id="5f3e923"]),body.kl-mock .kl-fstore > :not(.kl-fh){display:none !important}
+  body.kl-mock :is([data-id="89944d4"],[data-id="a6e765d"],[data-id="9a98036"]),body.kl-mock .kl-fstore .kl-fh{display:flex !important;margin:0 !important;height:52px;line-height:1 !important;align-items:center !important;width:100%;font-size:14px !important}
+  body.kl-mock :is([data-id="89944d4"],[data-id="a6e765d"],[data-id="9a98036"],.kl-fh)::after{content:"+";margin-inline-start:auto;font-size:22px !important;font-weight:300;line-height:1;letter-spacing:0;color:#171717}
+  body.kl-mock .elementor-element-e0a02bc{min-height:52px;display:flex !important;align-items:center !important}
+  body.kl-mock .elementor-element-e0a02bc > *,body.kl-mock .kl-fstore{width:100%}
+  body.kl-mock .kl-fstore{padding:0 !important;margin:0 !important}
+  body.kl-mock :is([data-id="34b92cf"],[data-id="5165407"],[data-id="3c3be31"]){gap:0 !important}
+
+  body.kl-mock .elementor-element-4708763{padding:24px 16px 20px !important;gap:16px !important}
+  body.kl-mock .elementor-element-9cfcc42{align-self:center !important}
+  body.kl-mock [data-id="68d3fd3"]{height:36px !important}
+  body.kl-mock [data-id="c434fcc"]{height:20px !important}
+  body.kl-mock .kl-fsoc{flex-direction:column !important;align-items:stretch !important;gap:10px !important}
+  body.kl-mock .kl-fsoc-t{text-align:center}
+  body.kl-mock .kl-fsoc ul{grid-template-columns:repeat(4,1fr) !important;gap:8px !important}
+  body.kl-mock .kl-fsoc a{height:48px !important;padding:0 !important;font-size:0 !important;gap:0 !important}
+  body.kl-mock .kl-fsoc svg{width:22px !important;height:22px !important}
+  body.kl-mock .elementor-element-332afed{padding:12px 16px 18px !important;gap:4px !important;align-items:center !important;text-align:center}
+  body.kl-mock .kl-fslogan{text-align:center !important}
+}
+</style>
+<script>
+(function () {
+  var done = false;
+  function q(id) { return document.querySelector('[data-id="' + id + '"]'); }
+  function run() {
+    if (done) return; done = true;
+    document.body.classList.add('kl-mock');
+
+    // one "new in store" block: the newest 3 hats and the newest 3 shirts, side by side
+    var hatsW = q('8d29aa4'), wearSec = q('61b9e5b');
+    var wearW = wearSec && wearSec.querySelector('[data-widget_type^="woocommerce-products"]');
+    if (hatsW && wearW) {
+      var strip = document.createElement('div'); strip.className = 'kl-new-strip';
+      hatsW.parentNode.insertBefore(strip, hatsW);
+      [hatsW, wearW].forEach(function (w, wi) {
+        strip.appendChild(w);
+        var ul = w.querySelector('ul.products');
+        for (var el = ul; el && el !== strip; el = el.parentElement) {
+          el.classList.add('kl-contents');
+          // anything else inside the wrappers would take a cell of the row
+          Array.prototype.forEach.call(el.children, function (c) {
+            if (c.tagName !== 'LI' && !c.contains(ul)) c.classList.add('kl-hide');
+          });
+        }
+        Array.prototype.forEach.call(ul.children, function (li, i) {
+          if (i > 2) li.classList.add('kl-hide'); else li.style.order = String(i * 2 + wi + 1);
+        });
+      });
+      wearSec.classList.add('kl-hide');
+      var t = q('6f1a4c1'); if (t) t.textContent = 'חדש בחנות';
+      var a = q('a175427'); if (a) { a.textContent = 'לכל המוצרים ←'; a.setAttribute('href', 'https://keterlion.com/staging/all-products/'); }
+    }
+
+    // hat types: the "all hats" button gets the same look as the link in the "new" block
+    var allHats = q('fb8ef72'), newLink = q('a175427');
+    if (allHats && newLink) allHats.className = newLink.className;
+
+    // custom design: no picker and no price, one button to the design page
+    var picker = q('d5efd5e'); if (picker) picker.classList.add('kl-hide');
+    var heroBtn = q('4406150'), para = q('3e43e5e');
+    if (heroBtn && para) {
+      var wrap = document.createElement('div'); wrap.className = 'kl-cta';
+      var b = heroBtn.cloneNode(true); b.textContent = 'להתחיל לעצב ←';
+      b.setAttribute('href', 'https://keterlion.com/staging/product/customize/');
+      wrap.appendChild(b); para.after(wrap);
+    }
+  }
+  window.addEventListener('load', run);
+  setTimeout(run, 4000);
+})();
+</script>
