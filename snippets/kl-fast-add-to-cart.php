@@ -11,10 +11,10 @@
  * This handler only returns the notices ("added to cart" or the error) and the cart fragments,
  * and the script opens the side cart through the usual added_to_cart event.
  *
- * Testing: while KL_FAST_ATC_EVERYONE is false, only admins get the script.
+ * On for everyone since 2.11.2026 (tested by admins first). Set KL_FAST_ATC_EVERYONE to false to limit it to admins again.
  */
 if ( ! defined( 'KL_FAST_ATC_EVERYONE' ) ) {
-	define( 'KL_FAST_ATC_EVERYONE', false );
+	define( 'KL_FAST_ATC_EVERYONE', true );
 }
 
 add_action( 'wc_ajax_kl_add_to_cart', function () {
