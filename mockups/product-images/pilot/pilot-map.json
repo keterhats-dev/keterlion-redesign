@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-02",
+  "what": "Pilot: 12 product card images, trimmed, centred, longest side 82% of a white square. old = the featured image before, new = the uploaded fixed image",
+  "items": [
+    {"n": 2,   "product": 20660, "old": 23736, "new": 24916, "gallery": [23737]},
+    {"n": 12,  "product": 19,    "old": 343,   "new": 24917, "gallery": [341, 343, 83, 84]},
+    {"n": 13,  "product": 30,    "old": 353,   "new": 24918, "gallery": [351, 353, 352, 110]},
+    {"n": 22,  "product": 16212, "old": 16214, "new": 24919, "gallery": []},
+    {"n": 25,  "product": 23,    "old": 362,   "new": 24920, "gallery": [360, 361, 93]},
+    {"n": 36,  "product": 32,    "old": 419,   "new": 24921, "gallery": [417, 418, 114]},
+    {"n": 48,  "product": 75,    "old": 310,   "new": 24922, "gallery": [309, 311, 132]},
+    {"n": 102, "product": 22265, "old": 22274, "new": 24923, "gallery": [22275, 22276]},
+    {"n": 113, "product": 22283, "old": 22284, "new": 24924, "gallery": [22285, 22286]},
+    {"n": 114, "product": 23503, "old": 23504, "new": 24925, "gallery": [23505, 23506]},
+    {"n": 131, "product": 22304, "old": 22305, "new": 24926, "gallery": [22306, 22307]},
+    {"n": 157, "product": 22314, "old": 22315, "new": 24927, "gallery": [22316, 22312]}
+  ]
+}
