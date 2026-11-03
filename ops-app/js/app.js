@@ -3,7 +3,7 @@ import { store, onChange } from './data.js';
 import { DEMO } from './config.js';
 import {
   PRIORITY, STATUS, todayISO, addDays, longDate, dueLabel, isOverdue, byPriority, parseQuick, gcalLink,
-  timeAgo, clock, dayHeading, iso,
+  timeAgo, clock, dayHeading, iso, ORDER_SOURCE, ORDER_STATUS, ORDER_NEXT, isOpenOrder,
 } from './util.js';
 
 /* ---------- icons (stroke, follow currentColor) ---------- */
@@ -20,6 +20,7 @@ const I = {
   cal: (s = 15) => svg(html`<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>`, s),
   x: (s = 16) => svg(html`<path d="M6 6l12 12M18 6L6 18"/>`, s, 2.5),
   out: (s = 18) => svg(html`<path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"/>`, s),
+  box: (s = 20) => svg(html`<path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/>`, s),
 };
 
 /* ---------- routing ---------- */
@@ -73,7 +74,9 @@ function Group({ title, items, ctx, showWho, tone }) {
 }
 
 /* ---------- היום ---------- */
-function Today({ ctx, personId, openAdd }) {
+function Today({ ctx, personId, openAdd, openOrder }) {
+  const openOrders = ctx.orders.filter(isOpenOrder);
+  const newOrders = openOrders.filter((o) => o.status === 'new').length;
   const person = ctx.profiles.find((p) => p.id === personId) || ctx.me;
   const self = person.id === ctx.me.id;
   const [area, setArea] = useState('all');
@@ -103,9 +106,11 @@ function Today({ ctx, personId, openAdd }) {
     <div class="tiles">
       <div class="card tile"><span class="sub">משימות פתוחות</span><b>${open.length}</b>
         ${lateCount ? html`<span class="pill late" style="align-self:flex-start">${lateCount} באיחור</span>` : html`<span class="pill green" style="align-self:flex-start">אין איחורים</span>`}</div>
-      <div class="card tile soon" title="יתחבר להזמנות מהאתר בשלב הבא"><span class="sub">הזמנות פתוחות</span><b>—</b>
-        <span class="pill" style="align-self:flex-start">בשלב הבא</span></div>
+      <a class="card tile" href="#/orders" style="text-decoration:none"><span class="sub">הזמנות פתוחות</span><b>${openOrders.length}</b>
+        ${newOrders ? html`<span class="pill blue" style="align-self:flex-start">${newOrders} חדשות</span>`
+          : html`<span class="pill" style="align-self:flex-start">לכל ההזמנות</span>`}</a>
     </div>
+    <div class="today-grid"><div class="col">
 
     ${usedAreas.length > 1 && html`<div class="chips" role="group" aria-label="סינון לפי תחום">
       <button class=${'chip' + (area === 'all' ? ' on' : '')} onClick=${() => setArea('all')}>הכול</button>
@@ -120,6 +125,12 @@ function Today({ ctx, personId, openAdd }) {
 
     ${doneToday.length > 0 && html`<${DoneToday} items=${doneToday} ctx=${ctx} />`}
     ${!self && html`<button class="btn" onClick=${() => openAdd({ assignee_id: person.id })}>${I.plus(20)} משימה ל${person.name}</button>`}
+    </div>
+    <aside class="col desk-only" aria-label="הזמנות פתוחות">
+      <div class="top"><h2 class="h1" style="font-size:20px">הזמנות פתוחות</h2>
+        <button class="btn sm ghost" onClick=${() => openOrder({})}>${I.plus(18)} הזמנה</button></div>
+      <${OrdersList} ctx=${ctx} compact onOpen=${openOrder} />
+    </aside></div>
   </main>`;
 }
 
@@ -276,6 +287,110 @@ function TaskPage({ id, ctx }) {
         : html`<button type="button" class="btn sm" onClick=${() => up({ status: 'done' })}>${I.check(16)} סיימתי</button>`}
     </form></div>
   </main>`;
+}
+
+/* ---------- הזמנות ---------- */
+function OrderRow({ o, ctx, onOpen }) {
+  const st = ORDER_STATUS[o.status];
+  const next = ORDER_NEXT[o.status];
+  const late = isOpenOrder(o) && o.due_date && o.due_date < todayISO();
+  return html`<div class="row" style="align-items:flex-start">
+    <button class="body" style="border:0;background:none;padding:0;text-align:right;cursor:pointer" onClick=${() => onOpen(o)}>
+      <div class="meta" style="margin:0 0 4px"><span style="font-weight:600">${ORDER_SOURCE[o.source]}${o.number ? ` · #${o.number}` : ''}</span>
+        <span class=${'pill ' + st.cls}>${st.label}</span></div>
+      <div class="t">${o.customer}</div>
+      <div class="meta">
+        ${o.items && html`<span>${o.items}</span>`}
+        ${o.due_date && html`<span class=${late ? 'pill late' : ''}>${late ? 'באיחור · ' : 'עד '}${dueLabel({ due_date: o.due_date })}</span>`}
+        ${o.amount != null && html`<span>₪${Number(o.amount).toLocaleString('he-IL')}</span>`}
+        ${!isOpenOrder(o) && o.closed_at && html`<span>${timeAgo(o.closed_at)}</span>`}
+      </div>
+    </button>
+    ${next && html`<button class=${'btn sm' + (o.status === 'new' ? '' : ' ghost')} style="height:38px;padding:0 14px;font-size:14px;flex:none"
+      onClick=${() => ctx.store.updateOrder(o.id, { status: next[0] })}>${next[1]}</button>`}
+  </div>`;
+}
+
+const sortOrders = (a, b) => {
+  const da = a.due_date || '9999', db = b.due_date || '9999';
+  return da !== db ? (da < db ? -1 : 1) : a.created_at < b.created_at ? -1 : 1;
+};
+
+function OrdersList({ ctx, compact, onOpen }) {
+  const [src, setSrc] = useState('all');
+  const open = ctx.orders.filter(isOpenOrder).filter((o) => src === 'all' || o.source === src).sort(sortOrders);
+  const today = todayISO();
+  const closedToday = ctx.orders.filter((o) => o.status === 'done' && o.closed_at && iso(new Date(o.closed_at)) === today);
+  const used = Object.keys(ORDER_SOURCE).filter((k) => ctx.orders.some((o) => isOpenOrder(o) && o.source === k));
+  const groups = ['new', 'preparing', 'ready'].map((s) => [s, open.filter((o) => o.status === s)]).filter(([, l]) => l.length);
+  return html`
+    ${!compact && used.length > 1 && html`<div class="chips" role="group" aria-label="סינון לפי מקור">
+      <button class=${'chip' + (src === 'all' ? ' on' : '')} onClick=${() => setSrc('all')}>הכול</button>
+      ${used.map((k) => html`<button class=${'chip' + (src === k ? ' on' : '')} onClick=${() => setSrc(k)}>${ORDER_SOURCE[k]}</button>`)}
+    </div>`}
+    ${!open.length && html`<div class="card empty">אין הזמנות פתוחות</div>`}
+    ${groups.map(([s, list]) => html`<div class="section-h"><span>${ORDER_STATUS[s].label}</span><span>${list.length}</span></div>
+      <section class="card list">${list.map((o) => html`<${OrderRow} key=${o.id} o=${o} ctx=${ctx} onOpen=${onOpen} />`)}</section>`)}
+    ${!compact && closedToday.length > 0 && html`<div class="section-h"><span>נמסרו היום</span><span>${closedToday.length}</span></div>
+      <section class="card list">${closedToday.map((o) => html`<${OrderRow} key=${o.id} o=${o} ctx=${ctx} onOpen=${onOpen} />`)}</section>`}`;
+}
+
+function Orders({ ctx, openOrder }) {
+  const open = ctx.orders.filter(isOpenOrder).length;
+  return html`<main class="page">
+    <div><h1 class="h1">הזמנות פתוחות<span style="color:var(--gold)">.</span></h1>
+      <div class="sub">${open ? `${open} פתוחות` : 'אין פתוחות'} · מוסיפים ידנית. בהמשך יגיעו לבד מהאתר</div></div>
+    <${OrdersList} ctx=${ctx} onOpen=${openOrder} />
+    <button class="btn" onClick=${() => openOrder({})}>${I.plus(20)} הזמנה חדשה</button>
+  </main>`;
+}
+
+function OrderSheet({ ctx, order, onClose }) {
+  const isNew = !order.id;
+  const [f, setF] = useState({
+    source: order.source || 'site', number: order.number || '', customer: order.customer || '', items: order.items || '',
+    amount: order.amount ?? '', due_date: order.due_date || '', status: order.status || 'new', notes: order.notes || '',
+  });
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState('');
+  const set = (k) => (e) => setF({ ...f, [k]: e.target ? e.target.value : e });
+  const save = async (e) => {
+    e.preventDefault();
+    if (!f.customer.trim()) return setErr('צריך לכתוב למי ההזמנה');
+    const data = { source: f.source, number: f.number.trim() || null, customer: f.customer.trim(), items: f.items.trim() || null,
+      amount: f.amount === '' ? null : Number(f.amount), due_date: f.due_date || null, status: f.status, notes: f.notes.trim() || null };
+    setBusy(true);
+    try { await (isNew ? ctx.store.createOrder(data) : ctx.store.updateOrder(order.id, data)); onClose(); }
+    catch (x) { setErr('לא נשמר: ' + x.message); setBusy(false); }
+  };
+  const remove = async () => { if (!confirm('למחוק את ההזמנה מהרשימה?')) return; await ctx.store.deleteOrder(order.id); onClose(); };
+
+  return html`<div class="scrim" onClick=${(e) => e.target === e.currentTarget && onClose()}>
+    <form class="sheet" onSubmit=${save} role="dialog" aria-label=${isNew ? 'הזמנה חדשה' : 'עריכת הזמנה'}>
+      <div class="grab"></div>
+      <div class="top"><h2 class="h1" style="font-size:20px">${isNew ? 'הזמנה חדשה' : 'הזמנה'}</h2>
+        <button type="button" class="icon-btn" style="width:36px;height:36px;background:var(--bg);box-shadow:none" aria-label="סגירה" onClick=${onClose}>${I.x()}</button></div>
+      <div><span class="lbl">מאיפה</span><div class="seg" style="grid-template-columns:repeat(5,minmax(0,1fr))">
+        ${Object.entries(ORDER_SOURCE).map(([k, l]) => html`<button type="button" class=${f.source === k ? 'on' : ''} onClick=${() => set('source')(k)}>${l}</button>`)}
+      </div></div>
+      <div><label class="lbl" for="oc">לקוח</label><input id="oc" class="field soft" value=${f.customer} onInput=${set('customer')} placeholder="שם הלקוח או העסק" /></div>
+      <div><label class="lbl" for="oi">מה הוזמן</label><input id="oi" class="field soft" value=${f.items} onInput=${set('items')} placeholder="למשל: 2 כובעים, שחור ולבן" /></div>
+      <div class="two">
+        <div><label class="lbl" for="on">מספר הזמנה</label><input id="on" class="field soft" dir="ltr" value=${f.number} onInput=${set('number')} /></div>
+        <div><label class="lbl" for="oa">סכום (₪)</label><input id="oa" type="number" inputmode="decimal" class="field soft" dir="ltr" value=${f.amount} onInput=${set('amount')} /></div>
+      </div>
+      <div><label class="lbl" for="od">להכין עד</label><input id="od" type="date" class="field soft" value=${f.due_date} onInput=${set('due_date')} /></div>
+      <div><span class="lbl">סטטוס</span><div class="seg" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+        ${['new', 'preparing', 'ready', 'done'].map((k) => html`<button type="button" class=${f.status === k ? 'on' : ''} onClick=${() => set('status')(k)}>${ORDER_STATUS[k].label}</button>`)}
+      </div></div>
+      <div><label class="lbl" for="ox">הערה</label><textarea id="ox" class="field soft" style="height:70px;padding:10px 12px" value=${f.notes} onInput=${set('notes')}></textarea></div>
+      ${err && html`<div class="err">${err}</div>`}
+      <button class="btn" disabled=${busy}>${busy ? 'שומר…' : isNew ? 'להוסיף הזמנה' : 'לשמור'}</button>
+      ${!isNew && html`<div style="display:flex;justify-content:space-between">
+        <button type="button" class="link" onClick=${async () => { await ctx.store.updateOrder(order.id, { status: 'cancelled' }); onClose(); }}>ההזמנה בוטלה</button>
+        <button type="button" class="link" style="color:var(--red-ink)" onClick=${remove}>למחוק</button></div>`}
+    </form>
+  </div>`;
 }
 
 /* ---------- תחומים ---------- */
@@ -479,7 +594,7 @@ function Login({ ctx }) {
 /* ---------- shell ---------- */
 function Tabs({ route, me }) {
   const owner = me.role === 'owner';
-  const tabs = [['today', 'היום', I.sun], ['areas', 'תחומים', I.hash], owner ? ['team', 'צוות', I.team] : ['done', 'בוצעו', I.check]];
+  const tabs = [['today', 'היום', I.sun], ['orders', 'הזמנות', I.box], ['areas', 'תחומים', I.hash], owner ? ['team', 'צוות', I.team] : ['done', 'בוצעו', I.check]];
   const cur = route[0] || 'today';
   const active = (k) => cur === k || (k === 'areas' && cur === 'area') || (k === 'team' && cur === 'person');
   return html`<div class="tabs"><nav aria-label="ניווט">${tabs.map(([k, l, icon]) => html`
@@ -490,16 +605,17 @@ function App() {
   const [state, setState] = useState({ loading: true });
   const route = useRoute();
   const [sheet, setSheet] = useState(null);
+  const [order, setOrder] = useState(null);
 
   const reload = async () => {
     try {
       const me = await store.session();
       if (!me) return setState({ loading: false, me: null });
       if (me.noAccess) return setState({ loading: false, me: null, noAccess: me });
-      const [profiles, areas, tasks, invites] = await Promise.all([
-        store.profiles(), store.areas(), store.tasks(), me.role === 'owner' ? store.invites() : [],
+      const [profiles, areas, tasks, invites, orders] = await Promise.all([
+        store.profiles(), store.areas(), store.tasks(), me.role === 'owner' ? store.invites() : [], store.orders(),
       ]);
-      setState({ loading: false, me, profiles, areas, tasks, invites, team: profiles.filter((p) => p.active !== false) });
+      setState({ loading: false, me, profiles, areas, tasks, invites, orders, team: profiles.filter((p) => p.active !== false) });
     } catch (e) { setState({ loading: false, error: e.message }); }
   };
   useEffect(() => { reload(); return onChange(reload); }, []);
@@ -511,15 +627,17 @@ function App() {
   if (!state.me) return html`<${Login} ctx=${ctx} />`;
 
   const openAdd = (preset = {}) => setSheet(preset);
+  const openOrder = (o) => setOrder(o);
   const [r0, r1] = route;
   let view;
   if (r0 === 'task' && r1) view = html`<${TaskPage} id=${r1} ctx=${ctx} />`;
+  else if (r0 === 'orders') view = html`<${Orders} ctx=${ctx} openOrder=${openOrder} />`;
   else if (r0 === 'areas') view = html`<${Areas} ctx=${ctx} />`;
   else if (r0 === 'area' && r1) view = html`<${AreaPage} id=${r1} ctx=${ctx} openAdd=${openAdd} />`;
   else if (r0 === 'team' && state.me.role === 'owner') view = html`<${Team} ctx=${ctx} openAdd=${openAdd} />`;
-  else if (r0 === 'person' && r1) view = html`<${Today} ctx=${ctx} personId=${r1} openAdd=${openAdd} />`;
+  else if (r0 === 'person' && r1) view = html`<${Today} ctx=${ctx} personId=${r1} openAdd=${openAdd} openOrder=${openOrder} />`;
   else if (r0 === 'done') view = html`<${Done} ctx=${ctx} />`;
-  else view = html`<${Today} ctx=${ctx} openAdd=${openAdd} />`;
+  else view = html`<${Today} ctx=${ctx} openAdd=${openAdd} openOrder=${openOrder} />`;
   const onTask = r0 === 'task';
 
   return html`<div class="app">
@@ -527,9 +645,11 @@ function App() {
       <span style="display:flex;gap:10px"><button class="link" style="padding:0;color:inherit" onClick=${() => store.signOut()}>החלפת משתמש</button>
       <button class="link" style="padding:0;color:inherit" onClick=${() => confirm('להחזיר את נתוני ההדגמה להתחלה?') && store.resetDemo()}>איפוס</button></span></div></div>`}
     ${view}
-    ${!onTask && html`<button class="fab" aria-label="משימה חדשה" onClick=${() => openAdd(r0 === 'person' ? { assignee_id: r1 } : r0 === 'area' ? { area_id: r1 } : {})}>${I.plus(24)}</button>`}
+    ${!onTask && html`<button class="fab" aria-label=${r0 === 'orders' ? 'הזמנה חדשה' : 'משימה חדשה'} onClick=${() => r0 === 'orders' ? openOrder({})
+      : openAdd(r0 === 'person' ? { assignee_id: r1 } : r0 === 'area' ? { area_id: r1 } : {})}>${I.plus(24)}</button>`}
     ${!onTask && html`<${Tabs} route=${route} me=${state.me} />`}
     ${sheet && html`<${AddSheet} ctx=${ctx} preset=${sheet} onClose=${() => setSheet(null)} />`}
+    ${order && html`<${OrderSheet} ctx=${ctx} order=${order} onClose=${() => setOrder(null)} />`}
     ${!DEMO && r0 !== 'task' && html`<button class="link" style="position:fixed;top:12px;left:12px" aria-label="יציאה" onClick=${() => store.signOut()}>${I.out()}</button>`}
   </div>`;
 }

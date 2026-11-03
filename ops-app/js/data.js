@@ -45,6 +45,11 @@ function seed() {
       { id: ari, name: 'ארי', role: 'staff', title: 'מנהל מערכת ותפעול', email: null, active: true },
     ],
     invites: [],
+    orders: [
+      { id: uid(), source: 'site', number: '[מספר]', customer: '[שם הלקוח]', items: '2 כובעים', amount: null, status: 'new', due_date: null, notes: null, created_at: at(0, 9), updated_at: at(0, 9), closed_at: null },
+      { id: uid(), source: 'wholesale', number: null, customer: '[שם העסק]', items: '[כמות] כובעים ממותגים', amount: null, status: 'preparing', due_date: t, notes: null, created_at: at(-1, 12), updated_at: at(-1, 12), closed_at: null },
+      { id: uid(), source: 'wolt', number: null, customer: 'Wolt', items: 'כובע אחד, איסוף מהחנות', amount: null, status: 'ready', due_date: t, notes: null, created_at: at(0, 11), updated_at: at(0, 11), closed_at: null },
+    ],
     areas: AREAS,
     tasks,
     checklist: ['לבדוק מלאי', 'חשבונית', 'לארוז', 'שליח'].map((text, i) => ({ id: uid(), task_id: wholesale.id, text, done: i < 2, sort: i })),
@@ -59,7 +64,7 @@ function seed() {
 }
 
 function load() {
-  try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.tasks) { s.invites ||= []; return s; } } catch {}
+  try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.tasks) { s.invites ||= []; s.orders ||= []; return s; } } catch {}
   const s = seed(); save(s); return s;
 }
 function save(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch {} }
@@ -131,6 +136,24 @@ const demo = {
   async setCheck(id, done) { const db = load(); const c = db.checklist.find((x) => x.id === id); if (c) c.done = done; save(db); emit(); },
   async addComment(task_id, body, me) { const db = load(); db.comments.push({ id: uid(), task_id, author_id: me.id, kind: 'comment', body, created_at: new Date().toISOString() }); save(db); emit(); },
   async resetDemo() { const s = seed(); save(s); emit(); },
+  async orders() { return load().orders; },
+  async createOrder(data) {
+    const db = load(); const now = new Date().toISOString();
+    db.orders.push({ id: uid(), source: 'site', status: 'new', number: null, items: null, amount: null, due_date: null, notes: null, closed_at: null, ...data, created_at: now, updated_at: now });
+    save(db); emit();
+  },
+  async updateOrder(id, patch) {
+    const db = load(); const o = db.orders.find((x) => x.id === id); if (!o) return;
+    Object.assign(o, closing(o, patch), { updated_at: new Date().toISOString() }); save(db); emit();
+  },
+  async deleteOrder(id) { const db = load(); db.orders = db.orders.filter((o) => o.id !== id); save(db); emit(); },
+};
+
+// An order leaving or returning to the open statuses gets / loses its closing time
+const closing = (o, patch) => {
+  if (!patch.status || patch.status === o.status) return patch;
+  const closed = ['done', 'cancelled'].includes(patch.status);
+  return { ...patch, closed_at: closed ? new Date().toISOString() : null };
 };
 
 const statusEvent = (s) => (s === 'done' ? 'סימן/ה כבוצעה' : `שינה את הסטטוס ל"${STATUS[s]}"`);
@@ -208,13 +231,26 @@ const live = {
     must(await c.from('tasks').update(patch).eq('id', id));
   },
   async deleteTask(id) { const c = await client(); must(await c.from('tasks').delete().eq('id', id)); },
+  async orders() {
+    const c = await client();
+    // open orders, plus the ones closed in the last 30 days
+    const since = new Date(Date.now() - 30 * 864e5).toISOString();
+    return must(await c.from('orders').select('*').or(`closed_at.is.null,closed_at.gte.${since}`).order('created_at'));
+  },
+  async createOrder(data) { const c = await client(); must(await c.from('orders').insert(data)); },
+  async updateOrder(id, patch) {
+    const c = await client();
+    const cur = must(await c.from('orders').select('status').eq('id', id).single());
+    must(await c.from('orders').update(closing(cur, patch)).eq('id', id));
+  },
+  async deleteOrder(id) { const c = await client(); must(await c.from('orders').delete().eq('id', id)); },
   async addCheck(task_id, text) { const c = await client(); must(await c.from('checklist_items').insert({ task_id, text, sort: Date.now() % 1e9 })); },
   async setCheck(id, done) { const c = await client(); must(await c.from('checklist_items').update({ done }).eq('id', id)); },
   async addComment(task_id, body) { const c = await client(); must(await c.from('comments').insert({ task_id, body })); },
 };
 
 // Refresh this screen right after a write, without waiting for the realtime echo
-for (const k of ['createTask', 'updateTask', 'deleteTask', 'addCheck', 'setCheck', 'addComment', 'invite', 'cancelInvite', 'updateMember', 'removeMember']) {
+for (const k of ['createTask', 'updateTask', 'deleteTask', 'addCheck', 'setCheck', 'addComment', 'invite', 'cancelInvite', 'updateMember', 'removeMember', 'createOrder', 'updateOrder', 'deleteOrder']) {
   const f = live[k];
   live[k] = async (...a) => { const r = await f(...a); emit(); return r; };
 }

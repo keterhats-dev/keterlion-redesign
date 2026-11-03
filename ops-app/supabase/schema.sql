@@ -75,10 +75,30 @@ create table if not exists comments (
   created_at timestamptz not null default now()
 );
 
+-- Open orders, added by hand for now (later: pulled from WooCommerce)
+create table if not exists orders (
+  id uuid primary key default gen_random_uuid(),
+  source text not null default 'site' check (source in ('site', 'wholesale', 'wolt', 'store', 'other')),
+  number text,
+  customer text not null,
+  items text,
+  amount numeric(10, 2),
+  status text not null default 'new' check (status in ('new', 'preparing', 'ready', 'done', 'cancelled')),
+  due_date date,
+  notes text,
+  created_by uuid references profiles default auth.uid(),
+  closed_at timestamptz,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+create index if not exists orders_status on orders (status);
+
 create or replace function touch_updated_at() returns trigger language plpgsql as $$
 begin new.updated_at = now(); return new; end $$;
 drop trigger if exists tasks_touch on tasks;
 create trigger tasks_touch before update on tasks for each row execute function touch_updated_at();
+drop trigger if exists orders_touch on orders;
+create trigger orders_touch before update on orders for each row execute function touch_updated_at();
 
 -- Access: everyone on the team (active profile) sees and edits all tasks. Small team, one board.
 -- Only managers add, change or remove team members.
@@ -127,9 +147,12 @@ drop policy if exists team_all on checklist_items;
 create policy team_all on checklist_items for all using (is_team()) with check (is_team());
 drop policy if exists team_all on comments;
 create policy team_all on comments for all using (is_team()) with check (is_team());
+alter table orders enable row level security;
+drop policy if exists team_all on orders;
+create policy team_all on orders for all using (is_team()) with check (is_team());
 
 -- Live updates on both phones
-alter publication supabase_realtime add table tasks, checklist_items, comments, profiles, team_invites;
+alter publication supabase_realtime add table tasks, checklist_items, comments, profiles, team_invites, orders;
 
 -- The first manager. Put your own email and name, run, then log in from the app:
 -- insert into team_invites (email, name, role, title) values ('you@example.com', 'השם שלך', 'owner', 'בעלים');

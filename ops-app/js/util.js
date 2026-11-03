@@ -16,6 +16,18 @@ export const PRIORITY = {
 };
 export const STATUS = { open: 'פתוחה', doing: 'בטיפול', waiting: 'מחכה', done: 'בוצעה' };
 
+export const ORDER_SOURCE = { site: 'אתר', wholesale: 'סיטונאות', wolt: 'Wolt', store: 'חנות', other: 'אחר' };
+export const ORDER_STATUS = {
+  new: { label: 'חדשה', cls: 'blue' },
+  preparing: { label: 'בהכנה', cls: 'p2' },
+  ready: { label: 'מוכנה', cls: 'green' },
+  done: { label: 'נמסרה', cls: '' },
+  cancelled: { label: 'בוטלה', cls: '' },
+};
+// The one-tap next step for an open order
+export const ORDER_NEXT = { new: ['preparing', 'להתחיל להכין'], preparing: ['ready', 'מוכנה'], ready: ['done', 'נמסרה'] };
+export const isOpenOrder = (o) => !['done', 'cancelled'].includes(o.status);
+
 export function longDate(s = todayISO()) {
   const d = new Date(s + 'T12:00');
   return `${DAYS[d.getDay()]}, ${d.getDate()} ב${MONTHS[d.getMonth()]}`;
