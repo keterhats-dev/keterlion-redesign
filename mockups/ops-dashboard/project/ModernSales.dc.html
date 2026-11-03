@@ -42,7 +42,7 @@ a{color:#171717}a:hover{color:#55554f}
 </div>
 
 <section class="card" style="padding:16px">
-<div style="font-size:13px;font-weight:600;color:#6b6b69">סך המכירות בחודש</div>
+<div style="font-size:13px;font-weight:600;color:#6b6b69">עסקאות שארי סגר החודש</div>
 <div style="display:flex;align-items:baseline;gap:10px;margin-top:4px"><div style="font-size:36px;font-weight:800">₪[סכום]</div><span style="display:inline-flex;align-items:center;height:24px;padding:0 9px;border-radius:999px;background:#e7f6ec;color:#15803d;font-size:12px;font-weight:600">[+%] מספטמבר</span></div>
 <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-top:14px" aria-label="מכירות בחצי השנה האחרונה" role="img">
 <div class="bar"><i style="height:52px"></i>מאי</div>
@@ -55,18 +55,24 @@ a{color:#171717}a:hover{color:#55554f}
 </section>
 
 <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
-<div class="card k"><b>[מספר]</b><span>הזמנות שטופלו</span></div>
-<div class="card k"><b>[מספר]</b><span>לידים שנסגרו לעסקה</span></div>
-<div class="card k"><b>₪[סכום]</b><span>הזמנה ממוצעת</span></div>
-<div class="card k"><b>[מספר]</b><span>משימות שבוצעו</span></div>
+<div class="card k"><b>[מספר]</b><span>עסקאות שנסגרו</span></div>
+<div class="card k"><b>[מספר]</b><span>הצעות מחיר שנשלחו</span></div>
+<div class="card k"><b>[%]</b><span>אחוז סגירה</span></div>
+<div class="card k"><b>₪[סכום]</b><span>עסקה ממוצעת</span></div>
 </div>
 
 <section class="card" style="padding:4px 16px">
-<div class="ch"><div class="chl"><span>אתר</span><b>₪[סכום]</b></div><div class="trk"><i style="width:55%"></i></div></div>
-<div class="ch"><div class="chl"><span>סיטונאות</span><b>₪[סכום]</b></div><div class="trk"><i style="width:30%"></i></div></div>
-<div class="ch"><div class="chl"><span>Wolt</span><b>₪[סכום]</b></div><div class="trk"><i style="width:15%"></i></div></div>
+<div class="ch"><div class="chl"><span>סיטונאות ללקוחות קבועים</span><b>₪[סכום]</b></div><div class="trk"><i style="width:60%"></i></div></div>
+<div class="ch"><div class="chl"><span>לידים חדשים שנסגרו</span><b>₪[סכום]</b></div><div class="trk"><i style="width:40%"></i></div></div>
 </section>
-<div style="font-size:12px;color:#8a8a85;text-align:center">הנתונים יגיעו לבד מההזמנות באתר, מהסיטונאות ומ-Wolt</div>
+
+<section class="card" style="padding:6px 16px">
+<div style="font-size:13px;font-weight:600;color:#6b6b69;padding:8px 0 2px">העסקאות של החודש</div>
+<div class="ch" style="display:flex;justify-content:space-between;font-size:15px"><span>[שם העסק] · [כמות] כובעים</span><b>₪[סכום]</b></div>
+<div class="ch" style="display:flex;justify-content:space-between;font-size:15px"><span>[שם העסק] · [כמות] כובעים</span><b>₪[סכום]</b></div>
+<div class="ch" style="display:flex;justify-content:space-between;font-size:15px;color:#6b6b69"><span>ועוד [מספר]</span><span>›</span></div>
+</section>
+<div style="font-size:12px;color:#8a8a85;text-align:center;line-height:1.5">נספרות רק עסקאות שארי סימן "נסגרה": סיטונאות והצעות מחיר שהוא טיפל בהן. הזמנות מהאתר ומ-Wolt לא נכנסות</div>
 </main>
 </div>
 </x-dc>
