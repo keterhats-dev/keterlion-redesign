@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>פשוט · המסך שלך</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#fff}
+a{color:#171717}a:hover{color:#6b6b69}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:64px;border-bottom:1px solid #ddd3bd;text-decoration:none;color:#171717}
+.t{font-size:17px;line-height:1.3;font-weight:500}
+.m{font-size:13px;color:#6b6b69;margin-top:2px}
+.n{display:flex;flex-direction:column}
+.n b{font-size:34px;font-weight:900;line-height:1}
+.n span{font-size:13px;color:#6b6b69;margin-top:4px}
+</style>
+</helmet>
+<div style="width:390px;height:844px;box-sizing:border-box;background:#fff;color:#171717;font-family:Heebo,Arial,sans-serif;display:flex;flex-direction:column">
+<main style="padding:28px 20px 0;flex-grow:1">
+<div style="font-size:14px;color:#6b6b69">שלישי, 3 בנובמבר</div>
+<h1 style="margin:2px 0 18px;font-size:40px;line-height:1.05;font-weight:900">ארי<span style="color:#ae8e42">.</span></h1>
+
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding-bottom:18px;border-bottom:1px solid #ddd3bd">
+<div class="n"><b>5</b><span>להיום</span></div>
+<div class="n"><b>3</b><span>בוצעו</span></div>
+<div class="n"><b style="color:#c21a1a">1</b><span>באיחור</span></div>
+</div>
+
+<h2 style="margin:20px 0 4px;font-size:15px;font-weight:500;color:#6b6b69">צריך תשומת לב</h2>
+<a href="SimpleTask.dc.html" class="row"><div><div class="t">חשבוניות אוקטובר לרואה החשבון</div><div class="m"><span style="color:#c21a1a;font-weight:500">באיחור מאתמול</span></div></div></a>
+<a href="SimpleTask.dc.html" class="row"><div><div class="t">הזמנה סיטונאית ל[שם הלקוח]</div><div class="m"><b style="color:#171717">דחוף</b> · 15:00 · בטיפול</div></div></a>
+
+<h2 style="margin:20px 0 4px;font-size:15px;font-weight:500;color:#6b6b69">בוצעו היום</h2>
+<div class="row"><div><div class="t" style="color:#6b6b69">לענות ללידים מאתמול</div></div><span class="m">11:15</span></div>
+<div class="row"><div><div class="t" style="color:#6b6b69">הזמנות האתר לשליח</div></div><span class="m">10:40</span></div>
+<a href="Done.dc.html" style="display:inline-block;min-height:44px;line-height:44px;font-size:15px;color:#6b6b69;text-decoration:none">עוד 1 ›</a>
+</main>
+<div style="padding:12px 20px 22px">
+<a href="SimpleAdd.dc.html" style="display:flex;align-items:center;justify-content:center;gap:8px;height:56px;border-radius:4px;background:#171717;color:#fff;text-decoration:none;font-size:17px;font-weight:700"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M12 5v14M5 12h14"></path></svg>משימה לארי</a>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>
