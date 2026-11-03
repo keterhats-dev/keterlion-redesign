@@ -1,0 +1,14 @@
+{
+  "name": "כתרליון · משימות",
+  "short_name": "משימות",
+  "lang": "he",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f5f3",
+  "theme_color": "#f5f5f3",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

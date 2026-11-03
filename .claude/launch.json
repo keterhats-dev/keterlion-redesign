@@ -6,6 +6,12 @@
       "runtimeExecutable": "powershell",
       "runtimeArgs": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "serve.ps1"],
       "port": 5502
+    },
+    {
+      "name": "ops-app",
+      "runtimeExecutable": "powershell",
+      "runtimeArgs": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "ops-app/serve.ps1"],
+      "port": 5510
     }
   ]
 }
