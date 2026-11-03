@@ -10,6 +10,7 @@ desktop.ini
 *.sql
 !ops-app/supabase/*.sql
 ops-app/dist/
+ops-app/node_modules/
 *.xlsx
 *.csv
 backups/

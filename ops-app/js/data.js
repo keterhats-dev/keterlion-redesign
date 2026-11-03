@@ -21,11 +21,13 @@ function seed() {
   const t = todayISO();
   const at = (days, hh = 10) => { const d = new Date(addDays(t, days) + 'T12:00'); d.setHours(hh, 0); return d.toISOString(); };
   const owner = 'u-owner', ari = 'u-ari';
-  const task = (o) => ({
-    id: uid(), notes: '', area_id: 'general', assignee_id: ari, created_by: owner, priority: 3, status: 'open',
-    due_date: null, due_time: null, done_at: null, created_at: at(-1, 9), updated_at: at(-1, 9), ...o,
-  });
-  const wholesale = task({ title: 'הזמנה סיטונאית ל[שם הלקוח]', area_id: 'wholesale', priority: 1, status: 'doing', due_date: t, due_time: '15:00', created_at: at(-1, 18) });
+  const task = (o) => {
+    const t = { id: uid(), notes: '', area_id: 'general', assignee_id: ari, created_by: owner, priority: 3, status: 'open',
+      due_date: null, due_time: null, done_at: null, created_at: at(-1, 9), updated_at: at(-1, 9), acknowledged_at: null, ...o };
+    if (t.created_by === t.assignee_id || t.status === 'done') t.acknowledged_at ||= t.created_at;
+    return t;
+  };
+  const wholesale = task({ title: 'הזמנה סיטונאית ל[שם הלקוח]', area_id: 'wholesale', priority: 1, status: 'doing', due_date: t, due_time: '15:00', created_at: at(-1, 18), acknowledged_at: at(0, 9) });
   const tasks = [
     task({ title: 'חשבוניות אוקטובר לרואה החשבון', area_id: 'accounting', priority: 2, due_date: addDays(t, -1) }),
     wholesale,
@@ -118,6 +120,7 @@ const demo = {
     const db = load(); const now = new Date().toISOString();
     const t = { id: uid(), notes: '', area_id: 'general', assignee_id: me.id, priority: 3, status: 'open', due_date: null, due_time: null,
       done_at: null, ...data, created_by: me.id, created_at: now, updated_at: now };
+    t.acknowledged_at = t.assignee_id === me.id ? now : null;
     db.tasks.push(t);
     db.comments.push({ id: uid(), task_id: t.id, author_id: me.id, kind: 'event', body: 'פתח/ה את המשימה', created_at: now });
     save(db); emit(); return t;
@@ -129,8 +132,17 @@ const demo = {
       patch.done_at = patch.status === 'done' ? now : null;
       db.comments.push({ id: uid(), task_id: id, author_id: me.id, kind: 'event', body: statusEvent(patch.status), created_at: now });
     }
-    Object.assign(t, patch, { updated_at: now }); save(db); emit();
+    Object.assign(t, reassigning(t, patch, me), { updated_at: now }); save(db); emit();
   },
+  async ackTask(id, me) {
+    const db = load(); const t = db.tasks.find((x) => x.id === id); if (!t) return;
+    const now = new Date().toISOString();
+    t.acknowledged_at = now;
+    db.comments.push({ id: uid(), task_id: id, author_id: me.id, kind: 'event', body: ACK_EVENT, created_at: now });
+    save(db); emit();
+  },
+  async savePush() { throw new Error('בהדגמה אין התראות'); },
+  async notify() {},
   async deleteTask(id) { const db = load(); db.tasks = db.tasks.filter((t) => t.id !== id); save(db); emit(); },
   async addCheck(task_id, text) { const db = load(); db.checklist.push({ id: uid(), task_id, text, done: false, sort: db.checklist.length }); save(db); emit(); },
   async setCheck(id, done) { const db = load(); const c = db.checklist.find((x) => x.id === id); if (c) c.done = done; save(db); emit(); },
@@ -155,6 +167,13 @@ const closing = (o, patch) => {
   const closed = ['done', 'cancelled'].includes(patch.status);
   return { ...patch, closed_at: closed ? new Date().toISOString() : null };
 };
+
+// A task moved to someone else waits for their "קיבלתי"; moved to yourself counts as received
+const reassigning = (t, patch, me) => {
+  if (!patch.assignee_id || patch.assignee_id === t.assignee_id) return patch;
+  return { ...patch, acknowledged_at: patch.assignee_id === me.id ? new Date().toISOString() : null };
+};
+const ACK_EVENT = 'אישר/ה שקיבל/ה את המשימה';
 
 const statusEvent = (s) => (s === 'done' ? 'סימן/ה כבוצעה' : `שינה את הסטטוס ל"${STATUS[s]}"`);
 
@@ -215,20 +234,41 @@ const live = {
   },
   async createTask(data, me) {
     const c = await client();
-    const t = must(await c.from('tasks').insert({ assignee_id: me.id, ...data }).select().single());
+    const row = { assignee_id: me.id, ...data };
+    row.acknowledged_at = row.assignee_id === me.id ? new Date().toISOString() : null;
+    const t = must(await c.from('tasks').insert(row).select().single());
     await c.from('comments').insert({ task_id: t.id, kind: 'event', body: 'פתח/ה את המשימה' });
     return t;
   },
-  async updateTask(id, patch) {
+  async updateTask(id, patch, me) {
     const c = await client();
-    if (patch.status) {
-      const cur = must(await c.from('tasks').select('status').eq('id', id).single());
-      if (cur.status !== patch.status) {
+    if (patch.status || patch.assignee_id) {
+      const cur = must(await c.from('tasks').select('status, assignee_id').eq('id', id).single());
+      if (patch.status && cur.status !== patch.status) {
         patch.done_at = patch.status === 'done' ? new Date().toISOString() : null;
         await c.from('comments').insert({ task_id: id, kind: 'event', body: statusEvent(patch.status) });
       }
+      patch = reassigning(cur, patch, me);
     }
     must(await c.from('tasks').update(patch).eq('id', id));
+  },
+  async ackTask(id) {
+    const c = await client();
+    must(await c.from('tasks').update({ acknowledged_at: new Date().toISOString() }).eq('id', id));
+    await c.from('comments').insert({ task_id: id, kind: 'event', body: ACK_EVENT });
+  },
+  // Phone notifications: save this device, and ask the server to notify a task's assignee
+  async savePush(sub) {
+    const c = await client(); const k = sub.keys || {};
+    must(await c.from('push_subscriptions').upsert({ endpoint: sub.endpoint, p256dh: k.p256dh, auth: k.auth }));
+  },
+  async notify(task_id) {
+    const c = await client(); const { data } = await c.auth.getSession();
+    if (!data.session) return;
+    fetch('/.netlify/functions/notify', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${data.session.access_token}` },
+      body: JSON.stringify({ task_id }),
+    }).catch(() => {});
   },
   async deleteTask(id) { const c = await client(); must(await c.from('tasks').delete().eq('id', id)); },
   async orders() {
@@ -250,7 +290,7 @@ const live = {
 };
 
 // Refresh this screen right after a write, without waiting for the realtime echo
-for (const k of ['createTask', 'updateTask', 'deleteTask', 'addCheck', 'setCheck', 'addComment', 'invite', 'cancelInvite', 'updateMember', 'removeMember', 'createOrder', 'updateOrder', 'deleteOrder']) {
+for (const k of ['createTask', 'updateTask', 'ackTask', 'deleteTask', 'addCheck', 'setCheck', 'addComment', 'invite', 'cancelInvite', 'updateMember', 'removeMember', 'createOrder', 'updateOrder', 'deleteOrder']) {
   const f = live[k];
   live[k] = async (...a) => { const r = await f(...a); emit(); return r; };
 }

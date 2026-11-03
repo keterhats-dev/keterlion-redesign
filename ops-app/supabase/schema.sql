@@ -52,6 +52,7 @@ create table if not exists tasks (
   due_time time,
   done_at timestamptz,
   calendar_event_id text,
+  acknowledged_at timestamptz, -- when the assignee tapped "קיבלתי"; set at once for tasks you give yourself
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -150,6 +151,25 @@ create policy team_all on comments for all using (is_team()) with check (is_team
 alter table orders enable row level security;
 drop policy if exists team_all on orders;
 create policy team_all on orders for all using (is_team()) with check (is_team());
+
+-- Phone notifications (Web Push). Each person sees only their own devices;
+-- the notify function reads the assignee's devices through push_targets().
+create table if not exists push_subscriptions (
+  endpoint text primary key,
+  user_id uuid not null default auth.uid() references profiles on delete cascade,
+  p256dh text not null,
+  auth text not null,
+  created_at timestamptz not null default now()
+);
+alter table push_subscriptions enable row level security;
+drop policy if exists own_all on push_subscriptions;
+create policy own_all on push_subscriptions for all using (user_id = auth.uid()) with check (user_id = auth.uid() and is_team());
+create or replace function push_targets(p_user uuid) returns setof push_subscriptions language sql stable security definer set search_path = public as $$
+  select * from push_subscriptions where user_id = p_user and is_team()
+$$;
+create or replace function remove_push(p_endpoint text) returns void language sql security definer set search_path = public as $$
+  delete from push_subscriptions where endpoint = p_endpoint and is_team()
+$$;
 
 -- Live updates on both phones
 alter publication supabase_realtime add table tasks, checklist_items, comments, profiles, team_invites, orders;

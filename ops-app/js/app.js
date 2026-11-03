@@ -1,6 +1,6 @@
 import { html, render, useState, useEffect, useMemo, useRef } from 'https://unpkg.com/htm@3.1.1/preact/standalone.module.js';
 import { store, onChange } from './data.js';
-import { DEMO } from './config.js';
+import { DEMO, VAPID_PUBLIC_KEY } from './config.js';
 import {
   PRIORITY, STATUS, todayISO, addDays, longDate, dueLabel, isOverdue, byPriority, parseQuick, gcalLink,
   timeAgo, clock, dayHeading, iso, ORDER_SOURCE, ORDER_STATUS, ORDER_NEXT, isOpenOrder,
@@ -36,6 +36,64 @@ const greeting = () => { const h = new Date().getHours(); return h < 12 ? 'בו�
 const initial = (p) => (p?.name || '?').trim().charAt(0);
 const doneOn = (t) => (t.done_at ? iso(new Date(t.done_at)) : null);
 
+/* ---------- התראות לטלפון ---------- */
+const pushSupported = () => !DEMO && 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window;
+const isIOSBrowser = () => /iPhone|iPad|iPod/.test(navigator.userAgent) && !navigator.standalone;
+const b64ToU8 = (s) => Uint8Array.from(atob((s + '='.repeat((4 - (s.length % 4)) % 4)).replace(/-/g, '+').replace(/_/g, '/')), (c) => c.charCodeAt(0));
+
+async function subscribePush() {
+  const reg = await navigator.serviceWorker.ready;
+  let sub = await reg.pushManager.getSubscription();
+  if (!sub) sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64ToU8(VAPID_PUBLIC_KEY) });
+  await store.savePush(sub.toJSON());
+}
+
+const DISMISS_KEY = 'kl-push-dismissed';
+function PushPrompt() {
+  const [state, setState] = useState(() => {
+    try { if (localStorage.getItem(DISMISS_KEY)) return 'hidden'; } catch {}
+    if (pushSupported()) return Notification.permission === 'default' ? 'ask' : 'hidden';
+    return isIOSBrowser() ? 'ios' : 'hidden';
+  });
+  const [err, setErr] = useState('');
+  if (state === 'hidden') return null;
+  const dismiss = () => { try { localStorage.setItem(DISMISS_KEY, '1'); } catch {} setState('hidden'); };
+  const enable = async () => {
+    setErr('');
+    try {
+      if ((await Notification.requestPermission()) !== 'granted') return setState('hidden');
+      await subscribePush(); setState('done');
+    } catch (e) { setErr('לא הצלחנו להפעיל: ' + e.message); }
+  };
+  return html`<section class="card" style="padding:14px 16px;display:flex;flex-direction:column;gap:8px">
+    ${state === 'done' ? html`<div style="font-weight:600">${I.check(16)} התראות פועלות בטלפון הזה</div>`
+    : state === 'ios' ? html`<div style="font-weight:600">כדי לקבל התראות באייפון</div>
+      <div class="sub" style="font-size:14px">מוסיפים את האפליקציה למסך הבית: כפתור השיתוף ← "הוספה למסך הבית". אחרי זה פותחים אותה משם.</div>`
+    : html`<div style="font-weight:600">לקבל התראה כשמוסיפים לך משימה?</div>
+      <div style="display:flex;gap:8px"><button class="btn sm" onClick=${enable}>להפעיל התראות</button>
+      <button class="btn sm ghost" onClick=${dismiss}>לא עכשיו</button></div>`}
+    ${state === 'ios' && html`<button class="link" style="align-self:flex-start;padding:0" onClick=${dismiss}>הבנתי</button>`}
+    ${err && html`<div class="err">${err}</div>`}
+  </section>`;
+}
+
+/* ---------- "קיבלתי" ---------- */
+const needsAck = (t, me) => t.assignee_id === me.id && !t.acknowledged_at && t.status !== 'done';
+
+function NewForMe({ ctx, items }) {
+  if (!items.length) return null;
+  const from = (t) => ctx.profiles.find((p) => p.id === t.created_by)?.name || '';
+  return html`<section class="card" style="padding:6px 0 4px;outline:2px solid var(--ink)">
+    <div class="section-h" style="margin:8px 16px 0"><span style="color:var(--ink)">חדש בשבילך</span><span>${items.length}</span></div>
+    <div class="list">${items.map((t) => html`<div class="row">
+      <a class="body" href=${'#/task/' + t.id} style="text-decoration:none"><div class="t">${t.title}</div>
+        <div class="meta">${t.priority < 3 && html`<span class=${'pill ' + PRIORITY[t.priority].cls}>${PRIORITY[t.priority].label}</span>`}
+          ${t.due_date && html`<span>${dueLabel(t)}</span>`}<span>מ${from(t)}</span></div></a>
+      <button class="btn sm" style="height:40px;flex:none" onClick=${() => ctx.store.ackTask(t.id, ctx.me)}>${I.check(15)} קיבלתי</button>
+    </div>`)}</div>
+  </section>`;
+}
+
 function Mentions({ text }) {
   return text.split(/(@\S+)/).map((part) => (part.startsWith('@') ? html`<span class="mention">${part}</span>` : part));
 }
@@ -58,6 +116,10 @@ function TaskRow({ t, ctx, showWho }) {
           ${!late && t.due_date && html`<span>${dueLabel(t)}</span>`}
           ${t.status === 'doing' && html`<span class="pill blue">בטיפול</span>`}
           ${t.status === 'waiting' && html`<span class="pill">מחכה</span>`}`}
+        ${!done && t.assignee_id !== ctx.me.id && (t.acknowledged_at
+          ? html`<span style="color:var(--green-ink);font-weight:600">✓ התקבל</span>`
+          : html`<span class="pill p2">ממתין לאישור</span>`)}
+        ${needsAck(t, ctx.me) && html`<span class="pill blue">חדש</span>`}
         ${area && html`<span># ${area.name}</span>`}
         ${showWho && who && html`<span>· ${who.name}</span>`}
         ${t.comment_count > 0 && html`<span class="ic">${I.chat()}${t.comment_count}</span>`}
@@ -117,6 +179,8 @@ function Today({ ctx, personId, openAdd, openOrder }) {
       ${usedAreas.map((a) => html`<button class=${'chip' + (area === a.id ? ' on' : '')} onClick=${() => setArea(a.id)}># ${a.name}</button>`)}
     </div>`}
 
+    ${self && html`<${PushPrompt} />`}
+    ${self && html`<${NewForMe} ctx=${ctx} items=${open.filter((t) => needsAck(t, ctx.me))} />`}
     ${!shown.length && html`<div class="card empty">${open.length ? 'אין משימות פתוחות בתחום הזה' : 'אין משימות פתוחות. יופי.'}</div>`}
     <${Group} title="באיחור" items=${late} ctx=${ctx} tone="late" />
     <${Group} title="היום" items=${now} ctx=${ctx} />
@@ -164,7 +228,11 @@ function AddSheet({ ctx, preset, onClose }) {
     e.preventDefault();
     if (!parsed.title || busy) return;
     setBusy(true);
-    try { await ctx.store.createTask({ title: parsed.title, notes: notes || null, ...val }, ctx.me); onClose(); }
+    try {
+      const created = await ctx.store.createTask({ title: parsed.title, notes: notes || null, ...val }, ctx.me);
+      if (val.assignee_id !== ctx.me.id) ctx.store.notify(created.id);
+      onClose();
+    }
     catch (err) { alert('לא נשמר: ' + err.message); setBusy(false); }
   };
   const who = ctx.profiles.find((p) => p.id === val.assignee_id);
@@ -231,6 +299,12 @@ function TaskPage({ id, ctx }) {
       <span style="width:44px"></span>
     </div>
 
+    ${needsAck(t, ctx.me) && html`<section class="card" style="padding:14px 16px;display:flex;align-items:center;gap:12px;outline:2px solid var(--ink)">
+      <div style="flex:1"><div style="font-weight:700">משימה חדשה בשבילך</div><div class="sub">מ${author(t.created_by)?.name || ''} · ${timeAgo(t.created_at)}</div></div>
+      <button class="btn sm" onClick=${() => ctx.store.ackTask(id, ctx.me)}>${I.check(15)} קיבלתי</button></section>`}
+    ${t.assignee_id !== ctx.me.id && t.status !== 'done' && html`<div class="sub" style="padding:0 4px">${t.acknowledged_at
+      ? html`<span style="color:var(--green-ink);font-weight:600">✓ ${author(t.assignee_id)?.name || ''} אישר/ה קבלה · ${timeAgo(t.acknowledged_at)}</span>`
+      : html`<span class="pill p2">ממתין לאישור של ${author(t.assignee_id)?.name || ''}</span>`}</div>`}
     <section class="card" style="padding:16px;display:flex;flex-direction:column;gap:14px">
       <label class="sr" for="tt">כותרת</label>
       <textarea id="tt" class="task-h" rows="2" onBlur=${(e) => e.target.value.trim() && e.target.value !== t.title && up({ title: e.target.value.trim() })}>${t.title}</textarea>
@@ -248,7 +322,7 @@ function TaskPage({ id, ctx }) {
       </div>
       <div class="two">
         <div><label class="lbl" for="ta">תחום</label><select id="ta" class="field soft" value=${t.area_id} onChange=${(e) => up({ area_id: e.target.value })}>${ctx.areas.map((a) => html`<option value=${a.id}>${a.name}</option>`)}</select></div>
-        <div><label class="lbl" for="tw">אצל</label><select id="tw" class="field soft" value=${t.assignee_id} onChange=${(e) => up({ assignee_id: e.target.value })}>${ctx.profiles.filter((p) => p.active !== false || p.id === t.assignee_id).map((p) => html`<option value=${p.id}>${p.name}</option>`)}</select></div>
+        <div><label class="lbl" for="tw">אצל</label><select id="tw" class="field soft" value=${t.assignee_id} onChange=${async (e) => { const v = e.target.value; await up({ assignee_id: v }); if (v !== ctx.me.id) ctx.store.notify(id); }}>${ctx.profiles.filter((p) => p.active !== false || p.id === t.assignee_id).map((p) => html`<option value=${p.id}>${p.name}</option>`)}</select></div>
       </div>
       ${cal && html`<a href=${cal} target="_blank" rel="noopener" class="pill big" style="align-self:flex-start;text-decoration:none">${I.cal(14)} להוסיף ליומן Google</a>`}
     </section>
@@ -619,6 +693,9 @@ function App() {
     } catch (e) { setState({ loading: false, error: e.message }); }
   };
   useEffect(() => { reload(); return onChange(reload); }, []);
+  // Keep this device's notification registration fresh once permission was given
+  const meId = state.me?.id;
+  useEffect(() => { if (meId && pushSupported() && Notification.permission === 'granted') subscribePush().catch(() => {}); }, [meId]);
 
   if (state.loading) return html`<div class="login"><div class="sub">טוען…</div></div>`;
   if (state.error) return html`<div class="login"><div class="err">שגיאה: ${state.error}</div><button class="btn" onClick=${reload}>לנסות שוב</button></div>`;
