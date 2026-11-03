@@ -469,7 +469,7 @@ function Login({ ctx }) {
     : html`<form onSubmit=${verify} style="display:flex;flex-direction:column;gap:12px">
         <div class="sub" style="font-size:15px">שלחנו קוד ל-<b dir="ltr">${email}</b></div>
         <label class="lbl" for="cd">הקוד מהמייל</label>
-        <input id="cd" class="field" dir="ltr" inputmode="numeric" autocomplete="one-time-code" maxlength="6" style="text-align:center;letter-spacing:.5em;font-size:26px;font-weight:800" value=${code} onInput=${(e) => setCode(e.target.value.replace(/\D/g, ''))} />
+        <input id="cd" class="field" dir="ltr" inputmode="numeric" autocomplete="one-time-code" maxlength="10" style="text-align:center;letter-spacing:.35em;font-size:26px;font-weight:800" value=${code} onInput=${(e) => setCode(e.target.value.replace(/\D/g, ''))} />
         <button class="btn" disabled=${busy || code.length < 6}>${busy ? 'נכנס…' : 'להיכנס'}</button>
         <button type="button" class="link" onClick=${() => { setStep('email'); setCode(''); }}>לשלוח קוד חדש או לשנות אימייל</button></form>`}
     ${err && html`<div class="err">${err}</div>`}
