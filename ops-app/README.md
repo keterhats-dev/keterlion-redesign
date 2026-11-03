@@ -18,5 +18,6 @@
 6. ב-Project Settings → API מעתיקים את ה-URL ואת ה-anon key ל-`js/config.js`
 7. נכנסים לאפליקציה עם האימייל שלך. את ארי ואת שאר הצוות מוסיפים מתוך האפליקציה: צוות ← הוספת איש צוות
 
-## העלאה לאוויר
-מעלים את כל התיקייה `ops-app` (בלי `serve.ps1` ובלי `supabase/`) לתת-דומיין, למשל ops.keterlion.com ב-cPanel של MyHost. האתר צריך HTTPS, כדי שאפשר יהיה להתקין את האפליקציה בטלפון.
+## באוויר
+https://keterlion-ops.netlify.app. זה פרויקט Netlify בשם keterlion-ops, בצוות "keter-hats's team" (החשבון של keter.hats@gmail.com), והוא מחובר ל-GitHub (keterhats-dev/keterlion-redesign, ענף main, Base directory: ops-app).
+**כל push ל-main מעלה גרסה חדשה לבד.** ההגדרות ב-`netlify.toml`: מועתקים רק קבצי האפליקציה לתיקייה dist, ולכן README, schema.sql ו-serve.ps1 לא עולים לאתר. כדי לחזור לגרסה קודמת: ב-Netlify ← Deploys ← בוחרים גרסה ← Publish deploy.
