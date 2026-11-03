@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>ארי · היום שלי</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&amp;family=Arvo:wght@700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#fff}
+a{color:#171717}a:hover{color:#6b6b69}
+.chk{flex:none;width:26px;height:26px;margin-top:1px;border:1.5px solid #171717;border-radius:4px;background:#fff;padding:0;cursor:pointer}
+.chk.on{background:#171717;display:flex;align-items:center;justify-content:center}
+.task{display:flex;gap:12px;align-items:flex-start;padding:14px 0;border-bottom:1px solid #ddd3bd}
+.ttl{font-size:16px;line-height:1.35;font-weight:500;color:#171717}
+.meta{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin-top:5px;font-size:13px;line-height:1.4;color:#6b6b69}
+.tag{font-size:12px;font-weight:500;padding:2px 7px;border:1px solid #ddd3bd;color:#171717}
+.sec{display:flex;justify-content:space-between;align-items:baseline;margin:22px 0 2px;font-size:13px;font-weight:500;letter-spacing:.18em;color:#6b6b69}
+.pr{font-size:12px;font-weight:700;padding:2px 7px;border:1px solid #171717}
+.pr.p1{background:#171717;color:#fff}
+.pr.p2{background:#fff;color:#171717}
+.pr.p3{border-color:transparent;color:#6b6b69;font-weight:500;padding:2px 0}
+.chip{flex:none;height:36px;padding:0 14px;border:1px solid #171717;border-radius:4px;background:#fff;font:500 14px Heebo,Arial,sans-serif;color:#171717}
+.chip.on{background:#171717;color:#fff}
+</style>
+</helmet>
+<div style="width:390px;height:1240px;box-sizing:border-box;background:#fff;color:#171717;font-family:Heebo,Arial,sans-serif;display:flex;flex-direction:column;position:relative">
+
+<header style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid #ddd3bd">
+<div style="display:flex;align-items:baseline;gap:8px">
+<span style="font-family:Arvo,Rockwell,serif;font-weight:700;font-size:17px;letter-spacing:.09em" dir="ltr">KETERLION<span style="color:#ae8e42">.</span></span>
+<span style="font-size:13px;font-weight:500;color:#6b6b69">משימות</span>
+</div>
+<button aria-label="חיפוש" style="width:40px;height:40px;border:1px solid #ddd3bd;border-radius:4px;background:#fff;display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#171717" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg></button>
+</header>
+
+<main style="padding:20px 16px 0;flex-grow:1">
+<div style="display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500;letter-spacing:.2em;color:#6b6b69"><span style="width:32px;height:4px;background:#ae8e42"></span>יום שלישי · 3 בנובמבר</div>
+<h1 style="margin:10px 0 2px;font-size:38px;line-height:1.05;font-weight:900">בוקר טוב, ארי<span style="color:#ae8e42">.</span></h1>
+<p style="margin:0;font-size:15px;color:#6b6b69">מנהל מערכת ותפעול</p>
+
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:18px">
+<button style="text-align:right;padding:12px;border:1px solid #171717;border-radius:4px;background:#171717;color:#fff;font-family:inherit"><div style="font-size:30px;font-weight:900;line-height:1">7</div><div style="font-size:13px;margin-top:4px">פתוחות</div></button>
+<button style="text-align:right;padding:12px;border:1px solid #ddd3bd;border-radius:4px;background:#fff;color:#171717;font-family:inherit"><div style="font-size:30px;font-weight:900;line-height:1;color:#c21a1a">1</div><div style="font-size:13px;margin-top:4px">באיחור</div></button>
+<button style="text-align:right;padding:12px;border:1px solid #ddd3bd;border-radius:4px;background:#fff;color:#171717;font-family:inherit"><div style="font-size:30px;font-weight:900;line-height:1">3</div><div style="font-size:13px;margin-top:4px">בוצעו היום</div></button>
+</div>
+
+<div style="display:flex;align-items:center;gap:8px;margin-top:12px;font-size:13px;color:#6b6b69">
+<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b6b69" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="1"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>
+מסונכרן ליומן Google של ארי
+</div>
+
+<div style="display:flex;gap:8px;overflow:hidden;margin:16px -16px 0;padding:0 16px">
+<button class="chip on">הכול</button>
+<button class="chip">הנהלת חשבונות</button>
+<button class="chip">מלאי</button>
+<button class="chip">סיטונאות</button>
+<button class="chip">הזמנות באתר</button>
+<button class="chip">Wolt</button>
+</div>
+
+<div class="sec" style="color:#c21a1a"><span>באיחור</span><span style="letter-spacing:0">1</span></div>
+<div class="task">
+<button class="chk" aria-label="לסמן כבוצע"></button>
+<div style="flex-grow:1"><div class="ttl">לשלוח לרואה החשבון את החשבוניות של אוקטובר</div>
+<div class="meta"><span class="pr p2">חשוב</span><span class="tag">הנהלת חשבונות</span><span style="color:#c21a1a;font-weight:500">היה צריך אתמול</span><span>מ[השם שלך]</span></div></div>
+</div>
+
+<div class="sec"><span>היום</span><span style="letter-spacing:0">3</span></div>
+<div class="task">
+<button class="chk" aria-label="לסמן כבוצע"></button>
+<div style="flex-grow:1"><div class="ttl">להכין ולשלוח הזמנה סיטונאית ל[שם הלקוח]</div>
+<div class="meta"><span class="pr p1">דחוף</span><span class="tag">סיטונאות</span><span>15:00</span></div></div>
+</div>
+<div class="task">
+<button class="chk" aria-label="לסמן כבוצע"></button>
+<div style="flex-grow:1"><div class="ttl">לסמן ב-Wolt את המוצרים שאזלו</div>
+<div class="meta"><span class="pr p2">חשוב</span><span class="tag">Wolt</span><span>17:00</span></div></div>
+</div>
+<div class="task">
+<button class="chk" aria-label="לסמן כבוצע"></button>
+<div style="flex-grow:1"><div class="ttl">לספור את מלאי כובעי הטמבל בחנות</div>
+<div class="meta"><span class="pr p3">רגיל</span><span class="tag">מלאי</span><span>12:00</span><span>ביומן</span></div></div>
+</div>
+
+<div class="sec"><span>בהמשך השבוע</span><span style="letter-spacing:0">3</span></div>
+<div class="task">
+<button class="chk" aria-label="לסמן כבוצע"></button>
+<div style="flex-grow:1"><div class="ttl">לחזור לליד מהאתר עם הצעת מחיר</div>
+<div class="meta"><span class="pr p1">דחוף</span><span class="tag">לידים והצעות מחיר</span><span>יום ה׳</span><span>מ[השם שלך]</span></div></div>
+</div>
+<div class="task">
+<button class="chk" aria-label="לסמן כבוצע"></button>
+<div style="flex-grow:1"><div class="ttl">לארוז את הזמנות האתר של סוף השבוע</div>
+<div class="meta"><span class="pr p2">חשוב</span><span class="tag">הזמנות באתר</span><span>יום ו׳ 10:00</span></div></div>
+</div>
+<div class="task">
+<button class="chk" aria-label="לסמן כבוצע"></button>
+<div style="flex-grow:1"><div class="ttl">לבדוק שהגיבוי של האתר עבר</div>
+<div class="meta"><span class="pr p3">רגיל</span><span class="tag">טכני</span><span>יום ו׳</span></div></div>
+</div>
+
+<div class="sec"><span>בוצעו היום</span><span style="letter-spacing:0">3</span></div>
+<div class="task" style="opacity:.6">
+<button class="chk on" aria-label="לבטל סימון"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M5 12l5 5 9-10"></path></svg></button>
+<div style="flex-grow:1"><div class="ttl" style="text-decoration:line-through">למסור לשליח את הזמנות האתר של הבוקר</div>
+<div class="meta"><span class="tag">הזמנות באתר</span><span>בוצע 10:40</span></div></div>
+</div>
+<div class="task" style="opacity:.6">
+<button class="chk on" aria-label="לבטל סימון"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M5 12l5 5 9-10"></path></svg></button>
+<div style="flex-grow:1"><div class="ttl" style="text-decoration:line-through">לענות ללידים שנכנסו אתמול</div>
+<div class="meta"><span class="tag">לידים והצעות מחיר</span><span>בוצע 11:15</span></div></div>
+</div>
+<div class="task" style="opacity:.6;border-bottom:0">
+<button class="chk on" aria-label="לבטל סימון"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M5 12l5 5 9-10"></path></svg></button>
+<div style="flex-grow:1"><div class="ttl" style="text-decoration:line-through">להזמין שקיות אריזה מהספק</div>
+<div class="meta"><span class="tag">כללי</span><span>בוצע 09:30</span></div></div>
+</div>
+</main>
+
+<div style="padding:12px 16px;background:#fff;border-top:1px solid #ddd3bd">
+<a href="Add.dc.html" style="display:flex;align-items:center;justify-content:center;gap:8px;height:52px;border-radius:4px;background:#171717;color:#fff;text-decoration:none;font-size:17px;font-weight:700"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M12 5v14M5 12h14"></path></svg>משימה חדשה</a>
+</div>
+<nav style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid #ddd3bd;background:#fff">
+<a href="Main.dc.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 0 14px;text-decoration:none;color:#171717;font-size:12px;font-weight:700"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#171717" stroke-width="2"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path></svg>היום<span style="width:5px;height:5px;border-radius:999px;background:#ae8e42"></span></a>
+<a href="Main.dc.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 0 14px;text-decoration:none;color:#6b6b69;font-size:12px;font-weight:500"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b6b69" stroke-width="2"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"></path></svg>כל המשימות</a>
+<a href="Done.dc.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 0 14px;text-decoration:none;color:#6b6b69;font-size:12px;font-weight:500"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b6b69" stroke-width="2"><path d="M5 12l5 5 9-10"></path></svg>בוצעו</a>
+</nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1240}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

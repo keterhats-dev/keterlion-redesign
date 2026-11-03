@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>המסך שלך · מה קורה אצל ארי</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&amp;family=Arvo:wght@700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#fff}
+a{color:#171717}a:hover{color:#6b6b69}
+.sec{display:flex;align-items:center;gap:10px;margin:26px 0 6px;font-size:13px;font-weight:500;letter-spacing:.2em;color:#6b6b69}
+.area{display:flex;justify-content:space-between;align-items:center;min-height:48px;border-bottom:1px solid #ddd3bd;font-size:16px;font-weight:500}
+.cnt{display:flex;gap:8px;align-items:center;font-size:14px;font-weight:400;color:#6b6b69}
+.pr{font-size:12px;font-weight:700;padding:2px 7px;border:1px solid #171717}
+.pr.p1{background:#171717;color:#fff}
+.task{padding:12px 0;border-bottom:1px solid #ddd3bd}
+.ttl{font-size:15px;line-height:1.35;font-weight:500}
+.meta{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin-top:5px;font-size:13px;color:#6b6b69}
+.tag{font-size:12px;font-weight:500;padding:1px 7px;border:1px solid #ddd3bd;color:#171717}
+</style>
+</helmet>
+<div style="width:390px;height:1160px;box-sizing:border-box;background:#fff;color:#171717;font-family:Heebo,Arial,sans-serif;display:flex;flex-direction:column">
+<header style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid #ddd3bd">
+<div style="display:flex;align-items:baseline;gap:8px">
+<span style="font-family:Arvo,Rockwell,serif;font-weight:700;font-size:17px;letter-spacing:.09em" dir="ltr">KETERLION<span style="color:#ae8e42">.</span></span>
+<span style="font-size:13px;font-weight:500;color:#6b6b69">ניהול</span>
+</div>
+</header>
+
+<main style="padding:20px 16px 24px;flex-grow:1">
+<h1 style="margin:0 0 4px;font-size:38px;line-height:1.05;font-weight:900">שלום, [השם שלך]<span style="color:#ae8e42">.</span></h1>
+<p style="margin:0;font-size:15px;color:#6b6b69">יום שלישי · 3 בנובמבר</p>
+
+<section style="margin-top:18px;background:#171717;color:#fff;padding:18px 16px">
+<div style="display:flex;justify-content:space-between;align-items:baseline">
+<h2 style="margin:0;font-size:24px;font-weight:900;color:#f4eee1">ארי</h2>
+<span style="font-size:13px;color:#bdb7aa">מנהל מערכת ותפעול</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:14px">
+<div><div style="font-size:30px;font-weight:900;line-height:1">7</div><div style="font-size:13px;margin-top:4px;color:#bdb7aa">פתוחות</div></div>
+<div><div style="font-size:30px;font-weight:900;line-height:1">1</div><div style="font-size:13px;margin-top:4px;color:#bdb7aa">באיחור</div></div>
+<div><div style="font-size:30px;font-weight:900;line-height:1">3</div><div style="font-size:13px;margin-top:4px;color:#bdb7aa">בוצעו היום</div></div>
+</div>
+<div style="margin-top:16px;font-size:13px;color:#bdb7aa">היום: 3 מתוך 6 משימות</div>
+<div style="margin-top:6px;height:4px;background:#3a3a38"><div style="width:50%;height:4px;background:#ae8e42"></div></div>
+<a href="Add.dc.html" style="display:flex;align-items:center;justify-content:center;gap:8px;height:52px;margin-top:16px;border-radius:4px;background:#fff;color:#171717;text-decoration:none;font-size:16px;font-weight:700"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#171717" stroke-width="2.5"><path d="M12 5v14M5 12h14"></path></svg>משימה חדשה לארי</a>
+</section>
+
+<div class="sec"><span style="width:32px;height:4px;background:#ae8e42"></span>דחוף ובאיחור</div>
+<div class="task">
+<div class="ttl">לשלוח לרואה החשבון את החשבוניות של אוקטובר</div>
+<div class="meta"><span style="color:#c21a1a;font-weight:500">באיחור מאתמול</span><span class="tag">הנהלת חשבונות</span></div>
+</div>
+<div class="task">
+<div class="ttl">להכין ולשלוח הזמנה סיטונאית ל[שם הלקוח]</div>
+<div class="meta"><span class="pr p1">דחוף</span><span class="tag">סיטונאות</span><span>היום 15:00</span></div>
+</div>
+<div class="task">
+<div class="ttl">לחזור לליד מהאתר עם הצעת מחיר</div>
+<div class="meta"><span class="pr p1">דחוף</span><span class="tag">לידים והצעות מחיר</span><span>יום ה׳</span></div>
+</div>
+
+<div class="sec"><span style="width:32px;height:4px;background:#ae8e42"></span>פתוחות לפי תחום</div>
+<div class="area"><span>הנהלת חשבונות</span><span class="cnt">1</span></div>
+<div class="area"><span>מלאי בחנות</span><span class="cnt">1</span></div>
+<div class="area"><span>סיטונאות</span><span class="cnt">1</span></div>
+<div class="area"><span>הזמנות באתר</span><span class="cnt">1</span></div>
+<div class="area"><span>Wolt</span><span class="cnt">1</span></div>
+<div class="area"><span>לידים והצעות מחיר</span><span class="cnt">1</span></div>
+<div class="area"><span>טכני ומערכת</span><span class="cnt">1</span></div>
+
+<div class="sec"><span style="width:32px;height:4px;background:#ae8e42"></span>בוצעו היום</div>
+<div class="task"><div class="ttl">לענות ללידים שנכנסו אתמול</div><div class="meta"><span>11:15</span></div></div>
+<div class="task"><div class="ttl">למסור לשליח את הזמנות האתר של הבוקר</div><div class="meta"><span>10:40</span></div></div>
+<div class="task" style="border-bottom:0"><div class="ttl">להזמין שקיות אריזה מהספק</div><div class="meta"><span>09:30</span></div></div>
+
+<a href="Done.dc.html" style="display:flex;align-items:center;justify-content:center;height:52px;margin-top:12px;border:1px solid #171717;border-radius:4px;color:#171717;text-decoration:none;font-size:16px;font-weight:700">כל מה שארי סיים</a>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1160}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>
