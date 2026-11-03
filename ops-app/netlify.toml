@@ -1,0 +1,17 @@
+# Netlify: base directory is ops-app. No real build: copy only the app files to dist,
+# so the README, the SQL schema and the local server script are not published.
+[build]
+  command = "rm -rf dist && mkdir dist && cp -r index.html css js icon.svg manifest.webmanifest sw.js dist/"
+  publish = "dist"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"

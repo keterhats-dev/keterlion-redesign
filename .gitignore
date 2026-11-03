@@ -9,6 +9,7 @@ desktop.ini
 *.gz
 *.sql
 !ops-app/supabase/*.sql
+ops-app/dist/
 *.xlsx
 *.csv
 backups/
