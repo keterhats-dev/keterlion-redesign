@@ -97,8 +97,11 @@ begin
   if found then return p; end if;
   select * into inv from team_invites where email = lower(auth.jwt() ->> 'email');
   if not found then return null; end if;
-  insert into profiles (id, name, role, title, email) values (auth.uid(), inv.name, inv.role, inv.title, inv.email) returning * into p;
+  -- two parallel calls at login must not fail on the second insert
+  insert into profiles (id, name, role, title, email) values (auth.uid(), inv.name, inv.role, inv.title, inv.email)
+    on conflict (id) do nothing;
   delete from team_invites where email = inv.email;
+  select * into p from profiles where id = auth.uid();
   return p;
 end $$;
 
