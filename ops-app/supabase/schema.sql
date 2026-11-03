@@ -87,6 +87,7 @@ create table if not exists orders (
   status text not null default 'new' check (status in ('new', 'preparing', 'ready', 'done', 'cancelled')),
   due_date date,
   notes text,
+  assignee_id uuid references profiles, -- who handles it; only a manager picks, others take an unhandled one
   created_by uuid references profiles default auth.uid(),
   closed_at timestamptz,
   created_at timestamptz not null default now(),
@@ -148,6 +149,22 @@ drop policy if exists team_all on checklist_items;
 create policy team_all on checklist_items for all using (is_team()) with check (is_team());
 drop policy if exists team_all on comments;
 create policy team_all on comments for all using (is_team()) with check (is_team());
+-- Only a manager chooses who handles an order. Anyone else can only take an order nobody has.
+create or replace function orders_assign_guard() returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  if is_owner() then return new; end if;
+  if tg_op = 'INSERT' then
+    if new.assignee_id is not null and new.assignee_id <> auth.uid() then new.assignee_id := null; end if;
+    return new;
+  end if;
+  if new.assignee_id is distinct from old.assignee_id
+     and not (old.assignee_id is null and new.assignee_id = auth.uid()) then
+    new.assignee_id := old.assignee_id;
+  end if;
+  return new;
+end $$;
+drop trigger if exists orders_assign_guard on orders;
+create trigger orders_assign_guard before insert or update on orders for each row execute function orders_assign_guard();
 alter table orders enable row level security;
 drop policy if exists team_all on orders;
 create policy team_all on orders for all using (is_team()) with check (is_team());

@@ -369,10 +369,15 @@ function OrderRow({ o, ctx, onOpen }) {
   const st = ORDER_STATUS[o.status];
   const next = ORDER_NEXT[o.status];
   const late = isOpenOrder(o) && o.due_date && o.due_date < todayISO();
+  const who = ctx.profiles.find((p) => p.id === o.assignee_id);
+  // Moving an order forward takes it, if nobody handles it yet
+  const advance = () => ctx.store.updateOrder(o.id, { status: next[0], ...(o.assignee_id ? {} : { assignee_id: ctx.me.id }) });
   return html`<div class="row" style="align-items:flex-start">
     <button class="body" style="border:0;background:none;padding:0;text-align:right;cursor:pointer" onClick=${() => onOpen(o)}>
       <div class="meta" style="margin:0 0 4px"><span style="font-weight:600">${ORDER_SOURCE[o.source]}${o.number ? ` · #${o.number}` : ''}</span>
-        <span class=${'pill ' + st.cls}>${st.label}</span></div>
+        <span class=${'pill ' + st.cls}>${st.label}</span>
+        ${who ? html`<span style="display:inline-flex;align-items:center;gap:4px"><span class=${'av sm' + (who.id === ctx.me.id ? '' : ' light')} style="width:20px;height:20px;font-size:10px">${initial(who)}</span>${who.id === ctx.me.id ? 'אצלי' : who.name}</span>`
+          : isOpenOrder(o) && html`<span>בלי אחראי</span>`}</div>
       <div class="t">${o.customer}</div>
       <div class="meta">
         ${o.items && html`<span>${o.items}</span>`}
@@ -382,7 +387,7 @@ function OrderRow({ o, ctx, onOpen }) {
       </div>
     </button>
     ${next && html`<button class=${'btn sm' + (o.status === 'new' ? '' : ' ghost')} style="height:38px;padding:0 14px;font-size:14px;flex:none"
-      onClick=${() => ctx.store.updateOrder(o.id, { status: next[0] })}>${next[1]}</button>`}
+      onClick=${advance}>${next[1]}</button>`}
   </div>`;
 }
 
@@ -393,17 +398,30 @@ const sortOrders = (a, b) => {
 
 function OrdersList({ ctx, compact, onOpen }) {
   const [src, setSrc] = useState('all');
-  const open = ctx.orders.filter(isOpenOrder).filter((o) => src === 'all' || o.source === src).sort(sortOrders);
+  // A manager starts on everything, everyone else on their own orders
+  const [whoF, setWhoF] = useState(compact || ctx.me.role === 'owner' ? 'all' : 'mine');
+  const byWho = (o) => whoF === 'all' || (whoF === 'mine' ? o.assignee_id === ctx.me.id : whoF === 'none' ? !o.assignee_id : o.assignee_id === whoF);
+  const allOpen = ctx.orders.filter(isOpenOrder);
+  const count = (f) => allOpen.filter(f).length;
+  const others = ctx.team.filter((p) => p.id !== ctx.me.id);
+  const open = allOpen.filter(byWho).filter((o) => src === 'all' || o.source === src).sort(sortOrders);
   const today = todayISO();
   const closedToday = ctx.orders.filter((o) => o.status === 'done' && o.closed_at && iso(new Date(o.closed_at)) === today);
   const used = Object.keys(ORDER_SOURCE).filter((k) => ctx.orders.some((o) => isOpenOrder(o) && o.source === k));
   const groups = ['new', 'preparing', 'ready'].map((s) => [s, open.filter((o) => o.status === s)]).filter(([, l]) => l.length);
+  const whoChip = (k, label, n) => html`<button class=${'chip' + (whoF === k ? ' on' : '')} onClick=${() => setWhoF(k)}>${label}${n ? ` · ${n}` : ''}</button>`;
   return html`
+    ${!compact && html`<div class="chips" role="group" aria-label="סינון לפי מטפל">
+      ${whoChip('mine', 'שלי', count((o) => o.assignee_id === ctx.me.id))}
+      ${others.map((p) => whoChip(p.id, `של ${p.name}`, count((o) => o.assignee_id === p.id)))}
+      ${whoChip('none', 'בלי אחראי', count((o) => !o.assignee_id))}
+      ${whoChip('all', 'הכול', allOpen.length)}
+    </div>`}
     ${!compact && used.length > 1 && html`<div class="chips" role="group" aria-label="סינון לפי מקור">
       <button class=${'chip' + (src === 'all' ? ' on' : '')} onClick=${() => setSrc('all')}>הכול</button>
       ${used.map((k) => html`<button class=${'chip' + (src === k ? ' on' : '')} onClick=${() => setSrc(k)}>${ORDER_SOURCE[k]}</button>`)}
     </div>`}
-    ${!open.length && html`<div class="card empty">אין הזמנות פתוחות</div>`}
+    ${!open.length && html`<div class="card empty">${allOpen.length ? 'אין הזמנות פתוחות בסינון הזה' : 'אין הזמנות פתוחות'}</div>`}
     ${groups.map(([s, list]) => html`<div class="section-h"><span>${ORDER_STATUS[s].label}</span><span>${list.length}</span></div>
       <section class="card list">${list.map((o) => html`<${OrderRow} key=${o.id} o=${o} ctx=${ctx} onOpen=${onOpen} />`)}</section>`)}
     ${!compact && closedToday.length > 0 && html`<div class="section-h"><span>נמסרו היום</span><span>${closedToday.length}</span></div>
@@ -425,7 +443,10 @@ function OrderSheet({ ctx, order, onClose }) {
   const [f, setF] = useState({
     source: order.source || 'site', number: order.number || '', customer: order.customer || '', items: order.items || '',
     amount: order.amount ?? '', due_date: order.due_date || '', status: order.status || 'new', notes: order.notes || '',
+    assignee_id: order.assignee_id || '',
   });
+  const manager = ctx.me.role === 'owner';
+  const handler = ctx.profiles.find((p) => p.id === order.assignee_id);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
   const set = (k) => (e) => setF({ ...f, [k]: e.target ? e.target.value : e });
@@ -434,8 +455,16 @@ function OrderSheet({ ctx, order, onClose }) {
     if (!f.customer.trim()) return setErr('צריך לכתוב למי ההזמנה');
     const data = { source: f.source, number: f.number.trim() || null, customer: f.customer.trim(), items: f.items.trim() || null,
       amount: f.amount === '' ? null : Number(f.amount), due_date: f.due_date || null, status: f.status, notes: f.notes.trim() || null };
+    // Only a manager picks the handler (the database enforces it too)
+    const newHandler = f.assignee_id || null;
+    if (manager) data.assignee_id = newHandler;
     setBusy(true);
-    try { await (isNew ? ctx.store.createOrder(data) : ctx.store.updateOrder(order.id, data)); onClose(); }
+    try {
+      const saved = await (isNew ? ctx.store.createOrder(data) : ctx.store.updateOrder(order.id, data));
+      const id = isNew ? saved?.id : order.id;
+      if (manager && id && newHandler && newHandler !== ctx.me.id && newHandler !== (order.assignee_id || null)) ctx.store.notify({ order_id: id });
+      onClose();
+    }
     catch (x) { setErr('לא נשמר: ' + x.message); setBusy(false); }
   };
   const remove = async () => { if (!confirm('למחוק את ההזמנה מהרשימה?')) return; await ctx.store.deleteOrder(order.id); onClose(); };
@@ -454,7 +483,12 @@ function OrderSheet({ ctx, order, onClose }) {
         <div><label class="lbl" for="on">מספר הזמנה</label><input id="on" class="field soft" dir="ltr" value=${f.number} onInput=${set('number')} /></div>
         <div><label class="lbl" for="oa">סכום (₪)</label><input id="oa" type="number" inputmode="decimal" class="field soft" dir="ltr" value=${f.amount} onInput=${set('amount')} /></div>
       </div>
-      <div><label class="lbl" for="od">להכין עד</label><input id="od" type="date" class="field soft" value=${f.due_date} onInput=${set('due_date')} /></div>
+      <div class="two">
+        <div><label class="lbl" for="od">להכין עד</label><input id="od" type="date" class="field soft" value=${f.due_date} onInput=${set('due_date')} /></div>
+        ${manager ? html`<div><label class="lbl" for="oh">מטפל</label><select id="oh" class="field soft" value=${f.assignee_id} onChange=${set('assignee_id')}>
+            <option value="">בלי אחראי</option>${ctx.team.map((p) => html`<option value=${p.id}>${p.name}</option>`)}</select></div>`
+          : html`<div><span class="lbl">מטפל</span><div class="field soft" style="display:flex;align-items:center;color:var(--muted)">${handler ? handler.name : 'ייקבע כשמתחילים להכין'}</div></div>`}
+      </div>
       <div><span class="lbl">סטטוס</span><div class="seg" style="grid-template-columns:repeat(4,minmax(0,1fr))">
         ${['new', 'preparing', 'ready', 'done'].map((k) => html`<button type="button" class=${f.status === k ? 'on' : ''} onClick=${() => set('status')(k)}>${ORDER_STATUS[k].label}</button>`)}
       </div></div>
@@ -527,6 +561,7 @@ function Team({ ctx, openAdd }) {
           <div><b style="display:block;font-size:28px;font-weight:800;line-height:1">${doneToday.length}</b><span class="sub">בוצעו היום</span></div>
           <div><b style="display:block;font-size:28px;font-weight:800;line-height:1;color:${late.length ? 'var(--red-ink)' : 'inherit'}">${late.length}</b><span class="sub">באיחור</span></div>
         </div>
+        <a href="#/orders" class="sub" style="display:block;margin-top:10px;text-decoration:none">הזמנות פתוחות אצלו: <b style="color:var(--ink)">${ctx.orders.filter((o) => isOpenOrder(o) && o.assignee_id === p.id).length}</b></a>
         ${dueToday > 0 && html`<div class="sub" style="margin-top:12px">היום: ${doneToday.length} מתוך ${dueToday}</div>
           <div style="height:8px;border-radius:999px;background:var(--line);margin-top:6px;overflow:hidden"><div style=${`width:${pct}%;height:8px;border-radius:999px;background:var(--ink)`}></div></div>`}
       </section>

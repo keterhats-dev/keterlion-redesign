@@ -152,8 +152,8 @@ const demo = {
   async orders() { return load().orders; },
   async createOrder(data) {
     const db = load(); const now = new Date().toISOString();
-    db.orders.push({ id: uid(), source: 'site', status: 'new', number: null, items: null, amount: null, due_date: null, notes: null, closed_at: null, ...data, created_at: now, updated_at: now });
-    save(db); emit();
+    const o = { id: uid(), source: 'site', status: 'new', number: null, items: null, amount: null, due_date: null, notes: null, closed_at: null, assignee_id: null, ...data, created_at: now, updated_at: now };
+    db.orders.push(o); save(db); emit(); return o;
   },
   async updateOrder(id, patch) {
     const db = load(); const o = db.orders.find((x) => x.id === id); if (!o) return;
@@ -267,12 +267,13 @@ const live = {
     const c = await client(); const { data } = await c.rpc('push_status');
     return (data || []).map((r) => (typeof r === 'string' ? r : r.push_status));
   },
-  async notify(task_id) {
+  // what: a task id, or { order_id } for an order a manager handed to someone
+  async notify(what) {
     const c = await client(); const { data } = await c.auth.getSession();
     if (!data.session) return;
     fetch('/.netlify/functions/notify', {
       method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${data.session.access_token}` },
-      body: JSON.stringify({ task_id }),
+      body: JSON.stringify(typeof what === 'string' ? { task_id: what } : what),
     }).catch(() => {});
   },
   async deleteTask(id) { const c = await client(); must(await c.from('tasks').delete().eq('id', id)); },
@@ -282,7 +283,7 @@ const live = {
     const since = new Date(Date.now() - 30 * 864e5).toISOString();
     return must(await c.from('orders').select('*').or(`closed_at.is.null,closed_at.gte.${since}`).order('created_at'));
   },
-  async createOrder(data) { const c = await client(); must(await c.from('orders').insert(data)); },
+  async createOrder(data) { const c = await client(); return must(await c.from('orders').insert(data).select().single()); },
   async updateOrder(id, patch) {
     const c = await client();
     const cur = must(await c.from('orders').select('status').eq('id', id).single());
