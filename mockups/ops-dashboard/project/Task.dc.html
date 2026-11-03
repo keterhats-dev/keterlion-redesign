@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>משימה · שרשור ועדכונים</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&amp;family=Arvo:wght@700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#fff}
+a{color:#171717}a:hover{color:#6b6b69}
+.seg{height:38px;border:1px solid #171717;border-radius:4px;background:#fff;font:500 13px Heebo,Arial,sans-serif;color:#171717;padding:0}
+.seg.on{background:#171717;color:#fff}
+.dt{display:flex;justify-content:space-between;align-items:center;min-height:44px;border-bottom:1px solid #ddd3bd;font-size:15px}
+.dt span:first-child{color:#6b6b69}
+.sub{display:flex;gap:10px;align-items:center;min-height:40px;font-size:15px}
+.box{flex:none;width:20px;height:20px;border:1.5px solid #171717;border-radius:4px;background:#fff;padding:0}
+.box.on{background:#171717;display:flex;align-items:center;justify-content:center}
+.msg{display:flex;gap:10px;align-items:flex-start;padding:12px 0}
+.av{flex:none;width:34px;height:34px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900}
+.who{font-size:14px;font-weight:700}
+.when{font-size:12px;color:#6b6b69;font-weight:400;margin-right:6px}
+.txt{font-size:15px;line-height:1.5;margin-top:2px}
+.sys{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:13px;color:#6b6b69}
+.mention{font-weight:700;border-bottom:2px solid #ae8e42}
+</style>
+</helmet>
+<div style="width:390px;height:1120px;box-sizing:border-box;background:#fff;color:#171717;font-family:Heebo,Arial,sans-serif;display:flex;flex-direction:column">
+<header style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid #ddd3bd">
+<a href="Main.dc.html" style="display:flex;align-items:center;gap:6px;height:40px;padding:0 10px 0 12px;border:1px solid #ddd3bd;border-radius:4px;text-decoration:none;font-size:14px;font-weight:500"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#171717" stroke-width="2"><path d="M9 6l6 6-6 6"></path></svg>היום שלי</a>
+<a href="Areas.dc.html" style="font-size:14px;font-weight:500;text-decoration:none"># סיטונאות</a>
+</header>
+
+<main style="padding:18px 16px 0;flex-grow:1">
+<div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px;font-weight:700;padding:2px 7px;background:#171717;color:#fff">דחוף</span><span style="font-size:13px;color:#6b6b69">היום 15:00</span></div>
+<h1 style="margin:8px 0 14px;font-size:26px;line-height:1.2;font-weight:900">להכין ולשלוח הזמנה סיטונאית ל[שם הלקוח]<span style="color:#ae8e42">.</span></h1>
+
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px">
+<button class="seg">פתוחה</button>
+<button class="seg on">בטיפול</button>
+<button class="seg">מחכה</button>
+<button class="seg">בוצעה</button>
+</div>
+
+<div style="margin-top:14px">
+<div class="dt"><span>אצל</span><span style="font-weight:500">ארי</span></div>
+<div class="dt"><span>פתח/ה</span><span style="font-weight:500">[השם שלך] · אתמול 18:20</span></div>
+<div class="dt"><span>ביומן Google</span><span style="font-weight:500;display:flex;align-items:center;gap:6px"><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#171717" stroke-width="2.5"><path d="M5 12l5 5 9-10"></path></svg>היום 15:00</span></div>
+</div>
+
+<div style="display:flex;justify-content:space-between;align-items:baseline;margin:20px 0 4px"><h2 style="margin:0;font-size:15px;font-weight:500">צ'קליסט</h2><span style="font-size:13px;color:#6b6b69">2 מתוך 4</span></div>
+<div class="sub"><button class="box on" aria-label="בוצע"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M5 12l5 5 9-10"></path></svg></button><span style="color:#6b6b69;text-decoration:line-through">לבדוק שיש מלאי לכל הדגמים</span></div>
+<div class="sub"><button class="box on" aria-label="בוצע"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M5 12l5 5 9-10"></path></svg></button><span style="color:#6b6b69;text-decoration:line-through">להוציא חשבונית</span></div>
+<div class="sub"><button class="box" aria-label="לסמן"></button><span>לארוז ולסמן את הקרטונים</span></div>
+<div class="sub"><button class="box" aria-label="לסמן"></button><span>להזמין שליח</span></div>
+
+<div style="display:flex;align-items:center;gap:10px;margin:22px 0 4px;font-size:13px;font-weight:500;letter-spacing:.2em;color:#6b6b69"><span style="width:32px;height:4px;background:#ae8e42"></span>שרשור</div>
+<div style="border-top:1px solid #ddd3bd">
+<div class="sys"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6b6b69" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>[השם שלך] פתח/ה את המשימה ושייך/ה לארי · אתמול 18:20</div>
+<div class="msg"><span class="av" style="background:#171717;color:#fff">[ש]</span><div><div class="who">[השם שלך]<span class="when">אתמול 18:22</span></div><div class="txt"><span class="mention">@ארי</span> הלקוח ביקש להוסיף להזמנה גם כובעי טמבל. הפרטים בהערה</div></div></div>
+<div class="sys"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6b6b69" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>ארי שינה את הסטטוס ל"בטיפול" · היום 09:05</div>
+<div class="msg"><span class="av" style="background:#fff;border:1px solid #171717;color:#171717">א</span><div><div class="who">ארי<span class="when">היום 11:02</span></div><div class="txt">קיבלתי. החשבונית יצאה, אורז עכשיו. יוצא עד 15:00</div>
+<div style="display:flex;gap:6px;margin-top:6px"><button style="height:28px;padding:0 8px;border:1px solid #ddd3bd;border-radius:4px;background:#fff;font:500 13px Heebo,Arial,sans-serif;color:#171717">✓ ראיתי · 1</button></div></div></div>
+</div>
+</main>
+
+<div style="padding:10px 16px 18px;border-top:1px solid #ddd3bd;display:flex;gap:8px;align-items:center">
+<button aria-label="לצרף תמונה" style="flex:none;width:44px;height:48px;border:1px solid #ddd3bd;border-radius:4px;background:#fff;display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#171717" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="1"></rect><circle cx="9" cy="11" r="2"></circle><path d="M21 17l-5-5-8 7"></path></svg></button>
+<label for="c" style="position:absolute;width:1px;height:1px;overflow:hidden">תגובה</label>
+<input id="c" placeholder="לכתוב תגובה. @ כדי לתייג" style="flex-grow:1;min-width:0;height:48px;box-sizing:border-box;padding:0 12px;border:1px solid #171717;border-radius:4px;font:400 15px Heebo,Arial,sans-serif;background:#fff">
+<button aria-label="לשלוח" style="flex:none;width:48px;height:48px;border:0;border-radius:4px;background:#171717;display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20 4L4 11l7 2 2 7z"></path></svg></button>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1120}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>עדכונים · מה חדש</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&amp;family=Arvo:wght@700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#fff}
+a{color:#171717}a:hover{color:#6b6b69}
+.seg{height:38px;border:1px solid #171717;border-radius:4px;background:#fff;font:500 14px Heebo,Arial,sans-serif;color:#171717}
+.seg.on{background:#171717;color:#fff}
+.it{display:flex;gap:10px;align-items:flex-start;padding:13px 0;border-bottom:1px solid #ddd3bd;text-decoration:none;color:#171717}
+.ic{flex:none;width:34px;height:34px;border:1px solid #ddd3bd;border-radius:4px;display:flex;align-items:center;justify-content:center}
+.tx{font-size:15px;line-height:1.45}
+.tm{font-size:12px;color:#6b6b69;margin-top:3px}
+.dot{flex:none;width:8px;height:8px;border-radius:999px;background:#171717;margin-top:8px;margin-right:auto}
+.nav{display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 0 14px;text-decoration:none;color:#6b6b69;font-size:12px;font-weight:500}
+</style>
+</helmet>
+<div style="width:390px;height:1000px;box-sizing:border-box;background:#fff;color:#171717;font-family:Heebo,Arial,sans-serif;display:flex;flex-direction:column">
+<header style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid #ddd3bd">
+<div style="display:flex;align-items:baseline;gap:8px">
+<span style="font-family:Arvo,Rockwell,serif;font-weight:700;font-size:17px;letter-spacing:.09em" dir="ltr">KETERLION<span style="color:#ae8e42">.</span></span>
+<span style="font-size:13px;font-weight:500;color:#6b6b69">משימות</span>
+</div>
+<span style="font-size:13px;color:#6b6b69">התראות לטלפון: פועלות</span>
+</header>
+<main style="padding:20px 16px 0;flex-grow:1">
+<h1 style="margin:0 0 14px;font-size:38px;line-height:1.05;font-weight:900">עדכונים<span style="color:#ae8e42">.</span></h1>
+
+<section style="background:#171717;color:#fff;padding:16px">
+<div style="font-size:13px;font-weight:500;letter-spacing:.2em;color:#ae8e42">סיכום הבוקר · 08:00</div>
+<p style="margin:8px 0 0;font-size:16px;line-height:1.55">יש לך היום 3 משימות. אחת <b>דחופה</b> (ההזמנה הסיטונאית ב-15:00), ואחת <b>באיחור</b> מאתמול (החשבוניות לרואה החשבון).</p>
+<a href="Main.dc.html" style="display:inline-flex;align-items:center;height:40px;padding:0 14px;margin-top:12px;border-radius:4px;background:#fff;color:#171717;text-decoration:none;font-size:14px;font-weight:700">ליום שלי</a>
+</section>
+
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:16px 0 4px">
+<button class="seg on">הכול</button>
+<button class="seg">תייגו אותי</button>
+<button class="seg">לא נקראו</button>
+</div>
+
+<a href="Task.dc.html" class="it"><span class="ic" style="font-weight:900">@</span><div><div class="tx"><b>[השם שלך]</b> תייג/ה אותך ב"הזמנה סיטונאית ל[שם הלקוח]"</div><div class="tm"># סיטונאות · אתמול 18:22</div></div><span class="dot"></span></a>
+<a href="Main.dc.html" class="it"><span class="ic"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#171717" stroke-width="2.5"><path d="M12 5v14M5 12h14"></path></svg></span><div><div class="tx"><b>[השם שלך]</b> הוסיף/ה לך משימה: "לחזור לליד מהאתר עם הצעת מחיר"</div><div class="tm"># לידים והצעות מחיר · דחוף · אתמול 17:40</div></div><span class="dot"></span></a>
+<a href="Main.dc.html" class="it"><span class="ic"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#171717" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></span><div><div class="tx">תזכורת: "לספור את מלאי כובעי הטמבל בחנות" בעוד שעה</div><div class="tm"># מלאי בחנות · היום 11:00 · גם ביומן Google</div></div></a>
+<a href="Main.dc.html" class="it"><span class="ic" style="border-color:#c21a1a"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c21a1a" stroke-width="2.5"><path d="M12 7v6M12 17h.01"></path></svg></span><div><div class="tx">עבר המועד: "לשלוח לרואה החשבון את החשבוניות של אוקטובר"</div><div class="tm"># הנהלת חשבונות · היום 08:00</div></div></a>
+<a href="Task.dc.html" class="it" style="border-bottom:0"><span class="ic"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#171717" stroke-width="2.5"><path d="M5 12l5 5 9-10"></path></svg></span><div><div class="tx">סימנת 2 מתוך 4 בצ'קליסט של ההזמנה הסיטונאית</div><div class="tm"># סיטונאות · היום 11:00</div></div></a>
+</main>
+<nav style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #ddd3bd;background:#fff">
+<a href="Main.dc.html" class="nav"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b6b69" stroke-width="2"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path></svg>היום</a>
+<a href="Areas.dc.html" class="nav"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b6b69" stroke-width="2"><path d="M5 9h14M5 15h14M10 4l-2 16M16 4l-2 16"></path></svg>תחומים</a>
+<a href="Feed.dc.html" class="nav" style="color:#171717;font-weight:700"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#171717" stroke-width="2"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8M10 20a2 2 0 004 0"></path></svg>עדכונים<span style="width:5px;height:5px;border-radius:999px;background:#ae8e42"></span></a>
+<a href="Done.dc.html" class="nav"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b6b69" stroke-width="2"><path d="M5 12l5 5 9-10"></path></svg>בוצעו</a>
+</nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1000}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

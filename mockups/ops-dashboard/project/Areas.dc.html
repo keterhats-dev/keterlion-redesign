@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>תחומים · כמו ערוצים</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&amp;family=Arvo:wght@700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#fff}
+a{color:#171717}a:hover{color:#6b6b69}
+.ch{display:flex;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid #ddd3bd;text-decoration:none;color:#171717}
+.hash{flex:none;width:40px;height:40px;border:1px solid #ddd3bd;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:500;color:#6b6b69}
+.nm{font-size:17px;font-weight:500}
+.nm.new{font-weight:900}
+.last{font-size:13px;color:#6b6b69;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px}
+.open{flex:none;margin-right:auto;text-align:left;font-size:13px;color:#6b6b69}
+.badge{display:inline-block;min-width:20px;height:20px;line-height:20px;text-align:center;font-size:12px;font-weight:700;background:#171717;color:#fff;border-radius:4px;margin-top:4px}
+.nav{display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 0 14px;text-decoration:none;color:#6b6b69;font-size:12px;font-weight:500}
+</style>
+</helmet>
+<div style="width:390px;height:1000px;box-sizing:border-box;background:#fff;color:#171717;font-family:Heebo,Arial,sans-serif;display:flex;flex-direction:column">
+<header style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid #ddd3bd">
+<div style="display:flex;align-items:baseline;gap:8px">
+<span style="font-family:Arvo,Rockwell,serif;font-weight:700;font-size:17px;letter-spacing:.09em" dir="ltr">KETERLION<span style="color:#ae8e42">.</span></span>
+<span style="font-size:13px;font-weight:500;color:#6b6b69">משימות</span>
+</div>
+</header>
+<main style="padding:20px 16px 0;flex-grow:1">
+<h1 style="margin:0 0 4px;font-size:38px;line-height:1.05;font-weight:900">תחומים<span style="color:#ae8e42">.</span></h1>
+<p style="margin:0 0 10px;font-size:15px;color:#6b6b69">כל תחום הוא ערוץ: המשימות שלו וכל מה שנכתב עליהן</p>
+
+<a href="Task.dc.html" class="ch"><span class="hash">#</span><div><div class="nm new">סיטונאות</div><div class="last">[השם שלך]: הלקוח ביקש להוסיף להזמנה…</div></div><div class="open">1 פתוחה<br><span class="badge">2</span></div></a>
+<a href="Areas.dc.html" class="ch"><span class="hash">#</span><div><div class="nm new">הנהלת חשבונות</div><div class="last">באיחור: החשבוניות של אוקטובר</div></div><div class="open">1 פתוחה<br><span class="badge">1</span></div></a>
+<a href="Areas.dc.html" class="ch"><span class="hash">#</span><div><div class="nm">מלאי בחנות</div><div class="last">ארי: נקלטה סחורה חדשה</div></div><div class="open">1 פתוחה</div></a>
+<a href="Areas.dc.html" class="ch"><span class="hash">#</span><div><div class="nm">הזמנות באתר</div><div class="last">ארי סיים: מסירה לשליח</div></div><div class="open">1 פתוחה</div></a>
+<a href="Areas.dc.html" class="ch"><span class="hash">#</span><div><div class="nm">Wolt</div><div class="last">חדשה: לסמן מוצרים שאזלו</div></div><div class="open">1 פתוחה</div></a>
+<a href="Areas.dc.html" class="ch"><span class="hash">#</span><div><div class="nm">לידים והצעות מחיר</div><div class="last">ארי סיים: לענות ללידים</div></div><div class="open">1 פתוחה</div></a>
+<a href="Areas.dc.html" class="ch"><span class="hash">#</span><div><div class="nm">טכני ומערכת</div><div class="last">לבדוק שהגיבוי של האתר עבר</div></div><div class="open">1 פתוחה</div></a>
+<a href="Areas.dc.html" class="ch" style="border-bottom:0"><span class="hash">#</span><div><div class="nm">כללי</div><div class="last">ארי סיים: שקיות אריזה</div></div><div class="open">אין פתוחות</div></a>
+</main>
+<nav style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #ddd3bd;background:#fff">
+<a href="Main.dc.html" class="nav"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b6b69" stroke-width="2"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path></svg>היום</a>
+<a href="Areas.dc.html" class="nav" style="color:#171717;font-weight:700"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#171717" stroke-width="2"><path d="M5 9h14M5 15h14M10 4l-2 16M16 4l-2 16"></path></svg>תחומים<span style="width:5px;height:5px;border-radius:999px;background:#ae8e42"></span></a>
+<a href="Feed.dc.html" class="nav"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b6b69" stroke-width="2"><path d="M6 8a6 6 0 0112 0c0 7 3 8 3 8H3s3-1 3-8M10 20a2 2 0 004 0"></path></svg>עדכונים</a>
+<a href="Done.dc.html" class="nav"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b6b69" stroke-width="2"><path d="M5 12l5 5 9-10"></path></svg>בוצעו</a>
+</nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1000}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>
