@@ -142,6 +142,7 @@ const demo = {
     save(db); emit();
   },
   async savePush() { throw new Error('בהדגמה אין התראות'); },
+  async pushStatus() { return []; },
   async notify() {},
   async deleteTask(id) { const db = load(); db.tasks = db.tasks.filter((t) => t.id !== id); save(db); emit(); },
   async addCheck(task_id, text) { const db = load(); db.checklist.push({ id: uid(), task_id, text, done: false, sort: db.checklist.length }); save(db); emit(); },
@@ -261,6 +262,10 @@ const live = {
   async savePush(sub) {
     const c = await client(); const k = sub.keys || {};
     must(await c.from('push_subscriptions').upsert({ endpoint: sub.endpoint, p256dh: k.p256dh, auth: k.auth }));
+  },
+  async pushStatus() {
+    const c = await client(); const { data } = await c.rpc('push_status');
+    return (data || []).map((r) => (typeof r === 'string' ? r : r.push_status));
   },
   async notify(task_id) {
     const c = await client(); const { data } = await c.auth.getSession();

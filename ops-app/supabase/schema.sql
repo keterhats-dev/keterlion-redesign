@@ -167,6 +167,10 @@ create policy own_all on push_subscriptions for all using (user_id = auth.uid())
 create or replace function push_targets(p_user uuid) returns setof push_subscriptions language sql stable security definer set search_path = public as $$
   select * from push_subscriptions where user_id = p_user and is_team()
 $$;
+-- Who has notifications on (ids only), so a manager can see it on the team screen
+create or replace function push_status() returns setof uuid language sql stable security definer set search_path = public as $$
+  select distinct user_id from push_subscriptions where is_team()
+$$;
 create or replace function remove_push(p_endpoint text) returns void language sql security definer set search_path = public as $$
   delete from push_subscriptions where endpoint = p_endpoint and is_team()
 $$;

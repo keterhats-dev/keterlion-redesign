@@ -51,13 +51,14 @@ async function subscribePush() {
 const DISMISS_KEY = 'kl-push-dismissed';
 function PushPrompt() {
   const [state, setState] = useState(() => {
-    try { if (localStorage.getItem(DISMISS_KEY)) return 'hidden'; } catch {}
+    // "לא עכשיו" hides the prompt for 3 days, then it comes back while notifications are still off
+    try { if (Date.now() - Number(localStorage.getItem(DISMISS_KEY) || 0) < 3 * 864e5) return 'hidden'; } catch {}
     if (pushSupported()) return Notification.permission === 'default' ? 'ask' : 'hidden';
     return isIOSBrowser() ? 'ios' : 'hidden';
   });
   const [err, setErr] = useState('');
   if (state === 'hidden') return null;
-  const dismiss = () => { try { localStorage.setItem(DISMISS_KEY, '1'); } catch {} setState('hidden'); };
+  const dismiss = () => { try { localStorage.setItem(DISMISS_KEY, String(Date.now())); } catch {} setState('hidden'); };
   const enable = async () => {
     setErr('');
     try {
@@ -518,6 +519,9 @@ function Team({ ctx, openAdd }) {
           <span class="av">${initial(p)}</span>
           <div style="flex:1"><div style="font-size:17px;font-weight:700">${p.name}</div><div class="sub">${p.title || ''}</div></div>${I.next()}
         </a>
+        ${!DEMO && html`<div class="sub" style="margin-top:8px">${ctx.pushOn.includes(p.id)
+          ? html`<span style="color:var(--green-ink);font-weight:600">✓ התראות פועלות</span>`
+          : html`<span class="pill p2">התראות כבויות</span> ${p.name} צריך ללחוץ "להפעיל התראות" באפליקציה בטלפון שלו`}</div>`}
         <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:14px">
           <div><b style="display:block;font-size:28px;font-weight:800;line-height:1">${open.length}</b><span class="sub">פתוחות</span></div>
           <div><b style="display:block;font-size:28px;font-weight:800;line-height:1">${doneToday.length}</b><span class="sub">בוצעו היום</span></div>
@@ -686,10 +690,11 @@ function App() {
       const me = await store.session();
       if (!me) return setState({ loading: false, me: null });
       if (me.noAccess) return setState({ loading: false, me: null, noAccess: me });
-      const [profiles, areas, tasks, invites, orders] = await Promise.all([
-        store.profiles(), store.areas(), store.tasks(), me.role === 'owner' ? store.invites() : [], store.orders(),
+      const owner = me.role === 'owner';
+      const [profiles, areas, tasks, invites, orders, pushOn] = await Promise.all([
+        store.profiles(), store.areas(), store.tasks(), owner ? store.invites() : [], store.orders(), owner ? store.pushStatus() : [],
       ]);
-      setState({ loading: false, me, profiles, areas, tasks, invites, orders, team: profiles.filter((p) => p.active !== false) });
+      setState({ loading: false, me, profiles, areas, tasks, invites, orders, pushOn, team: profiles.filter((p) => p.active !== false) });
     } catch (e) { setState({ loading: false, error: e.message }); }
   };
   useEffect(() => { reload(); return onChange(reload); }, []);
