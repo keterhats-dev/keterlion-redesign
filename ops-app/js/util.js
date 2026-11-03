@@ -28,6 +28,15 @@ export const ORDER_STATUS = {
 export const ORDER_NEXT = { new: ['preparing', 'להתחיל להכין'], preparing: ['ready', 'מוכנה'], ready: ['done', 'נמסרה'] };
 export const isOpenOrder = (o) => !['done', 'cancelled'].includes(o.status);
 
+// Deals (sales a person closes): wholesale to regular customers, or a new lead
+export const DEAL_KIND = { wholesale: 'לקוח קבוע', lead: 'ליד חדש' };
+export const DEAL_STATUS = { quote: 'הצעה נשלחה', won: 'נסגרה', lost: 'לא נסגרה' };
+export const monthOf = (s) => (s || '').slice(0, 7); // 'YYYY-MM'
+export const addMonths = (m, n) => { const [y, mo] = m.split('-').map(Number); const d = new Date(y, mo - 1 + n, 1); return `${d.getFullYear()}-${pad(d.getMonth() + 1)}`; };
+export const monthName = (m) => { const [y, mo] = m.split('-').map(Number); return `${MONTHS[mo - 1]} ${y}`; };
+export const monthShort = (m) => MONTHS[Number(m.split('-')[1]) - 1].slice(0, 3) + '׳';
+export const shekel = (n) => '₪' + Math.round(Number(n) || 0).toLocaleString('he-IL');
+
 export function longDate(s = todayISO()) {
   const d = new Date(s + 'T12:00');
   return `${DAYS[d.getDay()]}, ${d.getDate()} ב${MONTHS[d.getMonth()]}`;

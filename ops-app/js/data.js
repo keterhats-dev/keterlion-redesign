@@ -1,7 +1,7 @@
 // Data layer. Two stores with the same functions: a demo store in this browser
 // (localStorage) and the real one in Supabase. config.js decides which one runs.
 import { DEMO, SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
-import { todayISO, addDays, STATUS } from './util.js';
+import { todayISO, addDays, STATUS, iso } from './util.js';
 
 const listeners = new Set();
 export const onChange = (fn) => { listeners.add(fn); return () => listeners.delete(fn); };
@@ -41,7 +41,22 @@ function seed() {
     task({ title: 'לעדכן מחירים ב-Wolt', area_id: 'wolt', status: 'done', done_at: at(-1, 13), created_by: ari }),
     task({ title: 'לקלוט סחורה חדשה למלאי', area_id: 'stock', status: 'done', done_at: at(-1, 10), created_by: ari }),
   ];
+  // Demo deals for Ari across the last months (made-up numbers, demo only)
+  const day = (monthsAgo, d) => { const x = new Date(t + 'T12:00'); x.setDate(1); x.setMonth(x.getMonth() - monthsAgo); x.setDate(Math.min(d, 28)); return iso(x); };
+  const deal = (o) => ({ id: uid(), kind: 'wholesale', items: null, notes: null, seller_id: ari, status: 'won', created_at: at(-1), updated_at: at(-1), ...o });
+  const past = [[5, [2400, 1800]], [4, [3100, 900]], [3, [2600, 2200, 700]], [2, [3800, 1500]], [1, [4200, 2600, 1200]]];
+  const deals = past.flatMap(([m, amounts]) => amounts.map((amount, i) => deal({
+    customer: `[לקוח לדוגמה ${m}-${i + 1}]`, kind: i % 2 ? 'lead' : 'wholesale', amount, quote_date: day(m, 3 + i * 5), closed_date: day(m, 8 + i * 6) })));
+  deals.push(
+    deal({ customer: '[שם העסק]', items: '[כמות] כובעים ממותגים', amount: 3600, quote_date: day(0, 1), closed_date: day(0, 2) }),
+    deal({ customer: '[ליד מהאתר]', kind: 'lead', items: '[כמות] כובעים רקומים', amount: 1900, quote_date: day(0, 1), closed_date: day(0, 3) }),
+    deal({ customer: '[ליד מהאתר 2]', kind: 'lead', items: '[כמות] כובעים', amount: 2500, status: 'quote', quote_date: day(0, 2), closed_date: null }),
+    deal({ customer: '[לקוח קבוע]', items: 'הזמנה חוזרת', amount: 1400, status: 'quote', quote_date: day(0, 3), closed_date: null }),
+    deal({ customer: '[ליד שלא נסגר]', kind: 'lead', amount: 800, status: 'lost', quote_date: day(0, 1), closed_date: day(0, 2) }),
+  );
+
   return {
+    deals,
     profiles: [
       { id: owner, name: 'בעל העסק', role: 'owner', title: 'בעלים', email: null, active: true },
       { id: ari, name: 'ארי', role: 'staff', title: 'מנהל מערכת ותפעול', email: null, active: true },
@@ -66,7 +81,7 @@ function seed() {
 }
 
 function load() {
-  try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.tasks) { s.invites ||= []; s.orders ||= []; return s; } } catch {}
+  try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.tasks) { s.invites ||= []; s.orders ||= []; s.deals ||= []; return s; } } catch {}
   const s = seed(); save(s); return s;
 }
 function save(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch {} }
@@ -160,6 +175,15 @@ const demo = {
     Object.assign(o, closing(o, patch), { updated_at: new Date().toISOString() }); save(db); emit();
   },
   async deleteOrder(id) { const db = load(); db.orders = db.orders.filter((o) => o.id !== id); save(db); emit(); },
+  async deals() { return load().deals; },
+  async createDeal(data, me) {
+    const db = load(); const now = new Date().toISOString();
+    const d = { id: uid(), kind: 'wholesale', items: null, amount: null, status: 'quote', quote_date: todayISO(), closed_date: null,
+      notes: null, seller_id: me.id, ...data, created_at: now, updated_at: now };
+    db.deals.push(d); save(db); emit(); return d;
+  },
+  async updateDeal(id, patch) { const db = load(); Object.assign(db.deals.find((d) => d.id === id) || {}, patch, { updated_at: new Date().toISOString() }); save(db); emit(); },
+  async deleteDeal(id) { const db = load(); db.deals = db.deals.filter((d) => d.id !== id); save(db); emit(); },
 };
 
 // An order leaving or returning to the open statuses gets / loses its closing time
@@ -290,13 +314,22 @@ const live = {
     must(await c.from('orders').update(closing(cur, patch)).eq('id', id));
   },
   async deleteOrder(id) { const c = await client(); must(await c.from('orders').delete().eq('id', id)); },
+  async deals() {
+    const c = await client();
+    // enough history for the 6-month chart
+    const since = new Date(); since.setMonth(since.getMonth() - 7);
+    return must(await c.from('deals').select('*').or(`status.eq.quote,quote_date.gte.${since.toISOString().slice(0, 10)},closed_date.gte.${since.toISOString().slice(0, 10)}`));
+  },
+  async createDeal(data) { const c = await client(); return must(await c.from('deals').insert(data).select().single()); },
+  async updateDeal(id, patch) { const c = await client(); must(await c.from('deals').update(patch).eq('id', id)); },
+  async deleteDeal(id) { const c = await client(); must(await c.from('deals').delete().eq('id', id)); },
   async addCheck(task_id, text) { const c = await client(); must(await c.from('checklist_items').insert({ task_id, text, sort: Date.now() % 1e9 })); },
   async setCheck(id, done) { const c = await client(); must(await c.from('checklist_items').update({ done }).eq('id', id)); },
   async addComment(task_id, body) { const c = await client(); must(await c.from('comments').insert({ task_id, body })); },
 };
 
 // Refresh this screen right after a write, without waiting for the realtime echo
-for (const k of ['createTask', 'updateTask', 'ackTask', 'deleteTask', 'addCheck', 'setCheck', 'addComment', 'invite', 'cancelInvite', 'updateMember', 'removeMember', 'createOrder', 'updateOrder', 'deleteOrder']) {
+for (const k of ['createTask', 'updateTask', 'ackTask', 'deleteTask', 'addCheck', 'setCheck', 'addComment', 'invite', 'cancelInvite', 'updateMember', 'removeMember', 'createOrder', 'updateOrder', 'deleteOrder', 'createDeal', 'updateDeal', 'deleteDeal']) {
   const f = live[k];
   live[k] = async (...a) => { const r = await f(...a); emit(); return r; };
 }

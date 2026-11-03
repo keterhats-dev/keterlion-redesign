@@ -4,6 +4,7 @@ import { DEMO, VAPID_PUBLIC_KEY } from './config.js';
 import {
   PRIORITY, STATUS, todayISO, addDays, longDate, dueLabel, isOverdue, byPriority, parseQuick, gcalLink,
   timeAgo, clock, dayHeading, iso, ORDER_SOURCE, ORDER_STATUS, ORDER_NEXT, isOpenOrder,
+  DEAL_KIND, DEAL_STATUS, monthOf, addMonths, monthName, monthShort, shekel,
 } from './util.js';
 
 /* ---------- icons (stroke, follow currentColor) ---------- */
@@ -173,6 +174,8 @@ function Today({ ctx, personId, openAdd, openOrder }) {
         ${newOrders ? html`<span class="pill blue" style="align-self:flex-start">${newOrders} חדשות</span>`
           : html`<span class="pill" style="align-self:flex-start">לכל ההזמנות</span>`}</a>
     </div>
+    ${self && ctx.me.role !== 'owner' && html`<a class="card more" href="#/sales" style="border-radius:var(--r)">
+      <span>המכירות שלי ב${monthName(monthOf(today)).split(' ')[0]}: <b style="color:var(--ink)">${shekel(sum(wonIn(ctx.deals.filter((d) => d.seller_id === ctx.me.id), monthOf(today))))}</b></span>${I.next()}</a>`}
     <div class="today-grid"><div class="col">
 
     ${usedAreas.length > 1 && html`<div class="chips" role="group" aria-label="סינון לפי תחום">
@@ -502,6 +505,151 @@ function OrderSheet({ ctx, order, onClose }) {
   </div>`;
 }
 
+/* ---------- מכירות: העסקאות שאדם סגר, וסיכום חודשי ---------- */
+const wonIn = (deals, m) => deals.filter((d) => d.status === 'won' && monthOf(d.closed_date) === m);
+const sum = (list) => list.reduce((s, d) => s + (Number(d.amount) || 0), 0);
+
+// Who a sales page is about: a manager picks anyone (default: the first staff member), others see their own
+const salesPerson = (ctx, personId) =>
+  ctx.profiles.find((p) => p.id === personId) || (ctx.me.role === 'owner' ? ctx.team.find((p) => p.role !== 'owner') : null) || ctx.me;
+
+function Sales({ ctx, personId, openDeal }) {
+  const person = salesPerson(ctx, personId);
+  const thisMonth = monthOf(todayISO());
+  const [m, setM] = useState(thisMonth);
+  const mine = ctx.deals.filter((d) => d.seller_id === person.id);
+  const won = wonIn(mine, m);
+  const total = sum(won);
+  const prev = sum(wonIn(mine, addMonths(m, -1)));
+  const change = prev ? Math.round(((total - prev) / prev) * 100) : null;
+  const quotes = mine.filter((d) => monthOf(d.quote_date) === m);
+  const decided = quotes.filter((d) => d.status !== 'quote');
+  const rate = decided.length ? Math.round((decided.filter((d) => d.status === 'won').length / decided.length) * 100) : null;
+  const months = [-5, -4, -3, -2, -1, 0].map((n) => addMonths(m, n));
+  const bars = months.map((x) => sum(wonIn(mine, x)));
+  const max = Math.max(...bars, 1);
+  const byKind = Object.keys(DEAL_KIND).map((k) => [k, sum(won.filter((d) => d.kind === k))]);
+  const open = mine.filter((d) => d.status === 'quote').sort((a, b) => (a.quote_date < b.quote_date ? -1 : 1));
+  const others = ctx.me.role === 'owner' ? ctx.team.filter((p) => p.id !== person.id) : [];
+
+  return html`<main class="page">
+    <div class="top">
+      <div><div class="sub">${person.id === ctx.me.id ? 'המכירות שלי' : `המכירות של ${person.name}`}</div><h1 class="h1">סיכום חודשי<span style="color:var(--gold)">.</span></h1></div>
+      ${others.length > 0 && html`<label class="sr" for="sp">של מי</label><select id="sp" class="field soft" style="width:auto;height:40px"
+        value=${person.id} onChange=${(e) => go('sales/' + e.target.value)}>${ctx.team.map((p) => html`<option value=${p.id}>${p.name}</option>`)}</select>`}
+    </div>
+
+    <div class="top">
+      <button class="icon-btn" aria-label="החודש הקודם" onClick=${() => setM(addMonths(m, -1))}>${I.back(16)}</button>
+      <div style="font-size:17px;font-weight:700">${monthName(m)}</div>
+      <button class="icon-btn" aria-label="החודש הבא" disabled=${m >= thisMonth} style=${m >= thisMonth ? 'opacity:.35' : ''} onClick=${() => setM(addMonths(m, 1))}>${I.next(16)}</button>
+    </div>
+
+    <section class="card" style="padding:16px">
+      <div class="sub" style="font-weight:600">עסקאות שנסגרו ב${monthName(m).split(' ')[0]}</div>
+      <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-top:4px">
+        <div style="font-size:36px;font-weight:800">${shekel(total)}</div>
+        ${change !== null && html`<span class=${'pill ' + (change >= 0 ? 'green' : 'late')}>${change >= 0 ? '+' : ''}${change}% מהחודש הקודם</span>`}
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-top:14px;align-items:end;height:130px" role="img"
+        aria-label=${'סכום העסקאות בחצי השנה האחרונה: ' + months.map((x, i) => `${monthName(x)} ${shekel(bars[i])}`).join(', ')}>
+        ${months.map((x, i) => html`<div style="display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;height:100%">
+          <span style="font-size:10px;color:var(--muted)">${bars[i] ? Math.round(bars[i] / 100) / 10 + 'K' : ''}</span>
+          <i style=${`display:block;width:100%;max-width:30px;height:${Math.max(4, (bars[i] / max) * 92)}px;border-radius:8px 8px 3px 3px;background:${x === m ? 'var(--ink)' : '#dcdbd6'}`}></i>
+          <span style=${`font-size:11px;${x === m ? 'font-weight:700;color:var(--ink)' : 'color:var(--muted)'}`}>${monthShort(x)}</span></div>`)}
+      </div>
+    </section>
+
+    <div class="two">
+      <div class="card tile"><b style="font-size:26px">${won.length}</b><span class="sub">עסקאות שנסגרו</span></div>
+      <div class="card tile"><b style="font-size:26px">${quotes.length}</b><span class="sub">הצעות מחיר שנשלחו</span></div>
+      <div class="card tile"><b style="font-size:26px">${rate === null ? '—' : rate + '%'}</b><span class="sub">אחוז סגירה</span></div>
+      <div class="card tile"><b style="font-size:26px">${won.length ? shekel(total / won.length) : '—'}</b><span class="sub">עסקה ממוצעת</span></div>
+    </div>
+
+    ${total > 0 && html`<section class="card" style="padding:6px 16px">${byKind.map(([k, v]) => html`<div style="padding:10px 0">
+      <div style="display:flex;justify-content:space-between;font-size:15px"><span>${DEAL_KIND[k]}</span><b>${shekel(v)}</b></div>
+      <div style="height:8px;border-radius:999px;background:var(--line);margin-top:6px;overflow:hidden"><div style=${`width:${(v / total) * 100}%;height:8px;border-radius:999px;background:var(--ink)`}></div></div></div>`)}</section>`}
+
+    ${m === thisMonth && open.length > 0 && html`<div class="section-h"><span>הצעות מחיר פתוחות</span><span>${open.length}</span></div>
+      <section class="card list">${open.map((d) => html`<${DealRow} key=${d.id} d=${d} ctx=${ctx} onOpen=${openDeal} />`)}</section>`}
+
+    <div class="section-h"><span>העסקאות של ${monthName(m).split(' ')[0]}</span><span>${won.length}</span></div>
+    ${won.length ? html`<section class="card list">${won.sort((a, b) => (a.closed_date < b.closed_date ? 1 : -1)).map((d) => html`<${DealRow} key=${d.id} d=${d} ctx=${ctx} onOpen=${openDeal} />`)}</section>`
+      : html`<div class="card empty">עוד אין עסקאות שנסגרו בחודש הזה</div>`}
+
+    <button class="btn" onClick=${() => openDeal({ seller_id: person.id })}>${I.plus(20)} עסקה או הצעת מחיר</button>
+  </main>`;
+}
+
+function DealRow({ d, ctx, onOpen }) {
+  const close = (status) => ctx.store.updateDeal(d.id, { status, closed_date: todayISO() });
+  return html`<div class="row" style="align-items:flex-start">
+    <button class="body" style="border:0;background:none;padding:0;text-align:right;cursor:pointer" onClick=${() => onOpen(d)}>
+      <div class="t">${d.customer}</div>
+      <div class="meta"><span>${DEAL_KIND[d.kind]}</span>${d.items && html`<span>· ${d.items}</span>`}
+        <span>· ${d.status === 'quote' ? 'נשלחה ' + dueLabel({ due_date: d.quote_date }) : dueLabel({ due_date: d.closed_date })}</span></div>
+    </button>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:none">
+      <b style="font-size:16px">${d.amount != null ? shekel(d.amount) : '—'}</b>
+      ${d.status === 'quote' && html`<div style="display:flex;gap:6px">
+        <button class="btn sm" style="height:34px;padding:0 12px;font-size:13px" onClick=${() => close('won')}>${I.check(13)} נסגרה</button>
+        <button class="btn sm ghost" style="height:34px;padding:0 12px;font-size:13px" onClick=${() => close('lost')}>לא</button></div>`}
+    </div>
+  </div>`;
+}
+
+function DealSheet({ ctx, deal, onClose }) {
+  const isNew = !deal.id;
+  const manager = ctx.me.role === 'owner';
+  const [f, setF] = useState({
+    customer: deal.customer || '', kind: deal.kind || 'wholesale', items: deal.items || '', amount: deal.amount ?? '',
+    status: deal.status || 'quote', quote_date: deal.quote_date || todayISO(), closed_date: deal.closed_date || '',
+    seller_id: deal.seller_id || ctx.me.id, notes: deal.notes || '',
+  });
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState('');
+  const set = (k) => (e) => setF({ ...f, [k]: e.target ? e.target.value : e });
+  const save = async (e) => {
+    e.preventDefault();
+    if (!f.customer.trim()) return setErr('צריך לכתוב עם מי העסקה');
+    const closed = f.status !== 'quote';
+    const data = { customer: f.customer.trim(), kind: f.kind, items: f.items.trim() || null, amount: f.amount === '' ? null : Number(f.amount),
+      status: f.status, quote_date: f.quote_date || todayISO(), closed_date: closed ? f.closed_date || todayISO() : null, notes: f.notes.trim() || null };
+    if (manager) data.seller_id = f.seller_id; // others always record their own deals (the database enforces it)
+    setBusy(true);
+    try { await (isNew ? ctx.store.createDeal(data, ctx.me) : ctx.store.updateDeal(deal.id, data)); onClose(); }
+    catch (x) { setErr('לא נשמר: ' + x.message); setBusy(false); }
+  };
+  const remove = async () => { if (!confirm('למחוק את העסקה?')) return; await ctx.store.deleteDeal(deal.id); onClose(); };
+
+  return html`<div class="scrim" onClick=${(e) => e.target === e.currentTarget && onClose()}>
+    <form class="sheet" onSubmit=${save} role="dialog" aria-label=${isNew ? 'עסקה חדשה' : 'עריכת עסקה'}>
+      <div class="grab"></div>
+      <div class="top"><h2 class="h1" style="font-size:20px">${isNew ? 'עסקה או הצעת מחיר' : 'עסקה'}</h2>
+        <button type="button" class="icon-btn" style="width:36px;height:36px;background:var(--bg);box-shadow:none" aria-label="סגירה" onClick=${onClose}>${I.x()}</button></div>
+      <div><span class="lbl">סטטוס</span><div class="seg" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+        ${Object.entries(DEAL_STATUS).map(([k, l]) => html`<button type="button" class=${f.status === k ? 'on' : ''} onClick=${() => set('status')(k)}>${l}</button>`)}</div></div>
+      <div><label class="lbl" for="dc">לקוח</label><input id="dc" class="field soft" value=${f.customer} onInput=${set('customer')} placeholder="שם העסק או הלקוח" /></div>
+      <div><span class="lbl">סוג</span><div class="seg" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+        ${Object.entries(DEAL_KIND).map(([k, l]) => html`<button type="button" class=${f.kind === k ? 'on' : ''} onClick=${() => set('kind')(k)}>${l}</button>`)}</div></div>
+      <div><label class="lbl" for="di">מה</label><input id="di" class="field soft" value=${f.items} onInput=${set('items')} placeholder="למשל: 50 כובעים ממותגים" /></div>
+      <div class="two">
+        <div><label class="lbl" for="da">סכום (₪)</label><input id="da" type="number" inputmode="decimal" dir="ltr" class="field soft" value=${f.amount} onInput=${set('amount')} /></div>
+        <div><label class="lbl" for="dq">הצעה נשלחה</label><input id="dq" type="date" class="field soft" value=${f.quote_date} onInput=${set('quote_date')} /></div>
+      </div>
+      ${f.status !== 'quote' && html`<div><label class="lbl" for="dd">${f.status === 'won' ? 'נסגרה בתאריך' : 'תאריך'}</label>
+        <input id="dd" type="date" class="field soft" value=${f.closed_date || todayISO()} onInput=${set('closed_date')} /></div>`}
+      ${manager && html`<div><label class="lbl" for="ds">של מי העסקה</label><select id="ds" class="field soft" value=${f.seller_id} onChange=${set('seller_id')}>
+        ${ctx.team.map((p) => html`<option value=${p.id}>${p.name}</option>`)}</select></div>`}
+      <div><label class="lbl" for="dn">הערה</label><textarea id="dn" class="field soft" style="height:64px;padding:10px 12px" value=${f.notes} onInput=${set('notes')}></textarea></div>
+      ${err && html`<div class="err">${err}</div>`}
+      <button class="btn" disabled=${busy}>${busy ? 'שומר…' : isNew ? 'להוסיף' : 'לשמור'}</button>
+      ${!isNew && html`<button type="button" class="link" style="align-self:center;color:var(--red-ink)" onClick=${remove}>למחוק</button>`}
+    </form>
+  </div>`;
+}
+
 /* ---------- תחומים ---------- */
 function Areas({ ctx }) {
   return html`<main class="page">
@@ -562,6 +710,8 @@ function Team({ ctx, openAdd }) {
           <div><b style="display:block;font-size:28px;font-weight:800;line-height:1;color:${late.length ? 'var(--red-ink)' : 'inherit'}">${late.length}</b><span class="sub">באיחור</span></div>
         </div>
         <a href="#/orders" class="sub" style="display:block;margin-top:10px;text-decoration:none">הזמנות פתוחות אצלו: <b style="color:var(--ink)">${ctx.orders.filter((o) => isOpenOrder(o) && o.assignee_id === p.id).length}</b></a>
+        <a href=${'#/sales/' + p.id} class="sub" style="display:flex;justify-content:space-between;margin-top:6px;text-decoration:none">
+          <span>מכירות החודש: <b style="color:var(--ink)">${shekel(sum(wonIn(ctx.deals.filter((d) => d.seller_id === p.id), monthOf(today))))}</b></span><span>לסיכום החודשי ›</span></a>
         ${dueToday > 0 && html`<div class="sub" style="margin-top:12px">היום: ${doneToday.length} מתוך ${dueToday}</div>
           <div style="height:8px;border-radius:999px;background:var(--line);margin-top:6px;overflow:hidden"><div style=${`width:${pct}%;height:8px;border-radius:999px;background:var(--ink)`}></div></div>`}
       </section>
@@ -719,6 +869,7 @@ function App() {
   const route = useRoute();
   const [sheet, setSheet] = useState(null);
   const [order, setOrder] = useState(null);
+  const [deal, setDeal] = useState(null);
 
   const reload = async () => {
     try {
@@ -726,10 +877,11 @@ function App() {
       if (!me) return setState({ loading: false, me: null });
       if (me.noAccess) return setState({ loading: false, me: null, noAccess: me });
       const owner = me.role === 'owner';
-      const [profiles, areas, tasks, invites, orders, pushOn] = await Promise.all([
+      const [profiles, areas, tasks, invites, orders, pushOn, deals] = await Promise.all([
         store.profiles(), store.areas(), store.tasks(), owner ? store.invites() : [], store.orders(), owner ? store.pushStatus() : [],
+        store.deals().catch(() => []),
       ]);
-      setState({ loading: false, me, profiles, areas, tasks, invites, orders, pushOn, team: profiles.filter((p) => p.active !== false) });
+      setState({ loading: false, me, profiles, areas, tasks, invites, orders, pushOn, deals, team: profiles.filter((p) => p.active !== false) });
     } catch (e) { setState({ loading: false, error: e.message }); }
   };
   useEffect(() => { reload(); return onChange(reload); }, []);
@@ -749,6 +901,7 @@ function App() {
   let view;
   if (r0 === 'task' && r1) view = html`<${TaskPage} id=${r1} ctx=${ctx} />`;
   else if (r0 === 'orders') view = html`<${Orders} ctx=${ctx} openOrder=${openOrder} />`;
+  else if (r0 === 'sales') view = html`<${Sales} ctx=${ctx} personId=${r1} openDeal=${setDeal} />`;
   else if (r0 === 'areas') view = html`<${Areas} ctx=${ctx} />`;
   else if (r0 === 'area' && r1) view = html`<${AreaPage} id=${r1} ctx=${ctx} openAdd=${openAdd} />`;
   else if (r0 === 'team' && state.me.role === 'owner') view = html`<${Team} ctx=${ctx} openAdd=${openAdd} />`;
@@ -762,11 +915,13 @@ function App() {
       <span style="display:flex;gap:10px"><button class="link" style="padding:0;color:inherit" onClick=${() => store.signOut()}>החלפת משתמש</button>
       <button class="link" style="padding:0;color:inherit" onClick=${() => confirm('להחזיר את נתוני ההדגמה להתחלה?') && store.resetDemo()}>איפוס</button></span></div></div>`}
     ${view}
-    ${!onTask && html`<button class="fab" aria-label=${r0 === 'orders' ? 'הזמנה חדשה' : 'משימה חדשה'} onClick=${() => r0 === 'orders' ? openOrder({})
+    ${!onTask && html`<button class="fab" aria-label=${r0 === 'orders' ? 'הזמנה חדשה' : r0 === 'sales' ? 'עסקה חדשה' : 'משימה חדשה'} onClick=${() => r0 === 'orders' ? openOrder({})
+      : r0 === 'sales' ? setDeal({ seller_id: salesPerson(ctx, r1).id })
       : openAdd(r0 === 'person' ? { assignee_id: r1 } : r0 === 'area' ? { area_id: r1 } : {})}>${I.plus(24)}</button>`}
     ${!onTask && html`<${Tabs} route=${route} me=${state.me} />`}
     ${sheet && html`<${AddSheet} ctx=${ctx} preset=${sheet} onClose=${() => setSheet(null)} />`}
     ${order && html`<${OrderSheet} ctx=${ctx} order=${order} onClose=${() => setOrder(null)} />`}
+    ${deal && html`<${DealSheet} ctx=${ctx} deal=${deal} onClose=${() => setDeal(null)} />`}
     ${!DEMO && r0 !== 'task' && html`<button class="link" style="position:fixed;top:12px;left:12px" aria-label="יציאה" onClick=${() => store.signOut()}>${I.out()}</button>`}
   </div>`;
 }

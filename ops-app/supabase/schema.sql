@@ -95,12 +95,31 @@ create table if not exists orders (
 );
 create index if not exists orders_status on orders (status);
 
+-- Deals a person closes (quotes and sales), for the monthly sales summary
+create table if not exists deals (
+  id uuid primary key default gen_random_uuid(),
+  customer text not null,
+  kind text not null default 'wholesale' check (kind in ('wholesale', 'lead')), -- regular customer or new lead
+  items text,
+  amount numeric(10, 2),
+  status text not null default 'quote' check (status in ('quote', 'won', 'lost')),
+  quote_date date not null default current_date,
+  closed_date date,
+  seller_id uuid not null default auth.uid() references profiles, -- only a manager records a deal for someone else
+  notes text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+create index if not exists deals_seller on deals (seller_id, closed_date);
+
 create or replace function touch_updated_at() returns trigger language plpgsql as $$
 begin new.updated_at = now(); return new; end $$;
 drop trigger if exists tasks_touch on tasks;
 create trigger tasks_touch before update on tasks for each row execute function touch_updated_at();
 drop trigger if exists orders_touch on orders;
 create trigger orders_touch before update on orders for each row execute function touch_updated_at();
+drop trigger if exists deals_touch on deals;
+create trigger deals_touch before update on deals for each row execute function touch_updated_at();
 
 -- Access: everyone on the team (active profile) sees and edits all tasks. Small team, one board.
 -- Only managers add, change or remove team members.
@@ -165,6 +184,19 @@ begin
 end $$;
 drop trigger if exists orders_assign_guard on orders;
 create trigger orders_assign_guard before insert or update on orders for each row execute function orders_assign_guard();
+-- Everyone else always records their own deals
+create or replace function deals_seller_guard() returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  if is_owner() then return new; end if;
+  if tg_op = 'INSERT' then new.seller_id := auth.uid(); return new; end if;
+  new.seller_id := old.seller_id;
+  return new;
+end $$;
+drop trigger if exists deals_seller_guard on deals;
+create trigger deals_seller_guard before insert or update on deals for each row execute function deals_seller_guard();
+alter table deals enable row level security;
+drop policy if exists team_all on deals;
+create policy team_all on deals for all using (is_team()) with check (is_team());
 alter table orders enable row level security;
 drop policy if exists team_all on orders;
 create policy team_all on orders for all using (is_team()) with check (is_team());
@@ -193,7 +225,7 @@ create or replace function remove_push(p_endpoint text) returns void language sq
 $$;
 
 -- Live updates on both phones
-alter publication supabase_realtime add table tasks, checklist_items, comments, profiles, team_invites, orders;
+alter publication supabase_realtime add table tasks, checklist_items, comments, profiles, team_invites, orders, deals;
 
 -- The first manager. Put your own email and name, run, then log in from the app:
 -- insert into team_invites (email, name, role, title) values ('you@example.com', 'השם שלך', 'owner', 'בעלים');
