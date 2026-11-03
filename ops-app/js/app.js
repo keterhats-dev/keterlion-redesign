@@ -187,7 +187,7 @@ function AddSheet({ ctx, preset, onClose }) {
         </div>
         <div class="two">
           <div><label class="lbl" for="a">תחום</label><select id="a" class="field soft" value=${val.area_id} onChange=${set('area_id')}>${ctx.areas.map((a) => html`<option value=${a.id}>${a.name}</option>`)}</select></div>
-          <div><label class="lbl" for="w">למי</label><select id="w" class="field soft" value=${val.assignee_id} onChange=${set('assignee_id')}>${ctx.profiles.map((p) => html`<option value=${p.id}>${p.name}</option>`)}</select></div>
+          <div><label class="lbl" for="w">למי</label><select id="w" class="field soft" value=${val.assignee_id} onChange=${set('assignee_id')}>${ctx.team.map((p) => html`<option value=${p.id}>${p.name}</option>`)}</select></div>
         </div>
         <div><label class="lbl" for="n">הערה</label><textarea id="n" class="field soft" style="height:80px;padding:12px 14px" value=${notes} onInput=${(e) => setNotes(e.target.value)}></textarea></div>`}
 
@@ -237,7 +237,7 @@ function TaskPage({ id, ctx }) {
       </div>
       <div class="two">
         <div><label class="lbl" for="ta">תחום</label><select id="ta" class="field soft" value=${t.area_id} onChange=${(e) => up({ area_id: e.target.value })}>${ctx.areas.map((a) => html`<option value=${a.id}>${a.name}</option>`)}</select></div>
-        <div><label class="lbl" for="tw">אצל</label><select id="tw" class="field soft" value=${t.assignee_id} onChange=${(e) => up({ assignee_id: e.target.value })}>${ctx.profiles.map((p) => html`<option value=${p.id}>${p.name}</option>`)}</select></div>
+        <div><label class="lbl" for="tw">אצל</label><select id="tw" class="field soft" value=${t.assignee_id} onChange=${(e) => up({ assignee_id: e.target.value })}>${ctx.profiles.filter((p) => p.active !== false || p.id === t.assignee_id).map((p) => html`<option value=${p.id}>${p.name}</option>`)}</select></div>
       </div>
       ${cal && html`<a href=${cal} target="_blank" rel="noopener" class="pill big" style="align-self:flex-start;text-decoration:none">${I.cal(14)} להוסיף ליומן Google</a>`}
     </section>
@@ -311,7 +311,8 @@ function AreaPage({ id, ctx, openAdd }) {
 /* ---------- צוות (בעלים) ---------- */
 function Team({ ctx, openAdd }) {
   const today = todayISO();
-  const staff = ctx.profiles.filter((p) => p.id !== ctx.me.id);
+  const staff = ctx.team.filter((p) => p.id !== ctx.me.id);
+  const [member, setMember] = useState(null); // null closed, {} new, profile = edit
   return html`<main class="page">
     <div><div class="sub">${greeting()}, ${ctx.me.name}</div><h1 class="h1">הצוות היום<span style="color:var(--gold)">.</span></h1></div>
     ${!staff.length && html`<div class="card empty">עוד אין אנשי צוות במערכת</div>`}
@@ -340,6 +341,73 @@ function Team({ ctx, openAdd }) {
       ${doneToday.length > 0 && html`<${DoneToday} items=${doneToday} ctx=${ctx} />`}
       <button class="btn" onClick=${() => openAdd({ assignee_id: p.id })}>${I.plus(20)} משימה ל${p.name}</button>`;
     })}
+
+    <div class="section-h" style="margin-top:14px"><span>אנשי הצוות</span><span>${ctx.team.length}</span></div>
+    <section class="card list">
+      ${ctx.team.map((p) => html`<button class="row" style="width:100%;border:0;background:none;text-align:right" onClick=${() => setMember(p)}>
+        <span class=${'av sm' + (p.role === 'owner' ? '' : ' light')}>${initial(p)}</span>
+        <div class="body"><div class="t">${p.name}${p.id === ctx.me.id ? ' (אני)' : ''}</div><div class="meta">${p.title || ''}${p.role === 'owner' ? html` <span class="pill">מנהל</span>` : ''}</div></div>${I.next()}</button>`)}
+      ${ctx.invites.map((i) => html`<div class="row">
+        <span class="av sm light">${initial(i)}</span>
+        <div class="body"><div class="t">${i.name}</div><div class="meta"><span dir="ltr">${i.email}</span> <span class="pill p2">ממתין לכניסה ראשונה</span></div></div>
+        <button class="link" style="color:var(--red-ink)" onClick=${() => confirm(`לבטל את ההזמנה של ${i.name}?`) && ctx.store.cancelInvite(i.email)}>ביטול</button></div>`)}
+    </section>
+    <button class="btn ghost" onClick=${() => setMember({})}>${I.plus(20)} הוספת איש צוות</button>
+    ${member && html`<${MemberSheet} ctx=${ctx} member=${member} onClose=${() => setMember(null)} />`}
+  </main>`;
+}
+
+/* ---------- הוספה ועריכה של איש צוות (מנהל בלבד) ---------- */
+function MemberSheet({ ctx, member, onClose }) {
+  const isNew = !member.id;
+  const self = member.id === ctx.me.id;
+  const [f, setF] = useState({ name: member.name || '', title: member.title || '', email: '', role: member.role || 'staff' });
+  const others = ctx.team.filter((p) => p.id !== member.id);
+  const openCount = isNew ? 0 : ctx.tasks.filter((t) => t.assignee_id === member.id && t.status !== 'done').length;
+  const [to, setTo] = useState(ctx.me.id === member.id ? others[0]?.id : ctx.me.id);
+  const [err, setErr] = useState('');
+  const [busy, setBusy] = useState(false);
+  const set = (k) => (e) => setF({ ...f, [k]: e.target ? e.target.value : e });
+  const run = async (fn) => { setErr(''); setBusy(true); try { await fn(); onClose(); } catch (e) { setErr(e.message); setBusy(false); } };
+  const save = (e) => {
+    e.preventDefault();
+    if (!f.name.trim() || (isNew && !/^\S+@\S+\.\S+$/.test(f.email.trim()))) return setErr('צריך שם ואימייל תקין');
+    run(() => isNew
+      ? ctx.store.invite({ name: f.name.trim(), title: f.title.trim() || null, email: f.email, role: f.role })
+      : ctx.store.updateMember(member.id, { name: f.name.trim(), title: f.title.trim() || null, ...(self ? {} : { role: f.role }) }));
+  };
+  const remove = () => confirm(`להסיר את ${member.name} מהצוות? הגישה שלו למערכת תיחסם מיד.`) && run(() => ctx.store.removeMember(member.id, to));
+
+  return html`<div class="scrim" onClick=${(e) => e.target === e.currentTarget && onClose()}>
+    <form class="sheet" onSubmit=${save} role="dialog" aria-label=${isNew ? 'הוספת איש צוות' : 'עריכת איש צוות'}>
+      <div class="grab"></div>
+      <div class="top"><h2 class="h1" style="font-size:20px">${isNew ? 'הוספת איש צוות' : member.name}</h2>
+        <button type="button" class="icon-btn" style="width:36px;height:36px;background:var(--bg);box-shadow:none" aria-label="סגירה" onClick=${onClose}>${I.x()}</button></div>
+      <div><label class="lbl" for="mn">שם</label><input id="mn" class="field soft" value=${f.name} onInput=${set('name')} required /></div>
+      <div><label class="lbl" for="mt">תפקיד</label><input id="mt" class="field soft" value=${f.title} onInput=${set('title')} placeholder="למשל: מוכר בחנות" /></div>
+      ${isNew ? html`<div><label class="lbl" for="me">אימייל</label><input id="me" type="email" dir="ltr" class="field soft" value=${f.email} onInput=${set('email')} required />
+        <div class="sub" style="margin-top:6px">בכניסה הראשונה הוא יכתוב את האימייל הזה ויקבל קוד. בלי סיסמה.</div></div>`
+        : member.email && html`<div class="sub">אימייל: <span dir="ltr">${member.email}</span></div>`}
+      ${!self && html`<div><span class="lbl">הרשאה</span><div class="seg" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+        <button type="button" class=${f.role === 'staff' ? 'on' : ''} onClick=${() => set('role')('staff')}>עובד</button>
+        <button type="button" class=${f.role === 'owner' ? 'on' : ''} onClick=${() => set('role')('owner')}>מנהל</button></div>
+        <div class="sub" style="margin-top:6px">${f.role === 'owner' ? 'מנהל רואה את מסך הצוות, ויכול להוסיף ולהסיר אנשי צוות.' : 'עובד רואה את כל המשימות ומנהל את שלו. אין לו מסך צוות.'}</div></div>`}
+      ${err && html`<div class="err">${err}</div>`}
+      <button class="btn" disabled=${busy}>${busy ? 'שומר…' : isNew ? 'להזמין לצוות' : 'לשמור'}</button>
+      ${!isNew && !self && html`<div style="border-top:1px solid var(--line);padding-top:14px;display:flex;flex-direction:column;gap:10px">
+        ${openCount > 0 && html`<div><label class="lbl" for="mto">להעביר את ${openCount} המשימות הפתוחות שלו אל</label>
+          <select id="mto" class="field soft" value=${to} onChange=${(e) => setTo(e.target.value)}>${others.map((p) => html`<option value=${p.id}>${p.name}</option>`)}</select></div>`}
+        <button type="button" class="btn ghost" style="color:var(--red-ink)" disabled=${busy} onClick=${remove}>להסיר מהצוות</button></div>`}
+    </form>
+  </div>`;
+}
+
+function NoAccess({ email }) {
+  return html`<main class="login">
+    <div class="wordmark">KETERLION<i>.</i></div>
+    <h1 class="h1" style="font-size:30px">אין לך גישה למערכת<span style="color:var(--gold)">.</span></h1>
+    <p class="sub" style="font-size:15px;margin:0">${email ? html`<span dir="ltr">${email}</span> ` : ''}לא הוזמן לצוות, או שהוסר ממנו. מנהל יכול להוסיף אותך ממסך הצוות.</p>
+    <button class="btn ghost" onClick=${() => store.signOut()}>כניסה עם אימייל אחר</button>
   </main>`;
 }
 
@@ -371,7 +439,8 @@ function Login({ ctx }) {
   const [err, setErr] = useState('');
   const [busy, setBusy] = useState(false);
   const [people, setPeople] = useState([]);
-  useEffect(() => { if (DEMO) store.profiles().then(setPeople); }, []);
+  const [invited, setInvited] = useState([]);
+  useEffect(() => { if (DEMO) { store.profiles().then((ps) => setPeople(ps.filter((p) => p.active !== false))); store.invites().then(setInvited); } }, []);
 
   const sendCode = async (e) => {
     e.preventDefault(); setErr(''); setBusy(true);
@@ -390,7 +459,9 @@ function Login({ ctx }) {
     <div><h1 class="h1" style="font-size:36px">כניסה<span style="color:var(--gold)">.</span></h1>
       <p class="sub" style="font-size:15px;margin:6px 0 0">${DEMO ? 'מצב הדגמה: בוחרים מי נכנס. הנתונים נשמרים רק בדפדפן הזה.' : 'בלי סיסמה. שולחים קוד למייל, ונכנסים איתו.'}</p></div>
     ${DEMO ? html`<section class="card list">${people.map((p) => html`<button class="row" style="width:100%;border:0;background:none;text-align:right" onClick=${async () => { await store.demoSignIn(p.id); ctx.reload(); }}>
-        <span class="av">${initial(p)}</span><div class="body"><div class="t">${p.name}</div><div class="meta">${p.title || ''}</div></div>${I.next()}</button>`)}</section>`
+        <span class="av">${initial(p)}</span><div class="body"><div class="t">${p.name}</div><div class="meta">${p.title || ''}</div></div>${I.next()}</button>`)}
+        ${invited.map((i) => html`<button class="row" style="width:100%;border:0;background:none;text-align:right" onClick=${async () => { await store.demoClaim(i.email); ctx.reload(); }}>
+        <span class="av light">${initial(i)}</span><div class="body"><div class="t">${i.name}</div><div class="meta"><span class="pill p2">הוזמן · כניסה ראשונה</span></div></div>${I.next()}</button>`)}</section>`
     : step === 'email' ? html`<form onSubmit=${sendCode} style="display:flex;flex-direction:column;gap:12px">
         <label class="lbl" for="em">אימייל</label>
         <input id="em" type="email" class="field" dir="ltr" autocomplete="email" required value=${email} onInput=${(e) => setEmail(e.target.value)} />
@@ -424,8 +495,11 @@ function App() {
     try {
       const me = await store.session();
       if (!me) return setState({ loading: false, me: null });
-      const [profiles, areas, tasks] = await Promise.all([store.profiles(), store.areas(), store.tasks()]);
-      setState({ loading: false, me, profiles, areas, tasks });
+      if (me.noAccess) return setState({ loading: false, me: null, noAccess: me });
+      const [profiles, areas, tasks, invites] = await Promise.all([
+        store.profiles(), store.areas(), store.tasks(), me.role === 'owner' ? store.invites() : [],
+      ]);
+      setState({ loading: false, me, profiles, areas, tasks, invites, team: profiles.filter((p) => p.active !== false) });
     } catch (e) { setState({ loading: false, error: e.message }); }
   };
   useEffect(() => { reload(); return onChange(reload); }, []);
@@ -433,6 +507,7 @@ function App() {
   if (state.loading) return html`<div class="login"><div class="sub">טוען…</div></div>`;
   if (state.error) return html`<div class="login"><div class="err">שגיאה: ${state.error}</div><button class="btn" onClick=${reload}>לנסות שוב</button></div>`;
   const ctx = { ...state, store, reload };
+  if (state.noAccess) return html`<${NoAccess} email=${state.noAccess.email} />`;
   if (!state.me) return html`<${Login} ctx=${ctx} />`;
 
   const openAdd = (preset = {}) => setSheet(preset);

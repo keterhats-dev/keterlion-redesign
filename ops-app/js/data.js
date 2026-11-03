@@ -41,9 +41,10 @@ function seed() {
   ];
   return {
     profiles: [
-      { id: owner, name: 'בעל העסק', role: 'owner', title: 'בעלים' },
-      { id: ari, name: 'ארי', role: 'staff', title: 'מנהל מערכת ותפעול' },
+      { id: owner, name: 'בעל העסק', role: 'owner', title: 'בעלים', email: null, active: true },
+      { id: ari, name: 'ארי', role: 'staff', title: 'מנהל מערכת ותפעול', email: null, active: true },
     ],
+    invites: [],
     areas: AREAS,
     tasks,
     checklist: ['לבדוק מלאי', 'חשבונית', 'לארוז', 'שליח'].map((text, i) => ({ id: uid(), task_id: wholesale.id, text, done: i < 2, sort: i })),
@@ -58,7 +59,7 @@ function seed() {
 }
 
 function load() {
-  try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.tasks) return s; } catch {}
+  try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.tasks) { s.invites ||= []; return s; } } catch {}
   const s = seed(); save(s); return s;
 }
 function save(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch {} }
@@ -72,8 +73,30 @@ const withCounts = (db, t) => {
 
 const demo = {
   demo: true,
-  async session() { const db = load(); return db.session ? db.profiles.find((p) => p.id === db.session) || null : null; },
+  async session() {
+    const db = load(); const p = db.session && db.profiles.find((x) => x.id === db.session);
+    return p ? (p.active === false ? { noAccess: true, email: p.name } : p) : null;
+  },
   async demoSignIn(id) { const db = load(); db.session = id; save(db); emit(); },
+  // First login of an invited person: the invite becomes a profile (claim_invite() in the real database)
+  async demoClaim(email) {
+    const db = load(); const inv = db.invites.find((i) => i.email === email); if (!inv) return;
+    const p = { id: uid(), name: inv.name, role: inv.role, title: inv.title, email: inv.email, active: true };
+    db.profiles.push(p); db.invites = db.invites.filter((i) => i !== inv); db.session = p.id; save(db); emit();
+  },
+  async invites() { return load().invites; },
+  async invite(inv) {
+    const db = load(); const email = inv.email.trim().toLowerCase();
+    if (db.invites.some((i) => i.email === email) || db.profiles.some((p) => p.email === email && p.active !== false)) throw new Error('האימייל הזה כבר בצוות');
+    db.invites.push({ ...inv, email, created_at: new Date().toISOString() }); save(db); emit();
+  },
+  async cancelInvite(email) { const db = load(); db.invites = db.invites.filter((i) => i.email !== email); save(db); emit(); },
+  async updateMember(id, patch) { const db = load(); Object.assign(db.profiles.find((p) => p.id === id) || {}, patch); save(db); emit(); },
+  async removeMember(id, reassignTo) {
+    const db = load();
+    db.tasks.forEach((t) => { if (t.assignee_id === id && t.status !== 'done') t.assignee_id = reassignTo; });
+    Object.assign(db.profiles.find((p) => p.id === id) || {}, { active: false }); save(db); emit();
+  },
   async sendCode() { throw new Error('demo'); },
   async verifyCode() { throw new Error('demo'); },
   async signOut() { const db = load(); db.session = null; save(db); emit(); },
@@ -131,9 +154,25 @@ const live = {
   async session() {
     const c = await client(); const { data } = await c.auth.getSession();
     if (!data.session) return null;
-    return must(await c.from('profiles').select('*').eq('id', data.session.user.id).maybeSingle());
+    // Returns my profile, or creates it from my invite on the first login
+    const p = must(await c.rpc('claim_invite'));
+    if (!p || !p.id || p.active === false) return { noAccess: true, email: data.session.user.email };
+    return p;
   },
-  async sendCode(email) { const c = await client(); must(await c.auth.signInWithOtp({ email, options: { shouldCreateUser: false } })); },
+  async sendCode(email) { const c = await client(); must(await c.auth.signInWithOtp({ email, options: { shouldCreateUser: true } })); },
+  async invites() { const c = await client(); return must(await c.from('team_invites').select('*').order('created_at')); },
+  async invite(inv) {
+    const c = await client();
+    const { error } = await c.from('team_invites').insert({ ...inv, email: inv.email.trim().toLowerCase() });
+    if (error) throw new Error(error.code === '23505' ? 'האימייל הזה כבר הוזמן' : error.message);
+  },
+  async cancelInvite(email) { const c = await client(); must(await c.from('team_invites').delete().eq('email', email)); },
+  async updateMember(id, patch) { const c = await client(); must(await c.from('profiles').update(patch).eq('id', id)); },
+  async removeMember(id, reassignTo) {
+    const c = await client();
+    must(await c.from('tasks').update({ assignee_id: reassignTo }).eq('assignee_id', id).neq('status', 'done'));
+    must(await c.from('profiles').update({ active: false }).eq('id', id));
+  },
   async verifyCode(email, token) { const c = await client(); must(await c.auth.verifyOtp({ email, token, type: 'email' })); emit(); },
   async signOut() { const c = await client(); await c.auth.signOut(); emit(); },
   async profiles() { const c = await client(); return must(await c.from('profiles').select('*').order('created_at')); },
@@ -175,7 +214,7 @@ const live = {
 };
 
 // Refresh this screen right after a write, without waiting for the realtime echo
-for (const k of ['createTask', 'updateTask', 'deleteTask', 'addCheck', 'setCheck', 'addComment']) {
+for (const k of ['createTask', 'updateTask', 'deleteTask', 'addCheck', 'setCheck', 'addComment', 'invite', 'cancelInvite', 'updateMember', 'removeMember']) {
   const f = live[k];
   live[k] = async (...a) => { const r = await f(...a); emit(); return r; };
 }

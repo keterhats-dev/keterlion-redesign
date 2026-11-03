@@ -1,12 +1,24 @@
 -- Keterlion ops app: tables and access rules.
 -- Run once in Supabase: SQL Editor -> New query -> paste -> Run.
--- Login is by email code only, and only for people who have a row in profiles (invite only).
+-- Login is by email code. Only invited people get in: a manager adds them to team_invites
+-- from the app, and on their first login claim_invite() turns the invite into a profile.
 
 create table if not exists profiles (
   id uuid primary key references auth.users on delete cascade,
   name text not null,
+  role text not null default 'staff' check (role in ('owner', 'staff')), -- owner = manager
+  title text,
+  email text,
+  active boolean not null default true, -- false = removed from the team, keeps their history
+  created_at timestamptz not null default now()
+);
+
+create table if not exists team_invites (
+  email text primary key, -- lower case
+  name text not null,
   role text not null default 'staff' check (role in ('owner', 'staff')),
   title text,
+  invited_by uuid references profiles default auth.uid(),
   created_at timestamptz not null default now()
 );
 
@@ -68,12 +80,35 @@ begin new.updated_at = now(); return new; end $$;
 drop trigger if exists tasks_touch on tasks;
 create trigger tasks_touch before update on tasks for each row execute function touch_updated_at();
 
--- Access: everyone on the team (has a profile) sees and edits everything. Small team, one board.
-create or replace function is_team() returns boolean language sql stable security definer as $$
-  select exists (select 1 from profiles where id = auth.uid())
+-- Access: everyone on the team (active profile) sees and edits all tasks. Small team, one board.
+-- Only managers add, change or remove team members.
+create or replace function is_team() returns boolean language sql stable security definer set search_path = public as $$
+  select exists (select 1 from profiles where id = auth.uid() and active)
+$$;
+create or replace function is_owner() returns boolean language sql stable security definer set search_path = public as $$
+  select exists (select 1 from profiles where id = auth.uid() and active and role = 'owner')
 $$;
 
+-- Called by the app after login: returns my profile, creating it from my invite on first login
+create or replace function claim_invite() returns profiles language plpgsql security definer set search_path = public as $$
+declare inv team_invites; p profiles;
+begin
+  select * into p from profiles where id = auth.uid();
+  if found then return p; end if;
+  select * into inv from team_invites where email = lower(auth.jwt() ->> 'email');
+  if not found then return null; end if;
+  insert into profiles (id, name, role, title, email) values (auth.uid(), inv.name, inv.role, inv.title, inv.email) returning * into p;
+  delete from team_invites where email = inv.email;
+  return p;
+end $$;
+
+alter table team_invites enable row level security;
+drop policy if exists owner_all on team_invites;
+create policy owner_all on team_invites for all using (is_owner()) with check (is_owner());
+
 alter table profiles enable row level security;
+drop policy if exists owner_update on profiles;
+create policy owner_update on profiles for update using (is_owner()) with check (is_owner());
 alter table areas enable row level security;
 alter table tasks enable row level security;
 alter table checklist_items enable row level security;
@@ -91,4 +126,7 @@ drop policy if exists team_all on comments;
 create policy team_all on comments for all using (is_team()) with check (is_team());
 
 -- Live updates on both phones
-alter publication supabase_realtime add table tasks, checklist_items, comments;
+alter publication supabase_realtime add table tasks, checklist_items, comments, profiles, team_invites;
+
+-- The first manager. Put your own email and name, run, then log in from the app:
+-- insert into team_invites (email, name, role, title) values ('you@example.com', 'השם שלך', 'owner', 'בעלים');
