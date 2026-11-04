@@ -380,7 +380,7 @@ function OrderRow({ o, ctx, onOpen }) {
       <div class="meta" style="margin:0 0 4px"><span style="font-weight:600">${ORDER_SOURCE[o.source]}${o.number ? ` · #${o.number}` : ''}</span>
         <span class=${'pill ' + st.cls}>${st.label}</span>
         ${who ? html`<span style="display:inline-flex;align-items:center;gap:4px"><span class=${'av sm' + (who.id === ctx.me.id ? '' : ' light')} style="width:20px;height:20px;font-size:10px">${initial(who)}</span>${who.id === ctx.me.id ? 'אצלי' : who.name}</span>`
-          : isOpenOrder(o) && html`<span>בלי אחראי</span>`}</div>
+          : ''}</div>
       <div class="t">${o.customer}</div>
       <div class="meta">
         ${o.items && html`<span>${o.items}</span>`}
@@ -406,7 +406,8 @@ function OrdersList({ ctx, compact, onOpen }) {
   const byWho = (o) => whoF === 'all' || (whoF === 'mine' ? o.assignee_id === ctx.me.id : whoF === 'none' ? !o.assignee_id : o.assignee_id === whoF);
   const allOpen = ctx.orders.filter(isOpenOrder);
   const count = (f) => allOpen.filter(f).length;
-  const others = ctx.team.filter((p) => p.id !== ctx.me.id);
+  // Only a manager sees other people's orders, so only they get a chip per person
+  const others = ctx.me.role === 'owner' ? ctx.team.filter((p) => p.id !== ctx.me.id) : [];
   const open = allOpen.filter(byWho).filter((o) => src === 'all' || o.source === src).sort(sortOrders);
   const today = todayISO();
   const closedToday = ctx.orders.filter((o) => o.status === 'done' && o.closed_at && iso(new Date(o.closed_at)) === today);
@@ -417,7 +418,6 @@ function OrdersList({ ctx, compact, onOpen }) {
     ${!compact && html`<div class="chips" role="group" aria-label="סינון לפי מטפל">
       ${whoChip('mine', 'שלי', count((o) => o.assignee_id === ctx.me.id))}
       ${others.map((p) => whoChip(p.id, `של ${p.name}`, count((o) => o.assignee_id === p.id)))}
-      ${whoChip('none', 'בלי אחראי', count((o) => !o.assignee_id))}
       ${whoChip('all', 'הכול', allOpen.length)}
     </div>`}
     ${!compact && used.length > 1 && html`<div class="chips" role="group" aria-label="סינון לפי מקור">
@@ -446,9 +446,10 @@ function OrderSheet({ ctx, order, onClose }) {
   const [f, setF] = useState({
     source: order.source || 'site', number: order.number || '', customer: order.customer || '', items: order.items || '',
     amount: order.amount ?? '', due_date: order.due_date || '', status: order.status || 'new', notes: order.notes || '',
-    assignee_id: order.assignee_id || '',
+    assignee_id: order.assignee_id || ctx.me.id, // every order has a handler; by default whoever adds it
   });
   const manager = ctx.me.role === 'owner';
+  const canPick = manager || isNew;
   const handler = ctx.profiles.find((p) => p.id === order.assignee_id);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
@@ -458,14 +459,14 @@ function OrderSheet({ ctx, order, onClose }) {
     if (!f.customer.trim()) return setErr('צריך לכתוב למי ההזמנה');
     const data = { source: f.source, number: f.number.trim() || null, customer: f.customer.trim(), items: f.items.trim() || null,
       amount: f.amount === '' ? null : Number(f.amount), due_date: f.due_date || null, status: f.status, notes: f.notes.trim() || null };
-    // Only a manager picks the handler (the database enforces it too)
+    // Anyone picks the handler of a new order; changing it later is for a manager (the database enforces it too)
     const newHandler = f.assignee_id || null;
-    if (manager) data.assignee_id = newHandler;
+    if (canPick) data.assignee_id = newHandler;
     setBusy(true);
     try {
       const saved = await (isNew ? ctx.store.createOrder(data) : ctx.store.updateOrder(order.id, data));
       const id = isNew ? saved?.id : order.id;
-      if (manager && id && newHandler && newHandler !== ctx.me.id && newHandler !== (order.assignee_id || null)) ctx.store.notify({ order_id: id });
+      if (canPick && id && newHandler && newHandler !== ctx.me.id && newHandler !== (order.assignee_id || null)) ctx.store.notify({ order_id: id });
       onClose();
     }
     catch (x) { setErr('לא נשמר: ' + x.message); setBusy(false); }
@@ -488,9 +489,9 @@ function OrderSheet({ ctx, order, onClose }) {
       </div>
       <div class="two">
         <div><label class="lbl" for="od">להכין עד</label><input id="od" type="date" class="field soft" value=${f.due_date} onInput=${set('due_date')} /></div>
-        ${manager ? html`<div><label class="lbl" for="oh">מטפל</label><select id="oh" class="field soft" value=${f.assignee_id} onChange=${set('assignee_id')}>
-            <option value="">בלי אחראי</option>${ctx.team.map((p) => html`<option value=${p.id}>${p.name}</option>`)}</select></div>`
-          : html`<div><span class="lbl">מטפל</span><div class="field soft" style="display:flex;align-items:center;color:var(--muted)">${handler ? handler.name : 'ייקבע כשמתחילים להכין'}</div></div>`}
+        ${canPick ? html`<div><label class="lbl" for="oh">מטפל</label><select id="oh" class="field soft" value=${f.assignee_id} onChange=${set('assignee_id')}>
+            ${ctx.team.map((p) => html`<option value=${p.id}>${p.id === ctx.me.id ? `${p.name} (אני)` : p.name}</option>`)}</select></div>`
+          : html`<div><span class="lbl">מטפל</span><div class="field soft" style="display:flex;align-items:center;color:var(--muted)">${handler ? handler.name : ''}</div></div>`}
       </div>
       <div><span class="lbl">סטטוס</span><div class="seg" style="grid-template-columns:repeat(4,minmax(0,1fr))">
         ${['new', 'preparing', 'ready', 'done'].map((k) => html`<button type="button" class=${f.status === k ? 'on' : ''} onClick=${() => set('status')(k)}>${ORDER_STATUS[k].label}</button>`)}

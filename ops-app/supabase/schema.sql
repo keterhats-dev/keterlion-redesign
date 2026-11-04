@@ -87,7 +87,7 @@ create table if not exists orders (
   status text not null default 'new' check (status in ('new', 'preparing', 'ready', 'done', 'cancelled')),
   due_date date,
   notes text,
-  assignee_id uuid references profiles, -- who handles it; only a manager picks, others take an unhandled one
+  assignee_id uuid references profiles, -- who is responsible; required, see orders_assign_guard below
   created_by uuid references profiles default auth.uid(),
   closed_at timestamptz,
   created_at timestamptz not null default now(),
@@ -162,24 +162,39 @@ drop policy if exists team_read on profiles;
 create policy team_read on profiles for select using (is_team());
 drop policy if exists team_read on areas;
 create policy team_read on areas for select using (is_team());
+-- Only a manager sees what is happening with everyone (4.11.2026). Anyone else sees the tasks
+-- given to them or by them, and the orders they handle or opened. Anyone can give a task or
+-- open an order for someone else.
+create or replace function can_see_task(p_task uuid) returns boolean language sql stable security definer set search_path = public as $$
+  select exists (select 1 from tasks t where t.id = p_task and (is_owner() or t.assignee_id = auth.uid() or t.created_by = auth.uid()))
+$$;
 drop policy if exists team_all on tasks;
-create policy team_all on tasks for all using (is_team()) with check (is_team());
+drop policy if exists tasks_read on tasks;
+drop policy if exists tasks_add on tasks;
+drop policy if exists tasks_change on tasks;
+drop policy if exists tasks_remove on tasks;
+create policy tasks_read on tasks for select using (is_team() and (is_owner() or assignee_id = auth.uid() or created_by = auth.uid()));
+create policy tasks_add on tasks for insert with check (is_team());
+create policy tasks_change on tasks for update using (is_team() and (is_owner() or assignee_id = auth.uid() or created_by = auth.uid())) with check (is_team());
+create policy tasks_remove on tasks for delete using (is_team() and (is_owner() or assignee_id = auth.uid() or created_by = auth.uid()));
 drop policy if exists team_all on checklist_items;
-create policy team_all on checklist_items for all using (is_team()) with check (is_team());
+drop policy if exists task_people on checklist_items;
+create policy task_people on checklist_items for all using (is_team() and can_see_task(task_id)) with check (is_team() and can_see_task(task_id));
 drop policy if exists team_all on comments;
-create policy team_all on comments for all using (is_team()) with check (is_team());
--- Only a manager chooses who handles an order. Anyone else can only take an order nobody has.
+drop policy if exists task_people on comments;
+create policy task_people on comments for all using (is_team() and can_see_task(task_id)) with check (is_team() and can_see_task(task_id));
+
+-- Every order has someone responsible: whoever opened it, unless they picked someone.
+-- Moving an order to someone else later is for a manager.
+alter table orders alter column assignee_id set default auth.uid();
+alter table orders alter column assignee_id set not null;
 create or replace function orders_assign_guard() returns trigger language plpgsql security definer set search_path = public as $$
 begin
-  if is_owner() then return new; end if;
   if tg_op = 'INSERT' then
-    if new.assignee_id is not null and new.assignee_id <> auth.uid() then new.assignee_id := null; end if;
+    new.assignee_id := coalesce(new.assignee_id, auth.uid());
     return new;
   end if;
-  if new.assignee_id is distinct from old.assignee_id
-     and not (old.assignee_id is null and new.assignee_id = auth.uid()) then
-    new.assignee_id := old.assignee_id;
-  end if;
+  if not is_owner() then new.assignee_id := old.assignee_id; end if;
   return new;
 end $$;
 drop trigger if exists orders_assign_guard on orders;
@@ -196,10 +211,18 @@ drop trigger if exists deals_seller_guard on deals;
 create trigger deals_seller_guard before insert or update on deals for each row execute function deals_seller_guard();
 alter table deals enable row level security;
 drop policy if exists team_all on deals;
-create policy team_all on deals for all using (is_team()) with check (is_team());
+drop policy if exists deals_own on deals;
+create policy deals_own on deals for all using (is_team() and (is_owner() or seller_id = auth.uid())) with check (is_team());
 alter table orders enable row level security;
 drop policy if exists team_all on orders;
-create policy team_all on orders for all using (is_team()) with check (is_team());
+drop policy if exists orders_read on orders;
+drop policy if exists orders_add on orders;
+drop policy if exists orders_change on orders;
+drop policy if exists orders_remove on orders;
+create policy orders_read on orders for select using (is_team() and (is_owner() or assignee_id = auth.uid() or created_by = auth.uid()));
+create policy orders_add on orders for insert with check (is_team());
+create policy orders_change on orders for update using (is_team() and (is_owner() or assignee_id = auth.uid() or created_by = auth.uid())) with check (is_team());
+create policy orders_remove on orders for delete using (is_team() and (is_owner() or assignee_id = auth.uid() or created_by = auth.uid()));
 
 -- Phone notifications (Web Push). Each person sees only their own devices;
 -- the notify function reads the assignee's devices through push_targets().

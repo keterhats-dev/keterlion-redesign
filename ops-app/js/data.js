@@ -63,9 +63,9 @@ function seed() {
     ],
     invites: [],
     orders: [
-      { id: uid(), source: 'site', number: '[מספר]', customer: '[שם הלקוח]', items: '2 כובעים', amount: null, status: 'new', due_date: null, notes: null, created_at: at(0, 9), updated_at: at(0, 9), closed_at: null },
-      { id: uid(), source: 'wholesale', number: null, customer: '[שם העסק]', items: '[כמות] כובעים ממותגים', amount: null, status: 'preparing', due_date: t, notes: null, created_at: at(-1, 12), updated_at: at(-1, 12), closed_at: null },
-      { id: uid(), source: 'wolt', number: null, customer: 'Wolt', items: 'כובע אחד, איסוף מהחנות', amount: null, status: 'ready', due_date: t, notes: null, created_at: at(0, 11), updated_at: at(0, 11), closed_at: null },
+      { id: uid(), source: 'site', number: '[מספר]', customer: '[שם הלקוח]', items: '2 כובעים', amount: null, status: 'new', due_date: null, notes: null, assignee_id: ari, created_by: owner, created_at: at(0, 9), updated_at: at(0, 9), closed_at: null },
+      { id: uid(), source: 'wholesale', number: null, customer: '[שם העסק]', items: '[כמות] כובעים ממותגים', amount: null, status: 'preparing', due_date: t, notes: null, assignee_id: ari, created_by: ari, created_at: at(-1, 12), updated_at: at(-1, 12), closed_at: null },
+      { id: uid(), source: 'wolt', number: null, customer: 'Wolt', items: 'כובע אחד, איסוף מהחנות', amount: null, status: 'ready', due_date: t, notes: null, assignee_id: owner, created_by: owner, created_at: at(0, 11), updated_at: at(0, 11), closed_at: null },
     ],
     areas: AREAS,
     tasks,
@@ -86,6 +86,12 @@ function load() {
 }
 function save(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch {} }
 window.addEventListener('storage', (e) => { if (e.key === KEY) emit(); });
+
+// Same visibility as the database rules: a manager sees everything; anyone else sees
+// tasks given to them or that they gave, and orders they handle or added
+const viewer = (db) => { const me = db.profiles.find((p) => p.id === db.session); return me?.role === 'owner' ? null : me?.id; };
+const seesTask = (who, t) => !who || t.assignee_id === who || t.created_by === who;
+const seesOrder = (who, o) => !who || o.assignee_id === who || o.created_by === who;
 
 const withCounts = (db, t) => {
   const items = db.checklist.filter((c) => c.task_id === t.id);
@@ -124,9 +130,9 @@ const demo = {
   async signOut() { const db = load(); db.session = null; save(db); emit(); },
   async profiles() { return load().profiles; },
   async areas() { return load().areas; },
-  async tasks() { const db = load(); return db.tasks.map((t) => withCounts(db, t)); },
+  async tasks() { const db = load(); const who = viewer(db); return db.tasks.filter((t) => seesTask(who, t)).map((t) => withCounts(db, t)); },
   async task(id) {
-    const db = load(); const t = db.tasks.find((x) => x.id === id); if (!t) return null;
+    const db = load(); const t = db.tasks.find((x) => x.id === id); if (!t || !seesTask(viewer(db), t)) return null;
     return { ...withCounts(db, t),
       checklist: db.checklist.filter((c) => c.task_id === id).sort((a, b) => a.sort - b.sort),
       comments: db.comments.filter((c) => c.task_id === id).sort((a, b) => (a.created_at < b.created_at ? -1 : 1)) };
@@ -164,10 +170,11 @@ const demo = {
   async setCheck(id, done) { const db = load(); const c = db.checklist.find((x) => x.id === id); if (c) c.done = done; save(db); emit(); },
   async addComment(task_id, body, me) { const db = load(); db.comments.push({ id: uid(), task_id, author_id: me.id, kind: 'comment', body, created_at: new Date().toISOString() }); save(db); emit(); },
   async resetDemo() { const s = seed(); save(s); emit(); },
-  async orders() { return load().orders; },
+  async orders() { const db = load(); const who = viewer(db); return db.orders.filter((o) => seesOrder(who, o)); },
   async createOrder(data) {
     const db = load(); const now = new Date().toISOString();
-    const o = { id: uid(), source: 'site', status: 'new', number: null, items: null, amount: null, due_date: null, notes: null, closed_at: null, assignee_id: null, ...data, created_at: now, updated_at: now };
+    const o = { id: uid(), source: 'site', status: 'new', number: null, items: null, amount: null, due_date: null, notes: null, closed_at: null, ...data, created_by: db.session, created_at: now, updated_at: now };
+    o.assignee_id ||= db.session; // every order has a handler: the one who added it, unless they picked someone
     db.orders.push(o); save(db); emit(); return o;
   },
   async updateOrder(id, patch) {
