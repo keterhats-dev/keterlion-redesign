@@ -66,6 +66,9 @@ body:has(#zakeke-container) .klp-bar{display:none}
   .kl-picker .klp-arr.prev{right:8px}
   .kl-picker .klp-arr.next{left:8px}
 }
-/* 4.11.2026: the page heading is one line, "בחירת סוג כובע וגזרה" (paragraph d398253; the line under it, 64d5cb7, was deleted) */
-.elementor-22544 [data-id="d398253"]{font-family:Heebo,sans-serif;font-size:30px !important;font-weight:900 !important;line-height:1.15 !important;color:#171717 !important;letter-spacing:0 !important;text-transform:none !important;margin:0 0 6px !important}
-@media (max-width:767px){.elementor-22544 [data-id="d398253"]{font-size:26px !important}}
+/* 4.11.2026: page heading "KETERLION BY YOU." with a gold bar and dot (d398253), and one grey line under it (ddf51d2) */
+.elementor-22544 [data-id="d398253"]{font-family:Heebo,sans-serif !important;font-size:34px !important;font-weight:900 !important;letter-spacing:.03em !important;line-height:1.05 !important;direction:ltr;text-align:right;color:#171717 !important;text-transform:none !important;margin:0 0 8px !important}
+.elementor-22544 [data-id="d398253"]::before{content:"";display:block;width:28px;height:4px;background:#AE8E42;margin:0 0 14px auto}
+.elementor-22544 [data-id="d398253"]::after{content:".";color:#AE8E42}
+.elementor-22544 [data-id="ddf51d2"]{font-family:Heebo,sans-serif !important;font-size:18px !important;font-weight:500 !important;line-height:1.4 !important;color:#6B6B69 !important;letter-spacing:0 !important;text-transform:none !important;margin:0 0 4px !important}
+@media (max-width:767px){.elementor-22544 [data-id="d398253"]{font-size:30px !important}}
