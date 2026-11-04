@@ -247,6 +247,37 @@ create or replace function remove_push(p_endpoint text) returns void language sq
   delete from push_subscriptions where endpoint = p_endpoint and is_team()
 $$;
 
+-- Google Calendar sync: each person gets a secret link (/cal/<token>) to a feed of their dated, open tasks.
+-- Only they can read their token; the feed function asks calendar_feed() with the token alone.
+create table if not exists calendar_feeds (
+  user_id uuid primary key default auth.uid() references profiles on delete cascade,
+  token uuid not null unique default gen_random_uuid(),
+  created_at timestamptz not null default now()
+);
+alter table calendar_feeds enable row level security;
+drop policy if exists own on calendar_feeds;
+create policy own on calendar_feeds for all using (user_id = auth.uid()) with check (user_id = auth.uid());
+create or replace function my_calendar_token() returns uuid language plpgsql security definer set search_path = public as $$
+declare t uuid;
+begin
+  if not is_team() then return null; end if;
+  select token into t from calendar_feeds where user_id = auth.uid();
+  if t is null then insert into calendar_feeds (user_id) values (auth.uid()) returning token into t; end if;
+  return t;
+end $$;
+create or replace function calendar_feed(p_token uuid)
+returns table (id uuid, title text, priority smallint, due_date date, due_time time, area text, updated_at timestamptz)
+language sql stable security definer set search_path = public as $$
+  select t.id, t.title, t.priority, t.due_date, t.due_time, a.name, t.updated_at
+  from calendar_feeds f
+  join profiles p on p.id = f.user_id and p.active
+  join tasks t on t.assignee_id = f.user_id
+  left join areas a on a.id = t.area_id
+  where f.token = p_token and t.due_date is not null and t.status <> 'done' and t.due_date >= current_date - 30
+$$;
+revoke all on function calendar_feed(uuid) from public;
+grant execute on function calendar_feed(uuid) to anon, authenticated;
+
 -- Live updates on both phones
 alter publication supabase_realtime add table tasks, checklist_items, comments, profiles, team_invites, orders, deals;
 

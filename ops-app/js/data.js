@@ -164,6 +164,7 @@ const demo = {
   },
   async savePush() { throw new Error('בהדגמה אין התראות'); },
   async pushStatus() { return []; },
+  async calendarToken() { return null; },
   async notify() {},
   async deleteTask(id) { const db = load(); db.tasks = db.tasks.filter((t) => t.id !== id); save(db); emit(); },
   async addCheck(task_id, text) { const db = load(); db.checklist.push({ id: uid(), task_id, text, done: false, sort: db.checklist.length }); save(db); emit(); },
@@ -294,6 +295,8 @@ const live = {
     const c = await client(); const k = sub.keys || {};
     must(await c.from('push_subscriptions').upsert({ endpoint: sub.endpoint, p256dh: k.p256dh, auth: k.auth }));
   },
+  // Personal secret for the calendar feed (/cal/<token>), created on first use
+  async calendarToken() { const c = await client(); return must(await c.rpc('my_calendar_token')); },
   async pushStatus() {
     const c = await client(); const { data } = await c.rpc('push_status');
     return (data || []).map((r) => (typeof r === 'string' ? r : r.push_status));

@@ -128,6 +128,7 @@ function TaskRow({ t, ctx, showWho }) {
       </div>
     </a>
     ${!done && t.check_total > 0 && html`<span class="count">${t.check_done}/${t.check_total}</span>`}
+    ${!done && t.due_date && html`<a class="cal-btn" href=${gcalLink(t)} target="_blank" rel="noopener" aria-label="להוסיף ליומן Google" title="להוסיף ליומן Google">${I.cal(16)}</a>`}
   </div>`;
 }
 
@@ -160,7 +161,7 @@ function Today({ ctx, personId, openAdd, openOrder }) {
     <div class="top">
       <div class="who">
         ${!self && html`<a class="icon-btn" href="#/team" aria-label="חזרה לצוות">${I.back()}</a>`}
-        <span class="av">${initial(person)}</span>
+        ${self ? html`<a class="av" href="#/me" aria-label="ההגדרות שלי" style="text-decoration:none">${initial(person)}</a>` : html`<span class="av">${initial(person)}</span>`}
         <div><div class="sub">${self ? `${greeting()}, ${person.name}` : person.title || ''}</div>
         <h1 class="h1">${self ? 'היום' : `המשימות של ${person.name}`}<span style="color:var(--gold)">.</span></h1>
         <div class="sub">${longDate(today)}</div></div>
@@ -235,6 +236,8 @@ function AddSheet({ ctx, preset, onClose }) {
     try {
       const created = await ctx.store.createTask({ title: parsed.title, notes: notes || null, ...val }, ctx.me);
       if (val.assignee_id !== ctx.me.id) ctx.store.notify(created.id);
+      // A dated task of my own: offer it to my Google Calendar right away
+      if (val.due_date && val.assignee_id === ctx.me.id) ctx.toast({ text: 'המשימה נוספה', action: 'להוסיף ליומן Google', href: gcalLink({ ...val, title: parsed.title }) });
       onClose();
     }
     catch (err) { alert('לא נשמר: ' + err.message); setBusy(false); }
@@ -781,6 +784,61 @@ function MemberSheet({ ctx, member, onClose }) {
   </div>`;
 }
 
+/* ---------- ההגדרות שלי: התראות, סנכרון ליומן Google, יציאה ---------- */
+function Me({ ctx }) {
+  const [feed, setFeed] = useState(null);
+  const [err, setErr] = useState('');
+  const [copied, setCopied] = useState(false);
+  const pushState = !pushSupported() ? (isIOSBrowser() ? 'ios' : 'none') : Notification.permission;
+  const getFeed = async () => {
+    setErr('');
+    try {
+      const token = await ctx.store.calendarToken();
+      if (!token) throw new Error('אין קישור');
+      const url = `${location.origin}/cal/${token}`;
+      setFeed(url); return url;
+    } catch (e) { setErr('לא הצלחנו ליצור קישור: ' + e.message); return null; }
+  };
+  const addToGoogle = async () => {
+    const url = feed || (await getFeed()); if (!url) return;
+    window.open('https://calendar.google.com/calendar/render?cid=' + encodeURIComponent(url.replace(/^https?:/, 'webcal:')), '_blank', 'noopener');
+  };
+  const copy = async () => {
+    const url = feed || (await getFeed()); if (!url) return;
+    try { await navigator.clipboard.writeText(url); setCopied(true); setTimeout(() => setCopied(false), 2500); } catch { setErr('לא הצלחנו להעתיק. אפשר לסמן את הקישור ולהעתיק ידנית'); }
+  };
+
+  return html`<main class="page">
+    <div class="who"><span class="av">${initial(ctx.me)}</span>
+      <div><h1 class="h1">${ctx.me.name}</h1><div class="sub">${ctx.me.title || ''}${ctx.me.role === 'owner' ? ' · מנהל' : ''}</div></div></div>
+
+    <section class="card" style="padding:16px;display:flex;flex-direction:column;gap:10px">
+      <h2 style="margin:0;font-size:17px;font-weight:700;display:flex;align-items:center;gap:8px">${I.cal(18)} סנכרון ליומן Google</h2>
+      <div class="sub" style="font-size:14px;line-height:1.6">המשימות שלך שיש להן תאריך יופיעו ביומן Google כלוח נפרד בשם "משימות כתרליון". מוסיפים פעם אחת, ומשם זה מתעדכן לבד.
+        גוגל מרענן את הלוח כל כמה שעות. משימה שצריכה להיכנס ליומן מיד: בתוך המשימה יש כפתור יומן.</div>
+      ${DEMO ? html`<div class="pill" style="align-self:flex-start">בהדגמה הסנכרון לא פעיל</div>` : html`
+        <button class="btn" onClick=${addToGoogle}>${I.cal(18)} להוסיף ליומן Google</button>
+        <button class="btn ghost" onClick=${copy}>${copied ? 'הקישור הועתק ✓' : 'להעתיק קישור (לאייפון או Outlook)'}</button>
+        ${feed && html`<div class="sub" dir="ltr" style="word-break:break-all;font-size:12px">${feed}</div>`}
+        <div class="sub" style="font-size:13px">הקישור אישי. מי שמחזיק בו יכול לראות את המשימות שלך ביומן, ולכן לא שולחים אותו לאחרים.</div>`}
+      ${err && html`<div class="err">${err}</div>`}
+    </section>
+
+    <section class="card" style="padding:16px;display:flex;flex-direction:column;gap:8px">
+      <h2 style="margin:0;font-size:17px;font-weight:700">התראות לטלפון</h2>
+      <div class="sub" style="font-size:14px">${pushState === 'granted' ? '✓ פועלות במכשיר הזה'
+        : pushState === 'denied' ? 'חסומות במכשיר הזה. מאפשרים אותן בהגדרות הטלפון או הדפדפן'
+        : pushState === 'ios' ? 'באייפון: מוסיפים את האפליקציה למסך הבית ופותחים אותה משם'
+        : pushState === 'none' ? 'המכשיר או הדפדפן הזה לא תומכים בהתראות'
+        : 'עוד לא הופעלו במכשיר הזה'}</div>
+      ${pushState === 'default' && html`<button class="btn sm" style="align-self:flex-start" onClick=${async () => {
+        if ((await Notification.requestPermission()) === 'granted') { await subscribePush().catch(() => {}); ctx.reload(); } }}>להפעיל התראות</button>`}
+    </section>
+
+    ${!DEMO && html`<button class="btn ghost" onClick=${() => store.signOut()}>${I.out()} יציאה מהמערכת</button>`}
+  </main>`;
+}
+
 function NoAccess({ email }) {
   return html`<main class="login">
     <div class="wordmark">KETERLION<i>.</i></div>
@@ -871,6 +929,8 @@ function App() {
   const [sheet, setSheet] = useState(null);
   const [order, setOrder] = useState(null);
   const [deal, setDeal] = useState(null);
+  const [toast, setToast] = useState(null);
+  useEffect(() => { if (!toast) return; const id = setTimeout(() => setToast(null), 9000); return () => clearTimeout(id); }, [toast]);
 
   const reload = async () => {
     try {
@@ -892,7 +952,7 @@ function App() {
 
   if (state.loading) return html`<div class="login"><div class="sub">טוען…</div></div>`;
   if (state.error) return html`<div class="login"><div class="err">שגיאה: ${state.error}</div><button class="btn" onClick=${reload}>לנסות שוב</button></div>`;
-  const ctx = { ...state, store, reload };
+  const ctx = { ...state, store, reload, toast: setToast };
   if (state.noAccess) return html`<${NoAccess} email=${state.noAccess.email} />`;
   if (!state.me) return html`<${Login} ctx=${ctx} />`;
 
@@ -908,6 +968,7 @@ function App() {
   else if (r0 === 'team' && state.me.role === 'owner') view = html`<${Team} ctx=${ctx} openAdd=${openAdd} />`;
   else if (r0 === 'person' && r1) view = html`<${Today} ctx=${ctx} personId=${r1} openAdd=${openAdd} openOrder=${openOrder} />`;
   else if (r0 === 'done') view = html`<${Done} ctx=${ctx} />`;
+  else if (r0 === 'me') view = html`<${Me} ctx=${ctx} />`;
   else view = html`<${Today} ctx=${ctx} openAdd=${openAdd} openOrder=${openOrder} />`;
   const onTask = r0 === 'task';
 
@@ -923,7 +984,9 @@ function App() {
     ${sheet && html`<${AddSheet} ctx=${ctx} preset=${sheet} onClose=${() => setSheet(null)} />`}
     ${order && html`<${OrderSheet} ctx=${ctx} order=${order} onClose=${() => setOrder(null)} />`}
     ${deal && html`<${DealSheet} ctx=${ctx} deal=${deal} onClose=${() => setDeal(null)} />`}
-    ${!DEMO && r0 !== 'task' && html`<button class="link" style="position:fixed;top:12px;left:12px" aria-label="יציאה" onClick=${() => store.signOut()}>${I.out()}</button>`}
+    ${toast && html`<div class="toast" role="status"><span>${toast.text}</span>
+      ${toast.href && html`<a href=${toast.href} target="_blank" rel="noopener" onClick=${() => setToast(null)}>${I.cal(15)} ${toast.action}</a>`}
+      <button aria-label="סגירה" onClick=${() => setToast(null)}>${I.x(14)}</button></div>`}
   </div>`;
 }
 
