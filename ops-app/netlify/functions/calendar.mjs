@@ -26,7 +26,9 @@ const fold = (line) => {
 };
 
 export default async (req) => {
-  const token = new URL(req.url).searchParams.get('t') || '';
+  // After the /cal/<token> rewrite the function still sees the original address, so read the path too
+  const url = new URL(req.url);
+  const token = url.searchParams.get('t') || url.pathname.split('/').filter(Boolean).pop() || '';
   if (!UUID.test(token)) return new Response('not found', { status: 404 });
 
   const r = await fetch(`${SB_URL}/rest/v1/rpc/calendar_feed`, {

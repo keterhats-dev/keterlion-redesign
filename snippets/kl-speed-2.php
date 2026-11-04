@@ -22,9 +22,11 @@
  *    jumped down when Heebo arrived (CLS 0.38 on the home page). It now keeps the height of two lines
  *    (46px with its padding) on phones; the text stays centred. Home page on a phone: CLS 0.38 -> 0.
  *
- * Not done (4.11.2026): removing first.removeAttribute('loading') in the card gallery (header widget
- * e28350b). Tested live for a few minutes and reverted: lazy first photos inside the gallery track
- * showed late while scrolling. B gave most of the saving anyway.
+ * Card gallery (not in this snippet; header widget e28350b, copy in snippets/kl-search-products.html):
+ * first try, removing first.removeAttribute('loading'), was reverted after a few minutes (lazy first
+ * photos inside the gallery track showed late while scrolling). What is live now (approved "yes, both"):
+ * a card's gallery is built only when the card is within 600px of the screen (IntersectionObserver),
+ * so far-away cards keep their normal lazy photo. /all-products/ on a phone: 11.5MB -> 5.8MB.
  *
  * To undo one part: delete its block below. To undo all: switch the snippet off.
  */
@@ -32,6 +34,18 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
 }
+
+/* D. Load the two Heebo files (Hebrew and Latin) early (approved "yes, both", 4.11.2026). After C and the
+ *    LiteSpeed change the page shows sooner, and the home page heading sometimes jumped (CLS 0.198)
+ *    when Heebo 900 arrived. With the preload: 0-0.0008 in 3 runs. Each file still downloads once. */
+add_action( 'wp_head', function () {
+	$up = wp_upload_dir();
+	foreach ( array( 'heebo-255b36d2.woff2', 'heebo-01a8f305.woff2' ) as $f ) {
+		if ( file_exists( $up['basedir'] . '/elementor/google-fonts/fonts/' . $f ) ) {
+			echo '<link rel="preload" href="' . esc_url( $up['baseurl'] . '/elementor/google-fonts/fonts/' . $f ) . '" as="font" type="font/woff2" crossorigin>' . "\n";
+		}
+	}
+}, 1 );
 
 /* B. sizes for product card photos ----------------------------------------------------------------- */
 add_filter( 'wp_get_attachment_image_attributes', function ( $attr, $attachment, $size ) {

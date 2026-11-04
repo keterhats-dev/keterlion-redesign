@@ -1,4 +1,4 @@
-<!-- Header HTML widget e28350b in KL Header 2026 (23925): site search = product search; parent menu items open their page; product card gallery. -->
+<!-- Header HTML widget e28350b in KL Header 2026 (23925): site search = product search; parent menu items open their page; product card gallery.  Speed (4.11.2026): a card gallery is built only when the card is within 600px of the screen; /all-products/ on a phone 11.5MB -> 5.8MB. -->
 <!-- KL: site search = product search. HTML widget (class kl-hidden) inside KL Header 2026 (23925).
      Any ?s= search without post_type is sent to the redesigned product archive (template 23976),
      and every search form on the page gets a hidden post_type=product. Added 21.10.2026. -->
@@ -47,8 +47,11 @@ var rtl=getComputedStyle(document.documentElement).direction==='rtl', hover=wind
 function pid(li){ var m=li.className.match(/\bpost-(\d+)\b/); if(m) return m[1]; var b=li.querySelector('[data-product_id]'); return b&&b.getAttribute('data-product_id'); }
 function scan(root){ (root||document).querySelectorAll('ul.products li.product').forEach(function(li){ if(seen.has(li)) return; seen.add(li); var id=pid(li); if(id) queue.push([li,id]); }); if(queue.length&&!timer) timer=setTimeout(flush,60); }
 function flush(){ timer=null; var batch=queue.splice(0,100); if(!batch.length) return;
-  fetch(API+'?per_page=100&include='+batch.map(function(x){return x[1];}).join(',')).then(function(r){ return r.json(); }).then(function(list){ var m={}; list.forEach(function(p){ m[p.id]=p.images||[]; }); batch.forEach(function(x){ build(x[0],m[x[1]]||[]); }); }).catch(function(){});
+  fetch(API+'?per_page=100&include='+batch.map(function(x){return x[1];}).join(',')).then(function(r){ return r.json(); }).then(function(list){ var m={}; list.forEach(function(p){ m[p.id]=p.images||[]; }); batch.forEach(function(x){ later(x[0],m[x[1]]||[]); }); }).catch(function(){});
   if(queue.length) timer=setTimeout(flush,60); }
+/* 4.11.2026 (speed): build a card's gallery only when the card is near the screen, so far-away cards keep their lazy photo */
+var pend=new WeakMap(), io=('IntersectionObserver' in window) ? new IntersectionObserver(function(es){ es.forEach(function(e){ if(!e.isIntersecting) return; io.unobserve(e.target); var d=pend.get(e.target); pend.delete(e.target); if(d) build(e.target,d); }); },{rootMargin:'600px 0px'}) : null;
+function later(li,imgs){ if(imgs.length<2) return; if(!io){ build(li,imgs); return; } pend.set(li,imgs); io.observe(li); }
 function build(li,imgs){ if(imgs.length<2) return; var a=li.querySelector('a.woocommerce-LoopProduct-link'), first=a&&a.querySelector(':scope > img'); if(!first) return;
   var w=document.createElement('div'), tr=document.createElement('div'); w.className='klg'; tr.className='klg-track'; w.appendChild(tr); first.replaceWith(w); tr.appendChild(first); first.removeAttribute('loading');
   imgs.slice(1,MAX).forEach(function(im){ var i=document.createElement('img'); i.src=im.thumbnail||im.src; if(im.srcset){ i.srcset=im.srcset; i.sizes=first.getAttribute('sizes')||'(max-width: 767px) 50vw, 300px'; } i.alt=im.alt||''; i.loading='lazy'; i.decoding='async'; tr.appendChild(i); });
