@@ -12,9 +12,6 @@ selector .elementor-element-4bc71cc{background:#FFFFFF !important;padding:0 !imp
 selector .elementor-element-4bc71cc a:focus-visible{outline:3px solid #AE8E42;outline-offset:3px}
 selector .elementor-element-7d60683{border-bottom:1px solid #DDD3BD !important}
 selector :is([data-id="b4713bc"],[data-id="ae7d8d2"],[data-id="1454163"])::before{font-size:12px;font-weight:500;letter-spacing:.08em;color:#6B6B69;margin-inline-end:10px;font-variant-numeric:tabular-nums}
-selector [data-id="b4713bc"]::before{content:"01"}
-selector [data-id="ae7d8d2"]::before{content:"02"}
-selector [data-id="1454163"]::before{content:"03"}
 
 /* main row: club | shop | keterlion | help | store */
 selector .elementor-element-ebb3ffb{display:grid !important;grid-template-columns:4fr 2fr 2fr 2fr 3fr;gap:0 !important;padding:0 !important;align-items:stretch !important}
@@ -35,13 +32,9 @@ selector .elementor-element-9f92550 .elementor-button{background:#171717 !import
 selector .elementor-element-9f92550 .elementor-button:hover{background:#3A3936 !important}
 selector .elementor-element-9f92550 .elementor-field-label,selector .elementor-element-9f92550 .elementor-message{color:#171717}
 
-/* column headings with numbers 04-07 */
+/* column headings (the 01-07 numbers were removed 4.11.2026) */
 selector :is([data-id="89944d4"],[data-id="a6e765d"],[data-id="9a98036"]),selector .kl-fh{color:#171717 !important;font-size:13px !important;font-weight:500 !important;letter-spacing:.12em !important;line-height:1.4 !important;margin:0 0 6px !important;display:flex;align-items:baseline;gap:10px}
 selector :is([data-id="89944d4"],[data-id="a6e765d"],[data-id="9a98036"],.kl-fh)::before{font-size:12px;font-weight:500;letter-spacing:.08em;color:#6B6B69;font-variant-numeric:tabular-nums}
-selector [data-id="89944d4"]::before{content:"04"}
-selector [data-id="a6e765d"]::before{content:"05"}
-selector [data-id="9a98036"]::before{content:"06"}
-selector .kl-fh::before{content:"07"}
 selector .elementor-widget-nav-menu .elementor-item{color:#171717 !important;font-size:15px !important}
 selector .elementor-widget-nav-menu .elementor-item:hover,selector .elementor-widget-nav-menu .elementor-item:focus{color:#171717 !important;text-decoration:underline !important;text-decoration-color:#AE8E42 !important;text-decoration-thickness:2px !important;text-underline-offset:5px}
 selector .elementor-widget-nav-menu .elementor-item::before,selector .elementor-widget-nav-menu .elementor-item::after{display:none !important}
