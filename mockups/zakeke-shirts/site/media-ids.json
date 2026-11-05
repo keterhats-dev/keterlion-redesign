@@ -1,0 +1,10 @@
+{
+  "_note": "Custom shirt photos in the live media library, uploaded 5.11.2026 from this folder",
+  "black":    { "front": 25241, "back": 25242, "swatch": 25243 },
+  "white":    { "front": 25244, "back": 25245, "swatch": 25246 },
+  "brown":    { "front": 25247, "back": 25248, "swatch": 25249 },
+  "sage":     { "front": 25250, "back": 25251, "swatch": 25252 },
+  "skyblue":  { "front": 25253, "back": 25254, "swatch": 25255 },
+  "lavender": { "front": 25256, "back": 25257, "swatch": 25258 },
+  "url": "https://keterlion.com/wp-content/uploads/2026/11/kl-custom-tee-{colour}-{front|back|swatch}.jpg"
+}
