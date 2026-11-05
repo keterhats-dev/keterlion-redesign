@@ -68,6 +68,33 @@ h2.bt{font-size:30px}
 .list{margin-top:22px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;font-size:14px;line-height:2}
 .list a{color:var(--ink);box-shadow:inset 0 -2px 0 var(--gold);text-decoration:none}
 .preview{display:none}
+/* v1: product tiles + running strip */
+.ptiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 22px}
+.ptile{position:relative;display:flex;align-items:center;gap:10px;padding:8px 12px 8px 10px;border:1px solid var(--line);border-radius:4px;color:var(--ink);background:#fff;cursor:pointer;text-decoration:none}
+.ptile img{width:52px;height:52px;object-fit:contain;flex:0 0 52px}
+.ptile b{display:block;font-size:17px;font-weight:900;line-height:1.1}
+.ptile small{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+.ptile.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.ptile .tag{position:absolute;top:-10px;left:10px;margin:0;vertical-align:0}
+.ptile .dn{margin-right:auto;width:30px;height:30px;border-radius:4px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:15px}
+.band{margin:44px calc(50% - 50vw) 0;background:var(--ink);color:#F4EEE1;overflow:hidden;white-space:nowrap;padding:15px 0;font-size:19px;font-weight:900}
+.band span{display:inline-block;animation:marq 26s linear infinite}
+.band i{font-style:normal;color:var(--gold);margin:0 16px}
+@keyframes marq{to{transform:translateX(33.333%)}}
+.band + .block{margin-top:0;border-top:0;padding-top:44px}
+/* v2: switch that stays under the header */
+.sw{position:sticky;top:0;z-index:8;background:#fff;border-bottom:1px solid var(--line);padding:10px 32px}
+.seg2{max-width:520px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--ink);border-radius:4px;overflow:hidden}
+.seg2 a{display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;font-weight:900;font-size:16px;color:var(--ink);cursor:pointer}
+.seg2 a.on{background:var(--ink);color:#fff}
+.seg2 .tag{margin:0}
+/* v3: card right after the hat button */
+.peek{display:flex;align-items:center;gap:14px;margin-top:18px;max-width:520px;background:var(--ink);color:#fff;padding:12px;border-radius:4px;cursor:pointer;text-decoration:none}
+.peek img{width:92px;height:92px;object-fit:contain;background:#fff;flex:0 0 92px}
+.peek b{display:block;font-size:19px;font-weight:900;margin-top:6px}
+.peek small{display:block;color:#F4EEE1;font-size:13px;margin-top:2px}
+.peek .tag{margin:0;border:1px solid var(--gold)}
+.peek .arr{margin-right:auto;flex:0 0 44px;width:44px;height:44px;border-radius:4px;background:#fff;color:var(--ink);display:grid;place-items:center;font-size:20px}
 .zk{max-width:1180px;margin:0 auto 60px;padding:0 32px}
 .zk h2{font-size:22px;font-weight:900;margin:0 0 6px}
 .zk p{color:var(--muted);margin:0 0 16px}
@@ -87,6 +114,15 @@ h2.bt{font-size:30px}
   .wrap{padding:12px 16px 40px}
   .block{display:block}
   .block + .block{margin-top:34px;padding-top:30px}
+  .band{margin-top:34px;font-size:16px;padding:12px 0}
+  .band + .block{padding-top:28px}
+  .ptile{padding:7px 8px}
+  .ptile img{width:44px;height:44px;flex-basis:44px}
+  .ptile b{font-size:16px}
+  .ptile small{font-size:11px}
+  .ptile .dn{width:26px;height:26px}
+  .sw{padding:8px 16px}
+  .peek{max-width:none}
   .gal{display:none}
   h1{font-size:30px}
   h2.bt{font-size:26px}
@@ -177,7 +213,7 @@ if (Q.get('zakeke')) document.getElementById('zk').hidden = false;
 var H = 'https://keterlion.com/wp-content/uploads/2025/12/';
 var BLOCKS = {
   hat: {
-    head: '<h1>KETERLION BY YOU<b>.</b></h1><p class="sub">בוחרים גזרה של כובע וצבע</p><p class="jump">בעמוד הזה: כובעים · <a href="#shirt">חולצות ↓</a></p>',
+    head: '<h1>KETERLION BY YOU<b>.</b></h1><p class="sub">בוחרים גזרה של כובע וצבע</p>',
     shapes: [['Dad Cap', 'גזרה נמוכה ורכה'], ['בייסבול', 'גזרה גבוהה ומובנית']],
     colors: [['אדום','Screenshot-2025-12-23-095444.png'],['בורדו','Screenshot-2025-12-23-095526.png'],["בז'",'Screenshot-2025-12-23-095316.png'],["בז' כהה",'Screenshot-2025-12-23-095402.png'],['ורוד חזק','Screenshot-2025-12-23-095114.png'],['ורוד עתיק','Screenshot-2025-12-23-095027.png'],['חום','Screenshot-2025-12-23-094939.png'],['ירוק','Screenshot-2025-12-23-094818.png'],['ירוק זית','Screenshot-2025-12-23-094414.png'],['כאמל','Screenshot-2025-12-23-094859.png'],['כחול נייבי','Screenshot-2025-12-23-094638.png'],['לבן','Screenshot-2025-12-23-094727.png'],['סגול','Screenshot-2025-12-23-094553.png'],['סגול פסטל','Screenshot-2025-12-23-094458.png'],['שחור','Screenshot-2025-12-23-094328.png'],['שמנת','Screenshot-2025-12-23-094037.png'],['תכלת','Screenshot-2025-12-23-094147.png']].map(function (c) { return { n: c[0], sw: H + c[1] }; }),
     start: 14,
@@ -263,6 +299,35 @@ function makeBlock(key) {
   render();
 }
 makeBlock('hat'); makeBlock('shirt');
+
+// three ways to make sure nobody misses the shirts (?v=1, 2 or 3)
+var V = Q.get('v') || '1';
+var HATIMG = H + '%D7%A6%D7%91%D7%A2-%D7%A9%D7%97%D7%95%D7%A8-2.png';
+function jump(e) { e.preventDefault(); document.getElementById(this.getAttribute('data-to')).scrollIntoView({ behavior: 'smooth' }); }
+if (V === '1') {
+  // 1: two small product tiles under the title, and a running strip between the blocks
+  var t = document.createElement('div'); t.className = 'ptiles';
+  t.innerHTML = '<a class="ptile on" data-to="hat"><img src="' + HATIMG + '" alt=""><span><b>כובע</b><small>Dad Cap או בייסבול</small></span></a>' +
+    '<a class="ptile" data-to="shirt"><span class="tag">חדש</span><img src="img/black-front.jpg" alt=""><span><b>חולצה</b><small>הדפס בחזית ובגב</small></span><span class="dn">↓</span></a>';
+  document.querySelector('#hat .sub').after(t);
+  var band = document.createElement('div'); band.className = 'band';
+  var txt = '<i>✱</i> חדש בעיצוב אישי: חולצות <i>✱</i> הלוגו או הטקסט שלכם <i>✱</i> הדפס בחזית ובגב <i>✱</i> גם חולצה אחת ';
+  band.innerHTML = '<span>' + txt + txt + txt + '</span>';
+  document.getElementById('shirt').before(band);
+}
+if (V === '2') {
+  // 2: a product switch that stays under the header while scrolling
+  var sw = document.createElement('div'); sw.className = 'sw';
+  sw.innerHTML = '<div class="seg2"><a class="on" data-to="hat">כובע</a><a data-to="shirt">חולצה <span class="tag">חדש</span></a></div>';
+  document.querySelector('.hdr').after(sw);
+}
+if (V === '3') {
+  // 3: a black card right after the hat button
+  var p = document.createElement('a'); p.className = 'peek'; p.setAttribute('data-to', 'shirt');
+  p.innerHTML = '<img src="img/black-front.jpg" alt=""><span><span class="tag">חדש</span><b>גם חולצה בעיצוב אישי</b><small>הלוגו או הטקסט שלכם, בחזית ובגב</small></span><span class="arr">↓</span>';
+  document.querySelector('#hat .go').after(p);
+}
+document.querySelectorAll('[data-to]').forEach(function (a) { a.onclick = jump; });
 </script>
 </body>
 </html>
