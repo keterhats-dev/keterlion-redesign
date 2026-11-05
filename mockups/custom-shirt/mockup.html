@@ -300,11 +300,11 @@ function makeBlock(key) {
 }
 makeBlock('hat'); makeBlock('shirt');
 
-// three ways to make sure nobody misses the shirts (?v=1, 2 or 3)
-var V = Q.get('v') || '1';
+// three ways to make sure nobody misses the shirts (?v=1, 2 or 3, or several: ?v=13 is the one chosen, 5.11)
+var V = Q.get('v') || '13';
 var HATIMG = H + '%D7%A6%D7%91%D7%A2-%D7%A9%D7%97%D7%95%D7%A8-2.png';
 function jump(e) { e.preventDefault(); document.getElementById(this.getAttribute('data-to')).scrollIntoView({ behavior: 'smooth' }); }
-if (V === '1') {
+if (V.indexOf('1') >= 0) {
   // 1: two small product tiles under the title, and a running strip between the blocks
   var t = document.createElement('div'); t.className = 'ptiles';
   t.innerHTML = '<a class="ptile on" data-to="hat"><img src="' + HATIMG + '" alt=""><span><b>כובע</b><small>Dad Cap או בייסבול</small></span></a>' +
@@ -315,13 +315,13 @@ if (V === '1') {
   band.innerHTML = '<span>' + txt + txt + txt + '</span>';
   document.getElementById('shirt').before(band);
 }
-if (V === '2') {
+if (V.indexOf('2') >= 0) {
   // 2: a product switch that stays under the header while scrolling
   var sw = document.createElement('div'); sw.className = 'sw';
   sw.innerHTML = '<div class="seg2"><a class="on" data-to="hat">כובע</a><a data-to="shirt">חולצה <span class="tag">חדש</span></a></div>';
   document.querySelector('.hdr').after(sw);
 }
-if (V === '3') {
+if (V.indexOf('3') >= 0) {
   // 3: a black card right after the hat button
   var p = document.createElement('a'); p.className = 'peek'; p.setAttribute('data-to', 'shirt');
   p.innerHTML = '<img src="img/black-front.jpg" alt=""><span><span class="tag">חדש</span><b>גם חולצה בעיצוב אישי</b><small>הלוגו או הטקסט שלכם, בחזית ובגב</small></span><span class="arr">↓</span>';
