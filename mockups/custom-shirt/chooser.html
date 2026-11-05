@@ -1,0 +1,86 @@
+<!doctype html>
+<!-- Mockup B (5.11.2026): "עיצוב אישי" first asks what to design (the user: "ישר ישאל כשנכנסים לעיצוב אישי באתר,
+     מה אתה רוצה לעצב? חולצה או כובע? ואז יוביל לאיפה שבחרת"). Hat goes to the hat page as it is today, shirt to the shirt page. -->
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>הדמיה: מה רוצים לעצב</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#171717;--muted:#6B6B69;--line:#DDD3BD;--gold:#AE8E42;--soft:#F4F4F2}
+*{box-sizing:border-box}
+body{margin:0;font-family:Heebo,sans-serif;color:var(--ink);background:#fff}
+.strip{background:var(--ink);color:var(--gold);font-size:13px;text-align:center;padding:9px 16px}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 32px;border-bottom:1px solid var(--line);gap:16px}
+.logo{display:flex;align-items:center;gap:8px}
+.logo .l{height:30px}.logo .w{height:15px}
+.logo i{width:6px;height:6px;border-radius:50%;background:var(--gold);align-self:flex-end;margin-bottom:4px}
+nav{display:flex;gap:22px}
+nav a{font-size:14px;font-weight:500;color:var(--ink);text-decoration:none;padding:6px 0}
+nav a.on{box-shadow:inset 0 -2px 0 var(--gold)}
+.icons{display:flex;gap:8px}
+.icons span{width:34px;height:34px;border:1px solid var(--ink);border-radius:4px;display:grid;place-items:center;font-size:13px}
+.icons span.cart{background:var(--ink);color:#fff}
+.burger{display:none;font-size:22px}
+.wrap{max-width:1180px;margin:0 auto;padding:14px 32px 64px}
+.bc{font-size:12px;color:var(--muted);margin-bottom:22px}
+h1{font-size:34px;font-weight:900;letter-spacing:.03em;line-height:1.05;margin:0 0 8px;direction:ltr;text-align:right}
+h1::before{content:"";display:block;width:28px;height:4px;background:var(--gold);margin:0 0 14px auto}
+h1 b{color:var(--gold)}
+.q{font-size:30px;font-weight:900;margin:18px 0 6px}
+.sub{font-size:17px;font-weight:500;color:var(--muted);margin:0 0 26px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.tile{display:block;border:1px solid var(--line);text-decoration:none;color:var(--ink);background:#fff;transition:border-color .15s}
+.tile:hover{border-color:var(--ink)}
+.tile .ph{position:relative;aspect-ratio:4/3;display:grid;place-items:center;border-bottom:1px solid var(--line);overflow:hidden}
+.tile .ph img{width:72%;height:82%;object-fit:contain}
+.tile .tag{position:absolute;top:0;right:0;background:var(--ink);color:var(--gold);font-size:12px;font-weight:700;padding:5px 12px}
+.tile .row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:18px 20px}
+.tile .nm{font-size:30px;font-weight:900;line-height:1}
+.tile .ds{font-size:15px;color:var(--muted);margin-top:6px}
+.tile .arr{flex:0 0 52px;width:52px;height:52px;border-radius:4px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:22px}
+.foot{margin-top:24px;font-size:14px;color:var(--ink);line-height:2}
+.sticker{position:absolute;bottom:16px;left:16px;width:92px;height:92px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;text-align:center;font-family:'Suez One',serif;font-size:15px;line-height:1.1;transform:rotate(-8deg)}
+@media (max-width:767px){
+  .hdr{padding:10px 16px}
+  nav{display:none}.burger{display:block}
+  .icons span.user{display:none}
+  .wrap{padding:12px 16px 40px}
+  h1{font-size:30px}
+  .q{font-size:26px}
+  .tiles{grid-template-columns:1fr;gap:16px}
+  .tile .ph{aspect-ratio:16/10}
+  .tile .nm{font-size:26px}
+  .tile .arr{flex-basis:46px;width:46px;height:46px}
+  .sticker{width:76px;height:76px;font-size:13px}
+}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Suez+One&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="strip">משלוח חינם מעל ₪249 &nbsp;✱&nbsp; איסוף עצמי מנחלת בנימין 13 &nbsp;✱&nbsp; עיצוב אישי</div>
+<header class="hdr">
+  <div class="logo"><span class="burger">☰</span><img class="l" src="https://keterlion.com/wp-content/uploads/2026/10/kl-lion-black.png" alt=""><img class="w" src="https://keterlion.com/wp-content/uploads/2026/10/kl-wordmark-black.png" alt="KETERLION"><i></i></div>
+  <nav><a>חנות</a><a>כובעים</a><a class="on">עיצוב אישי</a><a>ביגוד</a><a>סיטונאות</a></nav>
+  <div class="icons"><span>⌕</span><span class="user">◯</span><span class="cart">▢</span></div>
+</header>
+<main class="wrap">
+  <div class="bc">עמוד הבית / עיצוב אישי</div>
+  <h1>KETERLION BY YOU<b>.</b></h1>
+  <div class="q">מה רוצים לעצב?</div>
+  <p class="sub">בוחרים מוצר, ובשלב הבא בוחרים צבע ומתחילים לעצב</p>
+  <div class="tiles">
+    <a class="tile" href="mockup.html#hat">
+      <div class="ph"><img src="https://keterlion.com/wp-content/uploads/2025/12/%D7%A6%D7%91%D7%A2-%D7%A9%D7%97%D7%95%D7%A8-2.png" alt=""><div class="sticker">גם כובע<br>אחד</div></div>
+      <div class="row"><div><div class="nm">כובע</div><div class="ds">Dad Cap או בייסבול · רקמה · 17 צבעים</div></div><span class="arr">←</span></div>
+    </a>
+    <a class="tile" href="mockup.html#shirt">
+      <div class="ph"><span class="tag">חדש</span><img src="img/black-front.jpg" alt=""></div>
+      <div class="row"><div><div class="nm">חולצה</div><div class="ds">חולצת טי רחבה · הדפס בחזית ובגב · 6 צבעים</div></div><span class="arr">←</span></div>
+    </a>
+  </div>
+  <div class="foot">✓ בלי מינימום, גם יחידה אחת &nbsp;&nbsp; ✓ משלוח עד 5 ימי עסקים, או איסוף מנחלת בנימין 13</div>
+</main>
+</body>
+</html>

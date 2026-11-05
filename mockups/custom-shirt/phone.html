@@ -1,0 +1,9 @@
+<!doctype html>
+<!-- Shows mockup.html at phone width (390px) inside a frame, for the screenshots. ?q= is passed to the mockup. -->
+<html><head><meta charset="utf-8"><style>html,body{margin:0;background:#fff}iframe{display:block;width:390px;border:0}</style></head>
+<body><script>
+var q = new URLSearchParams(location.search).get('q') || 'p=shirt';
+var h = new URLSearchParams(location.search).get('h') || '1500';
+var f = new URLSearchParams(location.search).get('f') || 'mockup.html';
+document.write('<iframe src="' + f + '?' + q + '" style="height:' + h + 'px"></iframe>');
+</script></body></html>

@@ -1,0 +1,268 @@
+<!doctype html>
+<!-- Mockup (5.11.2026): custom shirts on the custom design page (/product/customize/), in their own block under the hats
+     (the user: "באותו עמוד אבל שיהיה בשני בלוקים שונים, מוצר אחרי מוצר"). The hat block stays as it is today.
+     ?size=L picks a shirt size, ?zakeke=1 adds a sketch of the shirt sides in Zakeke. Nothing here is on the site. -->
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>הדמיה: חולצה בעיצוב אישי</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#171717;--muted:#6B6B69;--line:#DDD3BD;--gold:#AE8E42;--soft:#F4F4F2}
+*{box-sizing:border-box}
+body{margin:0;font-family:Heebo,sans-serif;color:var(--ink);background:#fff}
+.strip{background:var(--ink);color:var(--gold);font-size:13px;text-align:center;padding:9px 16px}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 32px;border-bottom:1px solid var(--line);gap:16px}
+.logo{display:flex;align-items:center;gap:8px}
+.logo .l{height:30px}.logo .w{height:15px}
+.logo i{width:6px;height:6px;border-radius:50%;background:var(--gold);align-self:flex-end;margin-bottom:4px}
+nav{display:flex;gap:22px}
+nav a{font-size:14px;font-weight:500;color:var(--ink);text-decoration:none;padding:6px 0}
+nav a.on{box-shadow:inset 0 -2px 0 var(--gold)}
+.icons{display:flex;gap:8px}
+.icons span{width:34px;height:34px;border:1px solid var(--ink);border-radius:4px;display:grid;place-items:center;font-size:13px}
+.icons span.cart{background:var(--ink);color:#fff}
+.burger{display:none;font-size:22px}
+.wrap{max-width:1180px;margin:0 auto;padding:14px 32px 56px}
+.bc{font-size:12px;color:var(--muted);margin-bottom:18px}
+.block{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.block + .block{margin-top:44px;padding-top:44px;border-top:1px solid var(--line)}
+.gal .main{aspect-ratio:1/1;display:grid;place-items:center;background:#fff;border:1px solid #EEE9DD}
+.gal .main img{width:90%;height:90%;object-fit:contain}
+.thumbs{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:10px}
+.thumbs:empty{display:none}
+.thumbs button{border:1px solid var(--line);background:#fff;padding:0;cursor:pointer;aspect-ratio:1/1;border-radius:0;position:relative}
+.thumbs button.on{border-color:var(--ink)}
+.thumbs img{width:100%;height:100%;object-fit:contain;display:block}
+.thumbs span{position:absolute;bottom:4px;right:4px;font-size:11px;background:#fff;padding:0 4px}
+h1,h2.bt{font-size:34px;font-weight:900;letter-spacing:.03em;line-height:1.05;margin:0 0 8px}
+h1{direction:ltr;text-align:right}
+h1::before,h2.bt::before{content:"";display:block;width:28px;height:4px;background:var(--gold);margin:0 0 14px auto}
+h1 b,h2.bt b{color:var(--gold)}
+h2.bt{font-size:30px}
+.tag{display:inline-block;background:var(--ink);color:var(--gold);font-size:12px;font-weight:700;padding:2px 8px;margin-right:10px;vertical-align:6px;letter-spacing:0}
+.sub{font-size:18px;font-weight:500;color:var(--muted);margin:0 0 18px}
+.jump{font-size:14px;margin:-6px 0 18px;color:var(--muted)}
+.jump a{color:var(--ink);font-weight:700;text-decoration:none;box-shadow:inset 0 -2px 0 var(--gold)}
+.step{margin-bottom:20px}
+.label{font-weight:900;font-size:15px;margin-bottom:10px;letter-spacing:.02em}
+.label span{color:var(--muted);font-weight:500}
+.label i{font-style:normal}.n-m{display:none}
+.seg{position:relative;display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--ink);border-radius:4px;overflow:hidden}
+.seg .thumb{position:absolute;top:0;bottom:0;right:0;width:50%;background:var(--ink);transform:translateX(calc(var(--i,0) * -100%));transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.seg button{position:relative;z-index:1;min-height:54px;border:0;background:none;font:inherit;font-size:16px;font-weight:900;color:var(--ink);cursor:pointer}
+.seg button.on{color:#fff}
+.hint{font-size:17px;font-weight:900;margin-top:12px;padding:10px 14px;background:var(--soft);border-right:3px solid var(--gold)}
+.hint.top{margin:0 0 20px}
+.colors{display:flex;flex-wrap:wrap;gap:10px}
+.color{position:relative;width:46px;height:46px;border-radius:50%;border:0;padding:4px;background:#fff;box-shadow:inset 0 0 0 1px #CFC6B2;cursor:pointer}
+.color i{display:block;width:100%;height:100%;border-radius:50%;background-size:cover;background-position:center}
+.color.on{box-shadow:0 0 0 3px #fff,0 0 0 5px var(--ink)}
+.color.on::after{content:"✓";position:absolute;top:-6px;left:-6px;width:20px;height:20px;background:var(--ink);color:#fff;border-radius:50%;font-size:11px;font-weight:700;line-height:20px;text-align:center}
+.sizes{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.size{min-height:46px;border:1px solid var(--ink);border-radius:4px;background:#fff;font:inherit;font-weight:700;font-size:15px;cursor:pointer}
+.size.on{background:var(--ink);color:#fff}
+.go{width:100%;max-width:340px;min-height:58px;border:1px solid var(--ink);border-radius:4px;background:var(--ink);color:#fff;font:inherit;font-weight:700;font-size:17px;letter-spacing:.04em;cursor:pointer;margin-top:4px}
+.go:disabled{background:#BDBDBA;border-color:#BDBDBA}
+.list{margin-top:22px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;font-size:14px;line-height:2}
+.list a{color:var(--ink);box-shadow:inset 0 -2px 0 var(--gold);text-decoration:none}
+.preview{display:none}
+.zk{max-width:1180px;margin:0 auto 60px;padding:0 32px}
+.zk h2{font-size:22px;font-weight:900;margin:0 0 6px}
+.zk p{color:var(--muted);margin:0 0 16px}
+.zk-row{display:grid;grid-template-columns:1fr 1fr 260px;gap:18px;align-items:start}
+.zk-side{border:1px solid var(--line);position:relative;aspect-ratio:1/1;background:#fff}
+.zk-side img{width:100%;height:100%;object-fit:contain}
+.zk-side .area{position:absolute;border:2px dashed var(--gold);display:grid;place-items:center;color:var(--gold);font-weight:700;font-size:13px;text-align:center;background:rgba(174,142,66,.06)}
+.zk-side b{position:absolute;top:8px;right:8px;background:var(--ink);color:#fff;font-size:12px;padding:3px 8px}
+.zk-tools{border:1px solid var(--line);padding:16px;font-size:14px;line-height:1.9}
+.zk-tools strong{display:block;font-size:15px;margin-bottom:4px}
+.zk-tools .no{color:var(--muted);text-decoration:line-through}
+.zk-tools .price{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-weight:900;font-size:16px}
+@media (max-width:767px){
+  .hdr{padding:10px 16px}
+  nav{display:none}.burger{display:block}
+  .icons span.user{display:none}
+  .wrap{padding:12px 16px 40px}
+  .block{display:block}
+  .block + .block{margin-top:34px;padding-top:30px}
+  .gal{display:none}
+  h1{font-size:30px}
+  h2.bt{font-size:26px}
+  .preview{display:block;position:relative;border:1px solid var(--line);margin-bottom:22px;padding:46px 0 100px;text-align:center}
+  .preview img{width:78%;aspect-ratio:1/1;object-fit:contain}
+  .preview .chip{position:absolute;top:12px;right:12px;background:var(--ink);color:#fff;font-size:13px;font-weight:700;padding:6px 12px;display:flex;align-items:center;gap:8px}
+  .preview .chip i{width:14px;height:14px;border-radius:50%;background-size:cover;box-shadow:0 0 0 1.5px #fff}
+  .preview .side{position:absolute;top:12px;left:12px;display:flex;border:1px solid var(--ink);border-radius:4px;overflow:hidden}
+  .preview .side:empty{display:none}
+  .preview .side button{border:0;background:#fff;font:inherit;font-size:12px;font-weight:700;padding:5px 10px}
+  .preview .side button.on{background:var(--ink);color:#fff}
+  .cbar{position:absolute;left:0;right:0;bottom:0;padding:10px 12px 12px;background:#fff;border-top:1px solid var(--line)}
+  .cbar .cl{font-size:12px;color:var(--muted);margin-bottom:6px}
+  .cbar .colors{justify-content:center;gap:8px;flex-wrap:nowrap;overflow-x:auto;padding:6px 8px}
+  .cbar .color{width:38px;height:38px;flex:0 0 38px;padding:3px}
+  .step-color{display:none}
+  .n-d{display:none}.n-m{display:inline}
+  .sizes{grid-template-columns:repeat(3,1fr)}
+  .go{max-width:none}
+  .zk-row{grid-template-columns:1fr 1fr}
+  .zk-tools{grid-column:1 / -1}
+  .zk{padding:0 16px}
+}
+</style>
+</head>
+<body>
+<div class="strip">משלוח חינם מעל ₪249 &nbsp;✱&nbsp; איסוף עצמי מנחלת בנימין 13 &nbsp;✱&nbsp; עיצוב אישי</div>
+<header class="hdr">
+  <div class="logo"><span class="burger">☰</span><img class="l" src="https://keterlion.com/wp-content/uploads/2026/10/kl-lion-black.png" alt=""><img class="w" src="https://keterlion.com/wp-content/uploads/2026/10/kl-wordmark-black.png" alt="KETERLION"><i></i></div>
+  <nav><a>חנות</a><a>כובעים</a><a class="on">עיצוב אישי</a><a>ביגוד</a><a>סיטונאות</a></nav>
+  <div class="icons"><span>⌕</span><span class="user">◯</span><span class="cart">▢</span></div>
+</header>
+
+<main class="wrap">
+  <div class="bc">עמוד הבית / סוג כובע / כובע מותאם אישית</div>
+  <section class="block" id="hat"></section>
+  <section class="block" id="shirt"></section>
+</main>
+
+<section class="zk" id="zk" hidden>
+  <h2>ב-Zakeke, אחרי "התחילו לעצב" בחולצה</h2>
+  <p>שני צדדים, חזית וגב, בכל אחד מ-6 הצבעים. אזור ההדפס עד A3. המיקום של האזור על התמונה הוא הערכה, וייקבע לפי המידות האמיתיות של החולצה</p>
+  <div class="zk-row">
+    <div class="zk-side"><b>חזית</b><img id="zkf" alt=""><div class="area" style="left:31%;right:31%;top:27%;height:51%">אזור הדפס<br>עד 30×40 ס"מ</div></div>
+    <div class="zk-side"><b>גב</b><img id="zkb" alt=""><div class="area" style="left:31%;right:31%;top:22%;height:51%">אזור הדפס<br>עד 30×40 ס"מ</div></div>
+    <div class="zk-tools">
+      <strong>מה הלקוח יכול להוסיף</strong>
+      ✓ טקסט<br>✓ לוגו או תמונה שהוא מעלה<br><span class="no">עיצובים מהגלריה של KETERLION</span>
+      <div class="price">חולצה ₪119 + הדפס ₪100<br>= ₪219 (חזית, גב או שניהם)</div>
+    </div>
+  </div>
+</section>
+
+<template id="tpl">
+  <div class="info">
+    <div class="head"></div>
+    <div class="preview">
+      <div class="chip"><i class="pdot"></i><span class="pname"></span></div>
+      <div class="side"></div>
+      <img class="pimg" alt="">
+      <div class="cbar"><div class="cl"></div><div class="colors pcolors"></div></div>
+    </div>
+    <div class="step step-seg">
+      <div class="label">1. בוחרים גזרה</div>
+      <div class="seg"><span class="thumb"></span></div>
+      <div class="hint"></div>
+    </div>
+    <div class="step step-color">
+      <div class="label clabel"></div>
+      <div class="colors dcolors"></div>
+    </div>
+    <div class="step step-size">
+      <div class="label"><i class="n-d">2.</i><i class="n-m">1.</i> בוחרים מידה <span class="sname"></span></div>
+      <div class="sizes"></div>
+    </div>
+    <button class="go"></button>
+    <div class="list"></div>
+  </div>
+  <div class="gal">
+    <div class="main"><img class="gimg" alt=""></div>
+    <div class="thumbs"></div>
+  </div>
+</template>
+
+<script>
+var Q = new URLSearchParams(location.search);
+if (Q.get('zakeke')) document.getElementById('zk').hidden = false;
+var H = 'https://keterlion.com/wp-content/uploads/2025/12/';
+var BLOCKS = {
+  hat: {
+    head: '<h1>KETERLION BY YOU<b>.</b></h1><p class="sub">בוחרים גזרה של כובע וצבע</p><p class="jump">בעמוד הזה: כובעים · <a href="#shirt">חולצות ↓</a></p>',
+    shapes: [['Dad Cap', 'גזרה נמוכה ורכה'], ['בייסבול', 'גזרה גבוהה ומובנית']],
+    colors: [['אדום','Screenshot-2025-12-23-095444.png'],['בורדו','Screenshot-2025-12-23-095526.png'],["בז'",'Screenshot-2025-12-23-095316.png'],["בז' כהה",'Screenshot-2025-12-23-095402.png'],['ורוד חזק','Screenshot-2025-12-23-095114.png'],['ורוד עתיק','Screenshot-2025-12-23-095027.png'],['חום','Screenshot-2025-12-23-094939.png'],['ירוק','Screenshot-2025-12-23-094818.png'],['ירוק זית','Screenshot-2025-12-23-094414.png'],['כאמל','Screenshot-2025-12-23-094859.png'],['כחול נייבי','Screenshot-2025-12-23-094638.png'],['לבן','Screenshot-2025-12-23-094727.png'],['סגול','Screenshot-2025-12-23-094553.png'],['סגול פסטל','Screenshot-2025-12-23-094458.png'],['שחור','Screenshot-2025-12-23-094328.png'],['שמנת','Screenshot-2025-12-23-094037.png'],['תכלת','Screenshot-2025-12-23-094147.png']].map(function (c) { return { n: c[0], sw: H + c[1] }; }),
+    start: 14,
+    img: function () { return H + '%D7%A6%D7%91%D7%A2-%D7%A9%D7%97%D7%95%D7%A8-2.png'; },
+    list: ['✓ בלי מינימום, גם כובע אחד', '✓ משלוח עד 5 ימי עסקים, או איסוף מנחלת בנימין 13', '✓ תקועים? <a>כתבו לנו ב-WhatsApp</a>']
+  },
+  shirt: {
+    head: '<h2 class="bt">חולצה בעיצוב אישי<b>.</b><span class="tag">חדש</span></h2><p class="sub">חולצה עם הלוגו או הטקסט שלכם</p><div class="hint top">חולצת טי רחבה · הדפס בחזית ובגב</div>',
+    colors: [['שחור','black'],['לבן','white'],['חום','brown'],['ירוק מרווה','sage'],['תכלת','skyblue'],['סגול בהיר','lavender']].map(function (c) { return { n: c[0], k: c[1], sw: 'img/sw-' + c[1] + '.jpg' }; }),
+    start: 0,
+    sizes: ['S', 'M', 'L', 'XL', 'XXL', '3XL'],
+    img: function (c, side) { return 'img/' + c.k + '-' + side + '.jpg'; },
+    list: ['✓ בלי מינימום, גם חולצה אחת', '✓ הדפס DTG בצבע מלא, בחזית ובגב, עד A3', '✓ משלוח עד 5 ימי עסקים, או איסוף מנחלת בנימין 13', '✓ תקועים? <a>כתבו לנו ב-WhatsApp</a>']
+  }
+};
+
+function makeBlock(key) {
+  var D = BLOCKS[key], root = document.getElementById(key);
+  root.appendChild(document.getElementById('tpl').content.cloneNode(true));
+  var q = function (s) { return root.querySelector(s); };
+  var st = { shape: 0, c: D.start, side: 'front', size: key === 'shirt' ? Q.get('size') : null };
+  q('.head').innerHTML = D.head;
+  if (!D.shapes) q('.step-seg').remove();
+  if (!D.sizes) q('.step-size').remove();
+  function colorBtns(el) {
+    el.innerHTML = '';
+    D.colors.forEach(function (c, i) {
+      var b = document.createElement('button');
+      b.className = 'color' + (i === st.c ? ' on' : ''); b.title = c.n;
+      b.innerHTML = '<i style="background-image:url(\'' + c.sw + '\')"></i>';
+      b.onclick = function () { st.c = i; render(); };
+      el.appendChild(b);
+    });
+  }
+  function render() {
+    if (D.shapes) {
+      var seg = q('.seg'); seg.querySelectorAll('button').forEach(function (b) { b.remove(); });
+      D.shapes.forEach(function (s, i) {
+        var b = document.createElement('button');
+        b.className = i === st.shape ? 'on' : ''; b.textContent = s[0];
+        b.onclick = function () { st.shape = i; render(); };
+        seg.appendChild(b);
+      });
+      seg.style.setProperty('--i', st.shape);
+      q('.hint').textContent = D.shapes[st.shape][1];
+    }
+    var c = D.colors[st.c];
+    q('.clabel').innerHTML = (D.shapes ? '2.' : '1.') + ' בוחרים צבע <span>· ' + c.n + '</span>';
+    colorBtns(q('.dcolors')); colorBtns(q('.pcolors'));
+    q('.cl').textContent = 'בוחרים צבע · ' + c.n;
+    var main = D.img(c, st.side);
+    q('.gimg').src = main; q('.pimg').src = main;
+    q('.pdot').style.backgroundImage = 'url(\'' + c.sw + '\')';
+    q('.pname').textContent = (D.shapes ? D.shapes[st.shape][0] : 'חולצה') + ' · ' + c.n;
+    var th = q('.thumbs'); th.innerHTML = ''; var ps = q('.side'); ps.innerHTML = '';
+    if (key === 'shirt') {
+      [['front', 'חזית'], ['back', 'גב']].forEach(function (s) {
+        var b = document.createElement('button');
+        b.className = st.side === s[0] ? 'on' : '';
+        b.innerHTML = '<img src="' + D.img(c, s[0]) + '" alt=""><span>' + s[1] + '</span>';
+        b.onclick = function () { st.side = s[0]; render(); };
+        th.appendChild(b);
+        var t = document.createElement('button');
+        t.className = st.side === s[0] ? 'on' : ''; t.textContent = s[1];
+        t.onclick = b.onclick; ps.appendChild(t);
+      });
+      document.getElementById('zkf').src = D.img(c, 'front'); document.getElementById('zkb').src = D.img(c, 'back');
+    }
+    if (D.sizes) {
+      var sz = q('.sizes'); sz.innerHTML = '';
+      D.sizes.forEach(function (s) {
+        var b = document.createElement('button');
+        b.className = 'size' + (st.size === s ? ' on' : ''); b.textContent = s;
+        b.onclick = function () { st.size = s; render(); };
+        sz.appendChild(b);
+      });
+      q('.sname').textContent = st.size ? '· ' + st.size : '';
+    }
+    var ready = !D.sizes || !!st.size;
+    q('.go').disabled = !ready; q('.go').textContent = ready ? 'התחילו לעצב ←' : 'בחרו מידה';
+    q('.list').innerHTML = D.list.join('<br>');
+  }
+  render();
+}
+makeBlock('hat'); makeBlock('shirt');
+</script>
+</body>
+</html>
