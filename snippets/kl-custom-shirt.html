@@ -94,6 +94,19 @@
   #kl-shirt .sizes{grid-template-columns:repeat(3,1fr)}
   #kl-shirt .go{max-width:none}
 }
+/* the theme paints every button pink (#c36) on hover and focus; keep ours in the brand colours */
+.kl-ptiles .kl-ptile,.kl-ptiles .kl-ptile:hover,.kl-ptiles .kl-ptile:focus,.kl-ptiles .kl-ptile:active{background:#fff;color:var(--ink)}
+.kl-ptiles button.kl-ptile:hover{border-color:var(--ink)}
+.kl-peek,.kl-peek:hover,.kl-peek:focus,.kl-peek:active{background:var(--ink);color:#fff}
+.kl-peek:hover .arr{background:var(--gold);color:var(--ink)}
+#kl-shirt .color,#kl-shirt .color:hover,#kl-shirt .color:focus,#kl-shirt .color:active{background:#fff}
+#kl-shirt .size:hover,#kl-shirt .size:focus,#kl-shirt .size:active{background:#fff;color:var(--ink)}
+#kl-shirt .size.on,#kl-shirt .size.on:hover,#kl-shirt .size.on:focus{background:var(--ink);color:#fff}
+#kl-shirt .g-thumbs button:hover,#kl-shirt .g-thumbs button:focus{background:#fff}
+#kl-shirt .side button:hover,#kl-shirt .side button:focus{background:#fff;color:var(--ink)}
+#kl-shirt .side button.on,#kl-shirt .side button.on:hover,#kl-shirt .side button.on:focus{background:var(--ink);color:#fff}
+#kl-shirt .go:hover,#kl-shirt .go:focus,#kl-shirt .go:active{background:var(--ink);color:#fff;border-color:var(--ink)}
+#kl-shirt .go:disabled,#kl-shirt .go:disabled:hover,#kl-shirt .go:disabled:focus{background:#BDBDBA;border-color:#BDBDBA;color:#fff}
 /* Zakeke open on this page: only the customizer */
 body:has(#zakeke-container) .kl-ptiles,body:has(#zakeke-container) .kl-peek,body:has(#zakeke-container) .kl-band,body:has(#zakeke-container) #kl-shirt{display:none !important}
 @media (prefers-reduced-motion:reduce){.kl-band span{animation:none}}
