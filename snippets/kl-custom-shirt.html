@@ -5,7 +5,7 @@
        3. a running strip and the shirt block under the hat block (row 79176d6), with its own colours, sizes and button
      The button posts the shirt product form (25259, /product/custom-shirt/) with zdesign=new, the same way the hat
      button does, so Zakeke opens for the chosen colour and size.
-     KL_ADMIN_ONLY: while true, only people who see the WordPress admin bar get any of this. -->
+     KL_ADMIN_ONLY: while true, only people who see the WordPress admin bar get any of this (false since 5.11.2026). -->
 <style>
 .kl-ptiles,.kl-peek,.kl-band,#kl-shirt{--ink:#171717;--muted:#6B6B69;--line:#DDD3BD;--gold:#AE8E42;--cream:#F4EEE1;--soft:#F4F4F2;font-family:Heebo,sans-serif;color:var(--ink)}
 /* 1. tiles */
@@ -113,7 +113,7 @@ body:has(#zakeke-container) .kl-ptiles,body:has(#zakeke-container) .kl-peek,body
 </style>
 <script>
 (function () {
-  var KL_ADMIN_ONLY = true;
+  var KL_ADMIN_ONLY = false;  // 5.11.2026: open to everyone ("כן, לפתוח")
   var PRODUCT = 25259, URL = '/product/custom-shirt/';
   var UP = '/wp-content/uploads/2026/11/kl-custom-tee-';
   var HAT_IMG = '/wp-content/uploads/2025/12/%D7%A6%D7%91%D7%A2-%D7%A9%D7%97%D7%95%D7%A8-2.png';
