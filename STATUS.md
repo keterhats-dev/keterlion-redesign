@@ -11,7 +11,8 @@
 ---
 
 ## ▶ עכשיו
-**🍏 Apple Pay ו-Google Pay באתר החי (8.11.2026, לפי ההנחיות של CreditGuard, אושר: "כן, להוסיף").** הסקריפט של CreditGuard וקובץ האימות של Apple באוויר ונבדקו כאורח. **⛔ Apple Pay לא עובד (בקשת האישור מחזירה 417).** **Apple Pay ו-Google Pay כבויים בקופה עד שיסודרו (8.11).** מחכים לתקבול (ראו למטה)
+**🍏 Apple Pay ו-Google Pay באתר החי (8.11.2026, לפי ההנחיות של CreditGuard, אושר: "כן, להוסיף").** הסקריפט של CreditGuard וקובץ האימות של Apple באוויר ונבדקו כאורח. **Apple Pay ו-Google Pay עדיין כבויים בקופה.** לפני שמדליקים מחכים לאישור של המשתמש ולכניסה שלו כמנהל
+- **✅ ה-417 נפתר (8.11, בערב, אחרי "הסתדרתי"):** המשתמש דיבר עם תקבול. בקשת האישור ל-icom.yaad.net/cgi-bin/yaadpay/applepay_main.pl (mid 4502262837, domainName keterlion.com) **מחזירה עכשיו אישור תקין של Apple**: merchantIdentifier, merchantSessionIdentifier, domainName=keterlion.com, displayName "כתרליון בעמ", pspId 1956143C… (אותו pspId של הקובץ שבאתר), signature ו-expiresAt. כלומר keterlion.com רשום עכשיו ל-Apple Pay עבור המסוף. **הצעד הבא:** להדליק את Apple Pay ואת Google Pay בתקבול, לנקות מטמון, ולעשות קנייה קטנה מאייפון ואחריה זיכוי
 - **🔎 בדיקה אחרי "עדין לא עובד לי" (8.11):**
   - **ההזמנות:** Apple Pay לא הצליח אף פעם. 25202 (2.11, ספארי) ו-25311 (8.11, כרום באייפון) הן ניסיונות של המשתמש. **25309 (5.11, ₪298) היא של לקוח אמיתי.** הוא ניסה 5 פעמים ("Takbull payment submit Failed Order Abonded"), וההזמנה בוטלה. אין אף הזמנה ב-Google Pay
   - **מה יש בחלון:** הכתובת של תקבול (api.takbull.co.il/PaymentGateway) מפנה, באותה מסגרת, לעמוד התשלום של **Hyp/יעד**: icom.yaad.net/cgi-bin/yaadpay/yaadpay3ds.pl, מסוף (Masof) 4502262837, "כתרליון בעמ". בכותרת כתוב "באמצעות hyp פתרונות תשלום", ובתחתית "Powered by Hyp". **ההסכם של העסק הוא עם תקבול** (המשתמש: "אנחנו עובדים עם תקבול", "לא עם HYP"), ו-Hyp הוא הספק הטכני שמאחורי תקבול. גם תשלומי האשראי בהזמנות נרשמים אצל provider "Yaad", ו-Bit אצל gama_bit
