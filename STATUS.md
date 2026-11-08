@@ -11,7 +11,7 @@
 ---
 
 ## ▶ עכשיו
-**🍏 Apple Pay ו-Google Pay באתר החי (8.11.2026, לפי ההנחיות של CreditGuard, אושר: "כן, להוסיף").** הסקריפט של CreditGuard וקובץ האימות של Apple באוויר ונבדקו כאורח. **Apple Pay ו-Google Pay עדיין כבויים בקופה.** לפני שמדליקים מחכים לאישור של המשתמש ולכניסה שלו כמנהל
+**🍏 Apple Pay ו-Google Pay באתר החי (8.11.2026, לפי ההנחיות של CreditGuard, אושר: "כן, להוסיף").** הסקריפט של CreditGuard וקובץ האימות של Apple באוויר ונבדקו כאורח. **✅ Apple Pay ו-Google Pay פעילים שוב בקופה (8.11, המשתמש הדליק בעצמו: "הדלקתי כבר").** נבדק כאורח ב-Store API: באייפון (ספארי וכרום) מופיעים Apple Pay ו-Google Pay, בספארי במק Apple Pay, ובכרום במחשב ובאנדרואיד Google Pay. בכולם יש גם Bit, אשראי ו-PayPal. הקובץ באוויר (200, 9,094 בתים). **עוד לא נבדק בתשלום אמיתי מאייפון:** המשתמש צריך לעשות קנייה קטנה ואחריה זיכוי
 - **✅ ה-417 נפתר (8.11, בערב, אחרי "הסתדרתי"):** המשתמש דיבר עם תקבול. בקשת האישור ל-icom.yaad.net/cgi-bin/yaadpay/applepay_main.pl (mid 4502262837, domainName keterlion.com) **מחזירה עכשיו אישור תקין של Apple**: merchantIdentifier, merchantSessionIdentifier, domainName=keterlion.com, displayName "כתרליון בעמ", pspId 1956143C… (אותו pspId של הקובץ שבאתר), signature ו-expiresAt. כלומר keterlion.com רשום עכשיו ל-Apple Pay עבור המסוף. **הצעד הבא:** להדליק את Apple Pay ואת Google Pay בתקבול, לנקות מטמון, ולעשות קנייה קטנה מאייפון ואחריה זיכוי
 - **🔎 בדיקה אחרי "עדין לא עובד לי" (8.11):**
   - **ההזמנות:** Apple Pay לא הצליח אף פעם. 25202 (2.11, ספארי) ו-25311 (8.11, כרום באייפון) הן ניסיונות של המשתמש. **25309 (5.11, ₪298) היא של לקוח אמיתי.** הוא ניסה 5 פעמים ("Takbull payment submit Failed Order Abonded"), וההזמנה בוטלה. אין אף הזמנה ב-Google Pay
