@@ -7,6 +7,12 @@ const listeners = new Set();
 export const onChange = (fn) => { listeners.add(fn); return () => listeners.delete(fn); };
 const emit = () => listeners.forEach((fn) => fn());
 
+// The last screen data, kept on this device so the app opens at once and refreshes in the background
+const SNAP = 'kl-ops-snapshot-v1';
+export const readSnapshot = () => { if (DEMO) return null; try { return JSON.parse(localStorage.getItem(SNAP)); } catch { return null; } };
+export const saveSnapshot = (s) => { if (DEMO) return; try { localStorage.setItem(SNAP, JSON.stringify(s)); } catch {} };
+export const clearSnapshot = () => { try { localStorage.removeItem(SNAP); } catch {} };
+
 const uid = () => (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random());
 
 /* ---------- demo store ---------- */
@@ -215,10 +221,12 @@ const statusEvent = (s) => (s === 'done' ? 'סימן/ה כבוצעה' : `שינ�
 let sb = null;
 async function client() {
   if (!sb) {
-    const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2.45.4');
+    // One-file build from index.html; the module import is only a fallback if that script failed
+    const { createClient } = window.supabase || (await import('https://esm.sh/@supabase/supabase-js@2.45.4'));
     sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     sb.channel('ops').on('postgres_changes', { event: '*', schema: 'public' }, emit).subscribe();
-    sb.auth.onAuthStateChange(() => emit());
+    // The first event only reports the session we already loaded with; refresh on real changes
+    sb.auth.onAuthStateChange((event) => { if (event !== 'INITIAL_SESSION') emit(); });
   }
   return sb;
 }
@@ -249,7 +257,7 @@ const live = {
     must(await c.from('profiles').update({ active: false }).eq('id', id));
   },
   async verifyCode(email, token) { const c = await client(); must(await c.auth.verifyOtp({ email, token, type: 'email' })); emit(); },
-  async signOut() { const c = await client(); await c.auth.signOut(); emit(); },
+  async signOut() { const c = await client(); clearSnapshot(); await c.auth.signOut(); emit(); },
   async profiles() { const c = await client(); return must(await c.from('profiles').select('*').order('created_at')); },
   async areas() { const c = await client(); return must(await c.from('areas').select('*').order('sort')); },
   async tasks() {

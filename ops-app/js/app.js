@@ -1,5 +1,5 @@
 import { html, render, useState, useEffect, useMemo, useRef } from 'https://unpkg.com/htm@3.1.1/preact/standalone.module.js';
-import { store, onChange } from './data.js';
+import { store, onChange, readSnapshot, saveSnapshot } from './data.js';
 import { DEMO, VAPID_PUBLIC_KEY } from './config.js';
 import {
   PRIORITY, STATUS, todayISO, addDays, longDate, dueLabel, isOverdue, byPriority, parseQuick, gcalLink,
@@ -934,18 +934,31 @@ function App() {
 
   const reload = async () => {
     try {
-      const me = await store.session();
+      // Everything in one go: who I am, and the data (the database rules decide what comes back)
+      const [me, profiles, areas, tasks, invites, orders, pushOn, deals] = await Promise.all([
+        store.session(), store.profiles(), store.areas(), store.tasks(), store.invites().catch(() => []), store.orders(),
+        store.pushStatus().catch(() => []), store.deals().catch(() => []),
+      ]);
       if (!me) return setState({ loading: false, me: null });
       if (me.noAccess) return setState({ loading: false, me: null, noAccess: me });
       const owner = me.role === 'owner';
-      const [profiles, areas, tasks, invites, orders, pushOn, deals] = await Promise.all([
-        store.profiles(), store.areas(), store.tasks(), owner ? store.invites() : [], store.orders(), owner ? store.pushStatus() : [],
-        store.deals().catch(() => []),
-      ]);
-      setState({ loading: false, me, profiles, areas, tasks, invites, orders, pushOn, deals, team: profiles.filter((p) => p.active !== false) });
-    } catch (e) { setState({ loading: false, error: e.message }); }
+      const next = { me, profiles, areas, tasks, orders, deals, invites: owner ? invites : [], pushOn: owner ? pushOn : [] };
+      saveSnapshot(next);
+      setState({ loading: false, ...next, team: profiles.filter((p) => p.active !== false) });
+    } catch (e) {
+      // Offline or the server is slow: keep showing the last data rather than an error
+      setState((s) => (s.me ? s : { loading: false, error: e.message }));
+    }
   };
-  useEffect(() => { reload(); return onChange(reload); }, []);
+  useEffect(() => {
+    // Open at once with the last data from this device, then refresh
+    const snap = readSnapshot();
+    if (snap?.me) setState({ loading: false, ...snap, team: snap.profiles.filter((p) => p.active !== false) });
+    reload();
+    // Many changes arrive together (a task plus its line in the thread): refresh once
+    let timer;
+    return onChange(() => { clearTimeout(timer); timer = setTimeout(reload, 250); });
+  }, []);
   // Keep this device's notification registration fresh once permission was given
   const meId = state.me?.id;
   useEffect(() => { if (meId && pushSupported() && Notification.permission === 'granted') subscribePush().catch(() => {}); }, [meId]);

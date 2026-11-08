@@ -11,13 +11,23 @@
 <link rel="apple-touch-icon" href="icon.svg">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="משימות">
+<!-- Start every file at once instead of one after another -->
+<link rel="preconnect" href="https://nfpxripdgwrtpqyjqelu.supabase.co" crossorigin>
+<link rel="modulepreload" href="js/app.js">
+<link rel="modulepreload" href="js/data.js">
+<link rel="modulepreload" href="js/util.js">
+<link rel="modulepreload" href="js/config.js">
+<link rel="modulepreload" href="https://unpkg.com/htm@3.1.1/preact/standalone.module.js">
+<link rel="stylesheet" href="css/app.css">
+<!-- Fonts load without holding the first screen -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Arvo:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/app.css">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Arvo:wght@700&display=swap" onload="this.rel='stylesheet'">
+<!-- Supabase as one file (it used to come as ten) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" defer></script>
 </head>
 <body>
-<div id="app"></div>
+<div id="app"><div class="boot"><div class="wordmark">KETERLION<i>.</i></div></div></div>
 <script type="module" src="js/app.js"></script>
 <script>
   if ('serviceWorker' in navigator && location.hostname !== 'localhost') navigator.serviceWorker.register('sw.js');
