@@ -384,9 +384,10 @@ function OrderRow({ o, ctx, onOpen }) {
         <span class=${'pill ' + st.cls}>${st.label}</span>
         ${who ? html`<span style="display:inline-flex;align-items:center;gap:4px"><span class=${'av sm' + (who.id === ctx.me.id ? '' : ' light')} style="width:20px;height:20px;font-size:10px">${initial(who)}</span>${who.id === ctx.me.id ? 'אצלי' : who.name}</span>`
           : ''}</div>
-      <div class="t">${o.customer}</div>
+      <div class="t">${o.customer}${o.is_custom && html` <span class="pill custom">עיצוב אישי</span>`}</div>
       <div class="meta">
         ${o.items && html`<span>${o.items}</span>`}
+        ${o.shipping && html`<span>· ${o.shipping}</span>`}
         ${o.due_date && html`<span class=${late ? 'pill late' : ''}>${late ? 'באיחור · ' : 'עד '}${dueLabel({ due_date: o.due_date })}</span>`}
         ${o.amount != null && html`<span>₪${Number(o.amount).toLocaleString('he-IL')}</span>`}
         ${!isOpenOrder(o) && o.closed_at && html`<span>${timeAgo(o.closed_at)}</span>`}
@@ -438,7 +439,7 @@ function Orders({ ctx, openOrder }) {
   const open = ctx.orders.filter(isOpenOrder).length;
   return html`<main class="page">
     <div><h1 class="h1">הזמנות פתוחות<span style="color:var(--gold)">.</span></h1>
-      <div class="sub">${open ? `${open} פתוחות` : 'אין פתוחות'} · מוסיפים ידנית. בהמשך יגיעו לבד מהאתר</div></div>
+      <div class="sub">${open ? `${open} פתוחות` : 'אין פתוחות'} · הזמנות מהאתר נכנסות לבד, את השאר מוסיפים כאן</div></div>
     <${OrdersList} ctx=${ctx} onOpen=${openOrder} />
     <button class="btn" onClick=${() => openOrder({})}>${I.plus(20)} הזמנה חדשה</button>
   </main>`;
@@ -499,6 +500,17 @@ function OrderSheet({ ctx, order, onClose }) {
       <div><span class="lbl">סטטוס</span><div class="seg" style="grid-template-columns:repeat(4,minmax(0,1fr))">
         ${['new', 'preparing', 'ready', 'done'].map((k) => html`<button type="button" class=${f.status === k ? 'on' : ''} onClick=${() => set('status')(k)}>${ORDER_STATUS[k].label}</button>`)}
       </div></div>
+      ${order.external_id && html`<div class="card" style="background:var(--bg);box-shadow:none;padding:12px 14px;display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+          <b style="font-size:14px">הגיעה מהאתר${order.shipping ? ` · ${order.shipping}` : ''}</b>
+          ${order.is_custom && html`<span class="pill custom">עיצוב אישי</span>`}</div>
+        ${order.design_urls?.length > 0 && html`<div style="display:flex;gap:8px;flex-wrap:wrap">${order.design_urls.map((u, i) => html`
+          <a href=${u} target="_blank" rel="noopener" style="display:block;width:96px;height:96px;border-radius:12px;overflow:hidden;background:#fff">
+            <img src=${u} alt=${`העיצוב ${i + 1}`} style="width:100%;height:100%;object-fit:contain" /></a>`)}</div>`}
+        ${order.is_custom && !order.design_urls?.length && html`<div class="sub">תמונת העיצוב לא הגיעה מהאתר. אפשר לראות אותה בהזמנה ב-WooCommerce</div>`}
+        ${/^\d+$/.test(order.external_id) && html`<a class="link" style="padding:0;align-self:flex-start" target="_blank" rel="noopener"
+          href=${`https://keterlion.com/wp-admin/post.php?post=${order.external_id}&action=edit`}>לפתוח את ההזמנה באתר</a>`}
+      </div>`}
       <div><label class="lbl" for="ox">הערה</label><textarea id="ox" class="field soft" style="height:70px;padding:10px 12px" value=${f.notes} onInput=${set('notes')}></textarea></div>
       ${err && html`<div class="err">${err}</div>`}
       <button class="btn" disabled=${busy}>${busy ? 'שומר…' : isNew ? 'להוסיף הזמנה' : 'לשמור'}</button>

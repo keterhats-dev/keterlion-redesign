@@ -278,6 +278,56 @@ $$;
 revoke all on function calendar_feed(uuid) from public;
 grant execute on function calendar_feed(uuid) to anon, authenticated;
 
+-- Orders from the site (WooCommerce webhook → netlify/functions/woo-order.mjs → ingest_web_order)
+alter table orders add column if not exists external_id text unique;   -- WooCommerce order id
+alter table orders add column if not exists shipping text;
+alter table orders add column if not exists is_custom boolean not null default false;  -- Zakeke design
+alter table orders add column if not exists design_urls text[];
+
+create table if not exists app_settings (key text primary key, value text);
+alter table app_settings enable row level security; -- no policies: only server code reads it
+
+-- Who handles orders from the site by default (Yona, the store worker)
+insert into app_settings (key, value)
+  select 'web_orders_assignee', id::text from profiles where name = 'יונה' and active
+  on conflict (key) do update set value = excluded.value;
+
+create or replace function ingest_web_order(p jsonb)
+returns table (order_id uuid, assignee_id uuid, is_new boolean)
+language plpgsql security definer set search_path = public as $$
+#variable_conflict use_column
+declare cur orders; who uuid; wstatus text := p->>'status';
+begin
+  select * into cur from orders o where o.external_id = p->>'external_id';
+  if found then
+    -- Known order: follow the site's status, keep everything people changed here
+    update orders set
+      status = case when wstatus = 'completed' then 'done'
+                    when wstatus in ('cancelled', 'refunded', 'failed') then 'cancelled'
+                    else orders.status end,
+      closed_at = case when wstatus in ('completed', 'cancelled', 'refunded', 'failed') then coalesce(orders.closed_at, now()) else orders.closed_at end,
+      design_urls = case when jsonb_array_length(coalesce(p->'design_urls', '[]'::jsonb)) > 0
+                         then array(select jsonb_array_elements_text(p->'design_urls')) else orders.design_urls end
+    where id = cur.id;
+    return query select cur.id, cur.assignee_id, false;
+    return;
+  end if;
+  -- New: only paid orders come in (not pending payment, not cancelled attempts)
+  if wstatus not in ('processing', 'on-hold') then return; end if;
+  select value::uuid into who from app_settings where key = 'web_orders_assignee';
+  if who is null or not exists (select 1 from profiles where id = who and active) then
+    select id into who from profiles where role = 'owner' and active order by created_at limit 1;
+  end if;
+  return query
+  insert into orders (source, external_id, number, customer, items, amount, shipping, is_custom, design_urls, status, assignee_id, created_by)
+  values ('site', p->>'external_id', p->>'number', coalesce(p->>'customer', 'לקוח מהאתר'), p->>'items', (p->>'amount')::numeric,
+          p->>'shipping', coalesce((p->>'is_custom')::boolean, false),
+          array(select jsonb_array_elements_text(coalesce(p->'design_urls', '[]'::jsonb))), 'new', who, null)
+  returning orders.id, orders.assignee_id, true;
+end $$;
+revoke all on function ingest_web_order(jsonb) from public, anon, authenticated;
+grant execute on function ingest_web_order(jsonb) to service_role;
+
 -- Live updates on both phones
 alter publication supabase_realtime add table tasks, checklist_items, comments, profiles, team_invites, orders, deals;
 

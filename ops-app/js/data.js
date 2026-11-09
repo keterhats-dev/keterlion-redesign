@@ -66,10 +66,13 @@ function seed() {
     profiles: [
       { id: owner, name: 'בעל העסק', role: 'owner', title: 'בעלים', email: null, active: true },
       { id: ari, name: 'ארי', role: 'staff', title: 'מנהל מערכת ותפעול', email: null, active: true },
+      { id: 'u-yona', name: 'יונה', role: 'staff', title: 'עובד בחנות', email: null, active: true },
     ],
     invites: [],
     orders: [
-      { id: uid(), source: 'site', number: '[מספר]', customer: '[שם הלקוח]', items: '2 כובעים', amount: null, status: 'new', due_date: null, notes: null, assignee_id: ari, created_by: owner, created_at: at(0, 9), updated_at: at(0, 9), closed_at: null },
+      // Two orders as they arrive from the site (demo values): a regular one and a custom design
+      { id: uid(), source: 'site', external_id: 'demo-1', number: '[מספר]', customer: '[שם הלקוח]', items: '2 × כובע [שם הדגם]', amount: 238, shipping: 'משלוח עד הבית', status: 'new', due_date: null, notes: null, assignee_id: 'u-yona', created_by: null, created_at: at(0, 9), updated_at: at(0, 9), closed_at: null },
+      { id: uid(), source: 'site', external_id: 'demo-2', number: '[מספר]', customer: '[שם הלקוח]', items: '1 × כובע בעיצוב אישי', amount: 100, shipping: 'איסוף מהחנות', is_custom: true, design_urls: ['icon.svg'], status: 'new', due_date: null, notes: null, assignee_id: 'u-yona', created_by: null, created_at: at(0, 10), updated_at: at(0, 10), closed_at: null },
       { id: uid(), source: 'wholesale', number: null, customer: '[שם העסק]', items: '[כמות] כובעים ממותגים', amount: null, status: 'preparing', due_date: t, notes: null, assignee_id: ari, created_by: ari, created_at: at(-1, 12), updated_at: at(-1, 12), closed_at: null },
       { id: uid(), source: 'wolt', number: null, customer: 'Wolt', items: 'כובע אחד, איסוף מהחנות', amount: null, status: 'ready', due_date: t, notes: null, assignee_id: owner, created_by: owner, created_at: at(0, 11), updated_at: at(0, 11), closed_at: null },
     ],
