@@ -14,3 +14,8 @@ ops-app/node_modules/
 *.xlsx
 *.csv
 backups/
+
+# Zakeke SVG work: downloaded embroidery images, traced SVGs and the generated page are brand material (Google Drive, not git)
+tools/zakeke-svg/src/
+tools/zakeke-svg/out/
+tools/zakeke-svg/compare.*
