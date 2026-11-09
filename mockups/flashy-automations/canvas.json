@@ -1,0 +1,25 @@
+{
+  "v": 3,
+  "createdOnFiles": {"v": 1, "at": "2026-11-08T17:55:00Z"},
+  "title": "מיילים אוטומטיים Flashy",
+  "launch": {"view": "canvas"},
+  "pages": [],
+  "boards": {
+    "Main.dc.html": {"x": 0, "y": 0, "w": 1440, "h": 1120, "title": "המבנה: שתי האוטומציות"},
+    "Cart1.dc.html": {"x": 1050, "y": 1500, "w": 390, "h": 1300, "title": "עגלה נטושה 1 · שעה אחרי"},
+    "Cart2.dc.html": {"x": 580, "y": 1500, "w": 390, "h": 1400, "title": "עגלה נטושה 2 · 24 שעות אחרי"},
+    "Welcome1.dc.html": {"x": 1050, "y": 3300, "w": 390, "h": 1820, "title": "ברוכים הבאים 1 · מייד"},
+    "Welcome2.dc.html": {"x": 580, "y": 3300, "w": 390, "h": 1760, "title": "ברוכים הבאים 2 · אחרי יומיים"},
+    "Welcome3.dc.html": {"x": 110, "y": 3300, "w": 390, "h": 1900, "title": "ברוכים הבאים 3 · אחרי 4 ימים"},
+    "Welcome4.dc.html": {"x": -360, "y": 3300, "w": 390, "h": 1640, "title": "ברוכים הבאים 4 · יום 7, רק למי שלא קנה"}
+  },
+  "order": ["Main.dc.html", "Cart1.dc.html", "Cart2.dc.html", "Welcome1.dc.html", "Welcome2.dc.html", "Welcome3.dc.html", "Welcome4.dc.html"],
+  "notes": {
+    "t1": {"x": 0, "y": -300, "text": "שתי אוטומציות ב-Flashy", "kind": "title1", "maxW": 1440},
+    "t2": {"x": 0, "y": 1220, "text": "עגלה נטושה: 2 מיילים, בלי הנחה", "kind": "title1", "maxW": 1440},
+    "t3": {"x": -360, "y": 3020, "text": "ברוכים הבאים: 4 מיילים", "kind": "title1", "maxW": 1800}
+  },
+  "designSystems": [
+    {"title": "KETERLION", "namespace": "keterlion", "artifact": "https://claude.ai/artifact/SG2NbyvJQMkJ4GJTNt6x12", "version": "1793874629-e9bb", "copiedAt": "2026-11-08T17:55:00Z"}
+  ]
+}

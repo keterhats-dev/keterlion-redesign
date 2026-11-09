@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>המבנה של שתי האוטומציות</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#171717}a:hover{color:#6B6B69}
+</style>
+</helmet>
+<div dir="rtl" style="width: 1440px; height: 1120px; box-sizing: border-box; padding: 56px 64px; background: #FFFFFF; font-family: Heebo, Arial, sans-serif; color: #171717; display: flex; flex-direction: column; gap: 36px">
+
+<div style="display: flex; flex-direction: column; gap: 14px; border-bottom: 1px solid #DDD3BD; padding-bottom: 28px">
+<div style="display: flex; align-items: center; gap: 12px"><span style="width: 32px; height: 4px; background: #AE8E42"></span><span style="font-size: 13px; font-weight: 500; letter-spacing: 0.24em">FLASHY · אוטומציות</span></div>
+<h1 style="margin: 0; font-size: 56px; line-height: 1.05; font-weight: 900">מייל בלבד, ורק למי שאישר דיוור<span style="color: #AE8E42">.</span></h1>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #6B6B69; max-width: 1100px">שתיהן נבנות במצב "לא פעיל", ומופעלות רק אחרי האישור שלך. בכל קישור: utm_source=flashy · utm_medium=email · utm_campaign=abandoned_cart או welcome_series · utm_content=email1 עד email4.</p>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 64px; flex-grow: 1">
+
+<div style="display: flex; flex-direction: column; align-items: stretch">
+<div style="display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px"><span style="font-size: 18px; color: #6B6B69">א׳</span><span style="font-size: 40px; font-weight: 500; letter-spacing: -0.01em">עגלה נטושה</span></div>
+
+<div style="background: #171717; padding: 16px 20px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; font-weight: 500; letter-spacing: 0.2em; color: #AE8E42">טריגר</span>
+<span style="font-size: 20px; font-weight: 700; color: #FFFFFF">הוספה לעגלה</span>
+<span style="font-size: 14px; color: #BDB7AA">האתר שולח את הסל בכל שינוי (UpdateCart, נבדק היום)</span>
+</div>
+<div style="width: 1px; height: 22px; background: #171717; align-self: center"></div>
+<div style="border: 1px dashed #DDD3BD; padding: 10px 20px; font-size: 15px; color: #6B6B69; text-align: center">המתנה: שעה</div>
+<div style="width: 1px; height: 22px; background: #171717; align-self: center"></div>
+<div style="border: 1px solid #171717; padding: 14px 20px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; font-weight: 500; letter-spacing: 0.2em; color: #6B6B69">מייל 1</span>
+<span style="font-size: 20px; font-weight: 700">שכחתם משהו בסל</span>
+<span style="font-size: 14px; color: #6B6B69">המוצרים מהסל, כפתור "לחזור לסל"</span>
+</div>
+<div style="width: 1px; height: 22px; background: #171717; align-self: center"></div>
+<div style="border: 1px dashed #DDD3BD; padding: 10px 20px; font-size: 15px; color: #6B6B69; text-align: center">המתנה: 23 שעות (יום אחרי ההוספה)</div>
+<div style="width: 1px; height: 22px; background: #171717; align-self: center"></div>
+<div style="border: 1px solid #171717; padding: 14px 20px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; font-weight: 500; letter-spacing: 0.2em; color: #6B6B69">מייל 2</span>
+<span style="font-size: 20px; font-weight: 700">הכובע שלכם עדיין כאן</span>
+<span style="font-size: 14px; color: #6B6B69">תזכורת, והצעה לשאול אותנו בוואטסאפ</span>
+</div>
+<div style="width: 1px; height: 22px; background: #171717; align-self: center"></div>
+<div style="padding: 8px 20px; font-size: 15px; color: #6B6B69; text-align: center; border-top: 1px solid #DDD3BD">סוף</div>
+
+<div style="margin-top: 28px; border-top: 1px solid #DDD3BD; padding-top: 18px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 16px; font-weight: 700">תנאי יציאה: רכישה</span>
+<span style="font-size: 15px; line-height: 1.6; color: #6B6B69">מי שקנה יוצא מיד ולא מקבל עוד מיילים. בלי הנחה: רק תזכורת, כדי לא ללמד לקוחות לנטוש בשביל קופון.</span>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; align-items: stretch">
+<div style="display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px"><span style="font-size: 18px; color: #6B6B69">ב׳</span><span style="font-size: 40px; font-weight: 500; letter-spacing: -0.01em">ברוכים הבאים</span></div>
+
+<div style="background: #171717; padding: 16px 20px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; font-weight: 500; letter-spacing: 0.2em; color: #AE8E42">טריגר</span>
+<span style="font-size: 20px; font-weight: 700; color: #FFFFFF">איש קשר הצטרף לרשימה</span>
+<span style="font-size: 14px; color: #BDB7AA">הרשמה בפופאפ של המועדון, או אישור דיוור בקופה</span>
+</div>
+<div style="width: 1px; height: 18px; background: #171717; align-self: center"></div>
+<div style="border: 1px solid #171717; padding: 12px 20px; display: flex; flex-direction: column; gap: 3px">
+<span style="font-size: 12px; font-weight: 500; letter-spacing: 0.2em; color: #6B6B69">מייל 1 · מייד</span>
+<span style="font-size: 19px; font-weight: 700">ה-10% שלכם: A95KGG9T</span>
+</div>
+<div style="width: 1px; height: 18px; background: #171717; align-self: center"></div>
+<div style="border: 1px dashed #DDD3BD; padding: 8px 20px; font-size: 15px; color: #6B6B69; text-align: center">המתנה: יומיים</div>
+<div style="width: 1px; height: 18px; background: #171717; align-self: center"></div>
+<div style="border: 1px solid #171717; padding: 12px 20px; display: flex; flex-direction: column; gap: 3px">
+<span style="font-size: 12px; font-weight: 500; letter-spacing: 0.2em; color: #6B6B69">מייל 2 · יום 2</span>
+<span style="font-size: 19px; font-weight: 700">נעים להכיר: שלושה דברים שאנחנו עושים, והחנות</span>
+</div>
+<div style="width: 1px; height: 18px; background: #171717; align-self: center"></div>
+<div style="border: 1px dashed #DDD3BD; padding: 8px 20px; font-size: 15px; color: #6B6B69; text-align: center">המתנה: יומיים</div>
+<div style="width: 1px; height: 18px; background: #171717; align-self: center"></div>
+<div style="border: 1px solid #171717; padding: 12px 20px; display: flex; flex-direction: column; gap: 3px">
+<span style="font-size: 12px; font-weight: 500; letter-spacing: 0.2em; color: #6B6B69">מייל 3 · יום 4</span>
+<span style="font-size: 19px; font-weight: 700">עיצוב אישי: גם כובע אחד, וגם חולצה</span>
+</div>
+<div style="width: 1px; height: 18px; background: #171717; align-self: center"></div>
+<div style="border: 1px dashed #DDD3BD; padding: 8px 20px; font-size: 15px; color: #6B6B69; text-align: center">המתנה: 3 ימים</div>
+<div style="width: 1px; height: 18px; background: #171717; align-self: center"></div>
+<div style="border: 1px solid #171717; padding: 12px 20px; display: flex; flex-direction: column; gap: 3px">
+<span style="font-size: 12px; font-weight: 500; letter-spacing: 0.2em; color: #6B6B69">מייל 4 · יום 7</span>
+<span style="font-size: 19px; font-weight: 700">תזכורת לקוד, ומוצרים שההנחה חלה עליהם</span>
+</div>
+<div style="width: 1px; height: 18px; background: #171717; align-self: center"></div>
+<div style="padding: 8px 20px; font-size: 15px; color: #6B6B69; text-align: center; border-top: 1px solid #DDD3BD">סוף</div>
+
+<div style="margin-top: 22px; border-top: 1px solid #DDD3BD; padding-top: 18px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 16px; font-weight: 700">תנאי יציאה: רכישה</span>
+<span style="font-size: 15px; line-height: 1.6; color: #6B6B69">ולכן מייל 4 מגיע רק למי שעוד לא קנה. את המייל הבודד הישן (36156) מכבים רק אחרי שהסדרה החדשה פעילה, כדי שאף אחד לא יקבל שני מיילי פתיחה.</span>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1120}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>
