@@ -11,13 +11,16 @@
     "Welcome1.dc.html": {"x": 1050, "y": 3300, "w": 390, "h": 1820, "title": "ברוכים הבאים 1 · מייד"},
     "Welcome2.dc.html": {"x": 580, "y": 3300, "w": 390, "h": 1760, "title": "ברוכים הבאים 2 · אחרי יומיים"},
     "Welcome3.dc.html": {"x": 110, "y": 3300, "w": 390, "h": 1900, "title": "ברוכים הבאים 3 · אחרי 4 ימים"},
-    "Welcome4.dc.html": {"x": -360, "y": 3300, "w": 390, "h": 1640, "title": "ברוכים הבאים 4 · יום 7, רק למי שלא קנה"}
+    "Welcome4.dc.html": {"x": -360, "y": 3300, "w": 390, "h": 1640, "title": "ברוכים הבאים 4 · יום 7, רק למי שלא קנה"},
+    "Birthday.dc.html": {"x": 1050, "y": 5700, "w": 390, "h": 1560, "title": "יום הולדת · 7 ימים לפני, פעם בשנה"}
   },
-  "order": ["Main.dc.html", "Cart1.dc.html", "Cart2.dc.html", "Welcome1.dc.html", "Welcome2.dc.html", "Welcome3.dc.html", "Welcome4.dc.html"],
+  "order": ["Main.dc.html", "Cart1.dc.html", "Cart2.dc.html", "Welcome1.dc.html", "Welcome2.dc.html", "Welcome3.dc.html", "Welcome4.dc.html", "Birthday.dc.html"],
   "notes": {
     "t1": {"x": 0, "y": -300, "text": "שתי אוטומציות ב-Flashy", "kind": "title1", "maxW": 1440},
     "t2": {"x": 0, "y": 1220, "text": "עגלה נטושה: 2 מיילים, בלי הנחה", "kind": "title1", "maxW": 1440},
-    "t3": {"x": -360, "y": 3020, "text": "ברוכים הבאים: 4 מיילים", "kind": "title1", "maxW": 1800}
+    "t3": {"x": -360, "y": 3020, "text": "ברוכים הבאים: 4 מיילים", "kind": "title1", "maxW": 1800},
+    "t4": {"x": 0, "y": 5420, "text": "יום הולדת: מייל אחד, 15%", "kind": "title1", "maxW": 1440},
+    "n4": {"x": 500, "y": 5700, "text": "טריגר: מבוסס תאריך, לפי תאריך הלידה שבפופאפ (שדה רשות). 7 ימים לפני, לפי יום וחודש, פעם בשנה. רק למי שאישר דיוור. בלי תנאי יציאה. מי שלא מילא תאריך לידה לא יקבל.", "w": 420, "color": "gray"}
   },
   "designSystems": [
     {"title": "KETERLION", "namespace": "keterlion", "artifact": "https://claude.ai/artifact/SG2NbyvJQMkJ4GJTNt6x12", "version": "1793874629-e9bb", "copiedAt": "2026-11-08T17:55:00Z"}
