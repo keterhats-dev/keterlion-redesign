@@ -35,6 +35,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 	return;
 }
 
+/* E. Zakeke design tool: a loading message behind the Zakeke frame (approved "yes, 1 to 3", 9.11.2026).
+ *    The frame is see-through until Zakeke draws, so the customer sees the message instead of a white
+ *    page; Zakeke's own skeleton covers it when ready. */
+add_action( 'wp_head', function () {
+	?>
+<style id="kl-zakeke-loading">
+#zakeke-container{position:relative;background:#fff}
+#zakeke-container::before{content:"טוען את כלי העיצוב";position:absolute;left:16px;right:16px;top:38%;text-align:center;font:500 20px/1.4 Heebo,Arial,sans-serif;color:#171717;z-index:0;animation:klzk 1.6s ease-in-out infinite}
+#zakeke-container::after{content:"רגע אחד, זה יכול לקחת כמה שניות";position:absolute;left:16px;right:16px;top:calc(38% + 36px);text-align:center;font:400 15px/1.4 Heebo,Arial,sans-serif;color:#6B6B69;z-index:0}
+#zakeke-container #zakeke-frame{position:relative;z-index:1;background:transparent}
+@keyframes klzk{0%,100%{opacity:1}50%{opacity:.4}}
+@media (prefers-reduced-motion:reduce){#zakeke-container::before{animation:none}}
+</style>
+	<?php
+}, 99 );
+
 /* D. Load the two Heebo files (Hebrew and Latin) early (approved "yes, both", 4.11.2026). After C and the
  *    LiteSpeed change the page shows sooner, and the home page heading sometimes jumped (CLS 0.198)
  *    when Heebo 900 arrived. With the preload: 0-0.0008 in 3 runs. Each file still downloads once. */
