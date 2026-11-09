@@ -1,0 +1,18 @@
+/* ===== KL cart spacing (9.11.2026, approved: "כן, לתקן"). Lives at the end of the Custom CSS of the cart page (235).
+   The summary box sat right on the footer (0px), and under the checkout button there was about 75px of empty space
+   (button margin, paragraph margin, wrapper padding and PayPal's empty reCAPTCHA holder).
+   "html body" so these win over kl-commerce.css in the header, whatever order the files load in. ===== */
+html body.woocommerce-cart .cart-collaterals{margin-bottom:64px}
+html body.woocommerce-cart .cart-collaterals::after{content:"";display:table;clear:both}
+html body.woocommerce-cart .wc-proceed-to-checkout{padding:16px 0 0}
+html body.woocommerce-cart .wc-proceed-to-checkout p{margin:0}
+html body.woocommerce-cart .wc-proceed-to-checkout .checkout-button{margin:0 !important}
+html body.woocommerce-cart .wc-proceed-to-checkout .checkout-button br{display:none}
+html body.woocommerce-cart .cart_totals #ppcp-recaptcha-v2-container:empty{margin:0 !important}
+/* one thin beige line between rows (the theme added a second, grey line under each row) */
+html body.woocommerce-cart .cart_totals :is(th,td){border-bottom:0 !important}
+@media (max-width:767px){
+  html body.woocommerce-cart .cart-collaterals{margin-bottom:40px}
+  html body.woocommerce-cart .cart-collaterals .cart_totals{padding-bottom:8px}
+  html body.woocommerce-cart .wc-proceed-to-checkout{padding:12px 0 calc(12px + env(safe-area-inset-bottom))}
+}

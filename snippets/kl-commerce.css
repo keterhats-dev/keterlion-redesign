@@ -113,3 +113,5 @@ html body .blockUI.blockOverlay::before{color:#171717 !important}
   body.woocommerce-cart table.shop_table_responsive tr.cart_item td.product-subtotal{grid-area:sub;font-weight:900;justify-self:end}
   body.woocommerce-cart table.shop_table_responsive tr.cart_item td.product-quantity .quantity input.qty{width:64px;min-height:40px}
 }
+
+/* Cart spacing fix (9.11.2026) lives in the Custom CSS of the cart page (235), not here: see snippets/kl-cart-spacing.css */
