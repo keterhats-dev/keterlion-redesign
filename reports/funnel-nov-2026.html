@@ -1,0 +1,296 @@
+<title>משפך הקנייה בכתרליון</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;900&display=swap">
+<style>
+/* Layout: one reading column, "סמטה" look — white ground, black type, 1px beige rules, gold only as small touches */
+:root{
+  --bg:#FFFFFF; --ink:#171717; --muted:#6B6B69; --line:#DDD3BD; --gold:#AE8E42;
+  --soft:#F4F4F2; --bar:#171717; --barMuted:#DDD3BD; --red:#C21A1A;
+  --okBg:#EEF3EA; --okInk:#2F5A2A; --warnBg:#F7EFDC; --warnInk:#7A5A12; --badBg:#F8E7E5; --badInk:#9A1717; --noBg:#F4F4F2; --noInk:#4A4A48;
+  --f-display:"Heebo", "Arial Hebrew", Arial, sans-serif;
+  --f-body:"Heebo", "Arial Hebrew", Arial, sans-serif;
+  --f-mono:ui-monospace, "SFMono-Regular", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141413; --ink:#F4EEE1; --muted:#A9A59B; --line:#3B372F; --gold:#C2A25A;
+  --soft:#1E1D1B; --bar:#F4EEE1; --barMuted:#4A453B; --red:#E25C5C;
+  --okBg:#1F2A1D; --okInk:#A9CFA2; --warnBg:#2C2517; --warnInk:#E3C27A; --badBg:#2E1C1B; --badInk:#F0A39C; --noBg:#232220; --noInk:#C9C5BB;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141413; --ink:#F4EEE1; --muted:#A9A59B; --line:#3B372F; --gold:#C2A25A;
+  --soft:#1E1D1B; --bar:#F4EEE1; --barMuted:#4A453B; --red:#E25C5C;
+  --okBg:#1F2A1D; --okInk:#A9CFA2; --warnBg:#2C2517; --warnInk:#E3C27A; --badBg:#2E1C1B; --badInk:#F0A39C; --noBg:#232220; --noInk:#C9C5BB;
+  color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6}
+main{max-width:860px;margin:0 auto;padding-block:40px 72px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.eyebrow{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500;letter-spacing:.04em;color:var(--muted)}
+.eyebrow::before{content:"";width:28px;height:2px;background:var(--gold)}
+h1{font-family:var(--f-display);font-weight:900;font-size:clamp(32px,6vw,48px);line-height:1.1;margin:12px 0 16px;text-wrap:balance}
+h1 .dot,h2 .dot{color:var(--gold)}
+h2{font-family:var(--f-display);font-weight:900;font-size:clamp(22px,3.6vw,28px);line-height:1.2;margin:0 0 6px;text-wrap:balance}
+h3{font-weight:500;font-size:18px;margin:0 0 4px}
+p{margin:0 0 12px;max-width:68ch}
+.lead{font-size:18px;max-width:62ch}
+section{border-top:1px solid var(--line);padding-block:36px;display:grid;gap:16px}
+.sub{color:var(--muted);font-size:14px;margin:0}
+.num{font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--f-mono);font-size:.86em;direction:ltr;unicode-bidi:isolate}
+
+/* Bottom line */
+.bottom{display:grid;gap:0;margin-top:8px;border-top:1px solid var(--line)}
+.bottom div{display:grid;grid-template-columns:88px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.bottom>div>b{font-weight:900;font-size:28px;line-height:1}
+.bottom span{min-width:0}
+.bottom span b{font-weight:900;font-size:inherit}
+
+/* Funnel */
+.funnel{display:grid;gap:10px;margin:8px 0 0;padding:0;list-style:none}
+.step{display:grid;grid-template-columns:minmax(120px,190px) 1fr;gap:4px 16px;align-items:center}
+.step .label{font-weight:500;font-size:15px}
+.step .track{position:relative;height:34px;display:flex;align-items:center;gap:10px}
+.step .bar{height:100%;background:var(--bar);min-width:3px;flex:none}
+.step .val{font-weight:900;font-size:18px;white-space:nowrap}
+.step .val small{font-weight:400;font-size:13px;color:var(--muted);margin-inline-start:6px}
+.step:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+.drop{grid-column:2;font-size:13px;color:var(--muted);margin-top:-4px}
+.drop.big{color:var(--red);font-weight:500}
+@media (max-width:560px){.step{grid-template-columns:1fr}.drop{grid-column:1}}
+
+/* Tables */
+.tablewrap{overflow-x:auto;border-top:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;font-size:15px;min-width:520px}
+th,td{text-align:right;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:500;font-size:13px;color:var(--muted)}
+td.n,th.n{text-align:left;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.hl td{font-weight:500}
+.note{font-size:13px;color:var(--muted)}
+
+/* Status chips (square tags, per the brand) */
+.chip{display:inline-block;font-size:12px;font-weight:500;padding:2px 8px;white-space:nowrap}
+.chip::before{margin-inline-end:5px}
+.ok{background:var(--okBg);color:var(--okInk)}.ok::before{content:"✓"}
+.part{background:var(--warnBg);color:var(--warnInk)}.part::before{content:"◐"}
+.bad{background:var(--badBg);color:var(--badInk)}.bad::before{content:"✕"}
+.none{background:var(--noBg);color:var(--noInk)}.none::before{content:"–"}
+.lock{background:var(--noBg);color:var(--noInk)}.lock::before{content:"🔒"}
+
+/* Event grid */
+.events{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));border-top:1px solid var(--line);border-right:1px solid var(--line)}
+.events div{border-left:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px;display:grid;gap:4px;min-width:0}
+.events code{font-size:13px}
+.events span{font-size:13px;color:var(--muted)}
+
+/* Ranked findings and recommendations */
+ol.rank{list-style:none;margin:0;padding:0;display:grid;gap:0;counter-reset:r;border-top:1px solid var(--line)}
+ol.rank>li{counter-increment:r;display:grid;grid-template-columns:40px 1fr;gap:12px;padding:16px 0;border-bottom:1px solid var(--line)}
+ol.rank>li::before{content:counter(r);font-weight:900;font-size:22px;line-height:1.2;color:var(--ink)}
+ol.rank>li>div{min-width:0}
+ol.rank p{margin:4px 0 0}
+.tag{font-size:12px;font-weight:500;color:var(--muted);letter-spacing:.03em}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.mini{border-top:2px solid var(--ink);padding-top:12px;min-width:0}
+.mini ul{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px}
+.mini li{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding-bottom:6px}
+.mini li b{font-weight:900;font-variant-numeric:tabular-nums}
+@media (max-width:640px){.two{grid-template-columns:1fr}}
+ul.plain{margin:0;padding-inline-start:20px;display:grid;gap:6px;max-width:70ch}
+footer{color:var(--muted);font-size:13px;padding-top:24px;border-top:1px solid var(--line)}
+@media (prefers-reduced-motion:no-preference){.step .bar{transition:width .4s ease}}
+</style>
+
+<main dir="rtl" lang="he">
+  <div class="eyebrow">מעקב ומשפך · נבדק ב-10.11.2026 · קריאה בלבד, לא שונה כלום</div>
+  <h1>משפך הקנייה בכתרליון<span class="dot">.</span></h1>
+  <p class="lead">בשמונת הימים הראשונים של האתר החדש (2.11–9.11) נכנסו <b class="num">264</b> מבקרים אמיתיים מישראל, והייתה <b>הזמנה אחת ששולמה</b>. רוב האנשים רואים מוצר ועוזבים לפני הסל. במדידה עצמה יש חור גדול: ל-Google Analytics לא נשלח אף אירוע מכירה.</p>
+
+  <div class="bottom">
+    <div><b class="num">93%</b><span>ממי שראו מוצר <b>לא הגיעו לסל או לקופה</b> (128 מתוך 137). זו הנקודה שבה מאבדים הכי הרבה אנשים</span></div>
+    <div><b class="num">69%</b><span>יצאו אחרי עמוד אחד. 35 מהם נכנסו דרך <b>עמוד שלא קיים (404)</b>, ו-25 מהם יצאו מיד</span></div>
+    <div><b class="num">0</b><span>אירועי מכירה ב-GA4 (צפייה במוצר, סל, קופה, רכישה). <b>Hotjar מקליט כל ביקור</b>, אבל ההקלטות בחשבון שאין לנו גישה אליו</span></div>
+  </div>
+
+  <section aria-labelledby="s-funnel">
+    <div>
+      <h2 id="s-funnel">המשפך<span class="dot">.</span></h2>
+      <p class="sub">2.11–9.11 · מבקרים מישראל בלבד · בלי הבדיקות שלנו · המקור: WP Statistics והזמנות WooCommerce</p>
+    </div>
+    <ol class="funnel" id="funnel"></ol>
+    <p class="note">"סל או קופה" הוא מינימום: מי שהוסיף לסל ולא פתח את עמוד הסל או הקופה לא נראה בנתונים האלה. מבקר אחד = מכשיר אחד ביום אחד.</p>
+  </section>
+
+  <section aria-labelledby="s-split">
+    <div>
+      <h2 id="s-split">לפי מכשיר ולפי מקור<span class="dot">.</span></h2>
+      <p class="sub">אותם 264 מבקרים, באותה תקופה</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>מכשיר</th><th class="n">מבקרים</th><th class="n">יצאו אחרי עמוד אחד</th><th class="n">ראו מוצר</th><th class="n">סל או קופה</th><th class="n">קופה</th><th class="n">הזמנה</th><th class="n">שולמה</th></tr></thead>
+        <tbody>
+          <tr class="hl"><td>טלפון</td><td class="n">173</td><td class="n">107 (62%)</td><td class="n">109</td><td class="n">10</td><td class="n">4</td><td class="n">2</td><td class="n">1</td></tr>
+          <tr><td>מחשב</td><td class="n">82</td><td class="n">70 (85%)</td><td class="n">27</td><td class="n">1</td><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr>
+          <tr><td>טאבלט ולא ידוע</td><td class="n">9</td><td class="n">5</td><td class="n">1</td><td class="n">0</td><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>מקור</th><th class="n">מבקרים</th><th class="n">יצאו אחרי עמוד אחד</th><th class="n">ראו מוצר</th><th class="n">סל או קופה</th><th class="n">קופה</th><th class="n">הזמנה</th><th class="n">שולמה</th></tr></thead>
+        <tbody>
+          <tr class="hl"><td>חיפוש בגוגל</td><td class="n">78</td><td class="n">51</td><td class="n">33</td><td class="n">4</td><td class="n">3</td><td class="n">2</td><td class="n">1</td></tr>
+          <tr><td>ישיר או לא ידוע*</td><td class="n">156</td><td class="n">113</td><td class="n">85</td><td class="n">7</td><td class="n">1</td><td class="n">0</td><td class="n">0</td></tr>
+          <tr><td>אינסטגרם ופייסבוק (רגיל)</td><td class="n">12</td><td class="n">8</td><td class="n">8</td><td class="n">0</td><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr>
+          <tr><td>קמפיין ממומן ב-Meta (עם UTM)</td><td class="n">9</td><td class="n">3</td><td class="n">8</td><td class="n">0</td><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr>
+          <tr><td>אחר (מייל, עוזרי AI)</td><td class="n">9</td><td class="n">7</td><td class="n">3</td><td class="n">0</td><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">* הדפדפן שבתוך אינסטגרם ופייסבוק לרוב לא מעביר מאיפה הגיעו, ולכן חלק גדול מ"ישיר" מגיע בעצם מהרשתות, כולל הקמפיין (ראו למטה).</p>
+    <p><b>מה רואים:</b> כל מי שהגיע לקופה הגיע מטלפון. מהמחשב רק מבקר אחד הגיע לסל. שתי ההזמנות מאז 2.11 הגיעו מגוגל, מאייפון ומתוך האפליקציה של Google (הקישור כלל <code>srsltid</code>, כלומר תוצאות המוצרים של גוגל). מהרשתות ומהקמפיין עוד לא הגיע אף אחד לסל.</p>
+  </section>
+
+  <section aria-labelledby="s-custom">
+    <div>
+      <h2 id="s-custom">העיצוב האישי (Zakeke)<span class="dot">.</span></h2>
+      <p class="sub">/product/customize/ ו-/product/custom-shirt/, באותה תקופה</p>
+    </div>
+    <div class="two">
+      <div class="mini">
+        <h3>עיצוב אישי</h3>
+        <ul>
+          <li><span>נכנסו לעמוד</span><b>71</b></li>
+          <li><span>יצאו אחרי עמוד אחד</span><b>38</b></li>
+          <li><span>הגיעו לסל או לקופה</span><b>6 (8.5%)</b></li>
+          <li><span>הגיעו לקופה</span><b>2</b></li>
+          <li><span>שילמו</span><b>1</b></li>
+        </ul>
+      </div>
+      <div class="mini">
+        <h3>מוצרים רגילים בלבד</h3>
+        <ul>
+          <li><span>ראו מוצר</span><b>66</b></li>
+          <li><span>יצאו אחרי עמוד אחד</span><b>40</b></li>
+          <li><span>הגיעו לסל או לקופה</span><b>3 (4.5%)</b></li>
+          <li><span>הגיעו לקופה</span><b>1</b></li>
+          <li><span>שילמו</span><b>0</b></li>
+        </ul>
+      </div>
+    </div>
+    <p>העיצוב האישי מביא כמעט חצי מהמבקרים, ומי שנכנס אליו מגיע לסל בערך פי 2 יותר ממי שרואה מוצר רגיל. ההזמנה היחידה ששולמה (25310, ₪334) כללה כובע מותאם אישית.</p>
+    <p><b>הקמפיין ב-Meta:</b> מ-8.11 בערב יש מודעות באינסטגרם ובפייסבוק שמובילות ישר לכלי העיצוב (<code>utm_medium=paid</code>, <code>utm_id=52593952267291</code>). ב-8–9.11 הגיעו משם כ-30 מבקרים. 19 מהם יצאו מיד, אחד הגיע לסל, ואין הזמנות. ב-4.11 מדדנו שבטלפון תמונת הכובע בכלי מופיעה רק אחרי 9–10 שניות. בדפדפן של אינסטגרם זה כנראה מרגיש עוד יותר ארוך. <b>באתר אין פיקסל של Meta</b>, ולכן הקמפיין לא יודע מי קנה ולא יכול ללמוד מזה. במודעה אחת (לקולקציית "שורשים") השדה <code>{{campaign.name}}</code> לא מולא.</p>
+    <p class="note">מה שקורה בתוך כלי העיצוב (בחירת גזרה, הוספת טקסט, "הוספה לסל") לא נמדד בשום מקום.</p>
+  </section>
+
+  <section aria-labelledby="s-drop">
+    <div>
+      <h2 id="s-drop">איפה נוטשים, לפי הגודל<span class="dot">.</span></h2>
+    </div>
+    <ol class="rank">
+      <li><div><h3>מעמוד המוצר לסל</h3><p>128 מתוך 137 שראו מוצר לא הגיעו לסל או לקופה. בטלפון 101 מתוך 109, ובמחשב 26 מתוך 27. בלי הקלטות אי אפשר לדעת למה: מחיר, מידה, משלוח, מהירות או כפתור. ההקלטות של Hotjar יענו על זה.</p></div></li>
+      <li><div><h3>הכניסה לאתר</h3><p>182 מתוך 264 (69%) ראו עמוד אחד ויצאו. מי שנכנס לדף הבית: 36 מתוך 65 יצאו. לעיצוב האישי: 34 מתוך 45. <b>35 נכנסו לעמוד 404</b>, בעיקר /אתר-חדש/, /b2b/, /keterlion-by-you/ וכתובות ישנות של מוצרים. ההפניות לכתובות האלה כבר מוכנות ב-redirects-list-e.md, ועוד לא הופעלו.</p></div></li>
+      <li><div><h3>התשלום</h3><p>לקוח אמיתי (הזמנה 25309, 5.11, ₪298) ניסה לשלם ב-Apple Pay חמש פעמים בתוך דקה, וכל הניסיונות נכשלו. ההזמנה בוטלה. Apple Pay ו-Google Pay כבויים מ-8.11 עד שתקבול יסדרו את זה.</p></div></li>
+      <li><div><h3>מהקופה להזמנה</h3><p>4 הגיעו לקופה, 2 לחצו "ביצוע הזמנה". מוקדם מדי להסיק מזה משהו. ב-4.11 מדדנו שבטלפון עמוד התשלום מוכן רק אחרי כ-11 שניות.</p></div></li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="s-measured">
+    <div>
+      <h2 id="s-measured">מה נמדד היום<span class="dot">.</span></h2>
+      <p class="sub">נבדק באתר החי כאורח: ברשת, בקוד הדף ובקונטיינר של ה-GTM (גרסה 9)</p>
+    </div>
+    <h3>אירועי מכירה ב-GA4</h3>
+    <div class="events">
+      <div><code>view_item_list</code><span class="chip bad">לא נשלח</span></div>
+      <div><code>view_item</code><span class="chip bad">לא נשלח</span></div>
+      <div><code>add_to_cart</code><span class="chip bad">לא נשלח</span><span>רק ל-Flashy</span></div>
+      <div><code>begin_checkout</code><span class="chip bad">לא נשלח</span></div>
+      <div><code>add_payment_info</code><span class="chip bad">לא נשלח</span></div>
+      <div><code>purchase</code><span class="chip bad">לא נשלח</span><span>רק ל-Google Ads</span></div>
+    </div>
+    <p class="note">ל-GA4 נשלחים רק צפייה בעמוד, גלילה ומעורבות. גם Site Kit לא מזהה בנכס אף אירוע המרה.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>כלי</th><th>מה הוא מודד</th><th>מצב</th></tr></thead>
+        <tbody>
+          <tr><td>Google Analytics 4<br><span class="mono">G-7ZYBKNRXNB</span>, <span class="mono">G-QCY4X4TVL6</span></td><td>צפיות בעמודים, גלילה, קליקים החוצה, טפסים. בלי מכירות. <span class="mono">G-7ZYBKNRXNB</span> מוגדר שלוש פעמים (Site Kit, Header and Footer Scripts ו-GTM). רק העותק של Site Kit מסנן משתמשים מחוברים</td><td><span class="chip part">חלקי</span> <span class="chip lock">אין לנו גישה</span></td></tr>
+          <tr><td>Google Ads <span class="mono">AW-10964767108</span><br>(דרך GTM)</td><td>רכישה בעמוד התודה (הסכום נקרא מהטקסט בעמוד), קליק על WhatsApp, קליק על Contact us, שליחת טופס, רימרקטינג</td><td><span class="chip ok">עובד</span></td></tr>
+          <tr><td>Google Ads <span class="mono">AW-319292718</span><br>(Header and Footer Scripts)</td><td>צפייה בעמוד לרימרקטינג, עם הערך "replace with value" במקום מוצר וסכום</td><td><span class="chip bad">שבור</span></td></tr>
+          <tr><td>Hotjar <span class="mono">3266155</span><br>(דרך GTM)</td><td>הקלטות של 100% מהביקורים ומפות חום. ההתחברות שלך פתחה פרויקט חדש וריק ב-Contentsquare, והאתר שייך לחשבון אחר</td><td><span class="chip ok">עובד</span> <span class="chip lock">אין לנו גישה</span></td></tr>
+          <tr><td>Flashy</td><td>צפייה בעמוד ובמוצר ועדכון סל, אבל רק לאנשי קשר מזוהים. פופאפ: 949 צפיות ו-7 הרשמות (0.74%) ב-30 יום. עגלה נטושה (מ-9.11): 2 נכנסו, 3 מיילים נפתחו, 0 הקלקות</td><td><span class="chip part">חלקי</span></td></tr>
+          <tr><td>WooCommerce</td><td>לכל הזמנה: מקור, UTM, סוג מכשיר ומספר העמודים בביקור</td><td><span class="chip ok">עובד</span></td></tr>
+          <tr><td>WP Statistics</td><td>כל עמוד וכל מסלול. רוב התנועה בוטים (88% מחשב, בעיקר ארה"ב ואירופה). הנתונים מלפני 2.11 הם של ה-staging</td><td><span class="chip part">חלקי</span></td></tr>
+          <tr><td>Taboola <span class="mono">1493132</span></td><td>רק צפייה בעמוד, בלי המרות</td><td><span class="chip part">חלקי</span></td></tr>
+          <tr><td>Universal Analytics <span class="mono">UA-204671181-1</span></td><td>עדיין נטען. גוגל הפסיקה את השירות</td><td><span class="chip bad">מיותר</span></td></tr>
+          <tr><td>Microsoft Clarity, פיקסל של Meta, פיקסל של TikTok</td><td>לא מותקנים</td><td><span class="chip none">לא קיים</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="s-rec1">
+    <div>
+      <h2 id="s-rec1">המלצות שלא דורשות שינוי באתר<span class="dot">.</span></h2>
+      <p class="sub">לפי סדר העדיפות</p>
+    </div>
+    <ol class="rank">
+      <li><div><h3>לקבל גישת צפייה ל-GA4 ול-Hotjar</h3><p>את Site Kit חיבר המשתמש <b>ibastom</b> (נכס GA4 מספר 282553795, וגם ה-GTM). אפשר לבקש ממנו הרשאת צפייה בנכס, או שישתף את לוח Site Kit עם מנהלי האתר. את Hotjar (אתר 3266155, חשבון 2142107) כנראה הוסיף מי שמנהל את ה-GTM. ההקלטות כבר קיימות. אפשר לראות בהן מה קורה בעמוד המוצר ובסל בטלפון, בלי להתקין כלום.</p></div></li>
+      <li><div><h3>לחזור ללקוח של הזמנה 25309</h3><p>₪298, שני כובעי "תמרור גמל", 5.11. Apple Pay נכשל לו חמש פעמים. הפרטים שלו בהזמנה. אפשר לשלוח לו קישור לתשלום ב-Bit או באשראי.</p></div></li>
+      <li><div><h3>לדבר עם מי שמריץ את הקמפיין ב-Meta</h3><p>שלוש נקודות: באתר אין פיקסל, ולכן Meta לא רואה קניות. מהמודעות שמובילות לכלי העיצוב יוצאים מיד כ-2 מכל 3, כנראה בגלל הטעינה האיטית. כדאי לשקול לשלוח לעמוד הנחיתה של העיצוב האישי (/custom-2026/) ולא ישר לכלי. ובמודעה של "שורשים" צריך למלא את <code>{{campaign.name}}</code>.</p></div></li>
+      <li><div><h3>לשמור על המוצרים בגוגל</h3><p>שתי ההזמנות מאז 2.11 הגיעו מתוצאות המוצרים של גוגל. כדאי לבדוק ב-Merchant Center שכל המוצרים מאושרים ושאין שגיאות.</p></div></li>
+      <li><div><h3>לתאם לפני כל שינוי במעקב</h3><p>ה-GTM, Site Kit ו-Google Ads <span class="mono">AW-10964767108</span> מנוהלים מחוץ לפרויקט. לפני שמוסיפים אירועים או מנקים כפילויות, כדאי לדבר עם מי שמנהל אותם, כדי שלא יספרו פעמיים ולא יישברו המרות שהם מסתמכים עליהן.</p></div></li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="s-rec2">
+    <div>
+      <h2 id="s-rec2">מדידה שכדאי להוסיף<span class="dot">.</span></h2>
+      <p class="sub">כל אחד מאלה הוא שינוי באתר החי. לא הותקן ולא שונה כלום, וכל סעיף מחכה לאישור שלך</p>
+    </div>
+    <ol class="rank">
+      <li><div><span class="tag">הכי חשוב</span><h3>אירועי מכירה ל-GA4</h3><p>האפשרות הקלה: ב-Site Kit יש הגדרה "Plugin conversion tracking", שמוסיפה <code>add_to_cart</code> ו-<code>purchase</code>. בשביל משפך מלא (<code>view_item_list</code>, <code>view_item</code>, <code>begin_checkout</code>, <code>add_payment_info</code>) צריך תוסף של WooCommerce ל-GA4 או הגדרה ב-GTM. כדאי לנקות באותו שינוי את ההגדרה הכפולה של <span class="mono">G-7ZYBKNRXNB</span>, כדי שלא ייספר פעמיים.</p></div></li>
+      <li><div><h3>הקלטות ומפות חום בחשבון שלך</h3><p>אם אין גישה ל-Hotjar: Microsoft Clarity, בחינם ובלי הגבלת הקלטות. אם הגישה ל-Hotjar מסתדרת, לא צריך את זה.</p></div></li>
+      <li><div><h3>אירועים בעיצוב האישי</h3><p>שלושה אירועים: הכלי נטען, התחילו לעצב, הוסיפו עיצוב לסל. וגם קליק על WhatsApp ל-GA4, שהיום נשלח רק ל-Google Ads.</p></div></li>
+      <li><div><h3>פיקסל של Meta ו-Conversions API</h3><p>רק אם הקמפיינים ב-Meta ממשיכים. בלי זה אי אפשר לדעת אם הם מביאים קניות.</p></div></li>
+      <li><div><h3>ניקוי</h3><p>להסיר את Universal Analytics הישן, לתקן או להסיר את "replace with value" של <span class="mono">AW-319292718</span>, ולסנן משתמשים מחוברים בכל העותקים, כדי שהבדיקות שלנו לא ייספרו.</p></div></li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="s-data">
+    <div><h2 id="s-data">על המספרים<span class="dot">.</span></h2></div>
+    <ul class="plain">
+      <li>שמונה ימים בלבד, והזמנה אחת ששולמה. אלה כיוונים, לא מסקנות סופיות. בשנה האחרונה היו בממוצע 6–7 הזמנות בחודש</li>
+      <li>GA4 ו-Hotjar לא נקראו, כי אין לנו גישה. המשפך בנוי מ-WP Statistics (המסלול של כל מבקר בין העמודים) ומההזמנות ב-WooCommerce</li>
+      <li>רק מבקרים מישראל. כמעט כל השאר בוטים: 2,700 "מבקרים" ב-14 יום, רובם ממחשב, מארה"ב ומאירופה</li>
+      <li>לפני 2.11 הנתונים באתר הם של ה-staging, כי מסד הנתונים הועתק לאתר החי. לכן אין השוואה לתקופה שלפני</li>
+      <li>הוצאו כ-17 ביקורים שלנו: בדיקות Apple Pay (2.11 ו-8.11), כניסות למערכת ובדיקות אוטומטיות. גם הזמנות הבדיקה 25202, 25311, 25313, 25314 ו-25515 לא נספרו</li>
+      <li>חסרים לפחות שני דברים: מי שהוסיף לסל ולא פתח את עמוד הסל או הקופה, ומה קורה בתוך כלי העיצוב</li>
+    </ul>
+  </section>
+
+  <footer>נבדק ב-10.11.2026, בקריאה בלבד. לא נשלחו טפסים, לא נוספו מוצרים לסל ולא שונתה שום הגדרה.</footer>
+</main>
+
+<script>
+(function(){
+  var steps=[
+    {l:"נכנסו לאתר",v:264},
+    {l:"ראו מוצר",v:137,note:"כולל העיצוב האישי"},
+    {l:"הגיעו לסל או לקופה",v:11,big:true},
+    {l:"הגיעו לקופה",v:4},
+    {l:"יצרו הזמנה",v:2},
+    {l:"שילמו",v:1}
+  ];
+  var max=steps[0].v, ol=document.getElementById('funnel');
+  steps.forEach(function(s,i){
+    var li=document.createElement('li'); li.className='step'; li.tabIndex=0;
+    var prev=i?steps[i-1].v:null, pct=prev?Math.round(s.v/prev*100):100, ofAll=(s.v/max*100);
+    var tip=s.l+': '+s.v+(prev?' · '+pct+'% מהשלב הקודם':'')+' · '+(Math.round(ofAll*10)/10)+'% מכל המבקרים';
+    li.title=tip; li.setAttribute('aria-label',tip);
+    li.innerHTML='<span class="label">'+s.l+'</span><div class="track"><span class="bar" style="width:'+(ofAll*0.82).toFixed(2)+'%"></span><span class="val num">'+s.v+(prev?'<small>'+pct+'% מהשלב הקודם</small>':'')+'</span></div>'+
+      (prev?'<span class="drop'+(s.big?' big':'')+'">'+(prev-s.v)+' פחות מהשלב הקודם'+(s.big?', הנפילה הגדולה ביותר':'')+(s.note?' · '+s.note:'')+'</span>':'');
+    ol.appendChild(li);
+  });
+})();
+</script>
