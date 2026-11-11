@@ -1,0 +1,231 @@
+<title>קטלוג בסיס כתרליון</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Arvo:wght@700&family=Heebo:wght@400;500;700;900&family=Suez+One&display=swap">
+<style>
+/* Layout: "סמטה" — white page, black bars, 1px beige rules between collection rows (letter + big name + black arrow box) */
+:root{
+  --bg:#FFFFFF; --ink:#171717; --gold:#AE8E42; --cream:#F4EEE1; --line:#DDD3BD;
+  --muted:#6B6B69; --red:#C21A1A; --soft:#F4F4F2;
+  --f-display:"Heebo",system-ui,"Segoe UI",Arial,sans-serif;
+  --f-body:"Heebo",system-ui,"Segoe UI",Arial,sans-serif;
+  --f-sticker:"Suez One","Heebo",serif;
+  --r:4px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg);color:var(--ink)}
+body{font-family:var(--f-body);font-size:15px;line-height:1.55;direction:rtl}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ink)}
+
+/* top bar */
+.bar{background:var(--ink);color:var(--cream);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:12px}
+.logo{font-family:"Arvo",Rockwell,"Rockwell Std",Georgia,serif;font-weight:700;letter-spacing:.12em;font-size:18px;color:#fff}
+.logo i{color:var(--gold);font-style:normal}
+.mode{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--cream)}
+.mode button{font:inherit;font-weight:500;background:transparent;color:#fff;border:1px solid #fff;border-radius:var(--r);padding:6px 12px;cursor:pointer}
+.mode button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:var(--ink)}
+.mode button:focus-visible,.chip:focus-visible,.sw:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+/* ticker */
+.tick{border-bottom:1px solid var(--line);overflow:hidden;white-space:nowrap;font-weight:500;font-size:13px;padding-block:8px}
+.tick span{display:inline-block;padding-inline:18px}
+.tick b{color:var(--gold)}
+
+/* hero */
+.hero{padding-block:36px 24px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;border-bottom:1px solid var(--line)}
+.eyebrow{display:flex;align-items:center;gap:10px;font-weight:500;font-size:13px;color:var(--muted)}
+.eyebrow::before{content:"";width:28px;height:2px;background:var(--gold)}
+h1{font-family:var(--f-display);font-weight:900;font-size:clamp(34px,6vw,64px);line-height:1;margin:10px 0 12px;text-wrap:balance}
+h1 .dot{color:var(--gold)}
+.lede{max-width:60ch;color:var(--muted);margin:0}
+.sticker{width:112px;height:112px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;text-align:center;font-family:var(--f-sticker);font-size:17px;line-height:1.15;transform:rotate(-8deg)}
+.sticker small{display:block;font-family:var(--f-body);font-size:11px;color:var(--gold);font-weight:500}
+
+/* tools */
+.tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding-block:16px;border-bottom:1px solid var(--line)}
+.chip{font:inherit;font-size:14px;font-weight:500;background:#fff;color:var(--ink);border:1px solid var(--ink);border-radius:var(--r);padding:7px 14px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:#fff}
+.search{margin-inline-start:auto;display:flex;align-items:center;gap:8px}
+.search input{font:inherit;font-size:14px;border:1px solid var(--ink);border-radius:var(--r);padding:7px 12px;width:200px;max-width:100%;background:#fff;color:var(--ink)}
+.count{font-size:13px;color:var(--muted)}
+
+/* product row */
+.prod{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:28px;padding-block:28px;border-bottom:1px solid var(--line)}
+.prod[hidden]{display:none!important}
+.head{display:flex;align-items:center;gap:14px;grid-column:1/-1}
+.letter{font-weight:900;font-size:22px;color:var(--muted);min-width:34px}
+.name{font-weight:900;font-size:clamp(22px,3.2vw,34px);line-height:1.1;margin:0;flex:1;min-width:0;text-wrap:balance}
+.arrow{width:40px;height:40px;border-radius:var(--r);background:var(--ink);color:#fff;display:grid;place-items:center;font-size:20px;flex:none}
+.new{background:var(--ink);color:var(--gold);font-size:12px;font-weight:700;padding:3px 8px}
+
+/* supplier colour photos: logo in the top 8%, Chinese/English caption from ~66% down — show only the band between */
+.stage{position:relative;background:#fff;aspect-ratio:1/0.58;overflow:hidden;max-width:100%}
+.stage img{position:absolute;left:0;right:0;width:100%;height:auto;top:-8.5%;display:block}
+.stage .cap{position:absolute;inset:auto 0 0 auto;background:var(--ink);color:#fff;font-weight:500;font-size:14px;padding:6px 12px}
+.specs{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:16px 0 0;font-size:14px}
+.specs dt{color:var(--muted)}
+.specs dd{margin:0;font-weight:500}
+.note{color:var(--muted);font-weight:400;font-size:13px;margin-top:4px}
+.model{font-variant-numeric:tabular-nums;letter-spacing:.04em}
+
+.colors h3{font-weight:500;font-size:16px;margin:0 0 12px;display:flex;justify-content:space-between;gap:12px}
+.colors h3 span{color:var(--muted);font-weight:400;font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px}
+.sw{font:inherit;text-align:center;background:#fff;border:1px solid transparent;border-radius:var(--r);padding:4px 4px 8px;cursor:pointer;color:var(--ink);display:flex;flex-direction:column;gap:4px;min-width:0}
+.sw:hover{border-color:var(--line)}
+.sw[aria-pressed="true"]{border-color:var(--ink)}
+.thumb{display:block;aspect-ratio:1/0.58;overflow:hidden;position:relative;background:#fff}
+.thumb img{position:absolute;left:0;right:0;width:100%;height:auto;top:-8.5%;display:block}
+.sw .he{font-size:13px;font-weight:500;line-height:1.25}
+.sw .sup{font-size:11px;color:var(--muted);line-height:1.2;direction:ltr;overflow-wrap:anywhere}
+.ordering .sup,.ordering .ord{display:block}
+.sup,.ord{display:none}
+.ord{font-size:12px;color:var(--muted);direction:ltr;text-align:right;margin-top:10px}
+.sizes{display:flex;flex-wrap:wrap;gap:6px}
+.sizes span{border:1px solid var(--line);border-radius:var(--r);padding:2px 8px;font-size:13px;font-weight:500}
+
+footer{background:var(--ink);color:var(--cream);margin-top:40px}
+footer .wrap{padding-block:24px;font-size:13px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+footer b{color:#fff}
+
+@media (max-width:760px){
+  .hero{grid-template-columns:1fr}
+  .sticker{width:92px;height:92px;font-size:14px;justify-self:start}
+  .prod{grid-template-columns:1fr;gap:18px}
+  .search{margin-inline-start:0;width:100%}
+  .search input{flex:1;width:auto}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(84px,1fr))}
+  .mode .lbl{display:none}
+}
+@media (prefers-reduced-motion:no-preference){.sw img,.stage img{transition:opacity .15s}}
+</style>
+
+<header class="bar">
+  <div class="wrap">
+    <div class="logo">KETERLION<i>.</i></div>
+    <div class="mode"><span class="lbl">תצוגה:</span>
+      <button id="m-cust" aria-pressed="true">ללקוחות</button>
+      <button id="m-ord" aria-pressed="false">להזמנה מהספק</button>
+    </div>
+  </div>
+</header>
+<div class="tick" aria-hidden="true"><div class="wrap" id="tick"></div></div>
+
+<main class="wrap">
+  <section class="hero">
+    <div>
+      <div class="eyebrow">קולקציית בסיס · חולצות חלקות</div>
+      <h1>בסיס 260 גרם<span class="dot">.</span></h1>
+      <p class="lede">חולצות כותנה כבדות בעשרות צבעים, בגזרה רחבה עם כתף נשמטת. כל דגם מגיע במידות S עד XXXL, ואפשר להדפיס עליו עיצוב משלך.</p>
+    </div>
+    <div class="sticker"><div>גם חולצה<br>אחת<small>בלי מינימום</small></div></div>
+  </section>
+
+  <div class="tools" role="toolbar" aria-label="סינון">
+    <button class="chip" data-f="all" aria-pressed="true">הכול</button>
+    <button class="chip" data-f="short" aria-pressed="false">שרוול קצר</button>
+    <button class="chip" data-f="long" aria-pressed="false">שרוול ארוך</button>
+    <button class="chip" data-f="wash" aria-pressed="false">ווש</button>
+    <div class="search"><label for="q" class="count" id="cnt"></label><input id="q" type="search" placeholder="חיפוש צבע, למשל: ירוק"></div>
+  </div>
+
+  <div id="list"></div>
+</main>
+
+<footer><div class="wrap">
+  <span><b>KETERLION</b> · נחלת בנימין 13, תל אביב</span>
+  <span>טיוטה לאישור · 5 דגמים ראשונים מתוך 60</span>
+</div></footer>
+
+<script>
+const IMG=/*IMGDATA*/{};
+const RAW=/*RAWDATA*/{};
+
+const HE={
+ "white":"לבן","black":"שחור","grey":"אפור","gray color":"אפור","light gray":"אפור בהיר","medium gray":"אפור בינוני","dark gray":"אפור כהה","silver gray":"אפור כסוף","flower gray":"אפור מלאנז'",
+ "grass color":"ירוק דשא","green":"ירוק","dark green":"ירוק כהה","mint green":"ירוק מנטה","forest green":"ירוק יער","army green":"ירוק זית","military green":"ירוק זית","onion green":"ירוק עלה","gray green":"ירוק אפרפר",
+ "blue":"כחול","dark blue":"כחול כהה","sky blue":"תכלת","aqua blue":"כחול אקווה","sea blue":"כחול ים","midnight blue":"כחול לילה","deep royal blue":"כחול רויאל",
+ "purple":"סגול","lavender purple":"סגול לבנדר","grape purple":"סגול ענבים","light purple":"סגול בהיר","violet":"סגול ויולט",
+ "brown":"חום","light brown":"חום בהיר","dark brown":"חום כהה","camel":"קאמל","caramel":"קרמל","caramel color":"קרמל","khaki":"חאקי","beige":"בז'","apricot":"משמש",
+ "pink":"ורוד","light pink":"ורוד בהיר","rose red":"פוקסיה","cherry red":"אדום דובדבן","brick red":"אדום לבנה","orange":"כתום",
+ "fluorescent yellow":"צהוב זוהר","dark yellow":"צהוב חרדל","lemon yellow":"צהוב לימון",
+ // M-59 vintage wash
+ "fried flowers black":"שחור מנומר","wash water white":"לבן","washed black":"שחור","retro wash dark red":"אדום כהה","retro washed bean paste color":"ורוד עתיק","retro washed pink":"ורוד","retro washed gray blue":"כחול אפרפר","retro washed active gray":"אפור","retro washed army green":"ירוק זית","retro washed coffee":"קפה","vintage washed khaki":"חאקי","retro wash rose red":"פוקסיה","retro washed beige":"בז'","retro wash light gray":"אפור בהיר","retro wash dark gray":"אפור כהה","vintage washed ivory":"שנהב","retro washed apricot color":"משמש","retro washed brick red":"אדום לבנה","retro washed purple":"סגול","retro washed water gray":"אפור מים","vintage washed green":"ירוק","vintage bryn purple":"סגול כהה"
+};
+function he(n){
+  const m=n.trim().toLowerCase().match(/^(.*?)(\d)?$/);
+  const base=HE[m[1].trim()]; if(!base) return n;
+  return m[2]?base+" "+m[2]:base;
+}
+
+const META={
+ "AK-128":{name:"חולצת שרוול ארוך 260 גרם",sleeve:"long",desc:"כותנה סרוקה 98%, חוט כפול",fit:"רחבה, כתף נשמטת, צווארון עגול צר",extra:"סיומת ריב"},
+ "AK07":{name:"טישרט כבדה 260 גרם",sleeve:"short",desc:"כותנה 98%, חוט כפול 32",fit:"רחבה, כתף נשמטת, צווארון עגול צר",extra:"שרוול חצי ארוך"},
+ "AK01":{name:"טישרט ווש שלג 260 גרם",sleeve:"short",wash:1,desc:"כותנה סרוקה 98%",fit:"רחבה, כתף נשמטת",extra:"שטיפת שלג (snow wash)"},
+ "M-59":{name:"טישרט ווש וינטג' 260 גרם",sleeve:"short",wash:1,desc:"כותנה סרוקה 95%",fit:"רחבה, כתף נשמטת",extra:"שטיפה בסגנון וינטג'"},
+ "AK6789":{name:"טישרט בוקסי 260 גרם",sleeve:"short",desc:"כותנה 98%, חוט כפול",fit:"בוקסי: קצרה ורחבה, כתף נשמטת",extra:"",isNew:1}
+};
+const LET="אבגדהוזחטיכלמנסעפצקרשת";
+
+const list=document.getElementById('list');
+RAW.products.forEach((p,i)=>{
+  const m=META[p.model]||{name:p.subject,sleeve:"short",desc:p.fabric,fit:p.fit,extra:""};
+  const el=document.createElement('article'); el.className='prod'; el.dataset.sleeve=m.sleeve; el.dataset.wash=m.wash?1:0;
+  const first=p.colors[0];
+  el.innerHTML=`
+    <div class="head"><span class="letter">${LET[i]}׳</span><h2 class="name">${m.name}</h2>${m.isNew?'<span class="new">חדש</span>':''}<span class="arrow" aria-hidden="true">←</span></div>
+    <div>
+      <div class="stage"><img alt="" src="${IMG[first[1]]||''}"><span class="cap">${he(first[0])}</span></div>
+      <dl class="specs">
+        <dt>דגם</dt><dd class="model">${p.model}</dd>
+        <dt>בד</dt><dd>${m.desc}</dd>
+        <dt>גזרה</dt><dd>${m.fit}</dd>
+        ${m.extra?`<dt>פרטים</dt><dd>${m.extra}</dd>`:''}
+        <dt>מידות</dt><dd><div class="sizes">${p.sizes.map(s=>`<span>${s}</span>`).join('')}</div><div class="note">סטייה אפשרית של עד 3 ס"מ</div></dd>
+      </dl>
+      <div class="ord">1688 #${p.id} · ¥${p.price_cny[0][1]} · min ${p.min}</div>
+    </div>
+    <div class="colors">
+      <h3>צבעים <span>${p.colors.length} צבעים</span></h3>
+      <div class="grid">${p.colors.map((c,k)=>`
+        <button class="sw" aria-pressed="${k==0}" data-img="${c[1]}" data-he="${he(c[0])}" data-sup="${c[0]}">
+          <span class="thumb"><img alt="" src="${IMG[c[1]]||''}"></span>
+          <span class="he">${he(c[0])}</span><span class="sup">${c[0]}</span>
+        </button>`).join('')}</div>
+    </div>`;
+  list.appendChild(el);
+});
+
+list.addEventListener('click',e=>{
+  const b=e.target.closest('.sw'); if(!b) return;
+  const prod=b.closest('.prod');
+  prod.querySelectorAll('.sw').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  prod.querySelector('.stage img').src=IMG[b.dataset.img]||'';
+  prod.querySelector('.stage .cap').textContent=document.body.classList.contains('ordering')?b.dataset.he+' · '+b.dataset.sup:b.dataset.he;
+});
+
+let F='all';
+function apply(){
+  const q=document.getElementById('q').value.trim();
+  let n=0;
+  document.querySelectorAll('.prod').forEach(p=>{
+    let ok=F=='all'||(F=='wash'?p.dataset.wash=='1':p.dataset.sleeve==F);
+    let any=false;
+    p.querySelectorAll('.sw').forEach(s=>{const hit=!q||s.dataset.he.includes(q)||s.dataset.sup.toLowerCase().includes(q.toLowerCase()); s.hidden=!hit; any=any||hit;});
+    p.hidden=!(ok&&any); if(!p.hidden)n++;
+  });
+  document.getElementById('cnt').textContent=n+' דגמים';
+}
+document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{F=c.dataset.f;document.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x===c));apply();}));
+document.getElementById('q').addEventListener('input',apply);
+function mode(ord){document.body.classList.toggle('ordering',ord);document.getElementById('m-ord').setAttribute('aria-pressed',ord);document.getElementById('m-cust').setAttribute('aria-pressed',!ord);}
+document.getElementById('m-cust').onclick=()=>mode(false);
+document.getElementById('m-ord').onclick=()=>mode(true);
+apply();
+
+const words=["כותנה 260 גרם","גזרה רחבה","S עד XXXL","עשרות צבעים","הדפסה אישית","גם חולצה אחת"];
+document.getElementById('tick').innerHTML=words.concat(words).map(w=>`<span><b>✱</b> ${w}</span>`).join('');
+</script>
