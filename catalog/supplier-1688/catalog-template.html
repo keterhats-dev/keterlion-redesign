@@ -65,12 +65,12 @@ h1 .dot{color:var(--gold)}
 
 /* supplier colour photos: supplier logo in the top ~11%, Chinese/English caption from ~76% down — show only the band between, with the Keterlion mark where the supplier's was */
 .kl{position:absolute;top:5%;left:3.5%;display:flex;align-items:center;gap:7px;pointer-events:none;z-index:1}
-.kl img{position:static!important;width:auto!important;height:30px!important;display:block}
+.kl img{position:static!important;width:auto!important;height:30px!important;display:block;transform:none!important}
 .kl svg{height:11px;width:auto;display:block}
 .thumb .kl{top:6%;left:5%;gap:0}
 .thumb .kl img{height:13px!important}
-.stage{position:relative;background:#fff;aspect-ratio:1/0.63;overflow:hidden;max-width:100%}
-.stage img{position:absolute;left:0;right:0;width:100%;height:auto;top:-12%;display:block}
+.stage{position:relative;background:#fff;aspect-ratio:1/0.645;overflow:hidden;max-width:100%}
+.stage img{position:absolute;left:0;right:0;width:100%;height:auto;top:0;transform:translateY(-11.5%);display:block}
 .stage .cap{position:absolute;inset:auto 0 0 auto;background:var(--ink);color:#fff;font-weight:500;font-size:14px;padding:6px 12px}
 .specs{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:16px 0 0;font-size:14px}
 .specs dt{color:var(--muted)}
@@ -84,8 +84,8 @@ h1 .dot{color:var(--gold)}
 .sw{font:inherit;text-align:center;background:#fff;border:1px solid transparent;border-radius:var(--r);padding:4px 4px 8px;cursor:pointer;color:var(--ink);display:flex;flex-direction:column;gap:4px;min-width:0}
 .sw:hover{border-color:var(--line)}
 .sw[aria-pressed="true"]{border-color:var(--ink)}
-.thumb{display:block;aspect-ratio:1/0.63;overflow:hidden;position:relative;background:#fff}
-.thumb img{position:absolute;left:0;right:0;width:100%;height:auto;top:-12%;display:block}
+.thumb{display:block;aspect-ratio:1/0.645;overflow:hidden;position:relative;background:#fff}
+.thumb img{position:absolute;left:0;right:0;width:100%;height:auto;top:0;transform:translateY(-11.5%);display:block}
 .sw .he{font-size:13px;font-weight:500;line-height:1.25}
 .sw .sup{font-size:11px;color:var(--muted);line-height:1.2;direction:ltr;overflow-wrap:anywhere}
 .ordering .sup,.ordering .ord{display:block}
