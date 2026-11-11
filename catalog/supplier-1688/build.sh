@@ -25,4 +25,9 @@ awk -v imgfile="$TMP" -v raw="$RAW" '
     for(i=1;i<=n;i++){ c=parts[i]; if(c=="\001") out=out img; else if(c=="\002") out=out raw; else out=out c }
     print out }' "$HERE/catalog-template.html" > "$OUT"
 rm -f "$TMP"
+# Keterlion marks: lion (PNG, base64) and wordmark path (from the brand SVG)
+BRAND="$HERE/../../assets/brand"
+LION="data:image/png;base64,$(base64 -w0 "$BRAND/kl-lion-black.png")"
+WM="$(grep -o ' d="[^"]*"' "$BRAND/keterlion-wordmark-black.svg" | head -1 | sed 's/^ d="//; s/"$//')"
+sed -i "s|/\*LIONDATA\*/|$LION|g; s|/\*WMPATH\*/|$WM|g" "$OUT"
 echo "built $OUT ($(du -h "$OUT" | cut -f1))"

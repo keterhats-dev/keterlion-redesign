@@ -23,7 +23,9 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .bar{background:var(--ink);color:var(--cream);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
 .bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:12px}
 .logo{font-family:"Arvo",Rockwell,"Rockwell Std",Georgia,serif;font-weight:700;letter-spacing:.12em;font-size:18px;color:#fff}
-.logo i{color:var(--gold);font-style:normal}
+.logo i{color:var(--gold);font-style:normal;font-size:24px;line-height:1}
+.logo{display:flex;align-items:flex-end;gap:2px}
+.logo .wm{height:16px;width:auto;display:block}
 .mode{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--cream)}
 .mode button{font:inherit;font-weight:500;background:transparent;color:#fff;border:1px solid #fff;border-radius:var(--r);padding:6px 12px;cursor:pointer}
 .mode button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:var(--ink)}
@@ -61,9 +63,14 @@ h1 .dot{color:var(--gold)}
 .arrow{width:40px;height:40px;border-radius:var(--r);background:var(--ink);color:#fff;display:grid;place-items:center;font-size:20px;flex:none}
 .new{background:var(--ink);color:var(--gold);font-size:12px;font-weight:700;padding:3px 8px}
 
-/* supplier colour photos: logo in the top 8%, Chinese/English caption from ~66% down — show only the band between */
-.stage{position:relative;background:#fff;aspect-ratio:1/0.58;overflow:hidden;max-width:100%}
-.stage img{position:absolute;left:0;right:0;width:100%;height:auto;top:-8.5%;display:block}
+/* supplier colour photos: supplier logo in the top ~11%, Chinese/English caption from ~76% down — show only the band between, with the Keterlion mark where the supplier's was */
+.kl{position:absolute;top:5%;left:3.5%;display:flex;align-items:center;gap:7px;pointer-events:none;z-index:1}
+.kl img{position:static!important;width:auto!important;height:30px!important;display:block}
+.kl svg{height:11px;width:auto;display:block}
+.thumb .kl{top:6%;left:5%;gap:0}
+.thumb .kl img{height:13px!important}
+.stage{position:relative;background:#fff;aspect-ratio:1/0.63;overflow:hidden;max-width:100%}
+.stage img{position:absolute;left:0;right:0;width:100%;height:auto;top:-12%;display:block}
 .stage .cap{position:absolute;inset:auto 0 0 auto;background:var(--ink);color:#fff;font-weight:500;font-size:14px;padding:6px 12px}
 .specs{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:16px 0 0;font-size:14px}
 .specs dt{color:var(--muted)}
@@ -77,8 +84,8 @@ h1 .dot{color:var(--gold)}
 .sw{font:inherit;text-align:center;background:#fff;border:1px solid transparent;border-radius:var(--r);padding:4px 4px 8px;cursor:pointer;color:var(--ink);display:flex;flex-direction:column;gap:4px;min-width:0}
 .sw:hover{border-color:var(--line)}
 .sw[aria-pressed="true"]{border-color:var(--ink)}
-.thumb{display:block;aspect-ratio:1/0.58;overflow:hidden;position:relative;background:#fff}
-.thumb img{position:absolute;left:0;right:0;width:100%;height:auto;top:-8.5%;display:block}
+.thumb{display:block;aspect-ratio:1/0.63;overflow:hidden;position:relative;background:#fff}
+.thumb img{position:absolute;left:0;right:0;width:100%;height:auto;top:-12%;display:block}
 .sw .he{font-size:13px;font-weight:500;line-height:1.25}
 .sw .sup{font-size:11px;color:var(--muted);line-height:1.2;direction:ltr;overflow-wrap:anywhere}
 .ordering .sup,.ordering .ord{display:block}
@@ -105,7 +112,7 @@ footer b{color:#fff}
 
 <header class="bar">
   <div class="wrap">
-    <div class="logo">KETERLION<i>.</i></div>
+    <div class="logo" aria-label="KETERLION"><svg class="wm" viewBox="0 0 693 70"><path fill="#fff" d="/*WMPATH*/"/></svg><i>.</i></div>
     <div class="mode"><span class="lbl">תצוגה:</span>
       <button id="m-cust" aria-pressed="true">ללקוחות</button>
       <button id="m-ord" aria-pressed="false">להזמנה מהספק</button>
@@ -142,6 +149,9 @@ footer b{color:#fff}
 
 <script>
 const IMG=/*IMGDATA*/{};
+const LION="/*LIONDATA*/";
+const KL=`<span class="kl" aria-hidden="true"><img alt="" src="${LION}"><svg viewBox="0 0 693 70"><path fill="#171717" d="/*WMPATH*/"/></svg></span>`;
+const KLS=`<span class="kl" aria-hidden="true"><img alt="" src="${LION}"></span>`;
 const RAW=/*RAWDATA*/{};
 
 const HE={
@@ -178,7 +188,7 @@ RAW.products.forEach((p,i)=>{
   el.innerHTML=`
     <div class="head"><span class="letter">${LET[i]}׳</span><h2 class="name">${m.name}</h2>${m.isNew?'<span class="new">חדש</span>':''}<span class="arrow" aria-hidden="true">←</span></div>
     <div>
-      <div class="stage"><img alt="" src="${IMG[first[1]]||''}"><span class="cap">${he(first[0])}</span></div>
+      <div class="stage"><img alt="" src="${IMG[first[1]]||''}">${KL}<span class="cap">${he(first[0])}</span></div>
       <dl class="specs">
         <dt>דגם</dt><dd class="model">${p.model}</dd>
         <dt>בד</dt><dd>${m.desc}</dd>
@@ -192,7 +202,7 @@ RAW.products.forEach((p,i)=>{
       <h3>צבעים <span>${p.colors.length} צבעים</span></h3>
       <div class="grid">${p.colors.map((c,k)=>`
         <button class="sw" aria-pressed="${k==0}" data-img="${c[1]}" data-he="${he(c[0])}" data-sup="${c[0]}">
-          <span class="thumb"><img alt="" src="${IMG[c[1]]||''}"></span>
+          <span class="thumb"><img alt="" src="${IMG[c[1]]||''}">${KLS}</span>
           <span class="he">${he(c[0])}</span><span class="sup">${c[0]}</span>
         </button>`).join('')}</div>
     </div>`;
