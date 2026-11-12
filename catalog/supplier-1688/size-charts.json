@@ -1,18 +1,3546 @@
 {
-  "note": "From the supplier's description images on 1688 (尺码表). Units: cm, weight kg. Supplier note: hand measurement, 1-3 cm tolerance.",
-  "columns": {"length": "衣长 אורך", "chest": "胸围 היקף חזה", "shoulder": "肩宽 רוחב כתפיים", "sleeve": "袖长 אורך שרוול", "height": "身高 גובה מומלץ", "weight": "体重 משקל מומלץ"},
-  "charts": {
-    "AK07": {
-      "offer": "717949071534",
-      "source_image": "O1CN01IVECYf1u5dqEJPZ7R_!!2215006095986-0-cib",
-      "rows": [
-        {"size": "S",   "length": 72, "chest": 112, "shoulder": 54,   "sleeve": 24, "height": "160-170", "weight": "45-55"},
-        {"size": "M",   "length": 74, "chest": 116, "shoulder": 55.5, "sleeve": 25, "height": "165-175", "weight": "55-65"},
-        {"size": "L",   "length": 76, "chest": 120, "shoulder": 57,   "sleeve": 26, "height": "170-180", "weight": "60-75"},
-        {"size": "XL",  "length": 78, "chest": 124, "shoulder": 58.5, "sleeve": 27, "height": "175-185", "weight": "75-85"},
-        {"size": "2XL", "length": 80, "chest": 128, "shoulder": 60,   "sleeve": 28, "height": "180-195", "weight": "80-90"},
-        {"size": "3XL", "length": 82, "chest": 132, "shoulder": 61.5, "sleeve": 29, "height": "195-210", "weight": "95-110"}
-      ]
-    }
-  }
+    "note":  "Read by hand from the supplier\u0027s size-chart images on 1688 (å°ºç è¡¨). cm and kg. Supplier: hand measurement, 1-3 cm tolerance. \u0027chest_flat\u0027 = width across the chest (garment laid flat), otherwise chest = around.",
+    "products":  [
+                     {
+                         "offer":  "733733828173",
+                         "model":  "AK-128",
+                         "type":  "long sleeve 260g",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  58,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  60,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  62,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  64,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  66,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  68,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "717949071534",
+                         "model":  "AK07",
+                         "type":  "tee 260g",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  29,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "765065060770",
+                         "model":  "AK01",
+                         "type":  "tee 260g washed",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  29,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "708261331297",
+                         "model":  "M-59",
+                         "type":  "tee 260g vintage wash",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  29,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "926189082073",
+                         "model":  "AK6789",
+                         "type":  "boxy tee 260g",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  64,
+                                          "chest_flat":  60,
+                                          "shoulder":  56,
+                                          "sleeve":  19,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  66,
+                                          "chest_flat":  62,
+                                          "shoulder":  58,
+                                          "sleeve":  20,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  68,
+                                          "chest_flat":  64,
+                                          "shoulder":  60,
+                                          "sleeve":  21,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  70,
+                                          "chest_flat":  66,
+                                          "shoulder":  62,
+                                          "sleeve":  22,
+                                          "height":  "175-185",
+                                          "weight":  "70-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  72,
+                                          "chest_flat":  68,
+                                          "shoulder":  64,
+                                          "sleeve":  23,
+                                          "height":  "180-195",
+                                          "weight":  "75-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  74,
+                                          "chest_flat":  70,
+                                          "shoulder":  66,
+                                          "sleeve":  25,
+                                          "height":  "185-200",
+                                          "weight":  "85-90"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "852015098240",
+                         "model":  "AK99",
+                         "type":  "long sleeve 305g",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  58,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  60,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  62,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  64,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  66,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  68,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "765166521205",
+                         "model":  "AK04",
+                         "type":  "tee 270g gradient",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  29,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "928969542314",
+                         "model":  "AK2288",
+                         "type":  "shorts 405g",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  48.5,
+                                          "waist":  34,
+                                          "hip":  60,
+                                          "leg_opening":  30,
+                                          "height":  "150-155",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  50,
+                                          "waist":  36,
+                                          "hip":  62,
+                                          "leg_opening":  31,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  51.5,
+                                          "waist":  38,
+                                          "hip":  64,
+                                          "leg_opening":  32,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  53,
+                                          "waist":  40,
+                                          "hip":  66,
+                                          "leg_opening":  33,
+                                          "height":  "175-185",
+                                          "weight":  "70-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  54.5,
+                                          "waist":  42,
+                                          "hip":  68,
+                                          "leg_opening":  34,
+                                          "height":  "180-195",
+                                          "weight":  "75-90"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "889178366474",
+                         "model":  "AK123",
+                         "type":  "tee 305g washed (listing says long sleeve, chart is short sleeve)",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  29,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "732899279056",
+                         "model":  "AK5858",
+                         "type":  "vest 260g",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  73,
+                                          "chest":  110,
+                                          "shoulder":  44,
+                                          "height":  "160-170",
+                                          "weight":  "50-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  75,
+                                          "chest":  116,
+                                          "shoulder":  46,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  77,
+                                          "chest":  122,
+                                          "shoulder":  48,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  79,
+                                          "chest":  128,
+                                          "shoulder":  50,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  81,
+                                          "chest":  134,
+                                          "shoulder":  52,
+                                          "height":  "180-195",
+                                          "weight":  "80-95"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "920955943192",
+                         "model":  "AK0330",
+                         "type":  "tee 345g",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  29,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "857477805319",
+                         "model":  "AK58",
+                         "type":  "crew sweatshirt 420g wax-dyed",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  59,
+                                          "height":  "160-170",
+                                          "weight":  "50-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  60,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  61,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  62,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  63,
+                                          "height":  "180-195",
+                                          "weight":  "80-95"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  64,
+                                          "height":  "195-210",
+                                          "weight":  "100-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "987374099279",
+                         "model":  "AK47",
+                         "type":  "zip hoodie 350g (42% cotton 53% polyester 5% other)",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  68,
+                                          "chest_flat":  64,
+                                          "shoulder":  61,
+                                          "sleeve":  51.5,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  70,
+                                          "chest_flat":  66,
+                                          "shoulder":  63,
+                                          "sleeve":  52.5,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  72,
+                                          "chest_flat":  68,
+                                          "shoulder":  65,
+                                          "sleeve":  53.5,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  74,
+                                          "chest_flat":  70,
+                                          "shoulder":  67,
+                                          "sleeve":  54.5,
+                                          "height":  "175-185",
+                                          "weight":  "70-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  76,
+                                          "chest_flat":  72,
+                                          "shoulder":  69,
+                                          "sleeve":  55.5,
+                                          "height":  "180-195",
+                                          "weight":  "75-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  78,
+                                          "chest_flat":  74,
+                                          "shoulder":  71,
+                                          "sleeve":  56.5,
+                                          "height":  "185-200",
+                                          "weight":  "80-95"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "765176558790",
+                         "model":  "AK02",
+                         "type":  "tee 270g",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  29,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "739943185050",
+                         "model":  "AK06",
+                         "type":  "crew sweatshirt 420g",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  59,
+                                          "height":  "160-170",
+                                          "weight":  "50-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  60,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  61,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  62,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  63,
+                                          "height":  "180-195",
+                                          "weight":  "80-95"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  64,
+                                          "height":  "195-210",
+                                          "weight":  "100-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "844644051854",
+                         "model":  "AK17",
+                         "type":  "hoodie 420g",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  70,
+                                          "chest_flat":  67,
+                                          "shoulder":  57,
+                                          "sleeve":  61,
+                                          "height":  "160-165",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  72,
+                                          "chest_flat":  69,
+                                          "shoulder":  58.5,
+                                          "sleeve":  62,
+                                          "height":  "165-170",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  74,
+                                          "chest_flat":  71,
+                                          "shoulder":  60,
+                                          "sleeve":  63,
+                                          "height":  "170-175",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  76,
+                                          "chest_flat":  73,
+                                          "shoulder":  61.5,
+                                          "sleeve":  64,
+                                          "height":  "175-180",
+                                          "weight":  "70-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  78,
+                                          "chest_flat":  75,
+                                          "shoulder":  63,
+                                          "sleeve":  65,
+                                          "height":  "180-190",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  80,
+                                          "chest_flat":  77,
+                                          "shoulder":  64.5,
+                                          "sleeve":  66,
+                                          "height":  "185-200",
+                                          "weight":  "90-95"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "855194034502",
+                         "model":  "AK28",
+                         "type":  "long sleeve 260g wax-dyed",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  58,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  60,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  62,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  64,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  66,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  68,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "855600399433",
+                         "model":  "AK24",
+                         "type":  "long sleeve 260g washed",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  58,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  60,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  62,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  64,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  66,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  68,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "836565036049",
+                         "model":  "AK15",
+                         "type":  "hoodie 380g",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  70,
+                                          "chest_flat":  67,
+                                          "shoulder":  57,
+                                          "sleeve":  61,
+                                          "height":  "160-165",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  72,
+                                          "chest_flat":  69,
+                                          "shoulder":  58.5,
+                                          "sleeve":  62,
+                                          "height":  "165-170",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  74,
+                                          "chest_flat":  71,
+                                          "shoulder":  60,
+                                          "sleeve":  63,
+                                          "height":  "170-175",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  76,
+                                          "chest_flat":  73,
+                                          "shoulder":  61.5,
+                                          "sleeve":  64,
+                                          "height":  "175-180",
+                                          "weight":  "70-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  78,
+                                          "chest_flat":  75,
+                                          "shoulder":  63,
+                                          "sleeve":  65,
+                                          "height":  "180-190",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  80,
+                                          "chest_flat":  77,
+                                          "shoulder":  64.5,
+                                          "sleeve":  66,
+                                          "height":  "185-200",
+                                          "weight":  "90-95"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "847884415121",
+                         "model":  "AK19",
+                         "type":  "hoodie 420g wax-dyed",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  70,
+                                          "chest_flat":  67,
+                                          "shoulder":  57,
+                                          "sleeve":  61,
+                                          "height":  "160-165",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  72,
+                                          "chest_flat":  69,
+                                          "shoulder":  58.5,
+                                          "sleeve":  62,
+                                          "height":  "165-170",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  74,
+                                          "chest_flat":  71,
+                                          "shoulder":  60,
+                                          "sleeve":  63,
+                                          "height":  "170-175",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  76,
+                                          "chest_flat":  73,
+                                          "shoulder":  61.5,
+                                          "sleeve":  64,
+                                          "height":  "175-180",
+                                          "weight":  "70-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  78,
+                                          "chest_flat":  75,
+                                          "shoulder":  63,
+                                          "sleeve":  65,
+                                          "height":  "180-190",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  80,
+                                          "chest_flat":  77,
+                                          "shoulder":  64.5,
+                                          "sleeve":  66,
+                                          "height":  "185-200",
+                                          "weight":  "90-100"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "765181054583",
+                         "model":  "AK03",
+                         "type":  "tee 270g gradient",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  29,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "892954399387",
+                         "model":  "AK8888",
+                         "type":  "tee 245g \"ice\" (73% cotton 27% Sorona)",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  29,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "988686493341",
+                         "model":  "AK48",
+                         "type":  "hoodie 350g (42% cotton 53% polyester 5% other)",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  68,
+                                          "chest_flat":  64,
+                                          "shoulder":  61,
+                                          "sleeve":  51.5,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  70,
+                                          "chest_flat":  66,
+                                          "shoulder":  63,
+                                          "sleeve":  52.5,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  72,
+                                          "chest_flat":  68,
+                                          "shoulder":  65,
+                                          "sleeve":  53.5,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  74,
+                                          "chest_flat":  70,
+                                          "shoulder":  67,
+                                          "sleeve":  54.5,
+                                          "height":  "175-185",
+                                          "weight":  "70-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  76,
+                                          "chest_flat":  72,
+                                          "shoulder":  69,
+                                          "sleeve":  55.5,
+                                          "height":  "180-195",
+                                          "weight":  "75-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  78,
+                                          "chest_flat":  74,
+                                          "shoulder":  71,
+                                          "sleeve":  56.5,
+                                          "height":  "185-200",
+                                          "weight":  "80-95"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "865769020294",
+                         "model":  "AK39",
+                         "type":  "tee 275g (listing says long sleeve, chart is short sleeve)",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  29,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "803030680415",
+                         "model":  "AK14",
+                         "type":  "tee 305g",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  29,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "731817441833",
+                         "model":  "AA1",
+                         "type":  "long sleeve 260g snow-wash black",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  58,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  60,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  62,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  64,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  66,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  68,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "909694148276",
+                         "model":  "AK20253",
+                         "type":  "tee 230g",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  29,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "945257585697",
+                         "model":  "M6789",
+                         "type":  "boxy tee 260g washed",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  64,
+                                          "chest_flat":  60,
+                                          "shoulder":  56,
+                                          "sleeve":  19,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  66,
+                                          "chest_flat":  62,
+                                          "shoulder":  58,
+                                          "sleeve":  20,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  68,
+                                          "chest_flat":  64,
+                                          "shoulder":  60,
+                                          "sleeve":  21,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  70,
+                                          "chest_flat":  66,
+                                          "shoulder":  62,
+                                          "sleeve":  22,
+                                          "height":  "175-185",
+                                          "weight":  "70-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  72,
+                                          "chest_flat":  68,
+                                          "shoulder":  64,
+                                          "sleeve":  23,
+                                          "height":  "180-195",
+                                          "weight":  "75-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  74,
+                                          "chest_flat":  70,
+                                          "shoulder":  66,
+                                          "sleeve":  25,
+                                          "height":  "185-200",
+                                          "weight":  "85-90"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "907556083827",
+                         "model":  "AK9090",
+                         "type":  "sleeveless 305g (listing says short sleeve, chart is sleeveless; chest flat)",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  74,
+                                          "chest_flat":  55,
+                                          "shoulder":  55,
+                                          "height":  "160-170",
+                                          "weight":  "45-50"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  76,
+                                          "chest_flat":  57,
+                                          "shoulder":  57,
+                                          "height":  "165-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  78,
+                                          "chest_flat":  59,
+                                          "shoulder":  59,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  80,
+                                          "chest_flat":  61,
+                                          "shoulder":  61,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  82,
+                                          "chest_flat":  63,
+                                          "shoulder":  63,
+                                          "height":  "175-185",
+                                          "weight":  "70-85"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  84,
+                                          "chest_flat":  65,
+                                          "shoulder":  65,
+                                          "height":  "195-210",
+                                          "weight":  "80-90"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "836132114148",
+                         "model":  "AK16",
+                         "type":  "crew sweatshirt 380g (chest flat)",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  70,
+                                          "chest_flat":  64,
+                                          "shoulder":  60,
+                                          "sleeve":  58,
+                                          "height":  "165-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  72,
+                                          "chest_flat":  66,
+                                          "shoulder":  62,
+                                          "sleeve":  59,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  74,
+                                          "chest_flat":  68,
+                                          "shoulder":  64,
+                                          "sleeve":  60,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  76,
+                                          "chest_flat":  70,
+                                          "shoulder":  66,
+                                          "sleeve":  61,
+                                          "height":  "175-185",
+                                          "weight":  "70-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  78,
+                                          "chest_flat":  72,
+                                          "shoulder":  68,
+                                          "sleeve":  62,
+                                          "height":  "180-190",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  80,
+                                          "chest_flat":  74,
+                                          "shoulder":  70,
+                                          "sleeve":  63,
+                                          "height":  "185-200",
+                                          "weight":  "90-100"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "889200738096",
+                         "model":  "AK6868",
+                         "type":  "tee 220g washed",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  29,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "733062187021",
+                         "model":  "AK420g虫咬炒花连帽卫衣",
+                         "type":  "hoodie 420g snow-wash black",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  59,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  60,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  61,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  62,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  63,
+                                          "height":  "180-195",
+                                          "weight":  "80-95"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  64,
+                                          "height":  "195-210",
+                                          "weight":  "100-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "905603997265",
+                         "model":  "AK0203",
+                         "type":  "tee 385g",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  29,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "1001839979635",
+                         "model":  "AK48-AK49",
+                         "type":  "sweatpants 350g (+ matching hoodie AK48 = ZH/HW4) (42% cotton 53% polyester 5% other)",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  99,
+                                          "hip":  57,
+                                          "waist":  33,
+                                          "leg_opening":  20.7,
+                                          "height":  "165-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  101,
+                                          "hip":  59,
+                                          "waist":  35,
+                                          "leg_opening":  21.5,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  103,
+                                          "hip":  61,
+                                          "waist":  37,
+                                          "leg_opening":  22.3,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  105,
+                                          "hip":  63,
+                                          "waist":  39,
+                                          "leg_opening":  23.1,
+                                          "height":  "175-185",
+                                          "weight":  "70-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  107,
+                                          "hip":  65,
+                                          "waist":  41,
+                                          "leg_opening":  23.9,
+                                          "height":  "180-190",
+                                          "weight":  "80-90"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "853447593299",
+                         "model":  "AK20",
+                         "type":  "hoodie 380g spray-dyed (88% cotton 12% polyester)",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  70,
+                                          "chest_flat":  67,
+                                          "shoulder":  57,
+                                          "sleeve":  61,
+                                          "height":  "160-165",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  72,
+                                          "chest_flat":  69,
+                                          "shoulder":  58.5,
+                                          "sleeve":  62,
+                                          "height":  "165-170",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  74,
+                                          "chest_flat":  71,
+                                          "shoulder":  60,
+                                          "sleeve":  63,
+                                          "height":  "170-175",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  76,
+                                          "chest_flat":  73,
+                                          "shoulder":  61.5,
+                                          "sleeve":  64,
+                                          "height":  "175-180",
+                                          "weight":  "70-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  78,
+                                          "chest_flat":  75,
+                                          "shoulder":  63,
+                                          "sleeve":  65,
+                                          "height":  "180-190",
+                                          "weight":  "80-90"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "734223232527",
+                         "model":  "炒花连帽卫衣",
+                         "type":  "hoodie 420g snow-wash black",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  59,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  60,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  61,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  62,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  63,
+                                          "height":  "180-195",
+                                          "weight":  "80-95"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  64,
+                                          "height":  "195-210",
+                                          "weight":  "100-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "732231403649",
+                         "model":  "AA2",
+                         "type":  "long sleeve 260g salt-wash black",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  58,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  60,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  62,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  64,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  66,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  68,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "733051443972",
+                         "model":  "AK420g虫咬炒盐连帽卫衣",
+                         "type":  "hoodie 420g salt-wash black",
+                         "rows":  [
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  60,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  61,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  62,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  63,
+                                          "height":  "180-195",
+                                          "weight":  "80-95"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  64,
+                                          "height":  "195-210",
+                                          "weight":  "100-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "732855314418",
+                         "model":  "AK虫咬炒花长袖",
+                         "type":  "long sleeve 260g snow-wash black",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  58,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  60,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  62,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  64,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  66,
+                                          "height":  "180-195",
+                                          "weight":  "80-95"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  68,
+                                          "height":  "195-210",
+                                          "weight":  "100-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "1002913197651",
+                         "model":  "AK50",
+                         "type":  "zip hoodie 420g washed (42% cotton 53% polyester 5% other)",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  68,
+                                          "chest_flat":  64,
+                                          "shoulder":  61,
+                                          "sleeve":  51.5,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  70,
+                                          "chest_flat":  66,
+                                          "shoulder":  63,
+                                          "sleeve":  52.5,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  72,
+                                          "chest_flat":  68,
+                                          "shoulder":  65,
+                                          "sleeve":  53.5,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  74,
+                                          "chest_flat":  70,
+                                          "shoulder":  67,
+                                          "sleeve":  54.5,
+                                          "height":  "175-185",
+                                          "weight":  "70-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  76,
+                                          "chest_flat":  72,
+                                          "shoulder":  69,
+                                          "sleeve":  55.5,
+                                          "height":  "180-195",
+                                          "weight":  "75-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  78,
+                                          "chest_flat":  74,
+                                          "shoulder":  71,
+                                          "sleeve":  56.5,
+                                          "height":  "185-200",
+                                          "weight":  "80-95"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "732733442995",
+                         "model":  "AK虫咬炒盐长袖",
+                         "type":  "long sleeve 260g salt-wash black (listing says half sleeve, chart is long sleeve)",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  58,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  60,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  62,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  64,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  66,
+                                          "height":  "180-195",
+                                          "weight":  "80-95"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  68,
+                                          "height":  "195-210",
+                                          "weight":  "100-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "1003760344482",
+                         "model":  "AK47-AK49",
+                         "type":  "sweatpants 350g (+ matching zip hoodie AK47 = ZH/HW4) (42% cotton 53% polyester 5% other)",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  99,
+                                          "hip":  57,
+                                          "waist":  33,
+                                          "leg_opening":  20.7,
+                                          "height":  "165-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  101,
+                                          "hip":  59,
+                                          "waist":  35,
+                                          "leg_opening":  21.5,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  103,
+                                          "hip":  61,
+                                          "waist":  37,
+                                          "leg_opening":  22.3,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  105,
+                                          "hip":  63,
+                                          "waist":  39,
+                                          "leg_opening":  23.1,
+                                          "height":  "175-185",
+                                          "weight":  "70-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  107,
+                                          "hip":  65,
+                                          "waist":  41,
+                                          "leg_opening":  23.9,
+                                          "height":  "180-190",
+                                          "weight":  "80-90"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "999242740021",
+                         "model":  "AK49",
+                         "type":  "sweatpants 350g (42% cotton 53% polyester 5% other)",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  99,
+                                          "hip":  57,
+                                          "waist":  33,
+                                          "leg_opening":  20.7,
+                                          "height":  "165-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  101,
+                                          "hip":  59,
+                                          "waist":  35,
+                                          "leg_opening":  21.5,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  103,
+                                          "hip":  61,
+                                          "waist":  37,
+                                          "leg_opening":  22.3,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  105,
+                                          "hip":  63,
+                                          "waist":  39,
+                                          "leg_opening":  23.1,
+                                          "height":  "175-185",
+                                          "weight":  "70-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  107,
+                                          "hip":  65,
+                                          "waist":  41,
+                                          "leg_opening":  23.9,
+                                          "height":  "180-190",
+                                          "weight":  "80-90"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "948293197977",
+                         "model":  "AK2233",
+                         "type":  "shorts 440g (len/waist/hip/leg opening)",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  45,
+                                          "waist":  68,
+                                          "hip":  57,
+                                          "leg_opening":  29,
+                                          "height":  "165-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  46.5,
+                                          "waist":  72,
+                                          "hip":  59,
+                                          "leg_opening":  30,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  48,
+                                          "waist":  76,
+                                          "hip":  61,
+                                          "leg_opening":  31,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  49.5,
+                                          "waist":  80,
+                                          "hip":  63,
+                                          "leg_opening":  32,
+                                          "height":  "175-185",
+                                          "weight":  "70-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  51,
+                                          "waist":  84,
+                                          "hip":  65,
+                                          "leg_opening":  33,
+                                          "height":  "185-190",
+                                          "weight":  "85-90"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "929988840633",
+                         "model":  "AK1618",
+                         "type":  "shorts 405g washed (same table as AK2288)",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  48.5,
+                                          "waist":  34,
+                                          "hip":  60,
+                                          "leg_opening":  30,
+                                          "height":  "150-155",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  50,
+                                          "waist":  36,
+                                          "hip":  62,
+                                          "leg_opening":  31,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  51.5,
+                                          "waist":  38,
+                                          "hip":  64,
+                                          "leg_opening":  32,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  53,
+                                          "waist":  40,
+                                          "hip":  66,
+                                          "leg_opening":  33,
+                                          "height":  "175-185",
+                                          "weight":  "70-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  54.5,
+                                          "waist":  42,
+                                          "hip":  68,
+                                          "leg_opening":  34,
+                                          "height":  "180-195",
+                                          "weight":  "75-90"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "921858913271",
+                         "model":  "AK2008",
+                         "type":  "tee 200g",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  29,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "908632254856",
+                         "model":  "AK1998",
+                         "type":  "tee 270g spray-dyed",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "70-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  29,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "895083893044",
+                         "model":  "AK10086",
+                         "type":  "tee 260g spray/crackle wash",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  29,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "894028272003",
+                         "model":  "AK789",
+                         "type":  "tee 210g \"cool\" (73% cotton 27% Sorona)",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  29,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "868729223317",
+                         "model":  "AK45",
+                         "type":  "tee 285g spray-dyed (listing says long sleeve, chart is short sleeve)",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  29,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "864984439229",
+                         "model":  "AK33",
+                         "type":  "long sleeve 305g spray-dyed",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  58,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  60,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  62,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  64,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  66,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  68,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "853662380401",
+                         "model":  "AK66",
+                         "type":  "tee 280g (listing says long sleeve, chart is short sleeve)",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  29,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "841765257923",
+                         "model":  "AK18",
+                         "type":  "hoodie 380g spray-dyed",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  70,
+                                          "chest_flat":  67,
+                                          "shoulder":  57,
+                                          "sleeve":  61,
+                                          "height":  "160-165",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  72,
+                                          "chest_flat":  69,
+                                          "shoulder":  58.5,
+                                          "sleeve":  62,
+                                          "height":  "165-170",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  74,
+                                          "chest_flat":  71,
+                                          "shoulder":  60,
+                                          "sleeve":  63,
+                                          "height":  "170-175",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  76,
+                                          "chest_flat":  73,
+                                          "shoulder":  61.5,
+                                          "sleeve":  64,
+                                          "height":  "175-180",
+                                          "weight":  "70-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  78,
+                                          "chest_flat":  75,
+                                          "shoulder":  63,
+                                          "sleeve":  65,
+                                          "height":  "180-190",
+                                          "weight":  "80-90"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "831009227734",
+                         "model":  "AK59",
+                         "type":  "tee 260g vintage wash (listing says long sleeve, chart is short sleeve)",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  29,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "793681911108",
+                         "model":  "AK05",
+                         "type":  "tee 270g gradient",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  29,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "734538146922",
+                         "model":  "炒盐连帽卫衣",
+                         "type":  "hoodie 420g salt-wash black",
+                         "rows":  [
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  60,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  61,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  62,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  63,
+                                          "height":  "180-195",
+                                          "weight":  "80-95"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  64,
+                                          "height":  "195-210",
+                                          "weight":  "100-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "732889430127",
+                         "model":  "AK虫咬炒花短袖",
+                         "type":  "tee 260g snow-wash black",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-95"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  29,
+                                          "height":  "195-210",
+                                          "weight":  "100-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "732755817689",
+                         "model":  "AK虫咬炒盐短袖",
+                         "type":  "tee 260g salt-wash black",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-95"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  29,
+                                          "height":  "195-210",
+                                          "weight":  "100-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "732141489114",
+                         "model":  "AK11",
+                         "type":  "tee 260g",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      },
+                                      {
+                                          "size":  "3XL",
+                                          "length":  82,
+                                          "chest":  132,
+                                          "shoulder":  61.5,
+                                          "sleeve":  29,
+                                          "height":  "195-210",
+                                          "weight":  "95-110"
+                                      }
+                                  ]
+                     },
+                     {
+                         "offer":  "709974158662",
+                         "model":  "M-59B",
+                         "type":  "tee 260g washed black",
+                         "rows":  [
+                                      {
+                                          "size":  "S",
+                                          "length":  72,
+                                          "chest":  112,
+                                          "shoulder":  54,
+                                          "sleeve":  24,
+                                          "height":  "160-170",
+                                          "weight":  "45-55"
+                                      },
+                                      {
+                                          "size":  "M",
+                                          "length":  74,
+                                          "chest":  116,
+                                          "shoulder":  55.5,
+                                          "sleeve":  25,
+                                          "height":  "165-175",
+                                          "weight":  "55-65"
+                                      },
+                                      {
+                                          "size":  "L",
+                                          "length":  76,
+                                          "chest":  120,
+                                          "shoulder":  57,
+                                          "sleeve":  26,
+                                          "height":  "170-180",
+                                          "weight":  "60-75"
+                                      },
+                                      {
+                                          "size":  "XL",
+                                          "length":  78,
+                                          "chest":  124,
+                                          "shoulder":  58.5,
+                                          "sleeve":  27,
+                                          "height":  "175-185",
+                                          "weight":  "75-85"
+                                      },
+                                      {
+                                          "size":  "2XL",
+                                          "length":  80,
+                                          "chest":  128,
+                                          "shoulder":  60,
+                                          "sleeve":  28,
+                                          "height":  "180-195",
+                                          "weight":  "80-90"
+                                      }
+                                  ]
+                     }
+                 ]
 }

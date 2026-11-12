@@ -1,0 +1,77 @@
+# Size charts read from the supplier's description images (cm / kg). One line per product.
+# Format: P<n> <offerId> <model> | <type> | rows "size:len/chest/shoulder/sleeve" (pants: size:len/waist/hip/leg-opening) | HW "size:height/weight"
+# Shared tables (exactly identical numbers across products):
+#   TA  (tee)          S:72/112/54/24 M:74/116/55.5/25 L:76/120/57/26 XL:78/124/58.5/27 2XL:80/128/60/28 3XL:82/132/61.5/29
+#   LSA (long sleeve)  S:72/112/54/58 M:74/116/55.5/60 L:76/120/57/62 XL:78/124/58.5/64 2XL:80/128/60/66 3XL:82/132/61.5/68
+#   SWA (crew 420g)    S:72/112/54/59 M:74/116/55.5/60 L:76/120/57/61 XL:78/124/58.5/62 2XL:80/128/60/63 3XL:82/132/61.5/64
+#   HW1  S:160-170/45-55 M:165-175/55-65 L:170-180/60-75 XL:175-185/75-85 2XL:180-195/80-90 3XL:195-210/95-110
+#   HW2  S:160-170/50-55 M:165-175/55-65 L:170-180/60-75 XL:175-185/75-85 2XL:180-195/80-95 3XL:195-210/100-110
+#   HD  (hoodie, chest flat)  S:70/67/57/61 M:72/69/58.5/62 L:74/71/60/63 XL:76/73/61.5/64 2XL:78/75/63/65 3XL:80/77/64.5/66
+#   HW3  S:160-165/45-55 M:165-170/55-65 L:170-175/60-75 XL:175-180/70-85 2XL:180-190/80-90 3XL:185-200/90-95
+#   ZH  (zip hoodie 350g, chest flat)  S:68/64/61/51.5 M:70/66/63/52.5 L:72/68/65/53.5 XL:74/70/67/54.5 2XL:76/72/69/55.5 3XL:78/74/71/56.5
+#   HW4  S:160-170/45-55 M:165-175/55-65 L:170-180/60-75 XL:175-185/70-85 2XL:180-195/75-90 3XL:185-200/80-95
+#   BX  (boxy tee, chest flat)  S:64/60/56/19 M:66/62/58/20 L:68/64/60/21 XL:70/66/62/22 2XL:72/68/64/23 3XL:74/70/66/25
+#   HWB  S:160-170/45-55 M:165-175/55-65 L:170-180/60-75 XL:175-185/70-85 2XL:180-195/75-90 3XL:185-200/85-90
+#   PT  (sweatpants 350g, len/hip/waist/leg opening, flat)  S:99/57/33/20.7 M:101/59/35/21.5 L:103/61/37/22.3 XL:105/63/39/23.1 2XL:107/65/41/23.9
+#   HWP  S:165-170/45-55 M:165-175/55-65 L:170-180/60-75 XL:175-185/70-85 2XL:180-190/80-90
+#   HW5  S:160-170/45-55 M:165-175/55-65 L:170-180/60-75 XL:175-185/75-85 2XL:180-195/80-95 3XL:195-210/100-110
+P0 733733828173 AK-128 | long sleeve 260g | LSA | HW1
+P1 717949071534 AK07 | tee 260g | TA | HW1
+P2 765065060770 AK01 | tee 260g washed | TA | HW1
+P3 708261331297 M-59 | tee 260g vintage wash | TA | HW1
+P4 926189082073 AK6789 | boxy tee 260g | BX | HWB
+P5 852015098240 AK99 | long sleeve 305g | LSA | HW1
+P6 765166521205 AK04 | tee 270g gradient | TA | HW1
+P7 928969542314 AK2288 | shorts 405g | S:48.5/34/60/30 M:50/36/62/31 L:51.5/38/64/32 XL:53/40/66/33 2XL:54.5/42/68/34 (len/waist/hip/leg opening, flat) | S:150-155/45-55 M:165-175/55-65 L:170-180/60-75 XL:175-185/70-85 2XL:180-195/75-90
+P8 889178366474 AK123 | tee 305g washed (listing says long sleeve, chart is short sleeve) | TA | HW1
+P9 732899279056 AK5858 | vest 260g | S:73/110/44/- M:75/116/46/- L:77/122/48/- XL:79/128/50/- 2XL:81/134/52/- | S:160-170/50-55 M:165-175/55-65 L:170-180/60-75 XL:175-185/75-85 2XL:180-195/80-95
+P10 920955943192 AK0330 | tee 345g | TA | HW1
+P11 857477805319 AK58 | crew sweatshirt 420g wax-dyed | SWA | HW2
+P12 987374099279 AK47 | zip hoodie 350g (42% cotton 53% polyester 5% other) | ZH | HW4
+P13 765176558790 AK02 | tee 270g | TA | HW1
+P14 739943185050 AK06 | crew sweatshirt 420g | SWA | HW2
+P15 844644051854 AK17 | hoodie 420g | HD | HW3
+P16 855194034502 AK28 | long sleeve 260g wax-dyed | LSA | HW1
+P17 855600399433 AK24 | long sleeve 260g washed | LSA | HW1
+P18 836565036049 AK15 | hoodie 380g | HD | HW3
+P19 847884415121 AK19 | hoodie 420g wax-dyed | HD | HW3 but 3XL:185-200/90-100
+P20 765181054583 AK03 | tee 270g gradient | TA | HW1
+P21 892954399387 AK8888 | tee 245g "ice" (73% cotton 27% Sorona) | TA | HW1
+P22 988686493341 AK48 | hoodie 350g (42% cotton 53% polyester 5% other) | ZH | HW4
+P23 865769020294 AK39 | tee 275g (listing says long sleeve, chart is short sleeve) | TA | HW1
+P24 803030680415 AK14 | tee 305g | TA | HW1
+P25 731817441833 AA1 | long sleeve 260g snow-wash black | LSA | HW1
+P26 909694148276 AK20253 | tee 230g | TA | HW1
+P27 945257585697 M6789 | boxy tee 260g washed | BX | HWB
+P28 907556083827 AK9090 | sleeveless 305g (listing says short sleeve, chart is sleeveless; chest flat) | S:74/55/55/- M:76/57/57/- L:78/59/59/- XL:80/61/61/- 2XL:82/63/63/- 3XL:84/65/65/- | S:160-170/45-50 M:165-170/45-55 L:165-175/55-65 XL:170-180/60-75 2XL:175-185/70-85 3XL:195-210/80-90
+P29 836132114148 AK16 | crew sweatshirt 380g (chest flat) | S:70/64/60/58 M:72/66/62/59 L:74/68/64/60 XL:76/70/66/61 2XL:78/72/68/62 3XL:80/74/70/63 | S:165-170/45-55 M:165-175/55-65 L:170-180/60-75 XL:175-185/70-85 2XL:180-190/80-90 3XL:185-200/90-100
+P30 889200738096 AK6868 | tee 220g washed | TA | HW1
+P31 733062187021 AK420g虫咬炒花连帽卫衣 | hoodie 420g snow-wash black | SWA | HW5
+P32 905603997265 AK0203 | tee 385g | TA | HW1
+P33 1001839979635 AK48-AK49 | sweatpants 350g (+ matching hoodie AK48 = ZH/HW4) (42% cotton 53% polyester 5% other) | PT | HWP
+P34 853447593299 AK20 | hoodie 380g spray-dyed (88% cotton 12% polyester) | HD (S-2XL only) | HW3 (S-2XL)
+P35 734223232527 炒花连帽卫衣 | hoodie 420g snow-wash black | SWA | HW5
+P36 732231403649 AA2 | long sleeve 260g salt-wash black | LSA | HW1
+P37 733051443972 AK420g虫咬炒盐连帽卫衣 | hoodie 420g salt-wash black | SWA (M-3XL only) | HW2 (M-3XL)
+P38 732855314418 AK虫咬炒花长袖 | long sleeve 260g snow-wash black | LSA | HW5
+P39 1002913197651 AK50 | zip hoodie 420g washed (42% cotton 53% polyester 5% other) | ZH | HW4
+P40 732733442995 AK虫咬炒盐长袖 | long sleeve 260g salt-wash black (listing says half sleeve, chart is long sleeve) | LSA | HW5
+P41 1003760344482 AK47-AK49 | sweatpants 350g (+ matching zip hoodie AK47 = ZH/HW4) (42% cotton 53% polyester 5% other) | PT | HWP
+P42 999242740021 AK49 | sweatpants 350g (42% cotton 53% polyester 5% other) | PT | HWP
+P43 948293197977 AK2233 | shorts 440g (len/waist/hip/leg opening) | S:45/68/57/29 M:46.5/72/59/30 L:48/76/61/31 XL:49.5/80/63/32 2XL:51/84/65/33 | S:165-170/45-55 M:165-175/55-65 L:170-180/60-75 XL:175-185/70-85 2XL:185-190/85-90
+P44 929988840633 AK1618 | shorts 405g washed (same table as AK2288) | S:48.5/34/60/30 M:50/36/62/31 L:51.5/38/64/32 XL:53/40/66/33 2XL:54.5/42/68/34 | S:150-155/45-55 M:165-175/55-65 L:170-180/60-75 XL:175-185/70-85 2XL:180-195/75-90
+P45 921858913271 AK2008 | tee 200g | TA | HW1
+P46 908632254856 AK1998 | tee 270g spray-dyed | TA | HW1 but XL:175-185/70-85
+P47 895083893044 AK10086 | tee 260g spray/crackle wash | TA | HW1
+P48 894028272003 AK789 | tee 210g "cool" (73% cotton 27% Sorona) | TA | HW1
+P49 868729223317 AK45 | tee 285g spray-dyed (listing says long sleeve, chart is short sleeve) | TA | HW1
+P50 864984439229 AK33 | long sleeve 305g spray-dyed | LSA | HW1
+P51 853662380401 AK66 | tee 280g (listing says long sleeve, chart is short sleeve) | TA | HW1
+P52 841765257923 AK18 | hoodie 380g spray-dyed | HD (S-2XL only) | HW3 (S-2XL)
+P53 831009227734 AK59 | tee 260g vintage wash (listing says long sleeve, chart is short sleeve) | TA | HW1
+P54 793681911108 AK05 | tee 270g gradient | TA | HW1
+P55 734538146922 炒盐连帽卫衣 | hoodie 420g salt-wash black | SWA (M-3XL only) | HW2 (M-3XL)
+P56 732889430127 AK虫咬炒花短袖 | tee 260g snow-wash black | TA | HW5
+P57 732755817689 AK虫咬炒盐短袖 | tee 260g salt-wash black | TA | HW5
+P58 732141489114 AK11 | tee 260g | TA | HW1
+P59 709974158662 M-59B | tee 260g washed black | TA (S-2XL only) | HW1 (S-2XL)
