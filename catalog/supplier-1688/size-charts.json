@@ -1,0 +1,18 @@
+{
+  "note": "From the supplier's description images on 1688 (尺码表). Units: cm, weight kg. Supplier note: hand measurement, 1-3 cm tolerance.",
+  "columns": {"length": "衣长 אורך", "chest": "胸围 היקף חזה", "shoulder": "肩宽 רוחב כתפיים", "sleeve": "袖长 אורך שרוול", "height": "身高 גובה מומלץ", "weight": "体重 משקל מומלץ"},
+  "charts": {
+    "AK07": {
+      "offer": "717949071534",
+      "source_image": "O1CN01IVECYf1u5dqEJPZ7R_!!2215006095986-0-cib",
+      "rows": [
+        {"size": "S",   "length": 72, "chest": 112, "shoulder": 54,   "sleeve": 24, "height": "160-170", "weight": "45-55"},
+        {"size": "M",   "length": 74, "chest": 116, "shoulder": 55.5, "sleeve": 25, "height": "165-175", "weight": "55-65"},
+        {"size": "L",   "length": 76, "chest": 120, "shoulder": 57,   "sleeve": 26, "height": "170-180", "weight": "60-75"},
+        {"size": "XL",  "length": 78, "chest": 124, "shoulder": 58.5, "sleeve": 27, "height": "175-185", "weight": "75-85"},
+        {"size": "2XL", "length": 80, "chest": 128, "shoulder": 60,   "sleeve": 28, "height": "180-195", "weight": "80-90"},
+        {"size": "3XL", "length": 82, "chest": 132, "shoulder": 61.5, "sleeve": 29, "height": "195-210", "weight": "95-110"}
+      ]
+    }
+  }
+}
