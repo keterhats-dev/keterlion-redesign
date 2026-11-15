@@ -30,7 +30,13 @@ const IM={};
 // make the near-white photo background transparent so hats sit on white or black
 function knock(i){const c=document.createElement('canvas');c.width=i.naturalWidth;c.height=i.naturalHeight;const g=c.getContext('2d');g.drawImage(i,0,0);
   const d=g.getImageData(0,0,c.width,c.height),p=d.data;
-  for(let j=0;j<p.length;j+=4){const m=Math.min(p[j],p[j+1],p[j+2]),M=Math.max(p[j],p[j+1],p[j+2]);if(M-m<14&&m>232)p[j+3]=Math.round(p[j+3]*Math.max(0,(250-m)/18));}
+  // flood-fill from the edges: only background pixels connected to the border are cleared, never light spots on the hat
+  const Wd=c.width,Hd=c.height,bg=j=>{const m=Math.min(p[j],p[j+1],p[j+2]),M=Math.max(p[j],p[j+1],p[j+2]);return M-m<14&&m>238;};
+  const seen=new Uint8Array(Wd*Hd),st=[];
+  for(let X=0;X<Wd;X++){st.push(X,(Hd-1)*Wd+X);}for(let Y=0;Y<Hd;Y++){st.push(Y*Wd,Y*Wd+Wd-1);}
+  while(st.length){const q=st.pop();if(seen[q])continue;seen[q]=1;const j=q*4;if(!bg(j))continue;
+    const m=Math.min(p[j],p[j+1],p[j+2]);p[j+3]=Math.round(255*Math.max(0,(250-m)/12));
+    const X=q%Wd,Y=(q/Wd)|0;if(X>0)st.push(q-1);if(X<Wd-1)st.push(q+1);if(Y>0)st.push(q-Wd);if(Y<Hd-1)st.push(q+Wd);}
   g.putImageData(d,0,0);return c;}
 function load(){return Promise.all(Object.entries(SRC).map(([k,s])=>new Promise((res,rej)=>{const i=new Image();i.onload=()=>{IM[k]=(k==='lion'||k==='wm')?i:knock(i);res()};i.onerror=rej;i.src=s})))}
 async function fonts(){await Promise.all(['400 20px Heebo','500 20px Heebo','700 20px Heebo','900 20px Heebo','20px "Suez One"','900 20px "Frank Ruhl Libre"','20px "Secular One"'].map(f=>document.fonts.load(f,'אבג abc')));}
@@ -117,7 +123,7 @@ function header(n,t,t0){
 
 // ---------- the timeline ----------
 // 0–2.2 intro · 2.2–5.4 cut · 5.4–9.2 colour · 9.2–14.2 design · 14.2–16.6 cart · 16.6–19 end
-const HX=540,HY=1000,HS=1040, EY=HY-HS*0.085; // embroidery centre on dad cap
+const HX=540,HY=1000,HS=1040, EY=HY-HS*0.045; // embroidery centre on dad cap
 function frame(t){
   x.setTransform(1,0,0,1,0,0);x.globalAlpha=1;x.filter='none';
   x.fillStyle=C.white;x.fillRect(0,0,W,H);
@@ -256,7 +262,7 @@ function frame(t){
     x.save();x.globalAlpha=b;
     hat('cream',1,W/2,1110,820);
     x.restore();
-    emb('יאללה',FONTS[0][0].replace('{s}',74),C.gold,W/2,1110-820*0.085,b);
+    emb('יאללה',FONTS[0][0].replace('{s}',74),C.gold,W/2,1110-820*0.045,b);
     x.save();x.globalAlpha=c;
     rr(140,1440,W-280,130,6);x.fillStyle=C.white;x.fill();
     txt('להתחיל לעצב',W/2+44,1525,'700 54px Heebo',C.ink,'center');
