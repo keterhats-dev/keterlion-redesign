@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>פרסומת עיצוב אישי</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&family=Suez+One&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#171717;--white:#fff;--gold:#AE8E42;--cream:#F4EEE1;--line:#DDD3BD;--mute:#6B6B69;--paper:#F4F4F2}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#ECEAE4;font-family:Heebo,sans-serif;color:var(--ink);padding:32px 16px 64px}
+.page-h{max-width:1200px;margin:0 auto 24px;font-weight:500;font-size:15px;color:var(--mute)}
+.page-h b{color:var(--ink);font-weight:900;font-size:22px;display:block;margin-bottom:4px}
+.row{display:flex;flex-wrap:wrap;gap:32px;justify-content:center;align-items:flex-start;max-width:1200px;margin:0 auto}
+.slot{display:flex;flex-direction:column;gap:10px;align-items:center}
+.slot small{font-size:13px;color:var(--mute);font-weight:500}
+.frame{overflow:hidden;box-shadow:0 1px 0 var(--line),0 12px 40px rgba(0,0,0,.08)}
+.ad{background:var(--white);position:relative;overflow:hidden;transform-origin:top right}
+/* scale to preview */
+.sq-wrap{width:540px;height:540px}.sq-wrap .ad{transform:scale(.5)}
+.st-wrap{width:405px;height:720px}.st-wrap .ad{transform:scale(.375)}
+@media (max-width:620px){.sq-wrap{width:340px;height:340px}.sq-wrap .ad{transform:scale(.3148)}
+ .st-wrap{width:340px;height:604.4px}.st-wrap .ad{transform:scale(.3148)}}
+.sq{width:1080px;height:1080px}.st{width:1080px;height:1920px}
+
+/* shared pieces */
+.ticker{background:var(--ink);color:var(--cream);font-weight:500;white-space:nowrap;overflow:hidden;display:flex;align-items:center;gap:28px}
+.ticker i{color:var(--gold);font-style:normal}
+.brand{display:flex;align-items:center;gap:16px}
+.brand img.lion{height:64px}
+.brand img.wm{height:30px}
+.brand .dot{width:10px;height:10px;background:var(--gold);border-radius:50%;margin-inline-start:-6px;align-self:flex-end;margin-bottom:6px}
+.kicker{display:flex;align-items:center;gap:14px;font-weight:500;letter-spacing:.02em;color:var(--mute)}
+.kicker:before{content:"";width:44px;height:4px;background:var(--gold)}
+h1{font-weight:900;line-height:.98;letter-spacing:-.02em}
+h1 .g{color:var(--gold)}
+.hair{height:1px;background:var(--line)}
+.sticker{position:absolute;background:var(--ink);color:var(--white);border-radius:50%;display:grid;place-items:center;text-align:center;font-family:"Suez One",serif;line-height:1.05;transform:rotate(-12deg)}
+.sticker span{display:block}
+.cta{background:var(--ink);color:var(--white);border-radius:4px;font-weight:700;display:inline-flex;align-items:center;gap:18px}
+.cta .arr{background:var(--white);color:var(--ink);border-radius:4px;display:grid;place-items:center}
+.url{font-weight:500;color:var(--ink);letter-spacing:.04em;direction:ltr}
+
+/* cap tiles with "embroidery" */
+.caps{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+.cap{position:relative;border-bottom:1px solid var(--line);border-inline-start:1px solid var(--line);aspect-ratio:1}
+.cap:nth-child(3n+1){border-inline-start:0}
+.cap{overflow:hidden}.cap img{width:100%;height:100%;object-fit:cover;display:block;mix-blend-mode:multiply;transform:scale(1.32) translateY(3%)}
+.emb{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%) perspective(400px) rotateX(8deg);font-weight:900;white-space:nowrap;letter-spacing:.01em;
+  text-shadow:0 1px 0 rgba(0,0,0,.25),0 -1px 0 rgba(255,255,255,.18)}
+.emb.lat{font-family:Heebo,sans-serif;letter-spacing:.08em}
+.tag{position:absolute;top:18px;right:18px;background:var(--ink);color:var(--gold);font-weight:700;padding:6px 12px;font-size:20px}
+
+/* ---------- SQUARE ---------- */
+.sq .ticker{height:64px;font-size:24px;padding:0 40px}
+.sq .top{display:flex;justify-content:space-between;align-items:center;padding:34px 56px 0}
+.sq .top .kicker{font-size:24px}
+.sq .head{padding:30px 56px 0}
+.sq h1{font-size:112px}
+.sq .sub{max-width:700px;line-height:1.35;font-size:32px;color:var(--mute);margin-top:18px;font-weight:400}
+.sq .sub b{color:var(--ink);font-weight:500}
+.sq .caps{position:absolute;left:0;right:0;top:500px;grid-template-columns:repeat(4,1fr)}
+.sq .cap:nth-child(3n+1){border-inline-start:1px solid var(--line)}
+.sq .cap:nth-child(4n+1){border-inline-start:0}
+.sq .emb{font-size:30px}
+.sq .foot{position:absolute;left:0;right:0;bottom:0;height:262px;padding:0 56px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line)}
+.sq .cta{font-size:34px;padding:16px 16px 16px 28px;padding-inline-start:34px}
+.sq .cta .arr{width:58px;height:58px;font-size:30px}
+.sq .facts{font-size:24px;line-height:1.6;color:var(--mute)}
+.sq .facts b{color:var(--ink);font-weight:500}
+.sq .sticker{width:196px;height:196px;font-size:38px;left:52px;top:376px;z-index:2}
+.sq .caps{top:auto;bottom:262px}
+
+/* ---------- STORY ---------- */
+.st .ticker{height:84px;font-size:30px;padding:0 40px}
+.st .top{display:flex;justify-content:space-between;align-items:center;padding:120px 72px 0}
+.st .top .kicker{font-size:28px}
+.st .head{padding:44px 72px 0}
+.st h1{font-size:122px}
+.st .sub{font-size:38px;color:var(--mute);margin-top:22px}
+.st .sub b{color:var(--ink);font-weight:500}
+.st .caps{margin-top:44px}
+.st .emb{font-size:40px}
+.st .tee{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line)}
+.st .tee .cell{position:relative;aspect-ratio:1/0.74;overflow:hidden;border-inline-start:1px solid var(--line)}
+.st .tee .cell:first-child{border-inline-start:0}
+.st .tee img{width:100%;height:100%;object-fit:cover;object-position:center 45%;display:block}
+.st .print{position:absolute;left:50%;transform:translateX(-50%);text-align:center;color:var(--cream)}
+.st .print.front{top:36%;font-weight:900;font-size:28px;letter-spacing:.06em}
+.st .print.back{top:27%;width:60%}
+.st .print.back .big{font-weight:900;font-size:50px;line-height:.9;color:var(--white)}
+.st .print.back .big .g{color:var(--gold)}
+.st .print.back .sm{font-weight:500;font-size:18px;letter-spacing:.2em;color:var(--gold);margin-top:10px}
+.st .facts{padding:30px 40px 0;font-size:29px;display:flex;justify-content:center;gap:34px;color:var(--ink)}
+.st .facts div:before{content:"✓ ";color:var(--gold);font-weight:900}
+.st .bottom{position:absolute;left:0;right:0;bottom:0;padding:0 72px 150px;display:flex;flex-direction:column;align-items:center;gap:24px}
+.st .cta{font-size:46px;padding:22px 22px 22px 40px;padding-inline-start:52px}
+.st .cta .arr{width:76px;height:76px;font-size:40px}
+.st .url{font-size:30px}
+.st .sticker{width:220px;height:220px;font-size:42px;left:72px;top:540px}
+</style>
+</head>
+<body>
+
+<div class="page-h"><b>עיצוב אישי · פרסומת</b>פוסט (1080×1080) וסטורי (1080×1920). התמונות מהאתר, הטקסטים על הכובעים הם דוגמה</div>
+
+<div class="row">
+
+  <!-- SQUARE -->
+  <div class="slot">
+    <div class="frame sq-wrap"><div class="ad sq" id="square">
+      <div class="ticker">
+        <span>בלי מינימום</span><i>✱</i><span>רקמה על כובע</span><i>✱</i><span>הדפס על חולצה</span><i>✱</i><span>עד 5 ימי עסקים</span><i>✱</i><span>בלי מינימום</span><i>✱</i><span>רקמה על כובע</span>
+      </div>
+      <div class="top">
+        <div class="kicker">KETERLION BY YOU</div>
+        <div class="brand"><img class="lion" src="img/lion.png" alt=""><img class="wm" src="img/wordmark.png" alt="KETERLION"><span class="dot"></span></div>
+      </div>
+      <div class="head">
+        <h1>מה שבראש שלך,<br>על הראש שלך<span class="g">.</span></h1>
+        <div class="sub">הטקסט, השם או הלוגו שלכם. <b>בוחרים כובע וצבע ומעצבים.</b></div>
+      </div>
+      <div class="sticker"><span>גם<br>כובע<br>אחד</span></div>
+
+      <div class="caps">
+        <div class="cap"><img src="img/cap-pink.png" alt=""><div class="emb" style="color:#fff">נועה</div></div>
+        <div class="cap"><img src="img/cap-black.png" alt=""><div class="emb lat" style="color:#AE8E42">TLV</div></div>
+        <div class="cap"><img src="img/cap-cream.png" alt=""><div class="emb" style="color:#171717">יאללה</div></div>
+        <div class="cap"><img src="img/cap-blue.png" alt=""><div class="emb" style="color:#fff">סבבה</div></div>
+      </div>
+
+      <div class="foot">
+        <div class="facts"><b>בלי מינימום.</b> גם כובע אחד<br>משלוח עד 5 ימי עסקים<br>או איסוף מנחלת בנימין 13</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:16px">
+          <div class="cta">להתחיל לעצב <span class="arr">←</span></div>
+          <div class="url" style="font-size:24px">KETERLION.COM</div>
+        </div>
+      </div>
+    </div></div>
+    <small>פוסט · פיד באינסטגרם ובפייסבוק</small>
+  </div>
+
+  <!-- STORY -->
+  <div class="slot">
+    <div class="frame st-wrap"><div class="ad st" id="story">
+      <div class="ticker">
+        <span>בלי מינימום</span><i>✱</i><span>גם כובע אחד</span><i>✱</i><span>גם חולצה אחת</span><i>✱</i><span>בלי מינימום</span><i>✱</i><span>גם כובע אחד</span>
+      </div>
+      <div class="top">
+        <div class="kicker">KETERLION BY YOU</div>
+        <div class="brand"><img class="lion" src="img/lion.png" alt=""><img class="wm" src="img/wordmark.png" alt="KETERLION"><span class="dot"></span></div>
+      </div>
+      <div class="head">
+        <h1>מה שבראש שלך,<br>על הראש שלך<span class="g">.</span></h1>
+        <div class="sub">הטקסט, השם או הלוגו שלכם,<br><b>על כובע או על חולצה.</b></div>
+      </div>
+      <div class="sticker"><span>גם<br>כובע<br>אחד</span></div>
+
+      <div class="caps">
+        <div class="cap"><img src="img/cap-pink.png" alt=""><div class="emb" style="color:#fff">נועה</div></div>
+        <div class="cap"><img src="img/cap-black.png" alt=""><div class="emb lat" style="color:#AE8E42">TLV</div></div>
+        <div class="cap"><img src="img/cap-cream.png" alt=""><div class="emb" style="color:#171717">יאללה</div></div>
+      </div>
+      <div class="tee">
+        <div class="cell"><img src="img/tee-front.jpg" alt=""><div class="print front">THE CREW</div><span class="tag">חדש · חזית</span></div>
+        <div class="cell"><img src="img/tee-back.jpg" alt=""><div class="print back"><div class="big">מסיבת<br>רווקים<span class="g">.</span></div><div class="sm">EILAT 2026</div></div><span class="tag">גב</span></div>
+      </div>
+
+      <div class="facts">
+        <div>בלי מינימום</div>
+        <div>הדפס בחזית ובגב</div>
+        <div>משלוח עד 5 ימי עסקים</div>
+      </div>
+
+      <div class="bottom">
+        <div class="cta">להתחיל לעצב <span class="arr">←</span></div>
+        <div class="url">KETERLION.COM</div>
+      </div>
+    </div></div>
+    <small>סטורי · אינסטגרם ופייסבוק</small>
+  </div>
+
+</div>
+<script>
+// ?only=square|story → the ad alone at full size (for PNG export)
+const only=new URLSearchParams(location.search).get('only');
+if(only){const ad=document.getElementById(only);document.body.innerHTML='';document.body.style.cssText='padding:0;margin:0;background:#fff';ad.style.transform='none';document.body.appendChild(ad);}
+</script>
+</body>
+</html>
