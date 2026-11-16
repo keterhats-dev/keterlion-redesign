@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>הדמיה: כמות בעיצוב אישי</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#171717;--muted:#6B6B69;--line:#DDD3BD;--gold:#AE8E42;--soft:#F4F4F2}
+body{margin:0;background:#fff;color:var(--ink);font-family:Heebo,Arial,sans-serif}
+.page{max-width:980px;margin:0 auto;padding:28px 16px 60px}
+h1{font-weight:900;font-size:26px;margin:0 0 6px}h1::after{content:".";color:var(--gold)}
+.sub{color:var(--muted);font-size:14px;margin:0 0 22px;line-height:1.5}
+.wrap{display:flex;gap:40px;flex-wrap:wrap;align-items:flex-start}
+.note{flex:1 1 300px;font-size:14px;line-height:1.6;color:var(--muted)}
+.note b{color:var(--ink)}
+.note ul{padding-right:18px;margin:8px 0}
+/* the picker, same rules as snippets/kl-custom-picker.css */
+.kl-picker{flex:0 0 380px;max-width:100%;display:flex;flex-direction:column;gap:22px}
+.klp-label{font-weight:900;font-size:15px;margin-bottom:10px;letter-spacing:.02em}
+.klp-label span{color:var(--muted);font-weight:500}
+.klp-seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--ink);border-radius:4px;overflow:hidden}
+.klp-seg div{display:flex;align-items:center;justify-content:center;gap:8px;min-height:54px;font-size:16px}
+.klp-seg div b{font-weight:900}
+.klp-seg .on{background:var(--ink);color:#fff}
+.klp-colors{display:flex;gap:10px;flex-wrap:wrap}
+.klp-colors i{width:38px;height:38px;border-radius:50%;box-shadow:inset 0 0 0 1px #CFC6B2;display:block}
+.klp-colors i.on{box-shadow:0 0 0 3px #fff,0 0 0 5px var(--ink)}
+/* new: quantity */
+.klp-qty{display:grid;grid-template-columns:54px 1fr 54px;border:1px solid var(--ink);border-radius:4px;overflow:hidden;min-height:54px}
+.klp-qty button{border:0;background:#fff;font:inherit;font-size:24px;font-weight:500;color:var(--ink);cursor:pointer}
+.klp-qty button:hover{background:var(--soft)}
+.klp-qty button:disabled{color:#BDBDBA;cursor:default;background:#fff}
+.klp-qty output{display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;border-right:1px solid var(--ink);border-left:1px solid var(--ink)}
+.klp-tiers{margin-top:12px;padding:10px 14px;background:var(--soft);border-right:3px solid var(--gold);font-size:14px;line-height:1.5}
+.klp-tiers .t{display:flex;justify-content:space-between;padding:2px 0;color:var(--muted)}
+.klp-tiers .t.on{color:var(--ink);font-weight:900}
+.klp-tiers .foot{margin-top:6px;font-size:12px;color:var(--muted)}
+.klp-go{min-height:58px;border:1px solid var(--ink);border-radius:4px;background:var(--ink);color:#fff;font:inherit;font-weight:700;font-size:17px;letter-spacing:.04em}
+.tag{display:inline-block;font-size:11px;font-weight:700;background:var(--ink);color:var(--gold);padding:2px 8px;margin-right:6px;vertical-align:2px}
+@media (max-width:767px){.kl-picker{flex:1 1 100%}}
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>הדמיה: בוחרים כמות לפני העיצוב</h1>
+  <p class="sub">עמוד הכובע בעיצוב אישי (/product/customize/). שלבים 1 ו-2 כמו היום. שלב 3 חדש. אפשר ללחוץ על ‎− / +‎. ההדמיה מקומית בלבד, ובאתר לא שיניתי כלום</p>
+  <div class="wrap">
+    <div class="kl-picker">
+      <div>
+        <div class="klp-label">1. בוחרים גזרה</div>
+        <div class="klp-seg"><div class="on"><b>Dad Cap</b></div><div><b>בייסבול</b></div></div>
+      </div>
+      <div>
+        <div class="klp-label">2. בוחרים צבע <span>· שחור</span></div>
+        <div class="klp-colors"><i class="on" style="background:#171717"></i><i style="background:#F4EEE1"></i><i style="background:#8B1E2D"></i><i style="background:#1F2A44"></i><i style="background:#6B6B4A"></i><i style="background:#C9B48F"></i></div>
+      </div>
+      <div>
+        <div class="klp-label">3. כמה כובעים? <span class="tag">חדש</span></div>
+        <div class="klp-qty">
+          <button type="button" id="plus" aria-label="עוד כובע">+</button>
+          <output id="n" aria-live="polite">1</output>
+          <button type="button" id="minus" aria-label="כובע אחד פחות">−</button>
+        </div>
+        <div class="klp-tiers" id="tiers">
+          <div class="t" data-min="2" data-max="5"><span>2–5 כובעים</span><span>₪150 לכובע</span></div>
+          <div class="t" data-min="6" data-max="9"><span>6–9 כובעים</span><span>₪110 לכובע</span></div>
+          <div class="t" data-min="10" data-max="23"><span>10–23 כובעים</span><span>₪100 לכובע</span></div>
+          <div class="foot">המחיר כולל עיצוב אחד. כל עיצוב נוסף ₪35. 24 ומעלה? יש מחיר לעסקים, כתבו לנו ב-WhatsApp</div>
+        </div>
+      </div>
+      <button type="button" class="klp-go">התחילו לעצב ←</button>
+    </div>
+    <div class="note">
+      <b>מה משתנה</b>
+      <ul>
+        <li>שלב 3 חדש: ‎− 1 +‎, בסגנון של כפתורי הגזרה (מסגרת שחורה דקה, פינות 4px)</li>
+        <li>הכמות נכנסת לשדה הכמות המוסתר של החנות. Zakeke מקבל אותה כשלוחצים "התחילו לעצב", ומחשב מחיר לפי הכמות</li>
+        <li>הקופסה מתחת מראה את מדרגות המחיר, והשורה של הכמות שנבחרה מודגשת</li>
+      </ul>
+      <b>לשים לב</b>
+      <ul>
+        <li>בתוך כלי העיצוב באתר אי אפשר לשנות כמות (שם כתוב רק "x1"), ולכן הכמות נבחרת כאן</li>
+        <li>בבייסבול כל מחיר יוצא ₪9 יותר (₪159, ₪119, ₪109). אפשר לכתוב את זה בקופסה, או להשאיר בלי</li>
+        <li>מ-4.11 העמוד לא מציג מחירים. הקופסה מחזירה מחירים רק לכמויות</li>
+        <li>בטלפון אותו דבר, מתחת לצבעים ומעל הכפתור</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var n=1, out=document.getElementById('n'), minus=document.getElementById('minus'), plus=document.getElementById('plus'), rows=document.querySelectorAll('#tiers .t');
+  function draw(){ out.textContent=n; minus.disabled=n<=1; plus.disabled=n>=23;
+    rows.forEach(function(r){ r.classList.toggle('on', n>=+r.dataset.min && n<=+r.dataset.max); }); }
+  minus.onclick=function(){ if(n>1){n--;draw();} }; plus.onclick=function(){ if(n<23){n++;draw();} }; draw();
+})();
+</script>
+</body>
+</html>
