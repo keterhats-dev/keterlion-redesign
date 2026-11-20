@@ -19,3 +19,6 @@ backups/
 tools/zakeke-svg/src/
 tools/zakeke-svg/out/
 tools/zakeke-svg/compare.*
+
+# product photos staged for upload to the site (originals live on the Desktop / Drive)
+upload-tmp/
