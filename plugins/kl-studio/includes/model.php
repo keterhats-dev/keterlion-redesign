@@ -47,7 +47,7 @@ function kls_variants() {
 			'hex'   => $v['hex'],
 			'front' => array_map( 'floatval', $v['front'] ),
 			'vb'    => isset( $v['vb'] ) ? $v['vb'] : null, // crop per side, so the cap fills the frame
-			'frontPpcm' => isset( $v['frontPpcm'] ) ? (float) $v['frontPpcm'] : null, // front scale, from the cap's width
+			'ppcm'  => isset( $v['ppcm'] ) ? $v['ppcm'] : null, // px per cm per side, from the cap's width in each photo
 			'price' => (float) wc_get_price_to_display( $p ),
 			'stock' => $p->is_in_stock() && $p->is_purchasable(),
 			'img'   => $img,

@@ -1,5 +1,5 @@
 {
-    "source":  "Zakeke product 10065158, read 22.11.2026. Coordinates in px of the 1024px side image, origin at the image centre. Images in assets/caps/\u003cvariation\u003e-\u003cside\u003e.jpg (800px). Front scale: frontPpcm = cap width in the front photo / 19.5 cm (Zakeke\u0027s front ppcm 18.95 drew 12 cm at about 38% of the cap width).",
+    "source":  "Zakeke product 10065158, read 22.11.2026. Coordinates in px of the 1024px side image, origin at the image centre. Images in assets/caps/\u003cvariation\u003e-\u003cside\u003e.jpg (800px). Scale (px per cm) per photo = cap width in the photo / real width (front and back 19.5 cm, sides 26.5 cm incl. brim). Side and back max sizes = Zakeke\u0027s area box in px / that scale (Zakeke\u0027s own ppcm drew the areas too small).",
     "imageSize":  1024,
     "shapes":  {
                    "dad":  {
@@ -18,11 +18,11 @@
                                                                   ]
                                                        },
                                              "right":  {
-                                                           "ppcm":  38.405,
+                                                           "ppcm":  32.83,
                                                            "cx":  -68.65,
-                                                           "maxH":  4.1,
+                                                           "maxH":  4.5,
                                                            "cy":  83.2,
-                                                           "maxW":  5.6,
+                                                           "maxW":  6.5,
                                                            "vb":  [
                                                                       88,
                                                                       91,
@@ -31,11 +31,11 @@
                                                                   ]
                                                        },
                                              "left":  {
-                                                          "ppcm":  29.081,
+                                                          "ppcm":  32.83,
                                                           "cx":  117.3,
-                                                          "maxH":  4,
+                                                          "maxH":  3.5,
                                                           "cy":  107.05,
-                                                          "maxW":  6.6,
+                                                          "maxW":  5.5,
                                                           "vb":  [
                                                                      45,
                                                                      92,
@@ -44,11 +44,11 @@
                                                                  ]
                                                       },
                                              "back":  {
-                                                          "ppcm":  23.955,
+                                                          "ppcm":  35.79,
                                                           "cx":  25.95,
-                                                          "maxH":  7.7,
+                                                          "maxH":  5,
                                                           "cy":  -62.15,
-                                                          "maxW":  17.7,
+                                                          "maxW":  11.5,
                                                           "vb":  [
                                                                      188,
                                                                      103,
@@ -74,11 +74,11 @@
                                                                        ]
                                                             },
                                                   "right":  {
-                                                                "ppcm":  24.441,
+                                                                "ppcm":  26.38,
                                                                 "cx":  -82.25,
-                                                                "maxH":  3.4,
+                                                                "maxH":  3,
                                                                 "cy":  81.65,
-                                                                "maxW":  6.1,
+                                                                "maxW":  5.5,
                                                                 "vb":  [
                                                                            167,
                                                                            145,
@@ -87,11 +87,11 @@
                                                                        ]
                                                             },
                                                   "left":  {
-                                                               "ppcm":  29.081,
+                                                               "ppcm":  26.87,
                                                                "cx":  98.3,
                                                                "maxH":  4,
                                                                "cy":  62.2,
-                                                               "maxW":  6.1,
+                                                               "maxW":  6.5,
                                                                "vb":  [
                                                                           131,
                                                                           141,
@@ -100,11 +100,11 @@
                                                                       ]
                                                            },
                                                   "back":  {
-                                                               "ppcm":  23.955,
+                                                               "ppcm":  35.85,
                                                                "cx":  26.2,
-                                                               "maxH":  7.6,
+                                                               "maxH":  5,
                                                                "cy":  17.8,
-                                                               "maxW":  14.8,
+                                                               "maxW":  9.5,
                                                                "vb":  [
                                                                           149,
                                                                           168,
@@ -153,7 +153,12 @@
                                                  712
                                              ]
                                 },
-                         "frontPpcm":  30.97
+                         "ppcm":  {
+                                      "front":  30.97,
+                                      "right":  32.94,
+                                      "left":  32.94,
+                                      "back":  35.79
+                                  }
                      },
                      {
                          "id":  22607,
@@ -192,7 +197,12 @@
                                                  712
                                              ]
                                 },
-                         "frontPpcm":  32.67
+                         "ppcm":  {
+                                      "front":  32.67,
+                                      "right":  32.94,
+                                      "left":  32.68,
+                                      "back":  35.79
+                                  }
                      },
                      {
                          "id":  22604,
@@ -231,7 +241,12 @@
                                                  708
                                              ]
                                 },
-                         "frontPpcm":  31.13
+                         "ppcm":  {
+                                      "front":  31.13,
+                                      "right":  30.42,
+                                      "left":  32.26,
+                                      "back":  35.59
+                                  }
                      },
                      {
                          "id":  22605,
@@ -270,7 +285,12 @@
                                                  712
                                              ]
                                 },
-                         "frontPpcm":  30.72
+                         "ppcm":  {
+                                      "front":  30.72,
+                                      "right":  32.94,
+                                      "left":  32.83,
+                                      "back":  35.79
+                                  }
                      },
                      {
                          "id":  22602,
@@ -309,7 +329,12 @@
                                                  712
                                              ]
                                 },
-                         "frontPpcm":  30.82
+                         "ppcm":  {
+                                      "front":  30.82,
+                                      "right":  32.83,
+                                      "left":  32.94,
+                                      "back":  35.79
+                                  }
                      },
                      {
                          "id":  22601,
@@ -348,7 +373,12 @@
                                                  704
                                              ]
                                 },
-                         "frontPpcm":  30.56
+                         "ppcm":  {
+                                      "front":  30.56,
+                                      "right":  32.68,
+                                      "left":  32.57,
+                                      "back":  35.44
+                                  }
                      },
                      {
                          "id":  22600,
@@ -387,7 +417,12 @@
                                                  712
                                              ]
                                 },
-                         "frontPpcm":  31.13
+                         "ppcm":  {
+                                      "front":  31.13,
+                                      "right":  32.94,
+                                      "left":  32.94,
+                                      "back":  35.79
+                                  }
                      },
                      {
                          "id":  22603,
@@ -426,7 +461,12 @@
                                                  712
                                              ]
                                 },
-                         "frontPpcm":  30.97
+                         "ppcm":  {
+                                      "front":  30.97,
+                                      "right":  32.94,
+                                      "left":  32.94,
+                                      "back":  35.79
+                                  }
                      },
                      {
                          "id":  22598,
@@ -465,7 +505,12 @@
                                                  712
                                              ]
                                 },
-                         "frontPpcm":  31.13
+                         "ppcm":  {
+                                      "front":  31.13,
+                                      "right":  32.94,
+                                      "left":  32.94,
+                                      "back":  35.79
+                                  }
                      },
                      {
                          "id":  22568,
@@ -504,7 +549,12 @@
                                                  712
                                              ]
                                 },
-                         "frontPpcm":  31.13
+                         "ppcm":  {
+                                      "front":  31.13,
+                                      "right":  32.94,
+                                      "left":  32.94,
+                                      "back":  35.79
+                                  }
                      },
                      {
                          "id":  22599,
@@ -543,7 +593,12 @@
                                                  712
                                              ]
                                 },
-                         "frontPpcm":  32.51
+                         "ppcm":  {
+                                      "front":  32.51,
+                                      "right":  32.83,
+                                      "left":  32.94,
+                                      "back":  35.79
+                                  }
                      },
                      {
                          "id":  22596,
@@ -582,7 +637,12 @@
                                                  712
                                              ]
                                 },
-                         "frontPpcm":  30.72
+                         "ppcm":  {
+                                      "front":  30.72,
+                                      "right":  32.83,
+                                      "left":  32.83,
+                                      "back":  35.79
+                                  }
                      },
                      {
                          "id":  22597,
@@ -621,7 +681,12 @@
                                                  666
                                              ]
                                 },
-                         "frontPpcm":  29.79
+                         "ppcm":  {
+                                      "front":  29.79,
+                                      "right":  32.83,
+                                      "left":  29.06,
+                                      "back":  33.49
+                                  }
                      },
                      {
                          "id":  22595,
@@ -660,7 +725,12 @@
                                                  712
                                              ]
                                 },
-                         "frontPpcm":  30.46
+                         "ppcm":  {
+                                      "front":  30.46,
+                                      "right":  32.83,
+                                      "left":  32.83,
+                                      "back":  35.79
+                                  }
                      },
                      {
                          "id":  22594,
@@ -699,7 +769,12 @@
                                                  712
                                              ]
                                 },
-                         "frontPpcm":  32.41
+                         "ppcm":  {
+                                      "front":  32.41,
+                                      "right":  32.68,
+                                      "left":  32.68,
+                                      "back":  35.79
+                                  }
                      },
                      {
                          "id":  22565,
@@ -738,7 +813,12 @@
                                                  712
                                              ]
                                 },
-                         "frontPpcm":  30.62
+                         "ppcm":  {
+                                      "front":  30.62,
+                                      "right":  32.68,
+                                      "left":  32.75,
+                                      "back":  35.79
+                                  }
                      },
                      {
                          "id":  22563,
@@ -777,7 +857,12 @@
                                                  690
                                              ]
                                 },
-                         "frontPpcm":  28.26
+                         "ppcm":  {
+                                      "front":  28.26,
+                                      "right":  29.55,
+                                      "left":  29.85,
+                                      "back":  34.67
+                                  }
                      },
                      {
                          "id":  23336,
@@ -816,7 +901,12 @@
                                                  770
                                              ]
                                 },
-                         "frontPpcm":  22.72
+                         "ppcm":  {
+                                      "front":  22.72,
+                                      "right":  26.38,
+                                      "left":  26.87,
+                                      "back":  38.72
+                                  }
                      },
                      {
                          "id":  22564,
@@ -855,7 +945,12 @@
                                                  712
                                              ]
                                 },
-                         "frontPpcm":  30.46
+                         "ppcm":  {
+                                      "front":  30.46,
+                                      "right":  32.83,
+                                      "left":  32.83,
+                                      "back":  35.79
+                                  }
                      },
                      {
                          "id":  22547,
@@ -894,7 +989,12 @@
                                                  706
                                              ]
                                 },
-                         "frontPpcm":  22.31
+                         "ppcm":  {
+                                      "front":  22.31,
+                                      "right":  26.98,
+                                      "left":  26.64,
+                                      "back":  35.49
+                                  }
                      },
                      {
                          "id":  22548,
@@ -933,7 +1033,12 @@
                                                  701
                                              ]
                                 },
-                         "frontPpcm":  21.9
+                         "ppcm":  {
+                                      "front":  21.9,
+                                      "right":  27.55,
+                                      "left":  27.74,
+                                      "back":  35.28
+                                  }
                      },
                      {
                          "id":  22549,
@@ -972,7 +1077,12 @@
                                                  744
                                              ]
                                 },
-                         "frontPpcm":  22.56
+                         "ppcm":  {
+                                      "front":  22.56,
+                                      "right":  26.94,
+                                      "left":  26.94,
+                                      "back":  37.38
+                                  }
                      },
                      {
                          "id":  22550,
@@ -1011,7 +1121,12 @@
                                                  736
                                              ]
                                 },
-                         "frontPpcm":  22.56
+                         "ppcm":  {
+                                      "front":  22.56,
+                                      "right":  26.87,
+                                      "left":  26.87,
+                                      "back":  37.03
+                                  }
                      },
                      {
                          "id":  22551,
@@ -1050,7 +1165,12 @@
                                                  773
                                              ]
                                 },
-                         "frontPpcm":  22.72
+                         "ppcm":  {
+                                      "front":  22.72,
+                                      "right":  26.38,
+                                      "left":  26.87,
+                                      "back":  38.87
+                                  }
                      },
                      {
                          "id":  22552,
@@ -1089,7 +1209,12 @@
                                                  713
                                              ]
                                 },
-                         "frontPpcm":  22.56
+                         "ppcm":  {
+                                      "front":  22.56,
+                                      "right":  26.3,
+                                      "left":  26.75,
+                                      "back":  35.85
+                                  }
                      },
                      {
                          "id":  22553,
@@ -1128,7 +1253,12 @@
                                                  686
                                              ]
                                 },
-                         "frontPpcm":  22.56
+                         "ppcm":  {
+                                      "front":  22.56,
+                                      "right":  26.38,
+                                      "left":  26.87,
+                                      "back":  35.85
+                                  }
                      }
                  ]
 }

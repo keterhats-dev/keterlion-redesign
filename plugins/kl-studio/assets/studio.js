@@ -47,7 +47,7 @@
     v = v || variant();
     var sd = C.shapes[v.shape].sides[side];
     var c = side === 'front' ? v.front : [sd.cx, sd.cy];
-    var k = side === 'front' && v.frontPpcm ? v.frontPpcm : sd.ppcm; // front: measured from the cap's real width
+    var k = (v.ppcm && v.ppcm[side]) || sd.ppcm; // px per cm, measured from the cap's real width in this photo
     return { cx: IMG / 2 + c[0], cy: IMG / 2 + c[1], k: k, maxW: sd.maxW, maxH: sd.maxH };
   }
   function limits(side) { var sd = shape().sides[side]; return { maxW: sd.maxW, maxH: sd.maxH }; }
