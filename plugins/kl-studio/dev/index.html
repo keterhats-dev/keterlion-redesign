@@ -13,7 +13,7 @@
 <div class="page"><div id="kl-studio"></div></div>
 <script>
 /* Builds the same config that includes/model.php → kls_front_config() produces, from the plugin's own data files. */
-fetch('../assets/data/cap-model.json').then(function (r) { return r.json(); }).then(function (m) {
+fetch('../assets/data/cap-model.json?v=' + Date.now()).then(function (r) { return r.json(); }).then(function (m) {
   var price = { dad: 100, baseball: 109 };
   var cfg = {
     demo: true, currency: '₪', imageSize: m.imageSize, viewBox: [64, 152, 896, 672],
