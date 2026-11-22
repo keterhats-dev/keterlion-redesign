@@ -290,6 +290,12 @@ alter table app_settings enable row level security; -- no policies: only server 
 
 -- Link key for the Retail Hub (stock.mjs, retail-hub.sql): generated here, never copied anywhere
 insert into app_settings (key, value) values ('retail_hub_key', encode(gen_random_bytes(32), 'hex')) on conflict (key) do nothing;
+-- The stock function reads it with the logged-in person's token; only team members get an answer
+create or replace function retail_hub_key() returns text language sql stable security definer set search_path = public as $$
+  select value from app_settings where key = 'retail_hub_key' and is_team()
+$$;
+revoke all on function retail_hub_key() from public, anon;
+grant execute on function retail_hub_key() to authenticated;
 
 -- Who handles orders from the site by default (Yona, the store worker)
 insert into app_settings (key, value)

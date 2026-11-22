@@ -1,7 +1,7 @@
 // POST /.netlify/functions/woo-order  ← WooCommerce webhook (order created / order updated) on keterlion.com
 // 1. Checks the webhook signature (WOO_WEBHOOK_SECRET, the "Secret" of the webhook in WooCommerce)
 // 2. Hands the order to ingest_web_order() in Supabase, which decides what to keep (paid orders only)
-//    and who is responsible (web_orders_assignee in app_settings). Needs SUPABASE_SERVICE_ROLE_KEY,
+//    and who is responsible (web_orders_assignee in app_settings). Needs OPS_SERVICE_KEY,
 //    used only for that call and for reading the devices to notify.
 // 3. A new order: phone notification to the person responsible and to the managers.
 import crypto from 'node:crypto';
@@ -33,7 +33,7 @@ function zakeke(items) {
 
 export default async (req) => {
   if (req.method !== 'POST') return ok('POST only', 405);
-  const { WOO_WEBHOOK_SECRET: secret, SUPABASE_SERVICE_ROLE_KEY: service } = process.env;
+  const { WOO_WEBHOOK_SECRET: secret, OPS_SERVICE_KEY: service } = process.env;
   if (!secret || !service) return ok('not configured', 500);
 
   const raw = await req.text();
