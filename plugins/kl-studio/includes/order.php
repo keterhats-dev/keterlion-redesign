@@ -57,6 +57,11 @@ function kls_build_order_files( $design, $previews, $key ) {
 		if ( $svg ) {
 			file_put_contents( $dir . '/' . $side . '.svg', $svg ); // phpcs:ignore
 			$row['svg'] = kls_path_to_url( $dir . '/' . $side . '.svg' );
+			$place      = kls_placement_svg( $side, $it, $shape['sides'][ $side ], $svg );
+			if ( $place ) {
+				file_put_contents( $dir . '/' . $side . '-placement.svg', $place ); // phpcs:ignore
+				$row['placement'] = kls_path_to_url( $dir . '/' . $side . '-placement.svg' );
+			}
 		}
 		$out[ $side ] = $row;
 	}
@@ -109,6 +114,26 @@ function kls_production_svg( $side, $it, $area ) {
 	return '';
 }
 
+/** The whole embroidery area at real size (mm), dashed, with the design where the customer put it. */
+function kls_placement_svg( $side, $it, $area, $design_svg ) {
+	$W = (float) $area['maxW'] * 10;
+	$H = (float) $area['maxH'] * 10;
+	if ( ! preg_match( '/<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg" width="([\d.]+)mm" height="([\d.]+)mm"/', $design_svg, $m ) ) {
+		return '';
+	}
+	$w     = (float) $m[1];
+	$h     = (float) $m[2];
+	$x     = $W / 2 + (float) ( $it['dx'] ?? 0 ) * 10 - $w / 2;
+	$y     = $H / 2 + (float) ( $it['dy'] ?? 0 ) * 10 - $h / 2;
+	$inner = preg_replace( '/^.*?(<svg xmlns)/s', '$1', $design_svg );
+	$inner = preg_replace( '/width="[\d.]+mm" height="[\d.]+mm"/', 'x="' . round( $x, 2 ) . '" y="' . round( $y, 2 ) . '" width="' . $w . '" height="' . $h . '"', $inner, 1 );
+	return '<?xml version="1.0" encoding="UTF-8"?>' . "\n" . '<!-- KETERLION · ' . str_replace( '--', '- -', esc_html( kls_sides()[ $side ] . ' · אזור הרקמה ' . $area['maxW'] . '×' . $area['maxH'] . ' ס״מ · ' . kls_position_text( $it ) ) ) . ' -->' . "\n"
+		. '<svg xmlns="http://www.w3.org/2000/svg" width="' . $W . 'mm" height="' . $H . 'mm" viewBox="0 0 ' . $W . ' ' . $H . '">'
+		. '<rect x="0.25" y="0.25" width="' . ( $W - 0.5 ) . '" height="' . ( $H - 0.5 ) . '" fill="none" stroke="#999" stroke-width="0.5" stroke-dasharray="2 2"/>'
+		. '<path d="M' . ( $W / 2 ) . ',0 V' . $H . ' M0,' . ( $H / 2 ) . ' H' . $W . '" stroke="#ccc" stroke-width="0.3"/>'
+		. $inner . '</svg>';
+}
+
 /** In the admin order screen: previews and files under each designed cap. */
 add_action( 'woocommerce_after_order_itemmeta', function ( $item_id, $item ) {
 	$files = json_decode( (string) $item->get_meta( '_kls_files' ), true );
@@ -125,6 +150,9 @@ add_action( 'woocommerce_after_order_itemmeta', function ( $item_id, $item ) {
 		}
 		if ( ! empty( $f['svg'] ) ) {
 			echo '<a href="' . esc_url( $f['svg'] ) . '" download>קובץ לרקמה (SVG)</a><br>';
+		}
+		if ( ! empty( $f['placement'] ) ) {
+			echo '<a href="' . esc_url( $f['placement'] ) . '" download>מיקום באזור (SVG)</a><br>';
 		}
 		if ( ! empty( $f['logo'] ) ) {
 			echo '<a href="' . esc_url( $f['logo'] ) . '" download>הלוגו המקורי</a>';

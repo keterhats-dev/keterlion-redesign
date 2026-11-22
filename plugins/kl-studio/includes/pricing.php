@@ -87,6 +87,12 @@ function kls_clean_design( $raw ) {
 	if ( ! $items ) {
 		return new WP_Error( 'kls', 'עוד לא בחרתם עיצוב לכובע.' );
 	}
+	// Where the customer dragged the design: cm from the centre of the area (right and down are positive).
+	foreach ( $items as $side => &$it ) {
+		$it['dx'] = kls_clamp( $raw['items'][ $side ]['dx'] ?? 0, -(float) $shape['sides'][ $side ]['maxW'] / 2, (float) $shape['sides'][ $side ]['maxW'] / 2 );
+		$it['dy'] = kls_clamp( $raw['items'][ $side ]['dy'] ?? 0, -(float) $shape['sides'][ $side ]['maxH'] / 2, (float) $shape['sides'][ $side ]['maxH'] / 2 );
+	}
+	unset( $it );
 	return array( 'variation' => $vid, 'items' => $items );
 }
 
@@ -124,8 +130,26 @@ function kls_unit_price( $design, $qty, $base ) {
 	return (float) $base + $first + (float) $s['extra'] * ( count( $items ) - 1 );
 }
 
+/** "מוזז 1.2 ס״מ ימינה ו-0.5 ס״מ למעלה", or '' when the design is centred. */
+function kls_position_text( $side_item ) {
+	$dx    = (float) ( $side_item['dx'] ?? 0 );
+	$dy    = (float) ( $side_item['dy'] ?? 0 );
+	$parts = array();
+	if ( abs( $dx ) >= 0.1 ) {
+		$parts[] = abs( $dx ) . ' ס״מ ' . ( $dx > 0 ? 'ימינה' : 'שמאלה' );
+	}
+	if ( abs( $dy ) >= 0.1 ) {
+		$parts[] = abs( $dy ) . ' ס״מ ' . ( $dy > 0 ? 'למטה' : 'למעלה' );
+	}
+	return $parts ? 'מוזז מהמרכז ' . implode( ' ו-', $parts ) : 'במרכז';
+}
+
 /** One readable line per decorated side, for the cart, the order and the emails. */
 function kls_describe( $side_item ) {
+	return kls_describe_design( $side_item ) . ', ' . kls_position_text( $side_item );
+}
+
+function kls_describe_design( $side_item ) {
 	$t = kls_find( kls_threads(), 'code', $side_item['thread'] ?? '' );
 	switch ( $side_item['type'] ) {
 		case 'gallery':

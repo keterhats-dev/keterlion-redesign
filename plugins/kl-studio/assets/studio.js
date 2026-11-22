@@ -20,7 +20,7 @@
 
   /* ---------- state ---------- */
   function blankItem(side) {
-    return { type: null, id: null, thread: null, w: side === 'front' ? 6 : 4, text: '', font: FONTS[0].id, h: side === 'front' ? 1.4 : 1, logo: null, ok: false };
+    return { type: null, id: null, thread: null, w: side === 'front' ? 6 : 4, text: '', font: FONTS[0].id, h: side === 'front' ? 1.4 : 1, logo: null, ok: false, dx: 0, dy: 0 };
   }
   var S = null;
   try { S = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
@@ -100,15 +100,32 @@
     }
     return null;
   }
+  /* offset of the design from the area centre, in cm, clamped so it stays inside the area */
+  function offset(side, it, sz) {
+    var L = limits(side), mx = Math.max(0, (L.maxW * 10 - sz.w) / 20), my = Math.max(0, (L.maxH * 10 - sz.h) / 20);
+    it.dx = Math.max(-mx, Math.min(mx, +it.dx || 0)); it.dy = Math.max(-my, Math.min(my, +it.dy || 0));
+    return [it.dx, it.dy];
+  }
   function designSVG(side, editing, G) {
-    var it = item(side), out = '', f = G.k / 10;
+    var it = item(side), out = '', f = G.k / 10, ink = light(variant().hex) ? 'rgba(0,0,0,.45)' : 'rgba(255,255,255,.7)';
     if (editing) {
       var bw = G.maxW * G.k, bh = G.maxH * G.k;
-      out += '<rect x="' + (G.cx - bw / 2) + '" y="' + (G.cy - bh / 2) + '" width="' + bw + '" height="' + bh + '" fill="none" stroke="' + (light(variant().hex) ? 'rgba(0,0,0,.4)' : 'rgba(255,255,255,.6)') + '" stroke-dasharray="8 6" stroke-width="2.5"/>';
+      out += '<rect class="kls-area" x="' + (G.cx - bw / 2) + '" y="' + (G.cy - bh / 2) + '" width="' + bw + '" height="' + bh + '" fill="rgba(0,0,0,0)" stroke="' + ink + '" stroke-dasharray="8 6" stroke-width="2.5"/>';
     }
     if (!filled(it)) return out;
     var sz = designSize(side, it); if (!sz) return out;
+    var o = offset(side, it, sz);
+    G = { cx: G.cx + o[0] * G.k, cy: G.cy + o[1] * G.k, k: G.k, maxW: G.maxW, maxH: G.maxH };
     var w = sz.w * f, h = sz.h * f, col = thread(it.thread).hex;
+    var sel = '';
+    if (editing) {
+      // sizes in screen pixels, converted to drawing units, so the handle is easy to grab on a phone
+      var cw = ($('kls-canvas') && $('kls-canvas').clientWidth) || 600, u = VB[2] / cw;
+      var pad = 5 * u, hx = G.cx - w / 2 - pad, hy = G.cy + h / 2 + pad, a = 5 * u;
+      sel = '<rect class="kls-grab" x="' + (G.cx - w / 2 - pad) + '" y="' + (G.cy - h / 2 - pad) + '" width="' + (w + pad * 2) + '" height="' + (h + pad * 2) + '" fill="rgba(0,0,0,0)" stroke="' + ink + '" stroke-width="' + 1.5 * u + '" style="cursor:move"/>' +
+        '<g class="kls-handle" style="cursor:nesw-resize"><circle cx="' + hx + '" cy="' + hy + '" r="' + 22 * u + '" fill="rgba(0,0,0,0)"/><circle cx="' + hx + '" cy="' + hy + '" r="' + 13 * u + '" fill="#171717" stroke="#fff" stroke-width="' + 2 * u + '"/>' +
+        '<path d="M' + (hx - a) + ',' + (hy + a) + ' L' + (hx + a) + ',' + (hy - a) + ' M' + (hx - a) + ',' + (hy) + ' L' + (hx - a) + ',' + (hy + a) + ' L' + (hx) + ',' + (hy + a) + ' M' + (hx + a) + ',' + (hy) + ' L' + (hx + a) + ',' + (hy - a) + ' L' + (hx) + ',' + (hy - a) + '" stroke="#fff" stroke-width="' + 1.6 * u + '" fill="none"/></g>';
+    }
     if (it.type === 'gallery') {
       out += '<g filter="url(#kls-emb)" style="color:' + col + '">' + design(it.id).s.replace('<svg', '<svg x="' + (G.cx - w / 2) + '" y="' + (G.cy - h / 2) + '" width="' + w + '" height="' + h + '" preserveAspectRatio="xMidYMid meet"') + '</g>';
     } else if (it.type === 'text') {
@@ -116,7 +133,7 @@
     } else {
       out += '<image filter="url(#kls-emb)" href="' + esc(it.logo.src) + '" x="' + (G.cx - w / 2) + '" y="' + (G.cy - h / 2) + '" width="' + w + '" height="' + h + '" preserveAspectRatio="xMidYMid meet"/>';
     }
-    return out;
+    return out + sel;
   }
   var DEFS = '<defs><filter id="kls-emb" x="-15%" y="-15%" width="130%" height="130%">' +
     '<feTurbulence type="fractalNoise" baseFrequency="0.01 0.6" numOctaves="2" seed="4" result="n"/>' +
@@ -125,7 +142,7 @@
     '<feMerge result="m"><feMergeNode in="SourceGraphic"/><feMergeNode in="tex"/></feMerge>' +
     '<feDropShadow in="m" dx="0" dy="1.6" stdDeviation="1.2" flood-color="#000" flood-opacity="0.45"/></filter></defs>';
   function sideSVG(side, editing, uid) {
-    var v = variant(), s = DEFS + '<image href="' + esc(v.img[side]) + '" x="0" y="0" width="' + IMG + '" height="' + IMG + '"/>' + designSVG(side, editing, geo(side, v));
+    var v = variant(), s = DEFS + '<image href="' + esc(v.img[side]) + '" x="0" y="0" width="' + IMG + '" height="' + IMG + '"/><g id="' + (uid ? 'kls-layer-' + uid : 'kls-layer') + '">' + designSVG(side, editing, geo(side, v)) + '</g>';
     if (uid) s = s.replace(/kls-emb/g, 'kls-emb-' + uid);
     return '<svg viewBox="' + VB.join(' ') + '" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="' + esc(LABEL[side]) + '">' + s + '</svg>';
   }
@@ -145,11 +162,20 @@
     '<div class="kls-overlay" id="kls-overlay" hidden><div class="kls-sheet" role="dialog" aria-modal="true" aria-labelledby="kls-sheet-title" id="kls-sheet"></div></div>';
 
   /* ---------- render ---------- */
+  var stageKey = '';
+  function editingNow() { return S.step === 1 && S.side === S.view; }
   function renderStage() {
-    $('kls-canvas').innerHTML = sideSVG(S.view, S.step === 1 && S.side === S.view) +
-      '<button type="button" class="kls-arrow prev" aria-label="הצד הקודם">›</button><button type="button" class="kls-arrow next" aria-label="הצד הבא">‹</button>';
-    $('kls-canvas').querySelector('.prev').onclick = function () { turn(-1); };
-    $('kls-canvas').querySelector('.next').onclick = function () { turn(1); };
+    var cv = $('kls-canvas'), key = variant().id + '|' + S.view;
+    if (key !== stageKey || !$('kls-layer')) {
+      stageKey = key;
+      cv.innerHTML = sideSVG(S.view, editingNow()) +
+        '<button type="button" class="kls-arrow prev" aria-label="הצד הקודם">›</button><button type="button" class="kls-arrow next" aria-label="הצד הבא">‹</button>';
+      cv.querySelector('.prev').onclick = function () { turn(-1); };
+      cv.querySelector('.next').onclick = function () { turn(1); };
+    } else {
+      $('kls-layer').innerHTML = designSVG(S.view, editingNow(), geo(S.view));
+    }
+    cv.classList.toggle('editing', editingNow() && filled(item(S.view)));
     var vs = $('kls-views'); vs.innerHTML = '';
     SIDES.forEach(function (s) {
       var b = document.createElement('button'); b.type = 'button'; b.className = 'kls-chip'; b.setAttribute('aria-pressed', S.view === s);
@@ -229,7 +255,10 @@
     [['gallery', 'ספר הרקמות', 'עיצובים שלנו, מוכנים לרקמה'], ['text', 'טקסט', 'שם, משפט, תאריך'], ['logo', 'הלוגו שלכם', 'מעלים קובץ, ואנחנו מכינים אותו לרקמה']].forEach(function (t) {
       h += '<button type="button" class="kls-card kls-type" data-type="' + t[0] + '" aria-pressed="' + (it.type === t[0]) + '"><b>' + t[1] + '</b><small>' + t[2] + '</small><span class="kls-pr">' + typePriceLabel(t[0], side) + '</span></button>';
     });
-    h += '</div><div class="kls-row"><button type="button" class="kls-link" id="kls-surprise">תפתיעו אותי</button>' + (it.type ? '<button type="button" class="kls-link" id="kls-clear">להסיר מ' + esc(LABEL[side]) + '</button>' : '') + '</div>';
+    h += '</div><div class="kls-row"><button type="button" class="kls-link" id="kls-surprise">תפתיעו אותי</button>' +
+      (filled(it) && (Math.abs(it.dx || 0) > 0.05 || Math.abs(it.dy || 0) > 0.05) ? '<button type="button" class="kls-link" id="kls-center">למרכז</button>' : '') +
+      (it.type ? '<button type="button" class="kls-link" id="kls-clear">להסיר מ' + esc(LABEL[side]) + '</button>' : '') + '</div>';
+    if (filled(it)) h += '<p class="kls-note">על הכובע: גוררים את העיצוב כדי להזיז אותו, ומהעיגול השחור בפינה משנים גודל.</p>';
 
     if (it.type === 'gallery') {
       h += '<div class="kls-label">ספר הרקמות <span>' + GALLERY.length + ' עיצובים</span></div><div class="kls-cats">';
@@ -334,6 +363,7 @@
       refreshLive(); $('kls-txtwarn').innerHTML = textWarnHTML(S.side, it);
     };
     var sp = $('kls-surprise'); if (sp) sp.onclick = surprise;
+    var ce = $('kls-center'); if (ce) ce.onclick = function () { var it = ensure(S.side); it.dx = 0; it.dy = 0; render(); };
     var cl = $('kls-clear'); if (cl) cl.onclick = function () { delete S.items[S.side]; render(); };
     var lf = $('kls-logofile'); if (lf) lf.onchange = function () { if (lf.files[0]) upload(lf.files[0]); };
     var dr = $('kls-drop'); if (dr) {
@@ -386,7 +416,7 @@
     var map = function (px, py) { return [(px - VB[0]) * sc, (py - VB[1]) * sc]; };
     return loadImg(v.img[side]).then(function (ph) {
       var o = map(0, 0); x.drawImage(ph, o[0], o[1], IMG * sc, IMG * sc);
-      var sz = designSize(side, it), f = G.k / 10, w = sz.w * f * sc, h = sz.h * f * sc, c = map(G.cx, G.cy), col = thread(it.thread).hex;
+      var sz = designSize(side, it), o = offset(side, it, sz), f = G.k / 10, w = sz.w * f * sc, h = sz.h * f * sc, c = map(G.cx + o[0] * G.k, G.cy + o[1] * G.k), col = thread(it.thread).hex;
       x.shadowColor = 'rgba(0,0,0,.4)'; x.shadowBlur = 2; x.shadowOffsetY = 1;
       if (it.type === 'text') {
         x.fillStyle = col; x.font = sz.font.w + ' ' + (sz.fs * f * sc) + 'px ' + sz.font.css; x.textAlign = 'center'; x.textBaseline = 'middle'; x.direction = 'rtl';
@@ -402,7 +432,7 @@
   function payload() {
     var items = {};
     active().forEach(function (s) {
-      var it = item(s), o = { type: it.type };
+      var it = item(s), o = { type: it.type, dx: Math.round((it.dx || 0) * 10) / 10, dy: Math.round((it.dy || 0) * 10) / 10 };
       if (it.type === 'gallery') { o.id = it.id; o.thread = it.thread; o.w = it.w; }
       if (it.type === 'text') { o.text = it.text.trim(); o.font = it.font; o.thread = it.thread; o.h = it.h; }
       if (it.type === 'logo') { o.token = it.logo.token; o.w = it.w; o.ok = !!it.ok; }
@@ -441,10 +471,49 @@
   $('kls-next').onclick = function () { if (S.step < 3) go(S.step + 1); else addToCart(); };
   $('kls-back').onclick = function () { if (S.step > 0) go(S.step - 1); };
 
-  /* swipe between sides on phones */
+  /* drag the design to move it inside the area; drag the round handle to resize */
+  var drag = null, frame = 0, dragged = false;
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+  function svgPoint(e) {
+    var svg = $('kls-canvas').querySelector('svg'), p = svg.createSVGPoint();
+    p.x = e.clientX; p.y = e.clientY; return p.matrixTransform(svg.getScreenCTM().inverse());
+  }
+  $('kls-canvas').addEventListener('pointerdown', function (e) {
+    if (!editingNow() || !filled(item(S.side)) || !e.target.closest) return;
+    var t = e.target.closest('.kls-handle, .kls-grab, .kls-area'); if (!t) return;
+    e.preventDefault(); dragged = true;
+    var it = item(S.side), p = svgPoint(e), G = geo(S.side);
+    if (t.classList.contains('kls-area')) { // tap inside the area: move the design there
+      it.dx = (p.x - G.cx) / G.k; it.dy = (p.y - G.cy) / G.k; live();
+      p = svgPoint(e);
+    }
+    drag = { mode: t.classList.contains('kls-handle') ? 'size' : 'move', x0: p.x, y0: p.y, dx0: it.dx || 0, dy0: it.dy || 0, w0: it.w, h0: it.h, G: G };
+  });
+  window.addEventListener('pointermove', function (e) {
+    if (!drag) return;
+    e.preventDefault();
+    var p = svgPoint(e), it = item(S.side), G = drag.G, L = limits(S.side);
+    if (drag.mode === 'move') { it.dx = drag.dx0 + (p.x - drag.x0) / G.k; it.dy = drag.dy0 + (p.y - drag.y0) / G.k; }
+    else {
+      var cx = G.cx + drag.dx0 * G.k, cy = G.cy + drag.dy0 * G.k;
+      var d0 = Math.hypot(drag.x0 - cx, drag.y0 - cy) || 1, r = Math.hypot(p.x - cx, p.y - cy) / d0;
+      if (it.type === 'text') it.h = clamp(drag.h0 * r, C.text.minLetter, Math.min(4, L.maxH));
+      else { it.w = clamp(drag.w0 * r, 1.5, L.maxW); var sz = designSize(S.side, it); if (sz && sz.fit) it.w = Math.round(sz.w) / 10; }
+    }
+    live();
+  }, { passive: false });
+  function live() { if (frame) return; frame = requestAnimationFrame(function () { frame = 0; refreshLive(); }); }
+  function endDrag() { if (!drag) return; drag = null; render(); }
+  window.addEventListener('pointerup', endDrag);
+  window.addEventListener('pointercancel', endDrag);
+
+  /* swipe between sides on phones (not while moving a design) */
   var tx0 = null;
   $('kls-canvas').addEventListener('touchstart', function (e) { tx0 = e.touches[0].clientX; }, { passive: true });
-  $('kls-canvas').addEventListener('touchend', function (e) { if (tx0 == null) return; var d = e.changedTouches[0].clientX - tx0; if (Math.abs(d) > 40) turn(d > 0 ? 1 : -1); tx0 = null; }, { passive: true });
+  $('kls-canvas').addEventListener('touchend', function (e) {
+    if (tx0 != null && !dragged) { var d = e.changedTouches[0].clientX - tx0; if (Math.abs(d) > 40) turn(d > 0 ? 1 : -1); }
+    tx0 = null; dragged = false;
+  }, { passive: true });
 
   /* ---------- embroidery book ---------- */
   function prep(list) {
