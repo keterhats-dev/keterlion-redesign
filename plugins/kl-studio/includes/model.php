@@ -46,6 +46,7 @@ function kls_variants() {
 			'name'  => $v['name'],
 			'hex'   => $v['hex'],
 			'front' => array_map( 'floatval', $v['front'] ),
+			'vb'    => isset( $v['vb'] ) ? $v['vb'] : null, // crop per side, so the cap fills the frame
 			'price' => (float) wc_get_price_to_display( $p ),
 			'stock' => $p->is_in_stock() && $p->is_purchasable(),
 			'img'   => $img,

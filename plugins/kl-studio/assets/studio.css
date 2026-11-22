@@ -27,7 +27,7 @@
 .kls-panel{padding-top:18px;min-width:0}
 
 /* preview */
-.kls-canvas{position:relative;background:var(--kls-white);aspect-ratio:4/3;max-width:100%;border-bottom:1px solid var(--kls-line);touch-action:pan-y}
+.kls-canvas{position:relative;background:var(--kls-white);aspect-ratio:1/1;width:min(100%,70vh);margin-inline:auto;max-width:100%;border-bottom:1px solid var(--kls-line);touch-action:pan-y}
 .kls-canvas svg{width:100%;height:100%;display:block;user-select:none;-webkit-user-select:none}
 .kls-canvas.editing{touch-action:none}
 .kls-canvas .kls-grab,.kls-canvas .kls-area{cursor:move}

@@ -11,8 +11,11 @@
   var SIDES = C.sides;                       // ['front','right','left','back']
   var LABEL = C.sideLabels;                  // {front:'חזית',...}
   var IMG = C.imageSize || 1024;
-  var VB0 = C.viewBox || [64, 152, 896, 672]; // fallback crop of the 1024px side photos (4:3)
-  function vbox(side) { var sd = C.shapes[variant().shape].sides[side]; return (sd && sd.vb) || VB0; } // per shape and side, so the cap fills the frame
+  var VB0 = C.viewBox || [112, 112, 800, 800]; // fallback crop of the 1024px side photos (square)
+  function vbox(side) { // per photo (else per shape and side), so the cap fills the frame
+    var v = variant(), sd = C.shapes[v.shape].sides[side];
+    return (v.vb && v.vb[side]) || (sd && sd.vb) || VB0;
+  }
   var TYPE_PRICE = C.prices.type, EXTRA = C.prices.extra, TIERS = C.prices.tiers, MAXQ = C.prices.maxQty;
   var THREAD = C.threads, FONTS = C.fonts;
   var STEPS = ['כובע', 'עיצוב', 'כמות', 'סיכום'];
