@@ -37,14 +37,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /* E. Zakeke design tool: a loading message behind the Zakeke frame (approved "yes, 1 to 3", 9.11.2026).
  *    The frame is see-through until Zakeke draws, so the customer sees the message instead of a white
- *    page; Zakeke's own skeleton covers it when ready. */
+ *    page; Zakeke's own skeleton covers it when ready.
+ *    22.11.2026 fix: position:relative on the frame only on desktop. On phones (≤768px) Zakeke makes the
+ *    frame position:fixed full screen; our relative (2 IDs) beat it and the frame fell to 150px, so customers
+ *    saw only the top of the tool. On phones the container itself is fixed full screen, under Zakeke's frame. */
 add_action( 'wp_head', function () {
 	?>
 <style id="kl-zakeke-loading">
 #zakeke-container{position:relative;background:#fff}
 #zakeke-container::before{content:"טוען את כלי העיצוב";position:absolute;left:16px;right:16px;top:38%;text-align:center;font:500 20px/1.4 Heebo,Arial,sans-serif;color:#171717;z-index:0;animation:klzk 1.6s ease-in-out infinite}
 #zakeke-container::after{content:"רגע אחד, זה יכול לקחת כמה שניות";position:absolute;left:16px;right:16px;top:calc(38% + 36px);text-align:center;font:400 15px/1.4 Heebo,Arial,sans-serif;color:#6B6B69;z-index:0}
-#zakeke-container #zakeke-frame{position:relative;z-index:1;background:transparent}
+#zakeke-container #zakeke-frame{background:transparent}
+@media (min-width:769px){#zakeke-container #zakeke-frame{position:relative;z-index:1}}
+@media (max-width:768px){#zakeke-container{position:fixed;top:0;left:0;right:0;bottom:0;z-index:999999998}}
 @keyframes klzk{0%,100%{opacity:1}50%{opacity:.4}}
 @media (prefers-reduced-motion:reduce){#zakeke-container::before{animation:none}}
 </style>
