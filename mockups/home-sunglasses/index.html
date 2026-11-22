@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>משקפי שמש בדף הבית</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#171717;--white:#fff;--gold:#AE8E42;--line:#DDD3BD;--muted:#6B6B69}
+*{box-sizing:border-box;margin:0}
+body{background:var(--white);color:var(--ink);font-family:Heebo,sans-serif}
+.note{background:#FAF8F3;border-bottom:1px solid var(--line);padding:14px 16px;font-size:14px;color:var(--muted);text-align:center}
+.note b{color:var(--ink)}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+.ghost{padding:40px 0;border-bottom:1px solid var(--line);color:#bbb;font-size:15px;text-align:center}
+.ghost strong{display:block;font:900 30px Heebo;color:#ccc;margin-bottom:4px}
+/* the new section */
+.sun{padding:56px 0 64px;border-bottom:1px solid var(--line)}
+.sun-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:28px}
+.eyebrow{display:flex;align-items:center;gap:10px;font:500 13px Heebo;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
+.eyebrow:before{content:"";width:24px;height:2px;background:var(--gold)}
+.sun h2{font:900 40px/1 Heebo}
+.sun h2 .dot{color:var(--gold)}
+.sun-sub{margin-top:10px;font-size:16px;color:var(--muted)}
+.all{font:700 16px Heebo;color:var(--ink);text-decoration:none;border-bottom:2px solid var(--gold);padding-bottom:4px;white-space:nowrap}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.card{display:block;color:inherit;text-decoration:none}
+.ph{position:relative;aspect-ratio:1;background:#fff}
+.ph img{width:100%;height:100%;object-fit:contain;display:block}
+.tag{position:absolute;top:10px;right:10px;background:var(--ink);color:var(--gold);font:700 12px Heebo;padding:4px 8px}
+.dots{display:flex;justify-content:center;gap:5px;margin:8px 0 10px}
+.dots i{width:6px;height:6px;border-radius:50%;background:var(--line)}
+.dots i:first-child{background:var(--ink)}
+.name{font:500 15px/1.35 Heebo}
+.price{font:700 15px Heebo;margin-top:4px}
+.btn{margin-top:12px;display:flex;align-items:center;justify-content:center;min-height:44px;background:var(--ink);color:#fff;border-radius:4px;font:700 15px Heebo}
+.sticker{position:absolute;left:-14px;top:-18px;width:84px;height:84px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;text-align:center;font:700 15px/1.1 Heebo;transform:rotate(-12deg)}
+.sun-head-r{position:relative}
+@media (max-width:700px){
+  .wrap{padding:0 16px}
+  .sun{padding:40px 0 44px}
+  .sun h2{font-size:30px}
+  .sun-head{align-items:flex-start;flex-direction:column;gap:12px}
+  .grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin:0 -16px;padding:0 16px 4px}
+  .card{flex:0 0 62%;scroll-snap-align:start}
+  .sticker{display:none}
+}
+</style>
+</head>
+<body>
+<div class="note">הדמיה בלבד. הסקשן החדש יופיע בדף הבית <b>אחרי "חדש בחנות" ולפני "ביגוד"</b>. כל השאר בדף לא משתנה</div>
+
+<div class="wrap">
+  <div class="ghost"><strong>חדש בחנות</strong>(קיים, לא משתנה)</div>
+
+  <section class="sun">
+    <div class="sun-head">
+      <div class="sun-head-r">
+        <div class="eyebrow">חדש באתר</div>
+        <h2>משקפי שמש<span class="dot">.</span></h2>
+        <p class="sun-sub">15 דגמים · פלסטיק ומתכת · ₪100 לזוג</p>
+      </div>
+      <a class="all" href="#">לכל המשקפיים ←</a>
+    </div>
+    <div class="grid">
+      <a class="card" href="#"><div class="ph"><img src="../../upload-tmp/sunglasses/sunglasses-10-1-front.jpg" alt=""><span class="tag">חדש</span></div><div class="dots"><i></i><i></i></div><div class="name">משקפי שמש מרובעים, ענבר וירוק</div><div class="price">₪100.00</div><div class="btn">הוספה לסל</div></a>
+      <a class="card" href="#"><div class="ph"><img src="../../upload-tmp/sunglasses/sunglasses-02-1-front.jpg" alt=""><span class="tag">חדש</span></div><div class="dots"><i></i><i></i></div><div class="name">משקפי שמש גאומטריים, שחור</div><div class="price">₪100.00</div><div class="btn">הוספה לסל</div></a>
+      <a class="card" href="#"><div class="ph"><img src="../../upload-tmp/sunglasses/sunglasses-09-1-front.jpg" alt=""><span class="tag">חדש</span></div><div class="dots"><i></i><i></i></div><div class="name">משקפי שמש עגולים, צב (טורטויז)</div><div class="price">₪100.00</div><div class="btn">הוספה לסל</div></a>
+      <a class="card" href="#"><div class="ph"><img src="../../upload-tmp/sunglasses/sunglasses-12-1-front.jpg" alt=""><span class="tag">חדש</span></div><div class="dots"><i></i><i></i></div><div class="name">משקפי שמש אובליים, מתכת שחורה</div><div class="price">₪100.00</div><div class="btn">הוספה לסל</div></a>
+    </div>
+  </section>
+
+  <div class="ghost"><strong>ביגוד</strong>(קיים, לא משתנה)</div>
+</div>
+</body>
+</html>
