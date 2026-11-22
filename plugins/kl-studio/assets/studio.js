@@ -11,7 +11,8 @@
   var SIDES = C.sides;                       // ['front','right','left','back']
   var LABEL = C.sideLabels;                  // {front:'חזית',...}
   var IMG = C.imageSize || 1024;
-  var VB = C.viewBox || [32, 170, 960, 640]; // crop of the 1024px side photos
+  var VB0 = C.viewBox || [64, 152, 896, 672]; // fallback crop of the 1024px side photos (4:3)
+  function vbox(side) { var sd = C.shapes[variant().shape].sides[side]; return (sd && sd.vb) || VB0; } // per shape and side, so the cap fills the frame
   var TYPE_PRICE = C.prices.type, EXTRA = C.prices.extra, TIERS = C.prices.tiers, MAXQ = C.prices.maxQty;
   var THREAD = C.threads, FONTS = C.fonts;
   var STEPS = ['כובע', 'עיצוב', 'כמות', 'סיכום'];
@@ -120,7 +121,7 @@
     var sel = '';
     if (editing) {
       // sizes in screen pixels, converted to drawing units, so the handle is easy to grab on a phone
-      var cw = ($('kls-canvas') && $('kls-canvas').clientWidth) || 600, u = VB[2] / cw;
+      var cw = ($('kls-canvas') && $('kls-canvas').clientWidth) || 600, u = vbox(side)[2] / cw;
       var pad = 5 * u, hx = G.cx - w / 2 - pad, hy = G.cy + h / 2 + pad, a = 5 * u;
       sel = '<rect class="kls-grab" x="' + (G.cx - w / 2 - pad) + '" y="' + (G.cy - h / 2 - pad) + '" width="' + (w + pad * 2) + '" height="' + (h + pad * 2) + '" fill="rgba(0,0,0,0)" stroke="' + ink + '" stroke-width="' + 1.5 * u + '" style="cursor:move"/>' +
         '<g class="kls-handle" style="cursor:nesw-resize"><circle cx="' + hx + '" cy="' + hy + '" r="' + 22 * u + '" fill="rgba(0,0,0,0)"/><circle cx="' + hx + '" cy="' + hy + '" r="' + 13 * u + '" fill="#171717" stroke="#fff" stroke-width="' + 2 * u + '"/>' +
@@ -144,7 +145,7 @@
   function sideSVG(side, editing, uid) {
     var v = variant(), s = DEFS + '<image href="' + esc(v.img[side]) + '" x="0" y="0" width="' + IMG + '" height="' + IMG + '"/><g id="' + (uid ? 'kls-layer-' + uid : 'kls-layer') + '">' + designSVG(side, editing, geo(side, v)) + '</g>';
     if (uid) s = s.replace(/kls-emb/g, 'kls-emb-' + uid);
-    return '<svg viewBox="' + VB.join(' ') + '" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="' + esc(LABEL[side]) + '">' + s + '</svg>';
+    return '<svg viewBox="' + vbox(side).join(' ') + '" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="' + esc(LABEL[side]) + '">' + s + '</svg>';
   }
 
   /* ---------- layout ---------- */
@@ -410,7 +411,7 @@
   /* ---------- previews for the cart and the order (PNG per decorated side) ---------- */
   function loadImg(src) { return new Promise(function (ok, bad) { var i = new Image(); i.crossOrigin = 'anonymous'; i.onload = function () { ok(i); }; i.onerror = bad; i.src = src; }); }
   function preview(side) {
-    var v = variant(), G = geo(side, v), it = item(side), W = 600, sc = W / VB[2], H = Math.round(VB[3] * sc);
+    var v = variant(), G = geo(side, v), it = item(side), VB = vbox(side), W = 600, sc = W / VB[2], H = Math.round(VB[3] * sc);
     var cv = document.createElement('canvas'); cv.width = W; cv.height = H; var x = cv.getContext('2d');
     x.fillStyle = '#fff'; x.fillRect(0, 0, W, H);
     var map = function (px, py) { return [(px - VB[0]) * sc, (py - VB[1]) * sc]; };

@@ -89,7 +89,7 @@ function kls_front_config() {
 		'demo'       => false,
 		'currency'   => html_entity_decode( get_woocommerce_currency_symbol() ),
 		'imageSize'  => (int) $model['imageSize'],
-		'viewBox'    => array( 32, 170, 960, 640 ),
+		'viewBox'    => array( 64, 152, 896, 672 ),
 		'sides'      => array_keys( kls_sides() ),
 		'sideLabels' => kls_sides(),
 		'shapes'     => $shapes,

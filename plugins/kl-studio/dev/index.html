@@ -16,7 +16,7 @@
 fetch('../assets/data/cap-model.json').then(function (r) { return r.json(); }).then(function (m) {
   var price = { dad: 100, baseball: 109 };
   var cfg = {
-    demo: true, currency: '₪', imageSize: m.imageSize, viewBox: [32, 170, 960, 640],
+    demo: true, currency: '₪', imageSize: m.imageSize, viewBox: [64, 152, 896, 672],
     sides: ['front', 'right', 'left', 'back'], sideLabels: { front: 'חזית', right: 'צד ימין', left: 'צד שמאל', back: 'מאחור' },
     shapes: m.shapes,
     variants: m.variants.map(function (v) { var img = {}; ['front', 'right', 'left', 'back'].forEach(function (s) { img[s] = '../assets/caps/' + v.id + '-' + s + '.jpg'; }); return { id: v.id, shape: v.shape, slug: v.slug, name: v.name, hex: v.hex, front: v.front, price: price[v.shape], stock: true, img: img }; }),
