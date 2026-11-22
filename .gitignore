@@ -22,3 +22,6 @@ tools/zakeke-svg/compare.*
 
 # product photos staged for upload to the site (originals live on the Desktop / Drive)
 upload-tmp/
+
+tools/studio/zakeke-img/
+dist/

@@ -1,0 +1,384 @@
+{
+    "source":  "Zakeke product 10065158, read 22.11.2026. Coordinates in px of the 1024px side image, origin at the image centre. Images in assets/caps/\u003cvariation\u003e-\u003cside\u003e.jpg (800px).",
+    "imageSize":  1024,
+    "shapes":  {
+                   "dad":  {
+                               "name":  "Dad Cap",
+                               "desc":  "גזרה נמוכה ורכה",
+                               "sides":  {
+                                             "front":  {
+                                                           "maxH":  5.5,
+                                                           "ppcm":  18.951,
+                                                           "maxW":  12
+                                                       },
+                                             "right":  {
+                                                           "ppcm":  38.405,
+                                                           "cx":  -68.65,
+                                                           "maxH":  4.1,
+                                                           "cy":  83.2,
+                                                           "maxW":  5.6
+                                                       },
+                                             "left":  {
+                                                          "ppcm":  29.081,
+                                                          "cx":  117.3,
+                                                          "maxH":  4,
+                                                          "cy":  107.05,
+                                                          "maxW":  6.6
+                                                      },
+                                             "back":  {
+                                                          "ppcm":  23.955,
+                                                          "cx":  25.95,
+                                                          "maxH":  7.7,
+                                                          "cy":  -62.15,
+                                                          "maxW":  17.7
+                                                      }
+                                         }
+                           },
+                   "baseball":  {
+                                    "name":  "בייסבול",
+                                    "desc":  "גזרה גבוהה ומובנית",
+                                    "sides":  {
+                                                  "front":  {
+                                                                "maxH":  5.5,
+                                                                "ppcm":  18.951,
+                                                                "maxW":  12
+                                                            },
+                                                  "right":  {
+                                                                "ppcm":  24.441,
+                                                                "cx":  -82.25,
+                                                                "maxH":  3.4,
+                                                                "cy":  81.65,
+                                                                "maxW":  6.1
+                                                            },
+                                                  "left":  {
+                                                               "ppcm":  29.081,
+                                                               "cx":  98.3,
+                                                               "maxH":  4,
+                                                               "cy":  62.2,
+                                                               "maxW":  6.1
+                                                           },
+                                                  "back":  {
+                                                               "ppcm":  23.955,
+                                                               "cx":  26.2,
+                                                               "maxH":  7.6,
+                                                               "cy":  17.8,
+                                                               "maxW":  14.8
+                                                           }
+                                              }
+                                }
+               },
+    "variants":  [
+                     {
+                         "id":  22606,
+                         "shape":  "dad",
+                         "slug":  "אדום",
+                         "name":  "אדום",
+                         "hex":  "#C60F2D",
+                         "front":  [
+                                       8,
+                                       -55.5
+                                   ],
+                         "zakeke":  10430508
+                     },
+                     {
+                         "id":  22607,
+                         "shape":  "dad",
+                         "slug":  "בורדו-25",
+                         "name":  "בורדו",
+                         "hex":  "#6B2B3E",
+                         "front":  [
+                                       0,
+                                       -34.5
+                                   ],
+                         "zakeke":  10430510
+                     },
+                     {
+                         "id":  22604,
+                         "shape":  "dad",
+                         "slug":  "בז-4",
+                         "name":  "בז",
+                         "hex":  "#CCC4B2",
+                         "front":  [
+                                       0,
+                                       -30.3
+                                   ],
+                         "zakeke":  10430511
+                     },
+                     {
+                         "id":  22605,
+                         "shape":  "dad",
+                         "slug":  "בז-כהה-6",
+                         "name":  "בז כהה",
+                         "hex":  "#AEA286",
+                         "front":  [
+                                       7.5,
+                                       -30.3
+                                   ],
+                         "zakeke":  10430512
+                     },
+                     {
+                         "id":  22602,
+                         "shape":  "dad",
+                         "slug":  "ורוד-חזק",
+                         "name":  "ורוד חזק",
+                         "hex":  "#E2ADB5",
+                         "front":  [
+                                       7.5,
+                                       -26.2
+                                   ],
+                         "zakeke":  10430514
+                     },
+                     {
+                         "id":  22601,
+                         "shape":  "dad",
+                         "slug":  "ורוד-עתיק",
+                         "name":  "ורוד עתיק",
+                         "hex":  "#DABEBB",
+                         "front":  [
+                                       5.4,
+                                       -22
+                                   ],
+                         "zakeke":  10430515
+                     },
+                     {
+                         "id":  22600,
+                         "shape":  "dad",
+                         "slug":  "חום-8",
+                         "name":  "חום",
+                         "hex":  "#8C816F",
+                         "front":  [
+                                       0,
+                                       -25.1
+                                   ],
+                         "zakeke":  10430519
+                     },
+                     {
+                         "id":  22603,
+                         "shape":  "dad",
+                         "slug":  "חום-9",
+                         "name":  "חום",
+                         "hex":  "#4B3C39",
+                         "front":  [
+                                       0,
+                                       -22
+                                   ],
+                         "zakeke":  10430520
+                     },
+                     {
+                         "id":  22598,
+                         "shape":  "dad",
+                         "slug":  "ירוק-16",
+                         "name":  "ירוק",
+                         "hex":  "#405F4B",
+                         "front":  [
+                                       7.5,
+                                       -23
+                                   ],
+                         "zakeke":  10430522
+                     },
+                     {
+                         "id":  22568,
+                         "shape":  "dad",
+                         "slug":  "ירוק-זית-7",
+                         "name":  "ירוק זית",
+                         "hex":  "#7C7D5D",
+                         "front":  [
+                                       7.5,
+                                       -22
+                                   ],
+                         "zakeke":  10430523
+                     },
+                     {
+                         "id":  22599,
+                         "shape":  "dad",
+                         "slug":  "כאמל-24",
+                         "name":  "כאמל",
+                         "hex":  "#CF9452",
+                         "front":  [
+                                       0,
+                                       -26.2
+                                   ],
+                         "zakeke":  10430524
+                     },
+                     {
+                         "id":  22596,
+                         "shape":  "dad",
+                         "slug":  "כחול-נייבי-14",
+                         "name":  "כחול נייבי",
+                         "hex":  "#36455D",
+                         "front":  [
+                                       0,
+                                       -21
+                                   ],
+                         "zakeke":  10430526
+                     },
+                     {
+                         "id":  22597,
+                         "shape":  "dad",
+                         "slug":  "לבן-2",
+                         "name":  "לבן",
+                         "hex":  "#E6E5EA",
+                         "front":  [
+                                       7.5,
+                                       -21
+                                   ],
+                         "zakeke":  10430529
+                     },
+                     {
+                         "id":  22595,
+                         "shape":  "dad",
+                         "slug":  "סגול-41",
+                         "name":  "סגול",
+                         "hex":  "#9484C2",
+                         "front":  [
+                                       6.4,
+                                       -23
+                                   ],
+                         "zakeke":  10430530
+                     },
+                     {
+                         "id":  22594,
+                         "shape":  "dad",
+                         "slug":  "סגול-פסטל",
+                         "name":  "סגול פסטל",
+                         "hex":  "#825FB9",
+                         "front":  [
+                                       14.7,
+                                       -28.2
+                                   ],
+                         "zakeke":  10430531
+                     },
+                     {
+                         "id":  22565,
+                         "shape":  "dad",
+                         "slug":  "שחור-1",
+                         "name":  "שחור",
+                         "hex":  "#252527",
+                         "front":  [
+                                       0,
+                                       -43.3
+                                   ],
+                         "zakeke":  10430532
+                     },
+                     {
+                         "id":  22563,
+                         "shape":  "dad",
+                         "slug":  "שמנת-3",
+                         "name":  "שמנת",
+                         "hex":  "#E4DED3",
+                         "front":  [
+                                       8.5,
+                                       -26.2
+                                   ],
+                         "zakeke":  10430533
+                     },
+                     {
+                         "id":  23336,
+                         "shape":  "baseball",
+                         "slug":  "שחור-1",
+                         "name":  "שחור",
+                         "hex":  "#262626",
+                         "front":  [
+                                       7.2,
+                                       -27.4
+                                   ],
+                         "zakeke":  10447571
+                     },
+                     {
+                         "id":  22564,
+                         "shape":  "dad",
+                         "slug":  "תכלת-36",
+                         "name":  "תכלת",
+                         "hex":  "#88B0C9",
+                         "front":  [
+                                       0,
+                                       -29.3
+                                   ],
+                         "zakeke":  10430534
+                     },
+                     {
+                         "id":  22547,
+                         "shape":  "baseball",
+                         "slug":  "אפור",
+                         "name":  "אפור",
+                         "hex":  "#8D8D8C",
+                         "front":  [
+                                       13.7,
+                                       -28.2
+                                   ],
+                         "zakeke":  10430536
+                     },
+                     {
+                         "id":  22548,
+                         "shape":  "baseball",
+                         "slug":  "בז׳",
+                         "name":  "בז׳",
+                         "hex":  "#C8BBAB",
+                         "front":  [
+                                       13.7,
+                                       -28.2
+                                   ],
+                         "zakeke":  10430540
+                     },
+                     {
+                         "id":  22549,
+                         "shape":  "baseball",
+                         "slug":  "חום",
+                         "name":  "חום",
+                         "hex":  "#43342D",
+                         "front":  [
+                                       13.7,
+                                       -28.2
+                                   ],
+                         "zakeke":  10430543
+                     },
+                     {
+                         "id":  22550,
+                         "shape":  "baseball",
+                         "slug":  "ירוק",
+                         "name":  "ירוק",
+                         "hex":  "#2A3E34",
+                         "front":  [
+                                       13.7,
+                                       -28.2
+                                   ],
+                         "zakeke":  10430546
+                     },
+                     {
+                         "id":  22551,
+                         "shape":  "baseball",
+                         "slug":  "כחול-נייבי",
+                         "name":  "כחול נייבי",
+                         "hex":  "#2E2D3D",
+                         "front":  [
+                                       13.7,
+                                       -28.2
+                                   ],
+                         "zakeke":  10430550
+                     },
+                     {
+                         "id":  22552,
+                         "shape":  "baseball",
+                         "slug":  "כתום",
+                         "name":  "כתום",
+                         "hex":  "#B95436",
+                         "front":  [
+                                       13.7,
+                                       -28.2
+                                   ],
+                         "zakeke":  10430552
+                     },
+                     {
+                         "id":  22553,
+                         "shape":  "baseball",
+                         "slug":  "לבן",
+                         "name":  "לבן",
+                         "hex":  "#E2E2E2",
+                         "front":  [
+                                       13.7,
+                                       -28.2
+                                   ],
+                         "zakeke":  10430553
+                     }
+                 ]
+}
