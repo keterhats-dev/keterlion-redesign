@@ -53,6 +53,7 @@ create table if not exists tasks (
   done_at timestamptz,
   calendar_event_id text,
   acknowledged_at timestamptz, -- when the assignee tapped "קיבלתי"; set at once for tasks you give yourself
+  repeat jsonb, -- recurring: {"freq":"daily"} | {"freq":"weekly","days":[0..6]} | {"freq":"monthly","day":1..31}; finishing one creates the next
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -286,6 +287,9 @@ alter table orders add column if not exists design_urls text[];
 
 create table if not exists app_settings (key text primary key, value text);
 alter table app_settings enable row level security; -- no policies: only server code reads it
+
+-- Link key for the Retail Hub (stock.mjs, retail-hub.sql): generated here, never copied anywhere
+insert into app_settings (key, value) values ('retail_hub_key', encode(gen_random_bytes(32), 'hex')) on conflict (key) do nothing;
 
 -- Who handles orders from the site by default (Yona, the store worker)
 insert into app_settings (key, value)

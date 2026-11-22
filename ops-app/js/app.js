@@ -3,7 +3,7 @@ import { store, onChange, readSnapshot, saveSnapshot } from './data.js';
 import { DEMO, VAPID_PUBLIC_KEY } from './config.js';
 import {
   PRIORITY, STATUS, todayISO, addDays, longDate, dueLabel, isOverdue, byPriority, parseQuick, gcalLink,
-  timeAgo, clock, dayHeading, iso, ORDER_SOURCE, ORDER_STATUS, ORDER_NEXT, isOpenOrder,
+  timeAgo, clock, dayHeading, iso, ORDER_SOURCE, ORDER_STATUS, ORDER_NEXT, isOpenOrder, repeatLabel, DAY_LETTER,
   DEAL_KIND, DEAL_STATUS, monthOf, addMonths, monthName, monthShort, shekel,
 } from './util.js';
 
@@ -21,6 +21,7 @@ const I = {
   cal: (s = 15) => svg(html`<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>`, s),
   x: (s = 16) => svg(html`<path d="M6 6l12 12M18 6L6 18"/>`, s, 2.5),
   out: (s = 18) => svg(html`<path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"/>`, s),
+  repeat: (s = 14) => svg(html`<path d="M17 2l4 4-4 4"/><path d="M3 11V9a3 3 0 013-3h15M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 01-3 3H3"/>`, s),
   box: (s = 20) => svg(html`<path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/>`, s),
 };
 
@@ -122,6 +123,7 @@ function TaskRow({ t, ctx, showWho }) {
           ? html`<span style="color:var(--green-ink);font-weight:600">✓ התקבל</span>`
           : html`<span class="pill p2">ממתין לאישור</span>`)}
         ${needsAck(t, ctx.me) && html`<span class="pill blue">חדש</span>`}
+        ${t.repeat?.freq && !done && html`<span class="ic">${I.repeat(13)}${repeatLabel(t.repeat)}</span>`}
         ${area && html`<span># ${area.name}</span>`}
         ${showWho && who && html`<span>· ${who.name}</span>`}
         ${t.comment_count > 0 && html`<span class="ic">${I.chat()}${t.comment_count}</span>`}
@@ -175,6 +177,8 @@ function Today({ ctx, personId, openAdd, openOrder }) {
         ${newOrders ? html`<span class="pill blue" style="align-self:flex-start">${newOrders} חדשות</span>`
           : html`<span class="pill" style="align-self:flex-start">לכל ההזמנות</span>`}</a>
     </div>
+    ${self && html`<button class="card more" style="border-radius:var(--r)" onClick=${() => ctx.openStock()}>
+      <span style="display:flex;align-items:center;gap:8px;color:var(--ink);font-weight:600">${I.box(18)} חסר משהו בחנות? לבקש מהמחסן</span>${I.next()}</button>`}
     ${self && ctx.me.role !== 'owner' && html`<a class="card more" href="#/sales" style="border-radius:var(--r)">
       <span>המכירות שלי ב${monthName(monthOf(today)).split(' ')[0]}: <b style="color:var(--ink)">${shekel(sum(wonIn(ctx.deals.filter((d) => d.seller_id === ctx.me.id), monthOf(today))))}</b></span>${I.next()}</a>`}
     <div class="today-grid"><div class="col">
@@ -212,6 +216,104 @@ function DoneToday({ items, ctx }) {
     </button>
     ${open && items.map((t) => html`<${TaskRow} key=${t.id} t=${t} ctx=${ctx} />`)}
   </section>`;
+}
+
+/* ---------- חסר בחנות: בוחרים דגם, צבע ומידה מתוך המלאי, ושולחים בקשה לארי ---------- */
+function StockSheet({ ctx, onClose }) {
+  const [catalog, setCatalog] = useState(null);
+  const [err, setErr] = useState('');
+  const [q, setQ] = useState('');
+  const [prod, setProd] = useState(null);
+  const [color, setColor] = useState(null);
+  const [lines, setLines] = useState({}); // variant id → line
+  const [note, setNote] = useState('');
+  const [busy, setBusy] = useState(false);
+  useEffect(() => { ctx.store.catalog().then(setCatalog).catch((e) => setErr(e.message)); }, []);
+
+  const sum = (p, k) => p.colors.reduce((s, c) => s + c.variants.reduce((x, v) => x + (v[k] || 0), 0), 0);
+  const shown = (catalog || []).filter((p) => !q.trim() || p.name.includes(q.trim()));
+  const list = Object.values(lines);
+  const setQty = (v, qty) => setLines((ls) => {
+    const next = { ...ls };
+    if (qty <= 0) delete next[v.id];
+    else next[v.id] = { variant_id: v.id, product: prod.name, color: color.name, size: v.size, qty };
+    return next;
+  });
+  const send = async () => {
+    setBusy(true); setErr('');
+    try {
+      const t = await ctx.store.requestStock(list, note.trim(), ctx.me);
+      if (t?.id) ctx.store.notify(t.id);
+      ctx.toast({ text: 'הבקשה נשלחה לארי' }); onClose();
+    } catch (e) { setErr(e.message); setBusy(false); }
+  };
+  const stockTag = (n, place) => html`<span class=${'pill' + (n === 0 ? ' late' : '')}>${place} ${n}</span>`;
+
+  return html`<div class="scrim" onClick=${(e) => e.target === e.currentTarget && onClose()}>
+    <div class="sheet" role="dialog" aria-label="חסר בחנות">
+      <div class="grab"></div>
+      <div class="top"><h2 class="h1" style="font-size:20px">${prod ? html`<button class="link" style="padding:0 0 0 8px" onClick=${() => { setProd(null); setColor(null); }}>${I.back(16)}</button>${prod.name}` : 'חסר בחנות'}</h2>
+        <button class="icon-btn" style="width:36px;height:36px;background:var(--bg);box-shadow:none" aria-label="סגירה" onClick=${onClose}>${I.x()}</button></div>
+
+      ${!catalog && !err && html`<div class="empty">טוען את המלאי…</div>`}
+      ${catalog && !prod && html`
+        <label class="sr" for="sq">חיפוש דגם</label>
+        <input id="sq" class="field soft" placeholder="חיפוש דגם" value=${q} onInput=${(e) => setQ(e.target.value)} />
+        <section class="card list" style="box-shadow:none;border:1px solid var(--line)">${shown.map((p) => html`
+          <button class="row" style="width:100%;border:0;background:none;text-align:right" onClick=${() => { setProd(p); setColor(p.colors[0]); }}>
+            <div class="body"><div class="t">${p.name}</div><div class="meta">${stockTag(sum(p, 'store'), 'בחנות')} ${stockTag(sum(p, 'warehouse'), 'במחסן')} <span>${p.colors.length === 1 ? 'צבע אחד' : `${p.colors.length} צבעים`}</span></div></div>${I.next()}</button>`)}
+          ${!shown.length && html`<div class="empty">לא נמצא דגם בשם הזה</div>`}</section>`}
+
+      ${prod && html`
+        <div class="chips" style="margin:0" role="group" aria-label="צבע">${prod.colors.map((c) => html`
+          <button class=${'chip' + (color?.id === c.id ? ' on' : '')} onClick=${() => setColor(c)}>
+            <span style=${`width:14px;height:14px;border-radius:999px;background:${c.hex || '#ccc'};border:1px solid var(--line-2)`}></span>${c.name}</button>`)}</div>
+        ${color && html`<section class="card list" style="box-shadow:none;border:1px solid var(--line)">${color.variants.map((v) => {
+          const qty = lines[v.id]?.qty || 0;
+          return html`<div class="row" style="min-height:56px">
+            <div class="body"><div class="t">${v.size === 'OS' ? 'מידה אחת' : v.size}</div><div class="meta">${stockTag(v.store, 'בחנות')} ${stockTag(v.warehouse, 'במחסן')}</div></div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <button class="icon-btn" style="width:36px;height:36px" aria-label="פחות" disabled=${!qty} onClick=${() => setQty(v, qty - 1)}>−</button>
+              <b style="min-width:22px;text-align:center">${qty}</b>
+              <button class="icon-btn" style="width:36px;height:36px" aria-label="עוד אחד" onClick=${() => setQty(v, qty + 1)}>+</button></div></div>`; })}</section>`}`}
+
+      ${list.length > 0 && html`<div style="border-top:1px solid var(--line);padding-top:12px;display:flex;flex-direction:column;gap:8px">
+        <span class="lbl" style="margin:0">בבקשה (${list.reduce((s, l) => s + l.qty, 0)})</span>
+        ${list.map((l) => html`<div style="display:flex;justify-content:space-between;align-items:center;font-size:14px">
+          <span>${l.qty} × ${l.product} · ${l.color}${l.size !== 'OS' ? ' · ' + l.size : ''}</span>
+          <button class="link" style="padding:0;color:var(--red-ink)" onClick=${() => setLines((ls) => { const n = { ...ls }; delete n[l.variant_id]; return n; })}>להסיר</button></div>`)}
+        <label class="sr" for="sn">הערה</label>
+        <input id="sn" class="field soft" placeholder="הערה לארי (לא חובה)" value=${note} onInput=${(e) => setNote(e.target.value)} />
+        <button class="btn" disabled=${busy} onClick=${send}>${busy ? 'שולח…' : 'לשלוח בקשה לארי'}</button></div>`}
+      ${err && html`<div class="err">${err}</div>`}
+    </div>
+  </div>`;
+}
+
+/* ---------- משימה חוזרת: לא / כל יום / כל שבוע (בימים) / כל חודש (בתאריך) ---------- */
+function RepeatPicker({ value, onChange, due }) {
+  const freq = value?.freq || 'none';
+  const base = new Date((due || todayISO()) + 'T12:00');
+  const pick = (f) => onChange(f === 'none' ? null : f === 'daily' ? { freq: 'daily' }
+    : f === 'weekly' ? { freq: 'weekly', days: value?.days?.length ? value.days : [base.getDay()] }
+    : { freq: 'monthly', day: value?.day || base.getDate() });
+  const toggleDay = (i) => {
+    const ds = value.days.includes(i) ? value.days.filter((x) => x !== i) : [...value.days, i];
+    onChange({ freq: 'weekly', days: ds.length ? ds : [i] });
+  };
+  return html`<div><span class="lbl">חוזרת</span>
+    <div class="seg" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+      ${[['none', 'לא'], ['daily', 'כל יום'], ['weekly', 'כל שבוע'], ['monthly', 'כל חודש']].map(([k, l]) => html`
+        <button type="button" class=${freq === k ? 'on' : ''} onClick=${() => pick(k)}>${l}</button>`)}
+    </div>
+    ${freq === 'weekly' && html`<div role="group" aria-label="באילו ימים" style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-top:8px">
+      ${DAY_LETTER.map((n, i) => html`<button type="button" aria-pressed=${value.days.includes(i)} class=${'chip' + (value.days.includes(i) ? ' on' : '')}
+        style="padding:0;justify-content:center;height:36px" onClick=${() => toggleDay(i)}>${n}׳</button>`)}</div>`}
+    ${freq === 'monthly' && html`<div style="display:flex;align-items:center;gap:8px;margin-top:8px"><label class="sub" for="rd">בכל</label>
+      <input id="rd" type="number" min="1" max="31" inputmode="numeric" class="field soft" style="width:80px;height:40px;text-align:center" value=${value.day}
+        onInput=${(e) => onChange({ freq: 'monthly', day: Math.min(31, Math.max(1, Number(e.target.value) || 1)) })} /><span class="sub">בחודש</span></div>`}
+    ${freq !== 'none' && html`<div class="sub" style="margin-top:6px">כשמסמנים "סיימתי", המשימה הבאה נוצרת לבד.</div>`}
+  </div>`;
 }
 
 /* ---------- הוספה מהירה ---------- */
@@ -258,6 +360,7 @@ function AddSheet({ ctx, preset, onClose }) {
         ${val.priority < 3 && html`<span class=${'pill big ' + PRIORITY[val.priority].cls}>${PRIORITY[val.priority].label}</span>`}
         ${area && html`<span class="pill big"># ${area.name}</span>`}
         ${who && html`<span class="pill big"><span class="av sm" style="width:20px;height:20px;font-size:10px">${initial(who)}</span>${who.name}</span>`}
+        ${val.repeat?.freq && html`<span class="pill big">${I.repeat(13)} ${repeatLabel(val.repeat)}</span>`}
       </div>
 
       <div><span class="lbl">עדיפות</span><div class="seg" style="grid-template-columns:repeat(3,minmax(0,1fr))">
@@ -266,18 +369,19 @@ function AddSheet({ ctx, preset, onClose }) {
         <button type="button" class=${val.priority === 3 ? 'on' : ''} onClick=${() => set('priority')(3)}>רגיל</button>
       </div></div>
 
-      ${!more ? html`<button type="button" class="link" style="align-self:flex-start" onClick=${() => setMore(true)}>תאריך, תחום, למי והערה</button>` : html`
+      ${!more ? html`<button type="button" class="link" style="align-self:flex-start" onClick=${() => setMore(true)}>תאריך, חוזרת, תחום, למי והערה</button>` : html`
         <div class="two">
           <div><label class="lbl" for="d">תאריך</label><input id="d" type="date" class="field soft" value=${val.due_date || ''} onInput=${set('due_date')} /></div>
           <div><label class="lbl" for="h">שעה</label><input id="h" type="time" class="field soft" value=${val.due_time || ''} onInput=${set('due_time')} /></div>
         </div>
+        <${RepeatPicker} value=${val.repeat} due=${val.due_date} onChange=${(r) => setOv({ ...ov, repeat: r, ...(r && !val.due_date ? { due_date: todayISO() } : {}) })} />
         <div class="two">
           <div><label class="lbl" for="a">תחום</label><select id="a" class="field soft" value=${val.area_id} onChange=${set('area_id')}>${ctx.areas.map((a) => html`<option value=${a.id}>${a.name}</option>`)}</select></div>
           <div><label class="lbl" for="w">למי</label><select id="w" class="field soft" value=${val.assignee_id} onChange=${set('assignee_id')}>${ctx.team.map((p) => html`<option value=${p.id}>${p.name}</option>`)}</select></div>
         </div>
         <div><label class="lbl" for="n">הערה</label><textarea id="n" class="field soft" style="height:80px;padding:12px 14px" value=${notes} onInput=${(e) => setNotes(e.target.value)}></textarea></div>`}
 
-      <div class="sub">אפשר לכתוב בשורה: מחר, יום חמישי, 15:00, !דחוף, #מלאי, @ארי</div>
+      <div class="sub">אפשר לכתוב בשורה: מחר, יום חמישי, 15:00, !דחוף, #מלאי, @ארי, כל ראשון</div>
       <button class="btn" disabled=${!parsed.title || busy}>${busy ? 'שומר…' : 'להוסיף'}</button>
     </form>
   </div>`;
@@ -331,6 +435,7 @@ function TaskPage({ id, ctx }) {
         <div><label class="lbl" for="ta">תחום</label><select id="ta" class="field soft" value=${t.area_id} onChange=${(e) => up({ area_id: e.target.value })}>${ctx.areas.map((a) => html`<option value=${a.id}>${a.name}</option>`)}</select></div>
         <div><label class="lbl" for="tw">אצל</label><select id="tw" class="field soft" value=${t.assignee_id} onChange=${async (e) => { const v = e.target.value; await up({ assignee_id: v }); if (v !== ctx.me.id) ctx.store.notify(id); }}>${ctx.profiles.filter((p) => p.active !== false || p.id === t.assignee_id).map((p) => html`<option value=${p.id}>${p.name}</option>`)}</select></div>
       </div>
+      <${RepeatPicker} value=${t.repeat} due=${t.due_date} onChange=${(r) => up({ repeat: r, ...(r && !t.due_date ? { due_date: todayISO() } : {}) })} />
       ${cal && html`<a href=${cal} target="_blank" rel="noopener" class="pill big" style="align-self:flex-start;text-decoration:none">${I.cal(14)} להוסיף ליומן Google</a>`}
     </section>
 
@@ -942,6 +1047,7 @@ function App() {
   const [order, setOrder] = useState(null);
   const [deal, setDeal] = useState(null);
   const [toast, setToast] = useState(null);
+  const [stock, setStock] = useState(false);
   useEffect(() => { if (!toast) return; const id = setTimeout(() => setToast(null), 9000); return () => clearTimeout(id); }, [toast]);
 
   const reload = async () => {
@@ -977,7 +1083,7 @@ function App() {
 
   if (state.loading) return html`<div class="login"><div class="sub">טוען…</div></div>`;
   if (state.error) return html`<div class="login"><div class="err">שגיאה: ${state.error}</div><button class="btn" onClick=${reload}>לנסות שוב</button></div>`;
-  const ctx = { ...state, store, reload, toast: setToast };
+  const ctx = { ...state, store, reload, toast: setToast, openStock: () => setStock(true) };
   if (state.noAccess) return html`<${NoAccess} email=${state.noAccess.email} />`;
   if (!state.me) return html`<${Login} ctx=${ctx} />`;
 
@@ -1009,6 +1115,7 @@ function App() {
     ${sheet && html`<${AddSheet} ctx=${ctx} preset=${sheet} onClose=${() => setSheet(null)} />`}
     ${order && html`<${OrderSheet} ctx=${ctx} order=${order} onClose=${() => setOrder(null)} />`}
     ${deal && html`<${DealSheet} ctx=${ctx} deal=${deal} onClose=${() => setDeal(null)} />`}
+    ${stock && html`<${StockSheet} ctx=${ctx} onClose=${() => setStock(false)} />`}
     ${toast && html`<div class="toast" role="status"><span>${toast.text}</span>
       ${toast.href && html`<a href=${toast.href} target="_blank" rel="noopener" onClick=${() => setToast(null)}>${I.cal(15)} ${toast.action}</a>`}
       <button aria-label="סגירה" onClick=${() => setToast(null)}>${I.x(14)}</button></div>`}

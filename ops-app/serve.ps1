@@ -1,13 +1,14 @@
-# Local preview of the ops app: http://localhost:5510/
+# Local preview of the ops app: http://localhost:5510/ (another port: -Port 5511)
+param([int]$Port = 5510)
 $root = $PSScriptRoot
 $types = @{
   '.html' = 'text/html; charset=utf-8'; '.js' = 'text/javascript; charset=utf-8'; '.css' = 'text/css; charset=utf-8'
   '.svg' = 'image/svg+xml'; '.png' = 'image/png'; '.json' = 'application/json'; '.webmanifest' = 'application/manifest+json'
 }
 $l = New-Object System.Net.HttpListener
-$l.Prefixes.Add('http://localhost:5510/')
+$l.Prefixes.Add("http://localhost:$Port/")
 $l.Start()
-Write-Host 'Serving ops-app on http://localhost:5510/'
+Write-Host "Serving ops-app on http://localhost:$Port/"
 while ($l.IsListening) {
   $ctx = $l.GetContext()
   $p = [Uri]::UnescapeDataString($ctx.Request.Url.AbsolutePath.TrimStart('/'))

@@ -99,6 +99,37 @@ export function gcalLink(t) {
   return `https://calendar.google.com/calendar/render?${q}`;
 }
 
+// Recurring tasks: repeat = { freq: 'daily' } | { freq: 'weekly', days: [0..6] } | { freq: 'monthly', day: 1..31 }
+export const DAY_NAMES = DAYS;
+export const DAY_LETTER = DAY_LETTERS;
+export function repeatLabel(r) {
+  if (!r?.freq) return '';
+  if (r.freq === 'daily') return 'כל יום';
+  if (r.freq === 'weekly') {
+    const ds = [...(r.days?.length ? r.days : [0])].sort();
+    return 'כל ' + (ds.length === 7 ? 'יום' : ds.map((d) => DAYS[d]).join(' ו'));
+  }
+  return `כל ${r.day || 1} בחודש`;
+}
+// The next date after the current one (or after today, if the task was finished late)
+export function nextDue(due, r, today = todayISO()) {
+  const start = !due || due < today ? today : due;
+  if (r.freq === 'daily') return addDays(start, 1);
+  if (r.freq === 'weekly') {
+    const days = r.days?.length ? r.days : [new Date(start + 'T12:00').getDay()];
+    for (let i = 1; i <= 7; i++) { const d = addDays(start, i); if (days.includes(new Date(d + 'T12:00').getDay())) return d; }
+  }
+  const [y, m] = start.split('-').map(Number);
+  const want = r.day || Number(start.slice(8, 10));
+  for (let k = 0; k <= 2; k++) {
+    const mm = m - 1 + k; const yy = y + Math.floor(mm / 12); const mi = mm % 12; // mi: 0-based month
+    const daysInMonth = new Date(yy, mi + 1, 0).getDate(); // the 31st becomes the 30th or the 28th
+    const cand = `${yy}-${pad(mi + 1)}-${pad(Math.min(want, daysInMonth))}`;
+    if (cand > start) return cand;
+  }
+  return addDays(start, 30);
+}
+
 // Quick add: "לספור מלאי מחר 12:00 !דחוף #מלאי @ארי"
 // Hebrew letters are not \w in JS regex, so words are matched between spaces.
 const W = '(?=\\s|$)';
@@ -106,6 +137,10 @@ export function parseQuick(text, { areas = [], profiles = [], today = todayISO()
   let s = ` ${text} `;
   const out = {};
   const take = (re, fn) => { const m = s.match(re); if (m) { fn(m); s = s.replace(m[0], ' '); } };
+
+  // "כל יום", "כל שבוע", "כל חודש", "כל ראשון" (before the dates, so "ראשון" is not read as a date)
+  let repeatWord = null;
+  take(new RegExp(`\\sכל\\s(יום|שבוע|חודש|${DAYS.join('|')})${W}`), (m) => { repeatWord = m[1]; });
 
   take(new RegExp(`\\s!\\s?(דחוף|חשוב|רגיל)${W}`), (m) => { out.priority = { 'דחוף': 1, 'חשוב': 2, 'רגיל': 3 }[m[1]]; });
 
@@ -137,6 +172,15 @@ export function parseQuick(text, { areas = [], profiles = [], today = todayISO()
     if (d < today) d = `${y + 1}-${pad(+m[2])}-${pad(+m[1])}`;
     out.due_date = d;
   });
+  // Repeats are read before the dates (see top); fill in the day they repeat on
+  if (repeatWord === 'יום') out.repeat = { freq: 'daily' };
+  else if (repeatWord === 'חודש') out.repeat = { freq: 'monthly', day: Number((out.due_date || today).slice(8, 10)) };
+  else if (repeatWord === 'שבוע') out.repeat = { freq: 'weekly', days: [new Date((out.due_date || today) + 'T12:00').getDay()] };
+  else if (repeatWord) {
+    const d = DAYS.indexOf(repeatWord); out.repeat = { freq: 'weekly', days: [d] };
+    if (!out.due_date) out.due_date = addDays(today, (d - new Date(today + 'T12:00').getDay() + 7) % 7);
+  }
+  if (out.repeat && !out.due_date) out.due_date = today;
   if (out.due_time && !out.due_date) out.due_date = today;
 
   out.title = s.replace(/\s+/g, ' ').trim();

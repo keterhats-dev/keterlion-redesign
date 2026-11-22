@@ -1,7 +1,15 @@
 // Data layer. Two stores with the same functions: a demo store in this browser
 // (localStorage) and the real one in Supabase. config.js decides which one runs.
 import { DEMO, SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
-import { todayISO, addDays, STATUS, iso } from './util.js';
+import { todayISO, addDays, STATUS, iso, nextDue } from './util.js';
+
+// A recurring task that was finished: the same task again, on its next date (already received)
+const nextOf = (t) => ({
+  title: t.title, notes: t.notes, area_id: t.area_id, assignee_id: t.assignee_id, priority: t.priority,
+  due_time: t.due_time, repeat: t.repeat, due_date: nextDue(t.due_date, t.repeat), status: 'open',
+  acknowledged_at: new Date().toISOString(),
+});
+const nextEvent = (d) => `נוצרה הפעם הבאה: ${d.split('-').reverse().slice(0, 2).join('.')}`;
 
 const listeners = new Set();
 export const onChange = (fn) => { listeners.add(fn); return () => listeners.delete(fn); };
@@ -40,7 +48,8 @@ function seed() {
     task({ title: 'לסמן ב-Wolt מוצרים שאזלו', area_id: 'wolt', priority: 2, due_date: t, due_time: '17:00', created_by: ari }),
     task({ title: 'לספור מלאי כובעי טמבל', area_id: 'stock', due_date: t, due_time: '12:00', created_by: ari }),
     task({ title: 'לחזור לליד עם הצעת מחיר', area_id: 'leads', priority: 1, due_date: addDays(t, 2) }),
-    task({ title: 'לבדוק שהגיבוי של האתר עבר', area_id: 'tech', due_date: addDays(t, 3), created_by: ari }),
+    task({ title: 'לבדוק שהגיבוי של האתר עבר', area_id: 'tech', due_date: addDays(t, 3), created_by: ari, repeat: { freq: 'weekly', days: [new Date(addDays(t, 3) + 'T12:00').getDay()] } }),
+    task({ title: 'לשלוח לרואה החשבון את החשבוניות של החודש', area_id: 'accounting', priority: 2, due_date: addDays(t, 5), repeat: { freq: 'monthly', day: Number(addDays(t, 5).slice(8, 10)) } }),
     task({ title: 'לענות ללידים מאתמול', area_id: 'leads', status: 'done', done_at: at(0, 11) }),
     task({ title: 'למסור לשליח את הזמנות הבוקר', area_id: 'web-orders', status: 'done', done_at: at(0, 10), created_by: ari }),
     task({ title: 'להזמין שקיות אריזה מהספק', area_id: 'general', status: 'done', done_at: at(0, 9), created_by: ari }),
@@ -162,7 +171,15 @@ const demo = {
       patch.done_at = patch.status === 'done' ? now : null;
       db.comments.push({ id: uid(), task_id: id, author_id: me.id, kind: 'event', body: statusEvent(patch.status), created_at: now });
     }
-    Object.assign(t, reassigning(t, patch, me), { updated_at: now }); save(db); emit();
+    const wasDone = t.status === 'done';
+    Object.assign(t, reassigning(t, patch, me), { updated_at: now });
+    if (!wasDone && t.status === 'done' && t.repeat) {
+      const n = { id: uid(), ...nextOf(t), done_at: null, created_by: t.created_by, created_at: now, updated_at: now };
+      db.tasks.push(n);
+      db.checklist.filter((c) => c.task_id === t.id).forEach((c) => db.checklist.push({ ...c, id: uid(), task_id: n.id, done: false }));
+      db.comments.push({ id: uid(), task_id: id, author_id: me.id, kind: 'event', body: nextEvent(n.due_date), created_at: now });
+    }
+    save(db); emit();
   },
   async ackTask(id, me) {
     const db = load(); const t = db.tasks.find((x) => x.id === id); if (!t) return;
@@ -180,6 +197,9 @@ const demo = {
   async setCheck(id, done) { const db = load(); const c = db.checklist.find((x) => x.id === id); if (c) c.done = done; save(db); emit(); },
   async addComment(task_id, body, me) { const db = load(); db.comments.push({ id: uid(), task_id, author_id: me.id, kind: 'comment', body, created_at: new Date().toISOString() }); save(db); emit(); },
   async resetDemo() { const s = seed(); save(s); emit(); },
+  // Stock from the Retail Hub (demo sample: made-up models and numbers)
+  async catalog() { return DEMO_CATALOG; },
+  async requestStock(lines, note, me) { return createStockTask(this, lines, note, me, 'u-ari'); },
   async orders() { const db = load(); const who = viewer(db); return db.orders.filter((o) => seesOrder(who, o)); },
   async createOrder(data) {
     const db = load(); const now = new Date().toISOString();
@@ -202,6 +222,32 @@ const demo = {
   async updateDeal(id, patch) { const db = load(); Object.assign(db.deals.find((d) => d.id === id) || {}, patch, { updated_at: new Date().toISOString() }); save(db); emit(); },
   async deleteDeal(id) { const db = load(); db.deals = db.deals.filter((d) => d.id !== id); save(db); emit(); },
 };
+
+/* ---------- stock requests ---------- */
+// One request = one task for whoever brings stock to the store, a checklist line per item
+export const stockLine = (l) => `${l.qty} × ${l.product} · ${l.color}${l.size && l.size !== 'OS' ? ' · ' + l.size : ''}`;
+async function createStockTask(st, lines, note, me, assignee) {
+  const count = lines.reduce((s, l) => s + l.qty, 0);
+  const title = lines.length === 1 ? `להביא לחנות: ${stockLine(lines[0])}` : `להביא לחנות: ${count} פריטים`;
+  const t = await st.createTask({ title, notes: note || null, area_id: 'stock', priority: 2, assignee_id: assignee, due_date: todayISO() }, me);
+  for (const l of lines) await st.addCheck(t.id, stockLine(l));
+  return t;
+}
+const sizes = (s) => s.map(([size, store, warehouse], i) => ({ id: `v${Math.random().toString(36).slice(2, 8)}${i}`, size, store, warehouse }));
+const DEMO_CATALOG = [
+  { id: 'p1', name: 'כובע [דגם א]', colors: [
+    { id: 'c1', name: 'שחור', hex: '#171717', variants: sizes([['OS', 1, 14]]) },
+    { id: 'c2', name: 'לבן', hex: '#f4f4f2', variants: sizes([['OS', 0, 9]]) },
+    { id: 'c3', name: 'זית', hex: '#6b6b3a', variants: sizes([['OS', 4, 2]]) }] },
+  { id: 'p2', name: 'כובע טמבל [דגם ב]', colors: [
+    { id: 'c4', name: 'כחול', hex: '#1e3a8a', variants: sizes([['S/M', 0, 6], ['L/XL', 2, 3]]) },
+    { id: 'c5', name: 'בז׳', hex: '#d8c7a4', variants: sizes([['S/M', 3, 0], ['L/XL', 0, 5]]) }] },
+  { id: 'p3', name: 'חולצה [דגם ג]', colors: [
+    { id: 'c6', name: 'שחור', hex: '#171717', variants: sizes([['S', 1, 4], ['M', 0, 7], ['L', 2, 6], ['XL', 0, 3]]) }] },
+  { id: 'p4', name: 'כובע רקום [דגם ד]', colors: [
+    { id: 'c7', name: 'אדום', hex: '#c21a1a', variants: sizes([['OS', 0, 0]]) },
+    { id: 'c8', name: 'נייבי', hex: '#1f2a44', variants: sizes([['OS', 2, 11]]) }] },
+];
 
 // An order leaving or returning to the open statuses gets / loses its closing time
 const closing = (o, patch) => {
@@ -293,8 +339,18 @@ const live = {
         await c.from('comments').insert({ task_id: id, kind: 'event', body: statusEvent(patch.status) });
       }
       patch = reassigning(cur, patch, me);
+      var finished = patch.status === 'done' && cur.status !== 'done';
     }
     must(await c.from('tasks').update(patch).eq('id', id));
+    if (finished) {
+      const t = must(await c.from('tasks').select('*').eq('id', id).single());
+      if (t.repeat?.freq) {
+        const n = must(await c.from('tasks').insert(nextOf(t)).select('id, due_date').single());
+        const items = must(await c.from('checklist_items').select('text, sort').eq('task_id', id));
+        if (items.length) await c.from('checklist_items').insert(items.map((x) => ({ ...x, task_id: n.id })));
+        await c.from('comments').insert({ task_id: id, kind: 'event', body: nextEvent(n.due_date) });
+      }
+    }
   },
   async ackTask(id) {
     const c = await client();
@@ -335,6 +391,22 @@ const live = {
     must(await c.from('orders').update(closing(cur, patch)).eq('id', id));
   },
   async deleteOrder(id) { const c = await client(); must(await c.from('orders').delete().eq('id', id)); },
+  // Stock: read from the Retail Hub and create a transfer draft there, through the stock function
+  async catalog() {
+    const c = await client(); const { data } = await c.auth.getSession();
+    const r = await fetch('/.netlify/functions/stock', { headers: { Authorization: `Bearer ${data.session?.access_token}` } });
+    if (!r.ok) throw new Error('לא הצלחנו לקרוא את המלאי');
+    return r.json();
+  },
+  async requestStock(lines, note, me) {
+    const c = await client(); const { data } = await c.auth.getSession();
+    const r = await fetch('/.netlify/functions/stock', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${data.session?.access_token}` },
+      body: JSON.stringify({ lines, note }),
+    });
+    if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || 'הבקשה לא נשלחה');
+    emit(); return r.json();
+  },
   async deals() {
     const c = await client();
     // enough history for the 6-month chart
