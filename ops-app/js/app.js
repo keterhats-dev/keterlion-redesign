@@ -218,76 +218,134 @@ function DoneToday({ items, ctx }) {
   </section>`;
 }
 
-/* ---------- חסר בחנות: בוחרים דגם, צבע ומידה מתוך המלאי, ושולחים בקשה לארי ---------- */
-function StockSheet({ ctx, onClose }) {
+/* ---------- מלאי: בקשה מהמחסן לחנות, הרבה פריטים בבת אחת ---------- */
+// The request being built is kept on this phone, so it can grow over the day
+const CART_KEY = 'kl-ops-stock-cart-v1';
+const readCart = () => { try { return JSON.parse(localStorage.getItem(CART_KEY)) || {}; } catch { return {}; } };
+const sizeName = (s) => (s === 'OS' ? 'מידה אחת' : s);
+
+function StockPage({ ctx }) {
   const [catalog, setCatalog] = useState(null);
   const [err, setErr] = useState('');
+  const [tab, setTab] = useState('missing');
   const [q, setQ] = useState('');
-  const [prod, setProd] = useState(null);
-  const [color, setColor] = useState(null);
-  const [lines, setLines] = useState({}); // variant id → line
+  const [openId, setOpenId] = useState(null);
+  const [cart, setCart] = useState(readCart); // variant id → line
+  const [review, setReview] = useState(false);
   const [note, setNote] = useState('');
   const [busy, setBusy] = useState(false);
   useEffect(() => { ctx.store.catalog().then(setCatalog).catch((e) => setErr(e.message)); }, []);
+  useEffect(() => { try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch {} }, [cart]);
 
-  const sum = (p, k) => p.colors.reduce((s, c) => s + c.variants.reduce((x, v) => x + (v[k] || 0), 0), 0);
-  const shown = (catalog || []).filter((p) => !q.trim() || p.name.includes(q.trim()));
-  const list = Object.values(lines);
-  const setQty = (v, qty) => setLines((ls) => {
-    const next = { ...ls };
+  // One flat row per model × colour × size, for search and for "missing"
+  const rows = useMemo(() => (catalog || []).flatMap((p) => p.colors.flatMap((c) => c.variants.map((v) => ({ p, c, v })))), [catalog]);
+  const term = q.trim();
+  const match = (r) => !term || r.p.name.includes(term) || r.c.name.includes(term);
+  const missing = rows.filter((r) => r.v.store === 0 && r.v.warehouse > 0 && match(r));
+  const models = (catalog || []).filter((p) => !term || p.name.includes(term) || p.colors.some((c) => c.name.includes(term)));
+  const lines = Object.values(cart);
+  const units = lines.reduce((s, l) => s + l.qty, 0);
+
+  const qtyOf = (v) => cart[v.id]?.qty || 0;
+  const setQty = ({ p, c, v }, qty) => setCart((cs) => {
+    const next = { ...cs };
     if (qty <= 0) delete next[v.id];
-    else next[v.id] = { variant_id: v.id, product: prod.name, color: color.name, size: v.size, qty };
+    else next[v.id] = { variant_id: v.id, product: p.name, color: c.name, size: v.size, qty: Math.min(qty, 999) };
+    return next;
+  });
+  const addAllMissing = () => setCart((cs) => {
+    const next = { ...cs };
+    for (const { p, c, v } of missing) if (!next[v.id]) next[v.id] = { variant_id: v.id, product: p.name, color: c.name, size: v.size, qty: 1 };
     return next;
   });
   const send = async () => {
     setBusy(true); setErr('');
     try {
-      const t = await ctx.store.requestStock(list, note.trim(), ctx.me);
+      const t = await ctx.store.requestStock(lines, note.trim(), ctx.me);
       if (t?.id) ctx.store.notify(t.id);
-      ctx.toast({ text: 'הבקשה נשלחה לארי' }); onClose();
+      setCart({}); setNote(''); setReview(false); setBusy(false);
+      ctx.toast({ text: `הבקשה נשלחה לארי: ${units} פריטים` });
     } catch (e) { setErr(e.message); setBusy(false); }
   };
-  const stockTag = (n, place) => html`<span class=${'pill' + (n === 0 ? ' late' : '')}>${place} ${n}</span>`;
 
-  return html`<div class="scrim" onClick=${(e) => e.target === e.currentTarget && onClose()}>
-    <div class="sheet" role="dialog" aria-label="חסר בחנות">
-      <div class="grab"></div>
-      <div class="top"><h2 class="h1" style="font-size:20px">${prod ? html`<button class="link" style="padding:0 0 0 8px" onClick=${() => { setProd(null); setColor(null); }}>${I.back(16)}</button>${prod.name}` : 'חסר בחנות'}</h2>
-        <button class="icon-btn" style="width:36px;height:36px;background:var(--bg);box-shadow:none" aria-label="סגירה" onClick=${onClose}>${I.x()}</button></div>
+  const tag = (n, place) => html`<span class=${'pill' + (n === 0 ? ' late' : '')}>${place} ${n}</span>`;
+  const stepper = (r) => {
+    const qty = qtyOf(r.v);
+    return html`<div style="display:flex;align-items:center;gap:6px;flex:none">
+      ${qty > 0 && html`<button class="icon-btn" style="width:36px;height:36px" aria-label="פחות" onClick=${() => setQty(r, qty - 1)}>−</button>
+        <b style="min-width:20px;text-align:center">${qty}</b>`}
+      <button class=${'icon-btn' + (qty ? '' : ' add')} style="width:36px;height:36px" aria-label=${`להוסיף ${r.p.name} ${r.c.name} ${sizeName(r.v.size)}`} onClick=${() => setQty(r, qty + 1)}>+</button></div>`;
+  };
+  const swatch = (c) => html`<span aria-hidden="true" style=${`flex:none;width:14px;height:14px;border-radius:999px;background:${c.hex || '#ccc'};border:1px solid var(--line-2)`}></span>`;
 
-      ${!catalog && !err && html`<div class="empty">טוען את המלאי…</div>`}
-      ${catalog && !prod && html`
-        <label class="sr" for="sq">חיפוש דגם</label>
-        <input id="sq" class="field soft" placeholder="חיפוש דגם" value=${q} onInput=${(e) => setQ(e.target.value)} />
-        <section class="card list" style="box-shadow:none;border:1px solid var(--line)">${shown.map((p) => html`
-          <button class="row" style="width:100%;border:0;background:none;text-align:right" onClick=${() => { setProd(p); setColor(p.colors[0]); }}>
-            <div class="body"><div class="t">${p.name}</div><div class="meta">${stockTag(sum(p, 'store'), 'בחנות')} ${stockTag(sum(p, 'warehouse'), 'במחסן')} <span>${p.colors.length === 1 ? 'צבע אחד' : `${p.colors.length} צבעים`}</span></div></div>${I.next()}</button>`)}
-          ${!shown.length && html`<div class="empty">לא נמצא דגם בשם הזה</div>`}</section>`}
+  return html`<main class="page" style="padding-bottom:180px">
+    <div><h1 class="h1">מלאי לחנות<span style="color:var(--gold)">.</span></h1>
+      <div class="sub">בוחרים מה להביא מהמחסן. הבקשה נשמרת בטלפון עד שליחה, ונשלחת לארי</div></div>
+    <label class="sr" for="sq">חיפוש</label>
+    <input id="sq" class="field soft" placeholder="חיפוש דגם או צבע, למשל: שחור" value=${q} onInput=${(e) => setQ(e.target.value)} />
+    <div class="seg" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+      <button class=${tab === 'missing' ? 'on' : ''} onClick=${() => setTab('missing')}>חסר בחנות${catalog ? ` · ${missing.length}` : ''}</button>
+      <button class=${tab === 'all' ? 'on' : ''} onClick=${() => setTab('all')}>כל הדגמים</button>
+    </div>
+    ${!catalog && !err && html`<div class="card empty">טוען את המלאי…</div>`}
+    ${err && html`<div class="err">${err}</div>`}
 
-      ${prod && html`
-        <div class="chips" style="margin:0" role="group" aria-label="צבע">${prod.colors.map((c) => html`
-          <button class=${'chip' + (color?.id === c.id ? ' on' : '')} onClick=${() => setColor(c)}>
-            <span style=${`width:14px;height:14px;border-radius:999px;background:${c.hex || '#ccc'};border:1px solid var(--line-2)`}></span>${c.name}</button>`)}</div>
-        ${color && html`<section class="card list" style="box-shadow:none;border:1px solid var(--line)">${color.variants.map((v) => {
-          const qty = lines[v.id]?.qty || 0;
-          return html`<div class="row" style="min-height:56px">
-            <div class="body"><div class="t">${v.size === 'OS' ? 'מידה אחת' : v.size}</div><div class="meta">${stockTag(v.store, 'בחנות')} ${stockTag(v.warehouse, 'במחסן')}</div></div>
-            <div style="display:flex;align-items:center;gap:6px">
-              <button class="icon-btn" style="width:36px;height:36px" aria-label="פחות" disabled=${!qty} onClick=${() => setQty(v, qty - 1)}>−</button>
-              <b style="min-width:22px;text-align:center">${qty}</b>
-              <button class="icon-btn" style="width:36px;height:36px" aria-label="עוד אחד" onClick=${() => setQty(v, qty + 1)}>+</button></div></div>`; })}</section>`}`}
+    ${catalog && tab === 'missing' && html`
+      <div class="top"><span class="sub">אזל בחנות ויש במחסן</span>
+        ${missing.length > 0 && html`<button class="btn sm ghost" onClick=${addAllMissing}>${I.plus(16)} להוסיף את כולם</button>`}</div>
+      ${!missing.length ? html`<div class="card empty">${term ? 'אין חוסרים שמתאימים לחיפוש' : 'אין דגם שאזל בחנות ויש ממנו במחסן'}</div>`
+      : html`<section class="card list">${missing.map((r) => html`<div class="row" style="min-height:58px">
+          ${swatch(r.c)}<div class="body"><div class="t" style="font-size:15px">${r.p.name}</div>
+          <div class="meta"><span>${r.c.name} · ${sizeName(r.v.size)}</span>${tag(r.v.warehouse, 'במחסן')}</div></div>${stepper(r)}</div>`)}</section>`}`}
 
-      ${list.length > 0 && html`<div style="border-top:1px solid var(--line);padding-top:12px;display:flex;flex-direction:column;gap:8px">
-        <span class="lbl" style="margin:0">בבקשה (${list.reduce((s, l) => s + l.qty, 0)})</span>
-        ${list.map((l) => html`<div style="display:flex;justify-content:space-between;align-items:center;font-size:14px">
-          <span>${l.qty} × ${l.product} · ${l.color}${l.size !== 'OS' ? ' · ' + l.size : ''}</span>
-          <button class="link" style="padding:0;color:var(--red-ink)" onClick=${() => setLines((ls) => { const n = { ...ls }; delete n[l.variant_id]; return n; })}>להסיר</button></div>`)}
+    ${catalog && tab === 'all' && html`<section class="card list">${models.map((p) => {
+      const open = openId === p.id || (term && models.length <= 3);
+      const sizes = [...new Set(p.colors.flatMap((c) => c.variants.map((v) => v.size)))];
+      const inCart = p.colors.reduce((s, c) => s + c.variants.reduce((x, v) => x + qtyOf(v), 0), 0);
+      return html`<div>
+        <button class="row" style="width:100%;border:0;background:none;text-align:right" aria-expanded=${!!open} onClick=${() => setOpenId(open ? null : p.id)}>
+          <div class="body"><div class="t">${p.name}</div><div class="meta"><span>${p.colors.length === 1 ? 'צבע אחד' : `${p.colors.length} צבעים`}</span>
+            ${inCart > 0 && html`<span class="pill blue">בבקשה ${inCart}</span>`}</div></div>
+          <span style=${open ? 'transform:rotate(-90deg)' : ''}>${I.next()}</span></button>
+        ${open && html`<div style="overflow-x:auto;padding:0 12px 12px">
+          <table class="grid-tbl"><thead><tr><th scope="col">צבע</th>${sizes.map((s) => html`<th scope="col">${sizeName(s)}</th>`)}</tr></thead>
+          <tbody>${p.colors.filter((c) => !term || p.name.includes(term) || c.name.includes(term)).map((c) => html`<tr>
+            <th scope="row"><span style="display:inline-flex;align-items:center;gap:6px">${swatch(c)}${c.name}</span></th>
+            ${sizes.map((s) => {
+              const v = c.variants.find((x) => x.size === s);
+              if (!v) return html`<td></td>`;
+              const qty = qtyOf(v);
+              return html`<td><button class=${'cell' + (qty ? ' on' : '') + (v.store === 0 ? ' out' : '')}
+                aria-label=${`${c.name} ${sizeName(s)}: בחנות ${v.store}, במחסן ${v.warehouse}${qty ? `, בבקשה ${qty}` : ''}. להוסיף אחד`}
+                onClick=${() => setQty({ p, c, v }, qty + 1)}>
+                <b>${qty || '+'}</b><small>${v.store}/${v.warehouse}</small></button>
+                ${qty > 0 && html`<button class="cell-minus" aria-label="להוריד אחד" onClick=${() => setQty({ p, c, v }, qty - 1)}>−</button>`}</td>`;
+            })}</tr>`)}</tbody></table>
+          <div class="sub" style="margin-top:6px">כל לחיצה על משבצת מוסיפה אחד. מתחת למספר: בחנות/במחסן</div></div>`}
+      </div>`; })}
+      ${!models.length && html`<div class="empty">לא נמצא דגם או צבע כזה</div>`}</section>`}
+
+    ${units > 0 && html`<div class="cart-bar">
+      <div style="flex:1"><b>בבקשה: ${units} פריטים</b><div class="sub">${lines.length} שורות · נשמר בטלפון</div></div>
+      <button class="btn sm" onClick=${() => setReview(true)}>לבדוק ולשלוח</button></div>`}
+
+    ${review && html`<div class="scrim" onClick=${(e) => e.target === e.currentTarget && setReview(false)}>
+      <div class="sheet" role="dialog" aria-label="הבקשה לארי">
+        <div class="grab"></div>
+        <div class="top"><h2 class="h1" style="font-size:20px">הבקשה לארי · ${units} פריטים</h2>
+          <button class="icon-btn" style="width:36px;height:36px;background:var(--bg);box-shadow:none" aria-label="סגירה" onClick=${() => setReview(false)}>${I.x()}</button></div>
+        <section class="card list" style="box-shadow:none;border:1px solid var(--line)">${lines.map((l) => {
+          const r = rows.find((x) => x.v.id === l.variant_id);
+          return html`<div class="row" style="min-height:52px"><div class="body"><div class="t" style="font-size:15px">${l.product}</div>
+            <div class="meta"><span>${l.color} · ${sizeName(l.size)}</span>${r && tag(r.v.warehouse, 'במחסן')}</div></div>
+            ${r ? stepper(r) : html`<b>${l.qty}</b>`}</div>`; })}</section>
+        <button class="link" style="align-self:flex-start;color:var(--red-ink)" onClick=${() => confirm('לנקות את כל הבקשה?') && (setCart({}), setReview(false))}>לנקות הכול</button>
         <label class="sr" for="sn">הערה</label>
         <input id="sn" class="field soft" placeholder="הערה לארי (לא חובה)" value=${note} onInput=${(e) => setNote(e.target.value)} />
-        <button class="btn" disabled=${busy} onClick=${send}>${busy ? 'שולח…' : 'לשלוח בקשה לארי'}</button></div>`}
-      ${err && html`<div class="err">${err}</div>`}
-    </div>
-  </div>`;
+        ${err && html`<div class="err">${err}</div>`}
+        <button class="btn" disabled=${busy} onClick=${send}>${busy ? 'שולח…' : `לשלוח לארי (${units} פריטים)`}</button>
+      </div></div>`}
+  </main>`;
 }
 
 /* ---------- משימה חוזרת: לא / כל יום / כל שבוע (בימים) / כל חודש (בתאריך) ---------- */
@@ -1047,7 +1105,6 @@ function App() {
   const [order, setOrder] = useState(null);
   const [deal, setDeal] = useState(null);
   const [toast, setToast] = useState(null);
-  const [stock, setStock] = useState(false);
   useEffect(() => { if (!toast) return; const id = setTimeout(() => setToast(null), 9000); return () => clearTimeout(id); }, [toast]);
 
   const reload = async () => {
@@ -1083,7 +1140,7 @@ function App() {
 
   if (state.loading) return html`<div class="login"><div class="sub">טוען…</div></div>`;
   if (state.error) return html`<div class="login"><div class="err">שגיאה: ${state.error}</div><button class="btn" onClick=${reload}>לנסות שוב</button></div>`;
-  const ctx = { ...state, store, reload, toast: setToast, openStock: () => setStock(true) };
+  const ctx = { ...state, store, reload, toast: setToast, openStock: () => go('stock') };
   if (state.noAccess) return html`<${NoAccess} email=${state.noAccess.email} />`;
   if (!state.me) return html`<${Login} ctx=${ctx} />`;
 
@@ -1100,6 +1157,7 @@ function App() {
   else if (r0 === 'person' && r1) view = html`<${Today} ctx=${ctx} personId=${r1} openAdd=${openAdd} openOrder=${openOrder} />`;
   else if (r0 === 'done') view = html`<${Done} ctx=${ctx} />`;
   else if (r0 === 'me') view = html`<${Me} ctx=${ctx} />`;
+  else if (r0 === 'stock') view = html`<${StockPage} ctx=${ctx} />`;
   else view = html`<${Today} ctx=${ctx} openAdd=${openAdd} openOrder=${openOrder} />`;
   const onTask = r0 === 'task';
 
@@ -1108,14 +1166,13 @@ function App() {
       <span style="display:flex;gap:10px"><button class="link" style="padding:0;color:inherit" onClick=${() => store.signOut()}>החלפת משתמש</button>
       <button class="link" style="padding:0;color:inherit" onClick=${() => confirm('להחזיר את נתוני ההדגמה להתחלה?') && store.resetDemo()}>איפוס</button></span></div></div>`}
     ${view}
-    ${!onTask && html`<button class="fab" aria-label=${r0 === 'orders' ? 'הזמנה חדשה' : r0 === 'sales' ? 'עסקה חדשה' : 'משימה חדשה'} onClick=${() => r0 === 'orders' ? openOrder({})
+    ${!onTask && r0 !== 'stock' && html`<button class="fab" aria-label=${r0 === 'orders' ? 'הזמנה חדשה' : r0 === 'sales' ? 'עסקה חדשה' : 'משימה חדשה'} onClick=${() => r0 === 'orders' ? openOrder({})
       : r0 === 'sales' ? setDeal({ seller_id: salesPerson(ctx, r1).id })
       : openAdd(r0 === 'person' ? { assignee_id: r1 } : r0 === 'area' ? { area_id: r1 } : {})}>${I.plus(24)}</button>`}
     ${!onTask && html`<${Tabs} route=${route} me=${state.me} />`}
     ${sheet && html`<${AddSheet} ctx=${ctx} preset=${sheet} onClose=${() => setSheet(null)} />`}
     ${order && html`<${OrderSheet} ctx=${ctx} order=${order} onClose=${() => setOrder(null)} />`}
     ${deal && html`<${DealSheet} ctx=${ctx} deal=${deal} onClose=${() => setDeal(null)} />`}
-    ${stock && html`<${StockSheet} ctx=${ctx} onClose=${() => setStock(false)} />`}
     ${toast && html`<div class="toast" role="status"><span>${toast.text}</span>
       ${toast.href && html`<a href=${toast.href} target="_blank" rel="noopener" onClick=${() => setToast(null)}>${I.cal(15)} ${toast.action}</a>`}
       <button aria-label="סגירה" onClick=${() => setToast(null)}>${I.x(14)}</button></div>`}

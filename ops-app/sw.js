@@ -2,7 +2,7 @@
 // App files and libraries are served from a copy on the device at once, and refreshed in the
 // background, so a new version shows on the next open. Data (Supabase) and server functions
 // always go to the network.
-const VERSION = 'kl-ops-v3';
+const VERSION = 'kl-ops-v4';
 const SHELL = ['./', 'index.html', 'css/app.css', 'js/app.js', 'js/data.js', 'js/util.js', 'js/config.js', 'icon.svg', 'manifest.webmanifest'];
 const CDN = ['unpkg.com', 'cdn.jsdelivr.net', 'esm.sh', 'fonts.googleapis.com', 'fonts.gstatic.com'];
 

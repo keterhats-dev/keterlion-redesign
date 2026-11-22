@@ -66,6 +66,23 @@ a { color: inherit; }
 .ck.on { background: var(--ink); border-color: var(--ink); }
 .ck.sm { width: 22px; height: 22px; }
 .count { flex: none; min-width: 34px; height: 28px; padding: 0 6px; border-radius: 999px; background: var(--bg); font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+/* Stock page: request bar above the tabs, colour × size grid */
+.cart-bar { position: fixed; z-index: 7; left: 50%; transform: translateX(-50%); bottom: calc(76px + env(safe-area-inset-bottom)); width: min(94vw, 528px);
+  background: var(--ink); color: #fff; border-radius: 18px; padding: 10px 10px 10px 14px; display: flex; align-items: center; gap: 10px; box-shadow: 0 8px 24px rgba(23,23,23,.25); }
+.cart-bar .sub { color: #c9c7c1; }
+.cart-bar .btn { background: #fff; color: var(--ink); }
+.icon-btn.add { background: var(--ink); color: #fff; font-size: 20px; }
+.grid-tbl { border-collapse: separate; border-spacing: 4px; width: 100%; }
+.grid-tbl th { font-size: 12px; font-weight: 600; color: var(--muted); text-align: center; padding: 2px; white-space: nowrap; }
+.grid-tbl th[scope="row"] { text-align: right; color: var(--ink); font-size: 13px; }
+.grid-tbl td { position: relative; text-align: center; }
+.cell { width: 100%; min-width: 54px; height: 52px; border: 1px solid var(--line-2); border-radius: 12px; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 0; }
+.cell b { font-size: 16px; line-height: 1; }
+.cell small { font-size: 10px; color: var(--muted); }
+.cell.out small { color: var(--red-ink); font-weight: 700; }
+.cell.on { background: var(--ink); border-color: var(--ink); color: #fff; }
+.cell.on small { color: #c9c7c1; }
+.cell-minus { position: absolute; top: -6px; left: -6px; width: 22px; height: 22px; border-radius: 999px; border: 0; background: var(--red); color: #fff; font-size: 14px; line-height: 1; padding: 0; }
 .cal-btn { flex: none; width: 36px; height: 36px; border-radius: 999px; background: var(--bg); color: var(--ink-2); display: flex; align-items: center; justify-content: center; }
 .toast { position: fixed; z-index: 30; left: 50%; transform: translateX(-50%); bottom: calc(160px + env(safe-area-inset-bottom)); width: min(92vw, 480px);
   background: var(--ink); color: #fff; border-radius: 16px; padding: 10px 10px 10px 14px; display: flex; align-items: center; gap: 10px; box-shadow: 0 8px 24px rgba(23,23,23,.25); font-size: 15px; }
