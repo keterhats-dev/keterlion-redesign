@@ -78,3 +78,325 @@ add_action( 'template_redirect', function () {
 		do_action( 'litespeed_control_set_nocache', 'kl-studio page' );
 	}
 } );
+
+/**
+ * PROTOTYPE (26.11.2026): the "wheel" studio, served as its own page at /studio-swipe/ for testing on a phone.
+ * WordPress content filters break inline scripts, so the plugin prints the page itself. Remove after the decision.
+ */
+add_action( 'template_redirect', function () {
+	if ( ! is_page( 'studio-swipe' ) ) {
+		return;
+	}
+	if ( ! defined( 'DONOTCACHEPAGE' ) ) {
+		define( 'DONOTCACHEPAGE', true );
+	}
+	do_action( 'litespeed_control_set_nocache', 'kl-studio swipe prototype' );
+	nocache_headers();
+	header( 'Content-Type: text/html; charset=utf-8' );
+	echo '<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="robots" content="noindex">';
+	echo str_replace( '{{BASE}}', esc_url( KLS_URL . 'assets/' ), kls_swipe_prototype_html() ); // phpcs:ignore
+	echo '</html>';
+	exit;
+}, 0 );
+
+function kls_swipe_prototype_html() {
+	return <<<'KLSHTML'
+<title>סטודיו כובעים – גלגלת</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&family=Arimo:wght@700&family=Frank+Ruhl+Libre:wght@700;900&family=David+Libre:wght@700&family=Assistant:wght@700&family=Noto+Sans+Hebrew:wght@700&family=Suez+One&family=Secular+One&family=Rubik:wght@700&family=Bellefair&family=Playpen+Sans+Hebrew:wght@700&family=Archivo:wght@800&family=Tinos:wght@700&family=Anton&family=Arvo:wght@700&display=swap">
+<style>
+/* Swipe prototype: the cap is the carousel. One choice at a time, swipe until you stop on what you like, then "בחרתי". */
+:root{--black:#171717;--white:#fff;--gold:#AE8E42;--grey:#6B6B69;--edge:#E9E7E2;--stage:#F3F2EF;color-scheme:light}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--white);color:var(--black);font-family:'Heebo',system-ui,sans-serif;direction:rtl;overflow:hidden;overscroll-behavior:none}
+button,input{font:inherit;color:inherit}
+.app{position:fixed;inset:0;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom,0px)}
+/* top */
+.top{flex:none;display:grid;grid-template-columns:44px 1fr 44px;align-items:center;height:52px;padding:0 6px;padding-top:env(safe-area-inset-top,0px)}
+.ib{width:40px;height:40px;border:0;background:none;border-radius:50%;display:grid;place-items:center;cursor:pointer}
+.ib:disabled{visibility:hidden}
+.mid{display:flex;flex-direction:column;align-items:center;gap:5px}
+.mid b{font-size:15px;font-weight:600}
+.prog{display:flex;gap:4px}
+.prog i{width:20px;height:3px;border-radius:3px;background:var(--edge)}
+.prog i.on{background:var(--black)}
+/* question */
+.q{flex:none;text-align:center;padding:4px 16px 0}
+.q h1{font-size:22px;font-weight:700;margin:0;letter-spacing:-.01em}
+.q p{margin:2px 0 0;color:var(--grey);font-size:13px}
+/* the wheel */
+.wheelwrap{flex:1 1 auto;min-height:0;position:relative;display:flex;flex-direction:column;justify-content:center}
+.track{display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;direction:ltr;-webkit-overflow-scrolling:touch;padding:8px 0;align-items:center}
+.track::-webkit-scrollbar{display:none}
+.slide{flex:0 0 var(--sw);scroll-snap-align:center;display:flex;justify-content:center;transition:transform .08s linear,opacity .08s linear}
+.slide .card{width:calc(var(--sw) - 12px);aspect-ratio:1;background:var(--stage);border-radius:22px;overflow:hidden;position:relative}
+.slide svg{width:100%;height:100%;display:block}
+.slide svg>image{mix-blend-mode:multiply}
+.slide .tag{position:absolute;top:10px;right:10px;background:var(--white);font-size:12px;font-weight:600;padding:4px 9px;border-radius:999px}
+.edge{flex:0 0 calc((100vw - var(--sw)) / 2)}
+.hintswipe{position:absolute;left:50%;bottom:6px;transform:translateX(-50%);font-size:12px;color:var(--grey);display:flex;gap:6px;align-items:center;white-space:nowrap;animation:nudge 1.6s ease-in-out 3}
+@keyframes nudge{0%,100%{transform:translateX(-50%)}50%{transform:translateX(calc(-50% - 10px))}}
+/* label under the wheel */
+.label{flex:none;text-align:center;padding:4px 16px 0;min-height:44px}
+.label b{display:block;font-size:17px;font-weight:600}
+.label span{font-size:12px;color:var(--grey);font-variant-numeric:tabular-nums}
+.dots{display:flex;justify-content:center;gap:5px;margin-top:6px;flex-wrap:wrap;max-width:300px;margin-inline:auto}
+.dots i{width:6px;height:6px;border-radius:50%;background:var(--edge)}
+.dots i.on{background:var(--black);transform:scale(1.3)}
+/* extras row (categories, thread colours, text field) */
+.extra{flex:none;padding:8px 16px 0;min-height:52px}
+.chips{display:flex;gap:16px;overflow-x:auto;scrollbar-width:none;justify-content:flex-start;padding:2px 2px 6px}
+.chips::-webkit-scrollbar{display:none}
+.chip{border:0;background:none;padding:6px 0;color:var(--grey);white-space:nowrap;font-size:14px;cursor:pointer;border-bottom:1.5px solid transparent}
+.chip.on{color:var(--black);border-bottom-color:var(--black)}
+.threads{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding:4px 2px}
+.threads::-webkit-scrollbar{display:none}
+.th{flex:none;width:28px;height:28px;border-radius:50%;border:0;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15);cursor:pointer}
+.th.on{box-shadow:0 0 0 2px var(--white),0 0 0 3px var(--black)}
+.field{width:100%;border:1px solid var(--edge);background:var(--stage);border-radius:14px;padding:12px 14px;font-size:16px;text-align:center}
+.field:focus{outline:none;border-color:var(--black);background:var(--white)}
+.types{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.type{border:1px solid var(--edge);background:var(--white);border-radius:16px;padding:14px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px}
+.type b{font-size:15px;font-weight:600}
+.type small{font-size:12px;color:var(--grey)}
+.type svg{width:28px;height:28px}
+/* bottom */
+.bar{flex:none;display:flex;align-items:center;gap:10px;padding:10px 16px 12px}
+.price{display:flex;flex-direction:column;line-height:1.15;margin-inline-end:auto}
+.price b{font-size:19px;font-weight:600;font-variant-numeric:tabular-nums}
+.price small{font-size:12px;color:var(--grey)}
+.go{border:0;background:var(--black);color:var(--white);border-radius:999px;min-height:52px;padding:12px 26px;font-size:16px;font-weight:600;cursor:pointer}
+.go:disabled{opacity:.35}
+.ghost{border:1px solid var(--edge);background:var(--white);border-radius:999px;min-height:52px;padding:12px 16px;font-size:15px;cursor:pointer}
+.note{font-size:12px;color:var(--grey);text-align:center;margin-top:6px}
+.devnote{position:fixed;top:0;left:0;right:0;background:var(--black);color:var(--gold);font-size:11px;text-align:center;padding:3px;z-index:5}
+.loading{position:fixed;inset:0;display:grid;place-items:center;color:var(--grey);font-size:15px;background:var(--white);z-index:9}
+@media (min-width:700px){.app{max-width:480px;margin:0 auto;border-inline:1px solid var(--edge)}}
+@media (prefers-reduced-motion:reduce){.hintswipe{animation:none}}
+</style>
+
+<div class="loading" id="loading">טוענים את הכובעים…</div>
+<div class="app" id="app">
+  <div class="top">
+    <button class="ib" id="back" aria-label="חזרה"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="mid"><b id="stepname"></b><span class="prog" id="prog"></span></div>
+    <span></span>
+  </div>
+  <div class="q"><h1 id="qtitle"></h1><p id="qsub"></p></div>
+  <div class="wheelwrap" id="wheelwrap">
+    <div class="track" id="track"></div>
+    <div class="hintswipe" id="hintswipe">‹ מחליקים לצדדים ›</div>
+  </div>
+  <div class="label"><b id="lname"></b><span id="lcount"></span><div class="dots" id="dots"></div></div>
+  <div class="extra" id="extra"></div>
+  <div class="bar">
+    <div class="price"><b id="price"></b><small id="psub"></small></div>
+    <button class="go" id="go">בחרתי ←</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var IMG = 1024, SW;
+  var THREADS = [['2149','לבן','#F6F6F2'],['2150','שחור','#141414'],['2275','בז׳','#D9C49A'],['2296','כסף כהה','#8E9196'],['2290','חום בהיר','#A57A4E'],['2135','חום','#5A3A22'],['2050','כתום','#EE7A1E'],['2005','צהוב ניאון','#DDEB1C'],['2182','אדום בהיר','#D8343A'],['2166','ורוד','#EE86B2'],['2084','סגול','#6A3C99'],['2085','שזיף','#6E2A5A'],['2069','כחול רויאל','#1F4FB5'],['2066','כחול בהיר','#3E7BD8'],['2073','נייבי','#1E2848'],['2242','ירוק','#1E7A3C'],['2250','ירוק עלה','#6BAE3A']].map(function (t) { return { code: t[0], name: t[1], hex: t[2] }; });
+  var FONTS = [['אריאל',"'Arimo',sans-serif",700,1,0],['אהרוני',"'Heebo',sans-serif",800,1,0],['פרנק',"'Frank Ruhl Libre',serif",700,1,0],['דוד',"'David Libre',serif",700,1,0],['נרקיס',"'Assistant',sans-serif",700,1,0],['טאהומה',"'Noto Sans Hebrew',sans-serif",700,1,0],['הצבי',"'Suez One',serif",400,1,0],['שרון',"'Secular One',sans-serif",400,1,0],['מנואל',"'Rubik',sans-serif",700,1,0],['מנטובה',"'Bellefair',serif",400,1,0],['סת״ם',"'Frank Ruhl Libre',serif",900,1,0],['כתב יד',"'Playpen Sans Hebrew',cursive",700,1,0],['Block 2',"'Archivo',sans-serif",800,0,1],['Arial',"'Arimo',sans-serif",700,0,1],['Times',"'Tinos',serif",700,0,1],['Impact',"'Anton',sans-serif",400,0,1],['Rockwell',"'Arvo',serif",700,0,1]]
+    .map(function (f) { return { name: f[0], css: f[1], w: f[2], he: !!f[3], en: !!f[4] }; });
+  var PRICE = { dad: 100, baseball: 109 }, ADD = { gallery: 50, text: 79, logo: 129 };
+  var M, VAR = [], GAL = [], CATS = [];
+  var S = { stage: 0, shape: 'dad', variant: null, type: null, design: null, cat: 'הכול', thread: '2149', text: '', font: 0 };
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function light(hex) { var n = parseInt(hex.slice(1), 16); return ((n >> 16) * 299 + (n >> 8 & 255) * 587 + (n & 255) * 114) / 1000 > 150; }
+  function vById(id) { return VAR.find(function (v) { return v.id === id; }); }
+  function variants() { return VAR.filter(function (v) { return v.shape === S.shape; }); }
+  function thread() { return THREADS.find(function (t) { return t.code === S.thread; }) || THREADS[0]; }
+  function hasHeb(t) { return /[֐-׿]/.test(t || ''); }
+  function hasLat(t) { return /[A-Za-z]/.test(t || ''); }
+  function fonts() { return hasHeb(S.text) ? FONTS.filter(function (f) { return f.he; }) : hasLat(S.text) ? FONTS.filter(function (f) { return f.en; }) : FONTS; }
+
+  /* ---------- drawing one cap (front photo + optional embroidery) ---------- */
+  var measure = document.createElement('canvas').getContext('2d');
+  function capSVG(v, deco) {
+    var vb = (v.vb && v.vb.front) || [112, 112, 800, 800];
+    var s = '<svg viewBox="' + vb.join(' ') + '" aria-hidden="true"><image href="' + v.img + '" width="' + IMG + '" height="' + IMG + '"/>';
+    if (deco) {
+      var k = (v.ppcm && v.ppcm.front) || 30, cx = IMG / 2 + v.front[0], cy = IMG / 2 + v.front[1], maxW = 14 * k, maxH = 6 * k;
+      var col = deco.thread ? deco.thread.hex : (light(v.hex) ? '#141414' : '#F6F6F2');
+      if (deco.design) {
+        var g = deco.design, w = Math.min(maxW, (g.dw ? g.dw / 10 : 6) * k * 1.4), h = w * g.vb[3] / g.vb[2];
+        if (h > maxH) { h = maxH; w = h * g.vb[2] / g.vb[3]; }
+        s += '<g style="color:' + col + '" filter="drop-shadow(0 1px 1px rgba(0,0,0,.35))">' + g.s.replace('<svg', '<svg x="' + (cx - w / 2) + '" y="' + (cy - h / 2) + '" width="' + w + '" height="' + h + '"') + '</g>';
+      }
+      if (deco.text) {
+        var f = deco.font, fs = 1.8 * k / 0.72;
+        measure.font = f.w + ' ' + fs + 'px ' + f.css; var tw = measure.measureText(deco.text).width;
+        if (tw > maxW) fs = fs * maxW / tw;
+        s += '<text x="' + cx + '" y="' + cy + '" text-anchor="middle" dominant-baseline="central" direction="rtl" font-family="' + esc(f.css) + '" font-weight="' + f.w + '" font-size="' + fs.toFixed(1) + '" fill="' + col + '" style="filter:drop-shadow(0 1px 1px rgba(0,0,0,.35))">' + esc(deco.text) + '</text>';
+      }
+    }
+    return s + '</svg>';
+  }
+
+  /* ---------- the wheel ---------- */
+  var items = [], idx = 0, renderItem = null, track = $('track');
+  function buildWheel(list, start, render) {
+    items = list; renderItem = render; idx = Math.max(0, Math.min(start || 0, list.length - 1));
+    var h = '<div class="edge"></div>';
+    list.forEach(function (it, i) { h += '<div class="slide" data-i="' + i + '"><div class="card"></div></div>'; });
+    track.innerHTML = h + '<div class="edge"></div>';
+    fill(); requestAnimationFrame(function () { scrollTo(idx, false); wheelFx(); });
+  }
+  function fill() { // draw only the slides near the one on show (67 designs would be heavy otherwise)
+    track.querySelectorAll('.slide').forEach(function (sl) {
+      var i = +sl.dataset.i, card = sl.firstChild;
+      if (Math.abs(i - idx) <= 3) { if (!card.dataset.on) { card.innerHTML = renderItem(items[i], i); card.dataset.on = '1'; } }
+      else if (card.dataset.on) { card.innerHTML = ''; delete card.dataset.on; }
+    });
+  }
+  function scrollTo(i, smooth) { track.scrollTo({ left: i * SW, behavior: smooth ? 'smooth' : 'auto' }); }
+  function wheelFx() { // neighbours shrink and fade a little: the feel of a wheel
+    var c = track.scrollLeft + track.clientWidth / 2;
+    track.querySelectorAll('.slide').forEach(function (sl) {
+      var mid = sl.offsetLeft + sl.offsetWidth / 2, d = Math.min(1, Math.abs(mid - c) / SW);
+      sl.style.transform = 'scale(' + (1 - d * 0.16) + ')'; sl.style.opacity = 1 - d * 0.45;
+    });
+  }
+  var raf = 0;
+  track.addEventListener('scroll', function () {
+    if (raf) return;
+    raf = requestAnimationFrame(function () {
+      raf = 0; wheelFx();
+      var i = Math.round(track.scrollLeft / SW);
+      if (i !== idx && i >= 0 && i < items.length) { idx = i; onPick(); fill(); }
+      $('hintswipe').style.display = 'none';
+    });
+  }, { passive: true });
+  track.addEventListener('click', function (e) { var sl = e.target.closest('.slide'); if (sl && +sl.dataset.i !== idx) scrollTo(+sl.dataset.i, true); });
+
+  /* ---------- stages ---------- */
+  var STAGES = ['גזרה', 'צבע', 'מה רוקמים', 'עיצוב', 'סיכום'];
+  function setTop() {
+    $('stepname').textContent = (S.stage + 1) + ' מתוך ' + STAGES.length + ' · ' + STAGES[S.stage];
+    $('prog').innerHTML = STAGES.map(function (x, i) { return '<i class="' + (i <= S.stage ? 'on' : '') + '"></i>'; }).join('');
+    $('back').disabled = S.stage === 0;
+  }
+  function label(name, sub) { $('lname').textContent = name; $('lcount').textContent = sub || ''; }
+  function dots(n, i) { $('dots').innerHTML = n > 30 ? '' : Array.from({ length: n }, function (x, k) { return '<i class="' + (k === i ? 'on' : '') + '"></i>'; }).join(''); }
+  function priceNow() {
+    var v = vById(S.variant), p = v ? PRICE[v.shape] : PRICE[S.shape];
+    if (S.stage >= 3 && S.type) p += ADD[S.type];
+    $('price').textContent = '₪' + p; $('psub').textContent = S.stage >= 3 && S.type ? 'כובע אחד, כולל רקמה' : 'כובע אחד';
+  }
+  var onPick = function () {};
+
+  function stage0() { // shape
+    S.stage = 0; setTop();
+    $('qtitle').textContent = 'איזה כובע?'; $('qsub').textContent = 'מחליקים על הכובע ובוחרים גזרה';
+    var list = ['dad', 'baseball'].map(function (k) { var v = VAR.find(function (x) { return x.shape === k && x.slug.indexOf('שחור') === 0; }); return { shape: k, v: v }; });
+    $('extra').innerHTML = '';
+    onPick = function () { var it = items[idx]; S.shape = it.shape; label(M.shapes[it.shape].name, M.shapes[it.shape].desc + ' · ₪' + PRICE[it.shape]); dots(items.length, idx); priceNow(); };
+    buildWheel(list, S.shape === 'baseball' ? 1 : 0, function (it) { return capSVG(it.v); });
+    onPick(); $('go').textContent = 'בחרתי ←'; $('go').disabled = false;
+  }
+  function stage1() { // colour
+    S.stage = 1; setTop();
+    $('qtitle').textContent = 'באיזה צבע?'; $('qsub').textContent = 'מחליקים עד שנעצרים על הצבע שאוהבים';
+    var list = variants(), start = Math.max(0, list.findIndex(function (v) { return v.id === S.variant; }));
+    $('extra').innerHTML = '';
+    onPick = function () { var v = items[idx]; S.variant = v.id; label(v.name, (idx + 1) + ' / ' + items.length); dots(items.length, idx); priceNow(); };
+    buildWheel(list, start, function (v) { return capSVG(v); });
+    onPick();
+  }
+  function stage2() { // type
+    S.stage = 2; setTop();
+    $('qtitle').textContent = 'מה רוקמים בחזית?'; $('qsub').textContent = 'אחר כך מחליקים על הכובע ובוחרים';
+    var v = vById(S.variant);
+    buildWheel([v], 0, function (x) { return capSVG(x); }); label('', ''); dots(0, 0);
+    var ic = { gallery: '<svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>', text: '<svg viewBox="0 0 24 24"><path d="M5 6h14M12 6v13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>', logo: '<svg viewBox="0 0 24 24"><path d="M12 16V5m0 0l-4 4m4-4l4 4M5 19h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>' };
+    $('extra').innerHTML = '<div class="types">' + [['gallery', 'ספר הרקמות', '+₪50'], ['text', 'טקסט', '+₪79'], ['logo', 'הלוגו שלכם', '+₪129']].map(function (t) {
+      return '<button class="type" data-t="' + t[0] + '">' + ic[t[0]] + '<b>' + t[1] + '</b><small>' + t[2] + '</small></button>'; }).join('') + '</div>';
+    $('extra').querySelectorAll('[data-t]').forEach(function (b) { b.onclick = function () { S.type = b.dataset.t; stage3(); }; });
+    $('go').disabled = true; $('go').textContent = 'בוחרים למעלה';
+    priceNow();
+  }
+  function threadsRow() {
+    return '<div class="threads">' + THREADS.map(function (t) { return '<button class="th' + (t.code === S.thread ? ' on' : '') + '" data-th="' + t.code + '" style="background:' + t.hex + '" aria-label="' + t.name + '"></button>'; }).join('') + '</div>';
+  }
+  function bindThreads(redraw) {
+    $('extra').querySelectorAll('[data-th]').forEach(function (b) { b.onclick = function () {
+      S.thread = b.dataset.th; $('extra').querySelectorAll('.th').forEach(function (x) { x.classList.toggle('on', x === b); });
+      track.querySelectorAll('.card').forEach(function (c) { delete c.dataset.on; }); fill(); if (redraw) redraw();
+    }; });
+  }
+  function stage3() { // design on the cap
+    S.stage = 3; setTop(); $('go').textContent = 'בחרתי ←'; $('go').disabled = false;
+    var v = vById(S.variant);
+    if (!S.thread || (light(v.hex) && S.thread === '2149')) S.thread = light(v.hex) ? '2150' : '2149';
+    if (S.type === 'gallery') {
+      $('qtitle').textContent = 'איזו רקמה?'; $('qsub').textContent = 'מחליקים על הכובע בין העיצובים';
+      var list = GAL.filter(function (g) { return S.cat === 'הכול' || g.c === S.cat; });
+      $('extra').innerHTML = '<div class="chips">' + ['הכול'].concat(CATS).map(function (c) { return '<button class="chip' + (c === S.cat ? ' on' : '') + '" data-c="' + esc(c) + '">' + esc(c) + '</button>'; }).join('') + '</div>' + threadsRow();
+      $('extra').querySelectorAll('[data-c]').forEach(function (b) { b.onclick = function () { S.cat = b.dataset.c; S.design = null; stage3(); }; });
+      bindThreads();
+      onPick = function () { var g = items[idx]; S.design = g.id; label(g.short, (idx + 1) + ' / ' + items.length); dots(items.length, idx); priceNow(); };
+      buildWheel(list, Math.max(0, list.findIndex(function (g) { return g.id === S.design; })), function (g) { return capSVG(v, { design: g, thread: g.m ? thread() : null }); });
+      onPick();
+    } else if (S.type === 'text') {
+      $('qtitle').textContent = 'מה כותבים?'; $('qsub').textContent = 'כותבים, ואז מחליקים על הכובע בין הגופנים';
+      $('extra').innerHTML = '<input class="field" id="txt" maxlength="18" placeholder="הקלידו כאן, למשל: אחי" value="' + esc(S.text) + '" autocomplete="off">' + threadsRow();
+      var draw = function (keep) {
+        var fl = fonts(), cur = keep ? Math.min(idx, fl.length - 1) : 0;
+        onPick = function () { var f = items[idx]; S.font = FONTS.indexOf(f); label(f.name, (idx + 1) + ' / ' + items.length + ' גופנים'); dots(items.length, idx); priceNow(); $('go').disabled = !S.text.trim(); };
+        buildWheel(fl, cur, function (f) { return capSVG(v, { text: S.text || (f.he ? 'כתרליון' : 'Keterlion'), font: f, thread: thread() }); });
+        onPick();
+      };
+      var t = $('txt'), lastLang = hasHeb(S.text) + '' + hasLat(S.text);
+      t.oninput = function () {
+        S.text = t.value; var lang = hasHeb(S.text) + '' + hasLat(S.text);
+        if (lang !== lastLang) { lastLang = lang; draw(false); return; }
+        track.querySelectorAll('.card').forEach(function (c) { delete c.dataset.on; }); fill(); $('go').disabled = !S.text.trim();
+      };
+      bindThreads();
+      draw(true);
+    } else { // logo: not part of this prototype
+      $('qtitle').textContent = 'הלוגו שלכם'; $('qsub').textContent = 'בהדמיה הזו מציגים רק את ההחלקה. העלאת לוגו עובדת כמו בכלי הנוכחי';
+      $('extra').innerHTML = ''; buildWheel([v], 0, function (x) { return capSVG(x); }); label('', ''); dots(0, 0);
+    }
+  }
+  function stage4() { // summary
+    S.stage = 4; setTop();
+    var v = vById(S.variant), f = FONTS[S.font], g = GAL.find(function (x) { return x.id === S.design; });
+    $('qtitle').textContent = 'הכובע שלכם'; $('qsub').textContent = 'בהדמיה לא מוסיפים לסל';
+    var deco = S.type === 'gallery' && g ? { design: g, thread: g.m ? thread() : null } : S.type === 'text' ? { text: S.text, font: f, thread: thread() } : null;
+    buildWheel([v], 0, function (x) { return capSVG(x, deco); });
+    label(M.shapes[v.shape].name + ' · ' + v.name, S.type === 'gallery' && g ? g.short + ', חוט ' + (g.m ? thread().name : 'בצבעי העיצוב') : S.type === 'text' ? '"' + S.text + '" · ' + f.name + ' · חוט ' + thread().name : ''); dots(0, 0);
+    $('extra').innerHTML = '<p class="note">מכאן ממשיכים לכמות ולסל, כמו בכלי הנוכחי.</p>';
+    $('go').textContent = 'להוסיף לסל'; $('go').disabled = true; priceNow();
+  }
+  var FLOW = [stage0, stage1, stage2, stage3, stage4];
+  $('go').onclick = function () { if (S.stage < 4) FLOW[S.stage + 1](); };
+  $('back').onclick = function () { if (S.stage > 0) FLOW[S.stage - 1](); };
+
+  /* ---------- load (photos through fetch → blob: the preview frame blocks direct image URLs) ---------- */
+  function sizes() { SW = Math.min(window.innerWidth, 480) * 0.74; document.documentElement.style.setProperty('--sw', SW + 'px'); }
+  sizes(); window.addEventListener('resize', function () { sizes(); scrollTo(idx, false); wheelFx(); });
+  Promise.all([fetch('{{BASE}}data/cap-model.json').then(function (r) { return r.json(); }), fetch('{{BASE}}data/gallery.json').then(function (r) { return r.json(); })]).then(function (d) {
+    M = d[0];
+    GAL = d[1].map(function (g) { var m = g.s.match(/viewBox="([^"]+)"/), vb = m ? m[1].trim().split(/[\s,]+/).map(Number) : [0, 0, 100, 100]; var parts = g.n.split(/\s+-\s+/), heb = parts.find(function (x) { return /[֐-׿]/.test(x); }); return { id: String(g.id), n: g.n, c: g.c, m: g.m, s: g.s, vb: vb, dw: g.dw || 0, short: (heb || parts[0]).replace(/\s*\d+(\.\d+)?\s*cm$/i, '').trim() }; });
+    GAL.forEach(function (g) { if (CATS.indexOf(g.c) < 0) CATS.push(g.c); });
+    return Promise.all(M.variants.map(function (v) {
+      return fetch('{{BASE}}caps/' + v.id + '-front.jpg').then(function (r) { return r.blob(); }).then(function (b) {
+        VAR.push({ id: v.id, shape: v.shape, slug: v.slug, name: v.name, hex: v.hex, front: v.front, vb: v.vb, ppcm: v.ppcm, img: URL.createObjectURL(b) });
+      });
+    }));
+  }).then(function () {
+    var order = M.variants.map(function (v) { return v.id; }); VAR.sort(function (a, b) { return order.indexOf(a.id) - order.indexOf(b.id); });
+    S.variant = VAR.find(function (v) { return v.shape === 'dad' && v.slug.indexOf('שחור') === 0; }).id;
+    $('loading').remove(); stage0();
+  }).catch(function () { $('loading').textContent = 'לא הצלחנו לטעון. נסו לרענן.'; });
+})();
+</script>
+
+KLSHTML;
+}
