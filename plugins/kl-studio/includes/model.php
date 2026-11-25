@@ -112,6 +112,7 @@ function kls_front_config() {
 			'list'     => array( 'סקיצה לאישור ב-WhatsApp לפני שרוקמים', $s['delivery'] . ' מההזמנה' ),
 		),
 		'b2bUrl'     => $s['b2b_url'],
+		'homeUrl'    => home_url( '/' ),
 		'showTitle'  => (bool) $s['show_title'],
 		'galleryUrl' => KLS_URL . 'assets/data/gallery.json?v=' . KLS_VERSION,
 		'ajax'       => array(

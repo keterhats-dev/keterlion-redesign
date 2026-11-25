@@ -167,7 +167,12 @@
 
   /* ---------- layout ---------- */
   root.className = 'kls';
+  var STEP_TITLES = ['בוחרים כובע', 'מעצבים', 'כמה כובעים', 'סיכום'];
   root.innerHTML =
+    // top bar of the phone "app mode": back, step and progress, close (hidden on a computer)
+    '<div class="kls-topbar"><button type="button" class="kls-tb-back" id="kls-tb-back" aria-label="שלב קודם"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+    '<div class="kls-tb-mid"><b id="kls-tb-title"></b><span class="kls-tb-prog" id="kls-tb-prog"></span></div>' +
+    '<a class="kls-tb-close" href="' + esc(C.homeUrl || '/') + '" aria-label="יציאה לאתר"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></a></div>' +
     (C.showTitle ? '<div class="kls-hero"><div><div class="kls-eyebrow">עיצוב אישי</div><h1 class="kls-title">עצבו כובע משלכם<em>.</em></h1></div><div class="kls-sticker" aria-hidden="true">גם כובע<br>אחד</div></div>' : '') +
     '<div class="kls-app">' +
     '<section class="kls-stage" aria-label="תצוגה חיה של הכובע"><div class="kls-canvas" id="kls-canvas"></div>' +
@@ -200,7 +205,7 @@
     // while choosing the cap: front only, no side bar and no arrows (they appear from the design step on)
     var choosing = S.step === 0;
     cv.querySelectorAll('.kls-arrow').forEach(function (a) { a.hidden = choosing; });
-    var vs = $('kls-views'); vs.innerHTML = ''; vs.hidden = choosing;
+    var vs = $('kls-views'); vs.innerHTML = ''; vs.style.visibility = choosing ? 'hidden' : ''; // keeps its height: the cap does not jump
     SIDES.forEach(function (s) {
       var b = document.createElement('button'); b.type = 'button'; b.className = 'kls-chip'; b.setAttribute('aria-pressed', S.view === s);
       b.innerHTML = (filled(item(s)) ? '<i class="kls-dot"></i>' : '') + esc(LABEL[s]);
@@ -228,8 +233,13 @@
     $('kls-total').textContent = money(pc * S.qty);
     $('kls-per').textContent = S.qty > 1 ? S.qty + ' × ' + money(pc) + ' לכובע' : (active().length ? 'כובע אחד, כולל רקמה' : 'כובע אחד, בלי רקמה');
     $('kls-back').disabled = S.step === 0;
-    $('kls-next').textContent = S.step === 3 ? 'להוסיף לסל' : S.step === 2 ? 'לסיכום' : 'הבא';
-    $('kls-next').disabled = (S.step === 3 && !canBuy()) || busy;
+    // the button says where it leads
+    $('kls-next').textContent = ['להמשיך לעיצוב', 'להמשיך לכמות', 'לסיכום', 'להוסיף לסל'][S.step] + (S.step < 3 ? ' ←' : '');
+    $('kls-next').disabled = (S.step === 1 && !active().length) || (S.step === 3 && !canBuy()) || busy;
+    // top bar (phone)
+    $('kls-tb-title').textContent = (S.step + 1) + ' מתוך 4 · ' + STEP_TITLES[S.step];
+    $('kls-tb-prog').innerHTML = STEPS.map(function (x, i) { return '<i class="' + (i <= S.step ? 'on' : '') + '"></i>'; }).join('');
+    $('kls-tb-back').style.visibility = S.step === 0 ? 'hidden' : 'visible';
   }
   function mixed(it) { return it && it.type === 'text' && hasHeb(it.text) && hasLat(it.text); }
   function canBuy() { var l = active(); return l.length > 0 && l.every(function (s) { return (item(s).type !== 'logo' || item(s).ok) && !mixed(item(s)); }) && variant().stock; }
@@ -261,9 +271,12 @@
     THREAD.forEach(function (t) { h += '<button type="button" class="kls-th" data-thread="' + t.code + '" title="' + esc(t.name) + '" aria-label="' + esc(t.name) + '" aria-pressed="' + (it.thread === t.code) + '" style="background:' + t.hex + '"></button>'; });
     return h + '</div>';
   }
+  // size: − value + (always visible; the same as pinching or dragging the corner on the cap)
   function sizeRange(it, key, label, min, max, step) {
     var v = Math.min(Math.max(it[key], min), max);
-    return '<div class="kls-label">' + label + '</div><div class="kls-range"><small>' + min + '</small><input type="range" id="kls-size" data-key="' + key + '" min="' + min + '" max="' + max + '" step="' + step + '" value="' + v + '" aria-label="' + label + ' בס״מ"><output id="kls-sizeout">' + v.toFixed(1) + ' ס״מ</output></div>';
+    return '<div class="kls-sizer" id="kls-size" data-key="' + key + '" data-min="' + min + '" data-max="' + max + '" data-step="' + (step < 0.2 ? 0.2 : step) + '">' +
+      '<span class="kls-sizer-l">' + label + '</span><button type="button" data-size="-1" aria-label="להקטין">−</button>' +
+      '<output id="kls-sizeout">' + v.toFixed(1) + ' ס״מ</output><button type="button" data-size="1" aria-label="להגדיל">+</button></div>';
   }
   function textWarnHTML(side, it) {
     if (mixed(it)) return '<p class="kls-warn">אפשר לרקום עברית או אנגלית, לא את שתיהן באותה שורה.</p>';
@@ -311,10 +324,14 @@
       h += '<div id="kls-txtwarn">' + textWarnHTML(side, it) + '</div>';
     }
     if (it.type === 'logo') {
-      h += '<div class="kls-label">הקובץ</div><label class="kls-drop" id="kls-drop" for="kls-logofile"><b id="kls-dropb">' + (it.logo ? 'הלוגו עלה ✓ להחליף קובץ' : 'לבחור קובץ או לגרור לכאן') + '</b><small>PNG או JPG, עד ' + C.upload.maxMb + 'MB. קובץ חד וברור</small><input type="file" id="kls-logofile" accept="image/png,image/jpeg"></label>';
-      if (it.logo) h += sizeRange(it, 'w', 'רוחב', 1.5, L.maxW, 0.1);
-      h += '<div class="kls-rules"><b>כמה דברים על רקמה</b><ul>' + C.logoRules.map(function (r) { return '<li>' + esc(r) + '</li>'; }).join('') + '</ul></div>';
-      h += '<label class="kls-check"><input type="checkbox" id="kls-logook"' + (it.ok ? ' checked' : '') + '> קראתי את הכללים, ומותר לי להשתמש בלוגו שאני מעלה</label>';
+      // the rules open in a window before the file is chosen, so nobody misses them (see openRules)
+      h += '<input type="file" id="kls-logofile" accept="image/png,image/jpeg" hidden>';
+      if (!it.logo) {
+        h += '<button type="button" class="kls-btn primary kls-upload-btn" id="kls-logo-start">להעלות לוגו</button><p class="kls-note">PNG או JPG, עד ' + C.upload.maxMb + 'MB. לפני ההעלאה נראה לכם כמה כללים קצרים לרקמה.</p>';
+      } else {
+        h += '<div class="kls-logo-row"><img src="' + esc(it.logo.src) + '" alt=""><div><b>הלוגו שלכם</b><small>' + (it.ok ? 'אישרתם את כללי הרקמה ✓' : '') + '</small></div><button type="button" class="kls-link" id="kls-logo-start">להחליף</button></div>';
+        h += sizeRange(it, 'w', 'רוחב', 1.5, L.maxW, 0.1);
+      }
     }
     return h + '</div>';
   }
@@ -367,6 +384,8 @@
   function refreshLive() { renderStage(); renderStepper(); renderBar(); save(); }
   function go(i) {
     S.step = i; if (i === 1) S.view = S.side; if (i === 0) S.view = 'front'; hideErr(); render();
+    $('kls-step').scrollTop = 0;
+    if (root.classList.contains('kls-m')) return; // phone app mode: the page itself never scrolls
     if (window.innerWidth <= 860) { // phone: back to the top of the tool, the cap stays pinned above the choices
       var top = root.getBoundingClientRect().top + window.pageYOffset;
       if (window.pageYOffset > top) window.scrollTo({ top: top, behavior: 'smooth' });
@@ -388,7 +407,16 @@
     R.querySelectorAll('[data-thread]').forEach(function (b) { b.onclick = function () { keepGridScroll(function () { ensure(S.side).thread = b.dataset.thread; render(); }); }; });
     R.querySelectorAll('[data-font]').forEach(function (b) { b.onclick = function () { ensure(S.side).font = b.dataset.font; render(); }; });
     R.querySelectorAll('[data-view]').forEach(function (b) { b.onclick = function () { S.view = b.dataset.view; render(); }; });
-    var sz = $('kls-size'); if (sz) sz.oninput = function () { var it = ensure(S.side); it[sz.dataset.key] = parseFloat(sz.value); $('kls-sizeout').textContent = parseFloat(sz.value).toFixed(1) + ' ס״מ'; refreshLive(); var w = $('kls-txtwarn'); if (w) w.innerHTML = textWarnHTML(S.side, it); };
+    var sz = $('kls-size'); if (sz) sz.querySelectorAll('[data-size]').forEach(function (b) {
+      b.onclick = function () {
+        var it = ensure(S.side), k = sz.dataset.key, st = parseFloat(sz.dataset.step), v = (parseFloat(it[k]) || 0) + st * (+b.dataset.size);
+        v = Math.round(clamp(v, parseFloat(sz.dataset.min), parseFloat(sz.dataset.max)) * 10) / 10;
+        if (k === 'w') { it.w = v; var s2 = designSize(S.side, it); if (s2 && s2.fit) it.w = Math.round(s2.w) / 10; } else it.h = v;
+        $('kls-sizeout').textContent = (k === 'w' ? it.w : it.h).toFixed(1) + ' ס״מ';
+        refreshLive(); var w = $('kls-txtwarn'); if (w) w.innerHTML = textWarnHTML(S.side, it);
+      };
+    });
+    var ls = $('kls-logo-start'); if (ls) ls.onclick = openRules;
     var tx = $('kls-txt'); if (tx) tx.oninput = function () {
       var it = ensure(S.side), lang = function (t) { return (hasHeb(t) ? 'h' : '') + (hasLat(t) ? 'l' : ''); }, was = lang(it.text); it.text = tx.value;
       if (lang(it.text) !== was) { // Hebrew ↔ English: show the fonts for that language, keep typing
@@ -421,6 +449,18 @@
     var it = ensure(S.side); it.type = 'gallery'; it.id = g.id;
     var lt = light(variant().hex), pool = THREAD.filter(function (t) { return light(t.hex) !== lt; });
     it.thread = pool[Math.floor(Math.random() * pool.length)].code; S.cat = 'הכול'; render();
+  }
+
+  /* ---------- logo: the rules first, in a window, then the file ---------- */
+  function openRules() {
+    var h = '<h3 id="kls-sheet-title">לפני שמעלים לוגו</h3><ul class="kls-rules-list">' + C.logoRules.map(function (r) { return '<li>' + esc(r) + '</li>'; }).join('') + '</ul>' +
+      '<label class="kls-check"><input type="checkbox" id="kls-rules-ok"> קראתי את הכללים, ומותר לי להשתמש בלוגו שאני מעלה</label>' +
+      '<div class="kls-btns kls-sheet-btns"><button type="button" class="kls-btn primary" id="kls-rules-go" disabled>לבחור קובץ</button><button type="button" class="kls-btn" id="kls-rules-x">ביטול</button></div>';
+    $('kls-sheet').innerHTML = h; $('kls-overlay').hidden = false;
+    var ok = $('kls-rules-ok'), go = $('kls-rules-go');
+    ok.onchange = function () { go.disabled = !ok.checked; };
+    $('kls-rules-x').onclick = function () { $('kls-overlay').hidden = true; };
+    go.onclick = function () { ensure(S.side).ok = true; $('kls-overlay').hidden = true; var f = $('kls-logofile'); if (f) f.click(); };
   }
 
   /* ---------- logo upload ---------- */
@@ -506,6 +546,28 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') $('kls-overlay').hidden = true; });
   $('kls-next').onclick = function () { if (S.step < 3) go(S.step + 1); else addToCart(); };
   $('kls-back').onclick = function () { if (S.step > 0) go(S.step - 1); };
+  $('kls-tb-back').onclick = function () { if (S.step > 0) go(S.step - 1); };
+
+  /* ---------- phone "app mode": the tool fills the screen, nothing scrolls the page ---------- */
+  var mq = window.matchMedia ? window.matchMedia('(max-width: 860px)') : { matches: false };
+  function fitViewport() { // follows the on-screen keyboard: the cap shrinks, the typing field stays in view
+    var vv = window.visualViewport, bar = document.getElementById('wpadminbar');
+    var ab = bar ? bar.offsetHeight : 0; // signed-in admins: start below the WordPress bar (on a phone it is not fixed, but still on top)
+    root.style.setProperty('--kls-vh', ((vv ? vv.height : window.innerHeight) - ab) + 'px');
+    root.style.setProperty('--kls-vt', ((vv ? vv.offsetTop : 0) + ab) + 'px');
+  }
+  function setMode() {
+    var m = !!mq.matches;
+    root.classList.toggle('kls-m', m);
+    document.documentElement.classList.toggle('kls-m-lock', m);
+    fitViewport(); renderStage();
+  }
+  if (mq.addEventListener) mq.addEventListener('change', setMode); else if (mq.addListener) mq.addListener(setMode);
+  if (window.visualViewport) { window.visualViewport.addEventListener('resize', fitViewport); window.visualViewport.addEventListener('scroll', fitViewport); }
+  // while typing, the panel keeps only the field and the fonts, so the cap stays visible above the keyboard
+  root.addEventListener('focusin', function (e) { if (e.target.id === 'kls-txt') root.classList.add('kls-typing'); });
+  root.addEventListener('focusout', function (e) { if (e.target.id === 'kls-txt') setTimeout(function () { if (document.activeElement && document.activeElement.id !== 'kls-txt') root.classList.remove('kls-typing'); }, 50); });
+  setMode();
 
   /* drag the design to move it inside the area; drag the round handle to resize */
   var drag = null, pinch = null, frame = 0, dragged = false, selActive = false, hideT = 0;
