@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מסך טעינה לכלי העיצוב</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;900&family=Suez+One&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#171717;--white:#fff;--grey:#6B6B69;--line:#DDD3BD;--gold:#AE8E42}
+  *{box-sizing:border-box}
+  body{margin:0;background:#fff;color:var(--black);font-family:Heebo,Arial,sans-serif}
+  .page{max-width:1180px;margin:0 auto;padding:28px 16px 40px}
+  .eyebrow{display:flex;align-items:center;gap:10px;font:500 13px/1 Heebo;letter-spacing:.12em;color:var(--black)}
+  .eyebrow::before{content:"";width:32px;height:4px;background:var(--gold)}
+  h1{font:900 34px/1.15 Heebo;margin:10px 0 6px}
+  h1 .dot{color:var(--gold)}
+  .lead{color:var(--grey);font:400 16px/1.5 Heebo;margin:0 0 24px;max-width:760px}
+  .row{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start;justify-content:center}
+  .col{display:flex;flex-direction:column;align-items:center;gap:10px}
+  .label{font:500 16px/1.3 Heebo}
+  .label small{display:block;font:400 13px/1.4 Heebo;color:var(--grey);text-align:center}
+  .phone{width:300px;height:650px;border:1px solid var(--line);border-radius:28px;overflow:hidden;position:relative;background:#fff;box-shadow:0 1px 0 var(--line)}
+  .phone img.shot{width:100%;height:100%;object-fit:cover;display:block}
+
+  /* ---- the proposed loading screen ---- */
+  .kl-load{position:absolute;inset:0;background:#fff;display:flex;flex-direction:column;align-items:center}
+  .kl-load .brand{height:64px;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;border-bottom:1px solid var(--line)}
+  .kl-load .brand img.lion{height:30px}
+  .kl-load .brand img.word{height:15px}
+  .kl-load .brand .gdot{width:6px;height:6px;border-radius:50%;background:var(--gold);align-self:flex-end;margin-bottom:22px}
+  .kl-load .cap{position:relative;margin-top:44px;width:210px;height:210px}
+  .kl-load .cap img{width:100%;height:100%;object-fit:contain;animation:klbreath 2.4s ease-in-out infinite}
+  .kl-load .sticker{position:absolute;left:-14px;top:-10px;width:78px;height:78px;border-radius:50%;background:var(--black);color:#fff;display:flex;align-items:center;justify-content:center;text-align:center;font:400 15px/1.05 'Suez One',serif;transform:rotate(-12deg);padding:6px}
+  .kl-load h2{font:900 23px/1.2 Heebo;margin:28px 20px 4px;text-align:center}
+  .kl-load h2 .dot{color:var(--gold)}
+  .kl-load .pick{font:500 15px/1.4 Heebo;color:var(--grey)}
+  .kl-load .bar{width:220px;height:3px;background:var(--line);margin-top:26px;overflow:hidden}
+  .kl-load .bar i{display:block;height:100%;width:0;background:var(--black);animation:klfill 10s cubic-bezier(.2,.7,.3,1) infinite}
+  .kl-load .note{font:400 13px/1.4 Heebo;color:var(--grey);margin-top:10px}
+  @keyframes klfill{0%{width:0}85%{width:88%}100%{width:92%}}
+  @keyframes klbreath{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+  @media (prefers-reduced-motion:reduce){.kl-load .cap img,.kl-load .bar i{animation:none}.kl-load .bar i{width:60%}}
+
+  .desk{width:620px;height:390px;border:1px solid var(--line);border-radius:10px;overflow:hidden;position:relative;background:#fff}
+  .desk .kl-load .cap{margin-top:26px;width:150px;height:150px}
+  .desk .kl-load h2{margin-top:18px;font-size:22px}
+  .desk .kl-load .brand{height:52px}
+  .rules{margin:30px auto 0;max-width:860px;border-top:1px solid var(--line);padding-top:18px}
+  .rules h3{font:500 18px/1.3 Heebo;margin:0 0 8px}
+  .rules ul{margin:0;padding-inline-start:20px;color:var(--black);font:400 15px/1.7 Heebo}
+  .rules li b{font-weight:500}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="eyebrow">הדמיה · כלי העיצוב בטלפון</div>
+  <h1>מסך טעינה במקום המסך האפור<span class="dot">.</span></h1>
+  <p class="lead">מהלחיצה על "התחילו לעצב" ועד ש-Zakeke מוכן, הלקוח רואה את הכובע שבחר, את שם המותג ופס התקדמות, במקום מסך לבן ואחריו שלד אפור. הזמן עצמו לא משתנה (כ-10 שניות בטלפון טוב), אבל המסך מראה שמשהו קורה.</p>
+
+  <div class="row">
+    <div class="col">
+      <div class="label">היום<small>השלד האפור של Zakeke, כ-10 שניות</small></div>
+      <div class="phone"><img class="shot" src="today-grey.jpg" alt="המסך האפור של היום"></div>
+    </div>
+
+    <div class="col">
+      <div class="label">מוצע<small>מיד בלחיצה, ועד שהכלי מוכן</small></div>
+      <div class="phone">
+        <div class="kl-load">
+          <div class="brand">
+            <img class="lion" src="https://keterlion.com/wp-content/uploads/2026/10/kl-lion-black.png" alt="">
+            <img class="word" src="https://keterlion.com/wp-content/uploads/2026/10/kl-wordmark-black.png" alt="KETERLION">
+            <span class="gdot"></span>
+          </div>
+          <div class="cap">
+            <img src="https://keterlion.com/wp-content/uploads/2025/12/1-600x600.png" alt="Dad Cap אדום">
+            <div class="sticker">גם כובע אחד</div>
+          </div>
+          <h2>מכינים את הכובע שלכם לעיצוב<span class="dot">.</span></h2>
+          <div class="pick">Dad Cap · אדום</div>
+          <div class="bar"><i></i></div>
+          <div class="note">עוד כמה שניות והכלי מוכן</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="label">מוצע, במחשב<small>אותו מסך, באזור של הכלי</small></div>
+      <div class="desk">
+        <div class="kl-load">
+          <div class="brand">
+            <img class="lion" src="https://keterlion.com/wp-content/uploads/2026/10/kl-lion-black.png" alt="">
+            <img class="word" src="https://keterlion.com/wp-content/uploads/2026/10/kl-wordmark-black.png" alt="KETERLION">
+            <span class="gdot"></span>
+          </div>
+          <div class="cap">
+            <img src="https://keterlion.com/wp-content/uploads/2025/12/1-600x600.png" alt="Dad Cap אדום">
+            <div class="sticker">גם כובע אחד</div>
+          </div>
+          <h2>מכינים את הכובע שלכם לעיצוב<span class="dot">.</span></h2>
+          <div class="pick">Dad Cap · אדום</div>
+          <div class="bar"><i></i></div>
+          <div class="note">עוד כמה שניות והכלי מוכן</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rules">
+    <h3>איך זה יעבוד</h3>
+    <ul>
+      <li><b>מתי מופיע:</b> מיד בלחיצה על "התחילו לעצב", עוד בעמוד הבחירה, כך שאין יותר רגע שבו "לא קורה כלום" בזמן שהשרת מכין את עמוד הכלי</li>
+      <li><b>מתי נעלם:</b> כש-Zakeke מודיע לעמוד שהוא מוכן (הוא שולח הודעה כזו), והמסך נעלם בהדרגה</li>
+      <li><b>רשת ביטחון:</b> אחרי 20 שניות המסך נעלם בכל מקרה, כדי שלקוח לא ייתקע</li>
+      <li><b>התמונה והשם:</b> של הכובע שהלקוח בחר בעמוד הבחירה (גזרה וצבע)</li>
+      <li><b>בדיקה:</b> בטלפון ובמחשב, כאורח, כולל הגובה של חלון Zakeke בטלפון (הלקח מ-22.11)</li>
+    </ul>
+  </div>
+</div>
+</body>
+</html>
