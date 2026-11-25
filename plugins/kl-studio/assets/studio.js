@@ -251,7 +251,7 @@
   function stepDesign() {
     var side = S.side, L = limits(side), it = item(side) || {};
     var h = '<div class="kls-step"><h2>מה רוקמים<em>?</em></h2><p class="kls-lead">בוחרים מקום על הכובע, ואז עיצוב מספר הרקמות, טקסט או הלוגו שלכם. אפשר לרקום בכמה מקומות.</p>';
-    h += '<div class="kls-label">איפה על הכובע</div><div class="kls-places">';
+    h += '<div class="kls-label kls-places-label">איפה על הכובע</div><div class="kls-places">';
     SIDES.forEach(function (s) {
       var f = filled(item(s));
       h += '<button type="button" class="kls-card kls-place' + (f ? ' has' : '') + '" data-side="' + s + '" aria-pressed="' + (side === s) + '">' + esc(LABEL[s]) + '<small>' + (f ? typeName(item(s).type) : (active().length && !f ? '+' + money(EXTRA) : 'ריק')) + '</small></button>';
@@ -343,7 +343,10 @@
   function refreshLive() { renderStage(); renderStepper(); renderBar(); save(); }
   function go(i) {
     S.step = i; if (i === 1) S.view = S.side; hideErr(); render();
-    if (window.innerWidth <= 860) root.querySelector('.kls-stage').scrollIntoView({ block: 'start', behavior: 'smooth' });
+    if (window.innerWidth <= 860) { // phone: back to the top of the tool, the cap stays pinned above the choices
+      var top = root.getBoundingClientRect().top + window.pageYOffset;
+      if (window.pageYOffset > top) window.scrollTo({ top: top, behavior: 'smooth' });
+    }
   }
   function showErr(m) { var e = $('kls-err'); e.textContent = m; e.hidden = false; }
   function hideErr() { $('kls-err').hidden = true; }

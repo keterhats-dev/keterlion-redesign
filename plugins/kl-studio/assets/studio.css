@@ -169,23 +169,47 @@
 .kls-ok{display:flex;gap:10px;align-items:center;margin-bottom:12px}
 .kls-ok i{width:30px;height:30px;border-radius:50%;background:var(--kls-black);color:var(--kls-gold);display:grid;place-items:center;font-style:normal;font-weight:900}
 
+/* Phone: like an app. The cap stays on screen (sticky), the choices are short rows that scroll sideways,
+   and the price with the next button sits in a fixed bar. --kls-top = height of a sticky site header, if any. */
 @media (max-width:860px){
-  .kls-app{grid-template-columns:minmax(0,1fr);gap:8px}
-  .kls-stage{position:static;padding-top:10px}
-  .kls-trust{display:none}
-  .kls-sticker{display:none}
-  .kls-hero{padding-block:12px 8px}
-  .kls{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
-  .kls-bar{position:fixed;left:0;right:0;bottom:0;margin:0;z-index:9990;padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));box-shadow:0 -1px 0 var(--kls-black)}
-  .kls .kls-btn{padding:12px 16px}
+  .kls-hero,.kls-trust,.kls-dims,.kls-lead{display:none}
+  .kls{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+  .kls-app{grid-template-columns:minmax(0,1fr);gap:0;border-top:0;padding-block:0 8px}
+  .kls-stage{position:sticky;top:var(--kls-top,0px);z-index:30;background:var(--kls-white);padding:4px 0 6px;border-bottom:1px solid var(--kls-line)}
+  .kls-canvas{width:min(100%,36vh);width:min(100%,36dvh);border-bottom:0}
+  .kls .kls-arrow{width:32px;height:32px;font-size:20px}
+  .kls-views{margin-top:2px;justify-content:center;flex-wrap:nowrap;overflow-x:auto;gap:6px;scrollbar-width:none}
+  .kls-views .kls-chip{padding:4px 10px;font-size:13px;white-space:nowrap}
+  .kls-panel{padding-top:10px}
+  .kls-stepper button{padding:7px 2px;font-size:13px}
+  .kls-stepper small{display:none}
+  .kls-step{padding-top:10px}
+  .kls-step h2{font-size:19px;margin-bottom:0}
+  .kls-label{margin:12px 0 6px;font-size:14px}
+  .kls-note{font-size:12.5px}
+  /* one row each, swiped sideways */
+  .kls-swatches,.kls-threads,.kls-fonts,.kls-grid{display:flex;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scrollbar-width:none}
+  .kls-swatches{gap:10px;padding:4px}
+  .kls-sw{flex:none;width:36px;height:36px}
+  .kls-threads{gap:10px;padding:4px}
+  .kls-th{flex:none;width:32px;height:32px}
+  .kls-fonts{gap:6px}
+  .kls-font{flex:0 0 74px}
+  .kls-grid{max-height:none;gap:1px;margin-top:8px}
+  .kls-tile{flex:0 0 86px;scroll-snap-align:start}
+  .kls-shapes{gap:8px}
+  .kls-shape{grid-template-columns:52px 1fr;padding:8px}
+  .kls-shape img{width:52px;height:40px}
+  .kls-types{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .kls-type{padding:8px 6px}
+  .kls-type small{display:none}
+  .kls-type .kls-pr{font-size:12px;margin-top:2px}
+  .kls-places,.kls-places-label{display:none} /* the side buttons under the cap pick the side */
+  .kls-rules{font-size:12.5px;padding:8px 10px}
+  .kls-tiers th,.kls-tiers td{padding:7px 6px}
+  .kls-bar{position:fixed;left:0;right:0;bottom:0;margin:0;z-index:9990;padding:8px max(16px,env(safe-area-inset-right,0px)) calc(8px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));box-shadow:0 -1px 0 var(--kls-black)}
+  .kls-price b{font-size:21px}
+  .kls .kls-btn{padding:11px 18px}
   .kls .kls-btn.back{display:none}
-}
-@media (max-width:480px){
-  .kls-fonts{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .kls-types{grid-template-columns:1fr}
-  .kls-type{display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:8px}
-  .kls-type .kls-pr{margin:0;grid-row:1/3;grid-column:2}
-  .kls-place{font-size:13px}
-  .kls-stepper button{font-size:13px}
 }
 @media (prefers-reduced-motion:reduce){.kls *{transition:none!important}}
