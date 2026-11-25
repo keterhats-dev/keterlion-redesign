@@ -185,7 +185,9 @@
     if (key !== stageKey || !$('kls-layer')) {
       stageKey = key;
       cv.innerHTML = sideSVG(S.view, editingNow()) +
-        '<button type="button" class="kls-arrow prev" aria-label="הצד הקודם">›</button><button type="button" class="kls-arrow next" aria-label="הצד הבא">‹</button>';
+        // drawn chevrons, not the ‹ › characters: those are mirrored on a right-to-left page and ended up pointing inwards
+        '<button type="button" class="kls-arrow prev" aria-label="הצד הקודם"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+        '<button type="button" class="kls-arrow next" aria-label="הצד הבא"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
       cv.querySelector('.prev').onclick = function () { turn(-1); };
       cv.querySelector('.next').onclick = function () { turn(1); };
     } else {
