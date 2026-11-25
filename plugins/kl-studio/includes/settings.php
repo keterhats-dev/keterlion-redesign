@@ -71,24 +71,34 @@ function kls_threads() {
 }
 
 /**
- * Fonts for text (25.11.2026, the owner: basic fonts that convert easily in Hatch, e.g. Arial, Aharoni, FrankRuehl).
- * hatch = the Windows font the embroiderer picks in Hatch (it converts any installed TrueType font).
- * css   = a free web font that is a clone or revival of it, so every customer sees it the same on any device.
- * he    = has Hebrew letters. Text with Hebrew is offered only fonts with he = true.
+ * Fonts for text.
+ * Hebrew: the 12 embroidery fonts the shop has in Hatch (ESA files the owner sent on 25.11.2026: 1-Ariel, 1-Aharoni ... ).
+ *   They hold Hebrew letters, digits and punctuation only, so they are offered for Hebrew text only.
+ * English: Hatch's Block 2 and Windows fonts that Hatch converts (Arial, Times New Roman, Impact, Rockwell).
+ * hatch  = the font to pick in Hatch. css = a free web font that looks like it, so every customer sees the same preview.
+ * exact  = the web font is a clone or a revival of the same design; otherwise it is the closest look-alike found.
+ * he/en  = which letters the font has. Text with Hebrew gets fonts with he, text with English letters gets fonts with en.
  */
 function kls_fonts() {
 	return array(
-		array( 'id' => 'arial', 'name' => 'אריאל', 'hatch' => 'Arial', 'css' => "'Arimo',Arial,sans-serif", 'w' => 700, 'g' => 'Arimo:wght@700', 'he' => true ),
-		array( 'id' => 'aharoni', 'name' => 'אהרוני', 'hatch' => 'Aharoni', 'css' => "'Heebo',sans-serif", 'w' => 800, 'g' => 'Heebo:wght@800', 'he' => true ),
-		array( 'id' => 'frank', 'name' => 'פרנק־רוהל', 'hatch' => 'FrankRuehl', 'css' => "'Frank Ruhl Libre',serif", 'w' => 700, 'g' => 'Frank+Ruhl+Libre:wght@700', 'he' => true ),
-		array( 'id' => 'david', 'name' => 'דוד', 'hatch' => 'David', 'css' => "'David Libre',serif", 'w' => 700, 'g' => 'David+Libre:wght@700', 'he' => true ),
-		array( 'id' => 'miriam', 'name' => 'מרים', 'hatch' => 'Miriam', 'css' => "'Miriam Libre',sans-serif", 'w' => 700, 'g' => 'Miriam+Libre:wght@700', 'he' => true ),
-		// Block 2 is one of Hatch's own embroidery fonts (not a Windows font): the preview uses a similar bold block face.
-		array( 'id' => 'block2', 'name' => 'Block 2', 'hatch' => 'Block 2', 'css' => "'Archivo',sans-serif", 'w' => 800, 'g' => 'Archivo:wght@800', 'he' => false ),
-		array( 'id' => 'times', 'name' => 'Times', 'hatch' => 'Times New Roman', 'css' => "'Tinos','Times New Roman',serif", 'w' => 700, 'g' => 'Tinos:wght@700', 'he' => true ),
-		array( 'id' => 'courier', 'name' => 'Courier', 'hatch' => 'Courier New', 'css' => "'Cousine','Courier New',monospace", 'w' => 700, 'g' => 'Cousine:wght@700', 'he' => true ),
-		array( 'id' => 'impact', 'name' => 'Impact', 'hatch' => 'Impact', 'css' => "'Anton',Impact,sans-serif", 'w' => 400, 'g' => 'Anton', 'he' => false ),
-		array( 'id' => 'rockwell', 'name' => 'Rockwell', 'hatch' => 'Rockwell', 'css' => "'Arvo',Rockwell,serif", 'w' => 700, 'g' => 'Arvo:wght@700', 'he' => false ),
+		array( 'id' => 'ariel', 'name' => 'אריאל', 'hatch' => '1-Ariel', 'css' => "'Arimo',Arial,sans-serif", 'w' => 700, 'g' => 'Arimo:wght@700', 'he' => true, 'en' => false, 'exact' => true ),
+		array( 'id' => 'aharoni', 'name' => 'אהרוני', 'hatch' => '1-Aharoni', 'css' => "'Heebo',sans-serif", 'w' => 800, 'g' => 'Heebo:wght@800', 'he' => true, 'en' => false, 'exact' => false ),
+		array( 'id' => 'frank', 'name' => 'פרנק', 'hatch' => '1-Frank', 'css' => "'Frank Ruhl Libre',serif", 'w' => 700, 'g' => 'Frank+Ruhl+Libre:wght@700;900', 'he' => true, 'en' => false, 'exact' => true ),
+		array( 'id' => 'david', 'name' => 'דוד', 'hatch' => '1-David', 'css' => "'David Libre',serif", 'w' => 700, 'g' => 'David+Libre:wght@700', 'he' => true, 'en' => false, 'exact' => true ),
+		array( 'id' => 'narkis', 'name' => 'נרקיס', 'hatch' => '1-Narkis', 'css' => "'Assistant',sans-serif", 'w' => 700, 'g' => 'Assistant:wght@700', 'he' => true, 'en' => false, 'exact' => false ),
+		array( 'id' => 'tahoma', 'name' => 'טאהומה', 'hatch' => '1-Tahoma', 'css' => "Tahoma,'Noto Sans Hebrew',sans-serif", 'w' => 700, 'g' => 'Noto+Sans+Hebrew:wght@700', 'he' => true, 'en' => false, 'exact' => false ),
+		array( 'id' => 'hazvi', 'name' => 'הצבי', 'hatch' => '1-Hazvi', 'css' => "'Suez One',serif", 'w' => 400, 'g' => 'Suez+One', 'he' => true, 'en' => false, 'exact' => false ),
+		array( 'id' => 'sharon', 'name' => 'שרון', 'hatch' => '1-Sharon', 'css' => "'Secular One',sans-serif", 'w' => 400, 'g' => 'Secular+One', 'he' => true, 'en' => false, 'exact' => false ),
+		array( 'id' => 'manuel', 'name' => 'מנואל', 'hatch' => '1-Manuel', 'css' => "'Rubik',sans-serif", 'w' => 700, 'g' => 'Rubik:wght@700', 'he' => true, 'en' => false, 'exact' => false ),
+		array( 'id' => 'mantova', 'name' => 'מנטובה', 'hatch' => '1-Mantova', 'css' => "'Bellefair',serif", 'w' => 400, 'g' => 'Bellefair', 'he' => true, 'en' => false, 'exact' => false ),
+		array( 'id' => 'stam', 'name' => 'סת״ם', 'hatch' => '1-Stam Bold', 'css' => "'Frank Ruhl Libre',serif", 'w' => 900, 'g' => 'Frank+Ruhl+Libre:wght@700;900', 'he' => true, 'en' => false, 'exact' => false ),
+		array( 'id' => 'guttman', 'name' => 'כתב יד', 'hatch' => 'Guttman Yad Bold', 'css' => "'Playpen Sans Hebrew','Amatic SC',cursive", 'w' => 700, 'g' => 'Playpen+Sans+Hebrew:wght@700', 'he' => true, 'en' => false, 'exact' => false ),
+		// English. Block 2 is one of Hatch's own embroidery fonts: the preview uses a similar bold block face.
+		array( 'id' => 'block2', 'name' => 'Block 2', 'hatch' => 'Block 2', 'css' => "'Archivo',sans-serif", 'w' => 800, 'g' => 'Archivo:wght@800', 'he' => false, 'en' => true, 'exact' => false ),
+		array( 'id' => 'arial', 'name' => 'Arial', 'hatch' => 'Arial', 'css' => "'Arimo',Arial,sans-serif", 'w' => 700, 'g' => 'Arimo:wght@700', 'he' => false, 'en' => true, 'exact' => true ),
+		array( 'id' => 'times', 'name' => 'Times', 'hatch' => 'Times New Roman', 'css' => "'Tinos','Times New Roman',serif", 'w' => 700, 'g' => 'Tinos:wght@700', 'he' => false, 'en' => true, 'exact' => true ),
+		array( 'id' => 'impact', 'name' => 'Impact', 'hatch' => 'Impact', 'css' => "'Anton',Impact,sans-serif", 'w' => 400, 'g' => 'Anton', 'he' => false, 'en' => true, 'exact' => false ),
+		array( 'id' => 'rockwell', 'name' => 'Rockwell', 'hatch' => 'Rockwell', 'css' => "'Arvo',Rockwell,serif", 'w' => 700, 'g' => 'Arvo:wght@700', 'he' => false, 'en' => true, 'exact' => false ),
 	);
 }
 

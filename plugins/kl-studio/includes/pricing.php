@@ -65,6 +65,12 @@ function kls_clean_design( $raw ) {
 			if ( empty( $fnt['he'] ) && preg_match( '/\p{Hebrew}/u', $text ) ) {
 				return new WP_Error( 'kls', sprintf( 'בגופן %s אין אותיות בעברית. בחרו גופן אחר.', $fnt['name'] ) );
 			}
+			if ( empty( $fnt['en'] ) && preg_match( '/[A-Za-z]/', $text ) ) {
+				return new WP_Error( 'kls', sprintf( 'בגופן %s אין אותיות באנגלית. בחרו גופן אחר, או כתבו רק בעברית.', $fnt['name'] ) );
+			}
+			if ( preg_match( '/\p{Hebrew}/u', $text ) && preg_match( '/[A-Za-z]/', $text ) ) {
+				return new WP_Error( 'kls', 'אפשר לרקום עברית או אנגלית, לא את שתיהן באותה שורה.' );
+			}
 			$items[ $side ] = array(
 				'type'   => 'text',
 				'text'   => $text,

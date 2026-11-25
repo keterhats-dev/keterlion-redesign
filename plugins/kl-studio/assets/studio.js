@@ -34,6 +34,7 @@
   }
   SIDES.forEach(function (s) { if (S.items[s] && S.items[s].logo && !S.items[s].logo.token) S.items[s].logo = null; });
   if (S.qty > MAXQ) S.qty = MAXQ;
+  if (S.step === 0) S.view = 'front';
   function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
 
   var $ = function (id) { return document.getElementById(id); };
@@ -54,8 +55,15 @@
   function thread(code) { return THREAD.find(function (t) { return t.code === code; }) || THREAD[0]; }
   function font(id) { return FONTS.find(function (f) { return f.id === id; }) || FONTS[0]; }
   function hasHeb(t) { return /[֐-׿]/.test(t || ''); }
-  // text with Hebrew letters: only fonts that have Hebrew. English or empty: all fonts
-  function fontsFor(t) { return hasHeb(t) ? FONTS.filter(function (f) { return f.he !== false; }) : FONTS; }
+  function hasLat(t) { return /[A-Za-z]/.test(t || ''); }
+  // the shop's Hebrew embroidery fonts have no English letters (and the English ones no Hebrew):
+  // Hebrew text gets the Hebrew fonts, English text the English ones, empty text all of them
+  function fontsFor(t) {
+    if (hasHeb(t)) return FONTS.filter(function (f) { return f.he; });
+    if (hasLat(t)) return FONTS.filter(function (f) { return f.en; });
+    return FONTS;
+  }
+  function sampleFor(f, t) { var s = (t || '').trim().slice(0, 4); return s || (f.he ? 'אבג' : 'Abc'); }
   function design(id) { return GALLERY.find(function (g) { return g.id === id; }); }
   function item(side) { return S.items[side]; }
   function filled(it) {
@@ -184,7 +192,10 @@
       $('kls-layer').innerHTML = designSVG(S.view, editingNow(), geo(S.view));
     }
     cv.classList.toggle('editing', editingNow() && filled(item(S.view)));
-    var vs = $('kls-views'); vs.innerHTML = '';
+    // while choosing the cap: front only, no side bar and no arrows (they appear from the design step on)
+    var choosing = S.step === 0;
+    cv.querySelectorAll('.kls-arrow').forEach(function (a) { a.hidden = choosing; });
+    var vs = $('kls-views'); vs.innerHTML = ''; vs.hidden = choosing;
     SIDES.forEach(function (s) {
       var b = document.createElement('button'); b.type = 'button'; b.className = 'kls-chip'; b.setAttribute('aria-pressed', S.view === s);
       b.innerHTML = (filled(item(s)) ? '<i class="kls-dot"></i>' : '') + esc(LABEL[s]);
@@ -197,7 +208,7 @@
     else txt = LABEL[S.view] + ' · אזור רקמה עד ' + L.maxW + ' × ' + L.maxH + ' ס״מ';
     $('kls-dims').textContent = txt;
   }
-  function turn(d) { var i = SIDES.indexOf(S.view); S.view = SIDES[(i + d + SIDES.length) % SIDES.length]; if (S.step === 1) S.side = S.view; render(); }
+  function turn(d) { if (S.step === 0) return; var i = SIDES.indexOf(S.view); S.view = SIDES[(i + d + SIDES.length) % SIDES.length]; if (S.step === 1) S.side = S.view; render(); }
   function renderStepper() {
     var n = $('kls-stepper'); n.innerHTML = '';
     var subs = [shape().name + ' · ' + variant().name, active().length ? active().map(function (s) { return LABEL[s]; }).join(', ') : 'עוד לא נבחר', S.qty + (S.qty === 1 ? ' כובע' : ' כובעים'), money(perCap() * S.qty)];
@@ -215,7 +226,8 @@
     $('kls-next').textContent = S.step === 3 ? 'להוסיף לסל' : S.step === 2 ? 'לסיכום' : 'הבא';
     $('kls-next').disabled = (S.step === 3 && !canBuy()) || busy;
   }
-  function canBuy() { var l = active(); return l.length > 0 && l.every(function (s) { return item(s).type !== 'logo' || item(s).ok; }) && variant().stock; }
+  function mixed(it) { return it && it.type === 'text' && hasHeb(it.text) && hasLat(it.text); }
+  function canBuy() { var l = active(); return l.length > 0 && l.every(function (s) { return (item(s).type !== 'logo' || item(s).ok) && !mixed(item(s)); }) && variant().stock; }
 
   function stepHat() {
     var h = '<div class="kls-step"><h2>איזה כובע<em>?</em></h2><div class="kls-seg" role="radiogroup" aria-label="גזרה">';
@@ -249,6 +261,7 @@
     return '<div class="kls-label">' + label + '</div><div class="kls-range"><small>' + min + '</small><input type="range" id="kls-size" data-key="' + key + '" min="' + min + '" max="' + max + '" step="' + step + '" value="' + v + '" aria-label="' + label + ' בס״מ"><output id="kls-sizeout">' + v.toFixed(1) + ' ס״מ</output></div>';
   }
   function textWarnHTML(side, it) {
+    if (mixed(it)) return '<p class="kls-warn">אפשר לרקום עברית או אנגלית, לא את שתיהן באותה שורה.</p>';
     var tz = designSize(side, it); if (!tz) return '';
     return (tz.fit ? '<p class="kls-note">הטקסט ארוך לאזור, אז הקטנו אותו ל-' + (tz.h / 10).toFixed(1) + ' ס״מ.</p>' : '') +
       (tz.h < C.text.minLetter * 10 - 0.05 ? '<p class="kls-warn">האותיות יוצאות קטנות מ-' + C.text.minLetter + ' ס״מ, ואז הרקמה לא נקראת. קצרו את הטקסט או העבירו אותו למקום גדול יותר.</p>' : '');
@@ -289,8 +302,7 @@
       h += '<div class="kls-label">גופן</div><div class="kls-fonts">';
       var fl = fontsFor(it.text);
       if (!fl.some(function (f) { return f.id === it.font; })) it.font = fl[0].id;
-      var sample = (it.text || '').trim().slice(0, 4) || (hasHeb(it.text) ? 'אבג' : 'Abc');
-      fl.forEach(function (f) { h += '<button type="button" class="kls-card kls-font" data-font="' + f.id + '" aria-pressed="' + (it.font === f.id) + '" style="font-family:' + esc(f.css) + ';font-weight:' + f.w + '"><b>' + esc(sample) + '</b><small>' + esc(f.name) + '</small></button>'; });
+      fl.forEach(function (f) { h += '<button type="button" class="kls-card kls-font" data-font="' + f.id + '" aria-pressed="' + (it.font === f.id) + '" style="font-family:' + esc(f.css) + ';font-weight:' + f.w + '"><b>' + esc(sampleFor(f, it.text)) + '</b><small>' + esc(f.name) + '</small></button>'; });
       h += '</div>' + threadPicker(it) + sizeRange(it, 'h', 'גובה אות', C.text.minLetter, Math.min(4, L.maxH), 0.1);
       h += '<div id="kls-txtwarn">' + textWarnHTML(side, it) + '</div>';
     }
@@ -350,7 +362,7 @@
   }
   function refreshLive() { renderStage(); renderStepper(); renderBar(); save(); }
   function go(i) {
-    S.step = i; if (i === 1) S.view = S.side; hideErr(); render();
+    S.step = i; if (i === 1) S.view = S.side; if (i === 0) S.view = 'front'; hideErr(); render();
     if (window.innerWidth <= 860) { // phone: back to the top of the tool, the cap stays pinned above the choices
       var top = root.getBoundingClientRect().top + window.pageYOffset;
       if (window.pageYOffset > top) window.scrollTo({ top: top, behavior: 'smooth' });
@@ -374,12 +386,12 @@
     R.querySelectorAll('[data-view]').forEach(function (b) { b.onclick = function () { S.view = b.dataset.view; render(); }; });
     var sz = $('kls-size'); if (sz) sz.oninput = function () { var it = ensure(S.side); it[sz.dataset.key] = parseFloat(sz.value); $('kls-sizeout').textContent = parseFloat(sz.value).toFixed(1) + ' ס״מ'; refreshLive(); var w = $('kls-txtwarn'); if (w) w.innerHTML = textWarnHTML(S.side, it); };
     var tx = $('kls-txt'); if (tx) tx.oninput = function () {
-      var it = ensure(S.side), was = hasHeb(it.text); it.text = tx.value;
-      if (hasHeb(it.text) !== was) { // Hebrew ↔ English: show the fonts for that language, keep typing
+      var it = ensure(S.side), lang = function (t) { return (hasHeb(t) ? 'h' : '') + (hasLat(t) ? 'l' : ''); }, was = lang(it.text); it.text = tx.value;
+      if (lang(it.text) !== was) { // Hebrew ↔ English: show the fonts for that language, keep typing
         var pos = tx.selectionStart; render(); var t2 = $('kls-txt'); if (t2) { t2.focus(); t2.setSelectionRange(pos, pos); } return;
       }
       $('kls-txtcount').textContent = tx.value.length + '/' + C.text.max;
-      R.querySelectorAll('.kls-font b').forEach(function (b) { b.textContent = tx.value.trim().slice(0, 4) || (hasHeb(tx.value) ? 'אבג' : 'Abc'); });
+      R.querySelectorAll('.kls-font').forEach(function (b) { var f = font(b.dataset.font); b.querySelector('b').textContent = sampleFor(f, tx.value); });
       refreshLive(); $('kls-txtwarn').innerHTML = textWarnHTML(S.side, it);
     };
     var sp = $('kls-surprise'); if (sp) sp.onclick = surprise;
