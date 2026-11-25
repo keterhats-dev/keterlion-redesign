@@ -53,4 +53,35 @@ add_filter( 'woocommerce_update_cart_validation', function ( $ok, $key, $values,
 	return $ok;
 }, 10, 4 );
 
-/** Block checkout (Store API) also shows the side lines: it reads woocommerce_get_item_data, nothing more to do. */
+/** The same limit in the block cart (Store API): the quantity picker stops at max_qty and a bigger update is refused. */
+add_filter( 'woocommerce_store_api_product_quantity_maximum', function ( $max, $product, $cart_item = null ) {
+	if ( is_array( $cart_item ) && ! empty( $cart_item['kls'] ) ) {
+		return min( (int) $max, (int) kls_settings()['max_qty'] );
+	}
+	return $max;
+}, 10, 3 );
+
+/** Classic cart: the quantity field itself stops at max_qty. */
+add_filter( 'woocommerce_cart_item_quantity', function ( $html, $key, $line ) {
+	if ( empty( $line['kls'] ) ) {
+		return $html;
+	}
+	return preg_replace( '/max="\d*"/', 'max="' . (int) kls_settings()['max_qty'] . '"', $html );
+}, 10, 3 );
+
+/** Safety net (any other way the quantity grows): trim a designed line back to max_qty before totals. */
+add_action( 'woocommerce_before_calculate_totals', function ( $cart ) {
+	static $busy = false;
+	if ( $busy ) {
+		return;
+	}
+	$max = (int) kls_settings()['max_qty'];
+	foreach ( $cart->get_cart() as $key => $line ) {
+		if ( ! empty( $line['kls'] ) && (int) $line['quantity'] > $max ) {
+			$busy = true;
+			$cart->set_quantity( $key, $max, false );
+			$busy = false;
+			wc_add_notice( sprintf( 'בעיצוב אישי אפשר להזמין עד %d כובעים בשורה. לכמות גדולה יותר יש מחירון לעסקים.', $max ), 'notice' );
+		}
+	}
+}, 5 );
