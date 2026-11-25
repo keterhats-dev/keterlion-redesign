@@ -235,6 +235,56 @@
 .kls-sheet{border-radius:var(--kls-r3);padding:24px}
 .kls-overlay{backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
 
+/* ===== Minimal, fashion touch (25.11.2026, the owner: "more minimalist and fashionable, less busy") =====
+   Flat surfaces, hairlines instead of shadows, no badges, small tracked labels, quiet links. */
+.kls{--kls-edge:#E9E7E2}
+.kls-step h2{font-weight:600;font-size:22px;letter-spacing:-.01em}
+.kls-step h2 em{display:none}
+.kls-label{font-size:11.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--kls-grey);margin:20px 0 10px}
+.kls-label span{letter-spacing:normal;text-transform:none;font-size:13px}
+.kls-color-label span{font-weight:400}
+.kls-card,.kls-card:hover{box-shadow:none}
+.kls-card[aria-pressed="true"]{box-shadow:none;border-color:var(--kls-black)}
+.kls-card[aria-pressed="true"]::after{content:none}
+.kls-card b{font-weight:500}
+.kls-type .kls-pr,.kls-pr{font-weight:400;color:var(--kls-grey)}
+.kls-seg button[aria-pressed="true"]{box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.kls-seg button b{font-weight:500}
+.kls .kls-sw{max-width:32px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12);border:0}
+.kls-sw[aria-pressed="true"],.kls-th[aria-pressed="true"]{transform:none;box-shadow:0 0 0 2px var(--kls-white),0 0 0 3px var(--kls-black)}
+.kls .kls-th{width:26px;height:26px;border:0;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.kls-stepper button::after{height:2px}
+.kls-stepper button.done::after{background:var(--kls-black)}
+.kls-stepper button{font-size:13px;font-weight:500}
+.kls-stepper b{font-weight:500}
+.kls .kls-arrow{width:34px;height:34px;box-shadow:none;background:rgba(255,255,255,.85);font-size:18px}
+.kls-views{background:none;gap:18px;padding:0}
+.kls-views .kls-chip{padding:6px 0;border-radius:0;font-weight:400;color:var(--kls-grey);border-bottom:1.5px solid transparent}
+.kls-views .kls-chip[aria-pressed="true"]{background:none;box-shadow:none;color:var(--kls-black);border-bottom-color:var(--kls-black)}
+.kls-views .kls-dot{width:5px;height:5px}
+.kls-cats .kls-chip{border:0;background:none;color:var(--kls-grey);padding:4px 2px;margin-inline-end:10px;font-weight:400}
+.kls-cats .kls-chip.on{background:none;color:var(--kls-black);box-shadow:inset 0 -1.5px 0 var(--kls-black)}
+.kls-grid{gap:6px}
+.kls-tile{border:0;background:var(--kls-stage);border-radius:12px}
+.kls-tile[aria-pressed="true"]{box-shadow:inset 0 0 0 1.5px var(--kls-black)}
+.kls-art{color:var(--kls-black)}
+.kls-tile span{font-size:11px}
+.kls-link,.kls-link:hover{font-size:13px;font-weight:400;color:var(--kls-grey);text-decoration-color:currentColor;text-decoration-thickness:1px}
+.kls-note{color:#9A9893}
+.kls .kls-btn.primary{box-shadow:none}
+.kls .kls-btn{font-weight:500;letter-spacing:.02em}
+.kls-price b{font-weight:600}
+.kls-bar{border-top:1px solid var(--kls-edge)}
+.kls-qty button{box-shadow:none}
+.kls-rules{border-right:0;background:none;border:1px solid var(--kls-edge)}
+.kls-dims{font-weight:400;font-size:12px;letter-spacing:.04em}
+.kls h1.kls-title{font-weight:600;font-size:clamp(26px,3vw,36px);letter-spacing:-.01em}
+.kls-title em,.kls-sticker{display:none}
+.kls-hero{border-bottom:0}
+.kls-app{border-top:0}
+.kls-trust div{border-left:0}
+.kls-trust b{font-weight:500}
+
 /* Phone: like an app. The cap stays on screen (sticky), the choices are short rows that scroll sideways,
    and the price with the next button sits in a fixed bar. --kls-top = height of a sticky site header, if any. */
 @media (max-width:860px){
@@ -274,7 +324,7 @@
   .kls-rules{font-size:12.5px;padding:8px 10px}
   .kls-tiers th,.kls-tiers td{padding:7px 6px}
   .kls{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
-  .kls-bar{position:fixed;left:max(10px,env(safe-area-inset-left,0px));right:max(10px,env(safe-area-inset-right,0px));bottom:calc(10px + env(safe-area-inset-bottom,0px));margin:0;z-index:9990;padding:8px 18px 8px 8px;border:0;border-radius:24px;box-shadow:0 10px 30px rgba(23,23,23,.18),0 0 0 1px var(--kls-edge)}
+  .kls-bar{position:fixed;left:max(10px,env(safe-area-inset-left,0px));right:max(10px,env(safe-area-inset-right,0px));bottom:calc(10px + env(safe-area-inset-bottom,0px));margin:0;z-index:9990;padding:8px 18px 8px 8px;border:0;border-radius:24px;box-shadow:0 4px 18px rgba(23,23,23,.08),0 0 0 1px var(--kls-edge)}
   .kls-step h2{font-size:21px}
   .kls-grid{gap:8px}
   .kls-canvas{border-radius:18px}
