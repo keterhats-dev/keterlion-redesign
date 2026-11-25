@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       KL Studio – עיצוב אישי לכובעים
  * Description:       כלי העיצוב האישי של כתרליון (תחליף ל-Zakeke): גזרה וצבע, ספר הרקמות, טקסט או לוגו בכל צד של הכובע, כמות, וסל של WooCommerce. מציבים בעמוד עם הקוד הקצר [kl_studio].
- * Version:           0.1.7
+ * Version:           0.1.8
  * Author:            Keterlion
  * Requires at least: 6.2
  * Requires PHP:      7.4
@@ -12,7 +12,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'KLS_VERSION', '0.1.7' );
+define( 'KLS_VERSION', '0.1.8' );
 define( 'KLS_FILE', __FILE__ );
 define( 'KLS_DIR', plugin_dir_path( __FILE__ ) );
 define( 'KLS_URL', plugin_dir_url( __FILE__ ) );

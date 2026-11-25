@@ -406,7 +406,11 @@
     R.querySelectorAll('[data-side]').forEach(function (b) { b.onclick = function () { S.side = S.view = b.dataset.side; render(); }; });
     R.querySelectorAll('[data-type]').forEach(function (b) { b.onclick = function () { var it = ensure(S.side); it.type = b.dataset.type; if (it.type === 'gallery' && !it.id && GALLERY.length) it.id = GALLERY[0].id; render(); }; });
     R.querySelectorAll('[data-cat]').forEach(function (b) { b.onclick = function () { S.cat = b.dataset.cat; render(); }; });
-    R.querySelectorAll('[data-id]').forEach(function (b) { b.onclick = function () { keepGridScroll(function () { ensure(S.side).id = b.dataset.id; render(); }); }; });
+    R.querySelectorAll('[data-id]').forEach(function (b) { b.onclick = function () { keepGridScroll(function () {
+      var it = ensure(S.side), g = design(b.dataset.id); it.id = b.dataset.id;
+      if (g && g.dw) it.w = Math.min(limits(S.side).maxW, g.dw / 10); // start at the size the design was made for (as in Zakeke)
+      render();
+    }); }; });
     R.querySelectorAll('[data-thread]').forEach(function (b) { b.onclick = function () { keepGridScroll(function () { ensure(S.side).thread = b.dataset.thread; render(); }); }; });
     R.querySelectorAll('[data-font]').forEach(function (b) { b.onclick = function () { ensure(S.side).font = b.dataset.font; render(); }; });
     R.querySelectorAll('[data-view]').forEach(function (b) { b.onclick = function () { S.view = b.dataset.view; render(); }; });
@@ -696,7 +700,7 @@
     GALLERY = list.map(function (g) {
       var m = g.s.match(/viewBox="([^"]+)"/), vb = m ? m[1].trim().split(/[\s,]+/).map(Number) : [0, 0, 100, 100];
       var parts = g.n.split(/\s+-\s+/), heb = parts.find(function (x) { return /[֐-׿]/.test(x); });
-      return { id: String(g.id), n: g.n, c: g.c, m: g.m, s: g.s, vb: vb, short: (heb || parts[0]).replace(/\s*\d+(\.\d+)?\s*cm$/i, '').trim() };
+      return { id: String(g.id), n: g.n, c: g.c, m: g.m, s: g.s, vb: vb, dw: g.dw || 0, short: (heb || parts[0]).replace(/\s*\d+(\.\d+)?\s*cm$/i, '').trim() };
     });
     CATS = []; GALLERY.forEach(function (g) { if (CATS.indexOf(g.c) < 0) CATS.push(g.c); });
     SIDES.forEach(function (s) { var it = item(s); if (it && it.type === 'gallery' && it.id && !design(it.id)) delete S.items[s]; });
