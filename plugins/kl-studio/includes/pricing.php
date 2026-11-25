@@ -58,8 +58,12 @@ function kls_clean_design( $raw ) {
 			if ( $len > (int) $s['text_max'] ) {
 				return new WP_Error( 'kls', sprintf( 'הטקסט ארוך מ-%d תווים.', (int) $s['text_max'] ) );
 			}
-			if ( ! kls_find( kls_fonts(), 'id', $it['font'] ?? '' ) || ! kls_find( kls_threads(), 'code', $thr ) ) {
+			$fnt = kls_find( kls_fonts(), 'id', $it['font'] ?? '' );
+			if ( ! $fnt || ! kls_find( kls_threads(), 'code', $thr ) ) {
 				return new WP_Error( 'kls', 'הגופן או צבע החוט לא תקינים.' );
+			}
+			if ( empty( $fnt['he'] ) && preg_match( '/\p{Hebrew}/u', $text ) ) {
+				return new WP_Error( 'kls', sprintf( 'בגופן %s אין אותיות בעברית. בחרו גופן אחר.', $fnt['name'] ) );
 			}
 			$items[ $side ] = array(
 				'type'   => 'text',
@@ -157,7 +161,7 @@ function kls_describe_design( $side_item ) {
 			return 'ספר הרקמות: ' . ( $g ? kls_design_name( $g ) : $side_item['id'] ) . ( $t ? ', חוט ' . $t['name'] . ' ' . $t['code'] : ', בצבעים שלו' ) . ', רוחב ' . $side_item['w'] . ' ס״מ';
 		case 'text':
 			$f = kls_find( kls_fonts(), 'id', $side_item['font'] );
-			return 'טקסט: "' . $side_item['text'] . '", גופן ' . ( $f ? $f['name'] : $side_item['font'] ) . ', חוט ' . ( $t ? $t['name'] . ' ' . $t['code'] : '' ) . ', אות ' . $side_item['h'] . ' ס״מ';
+			return 'טקסט: "' . $side_item['text'] . '", גופן ' . ( $f ? $f['name'] . ' (ב-Hatch: ' . $f['hatch'] . ')' : $side_item['font'] ) . ', חוט ' . ( $t ? $t['name'] . ' ' . $t['code'] : '' ) . ', אות ' . $side_item['h'] . ' ס״מ';
 		case 'logo':
 			return 'הלוגו של הלקוח, רוחב עד ' . $side_item['w'] . ' ס״מ (צריך סקיצה לאישור)';
 	}

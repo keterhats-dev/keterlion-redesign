@@ -97,7 +97,7 @@ function kls_front_config() {
 		'shapes'     => $shapes,
 		'variants'   => array_values( kls_variants() ),
 		'threads'    => kls_threads(),
-		'fonts'      => array_map( function ( $f ) { unset( $f['g'] ); return $f; }, kls_fonts() ),
+		'fonts'      => array_map( function ( $f ) { unset( $f['g'], $f['hatch'] ); return $f; }, kls_fonts() ),
 		'prices'     => array(
 			'type'   => array_map( 'floatval', $s['type_price'] ),
 			'extra'  => (float) $s['extra'],

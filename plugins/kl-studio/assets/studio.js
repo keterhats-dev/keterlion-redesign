@@ -53,6 +53,9 @@
   function limits(side) { var sd = shape().sides[side]; return { maxW: sd.maxW, maxH: sd.maxH }; }
   function thread(code) { return THREAD.find(function (t) { return t.code === code; }) || THREAD[0]; }
   function font(id) { return FONTS.find(function (f) { return f.id === id; }) || FONTS[0]; }
+  function hasHeb(t) { return /[֐-׿]/.test(t || ''); }
+  // text with Hebrew letters: only fonts that have Hebrew. English or empty: all fonts
+  function fontsFor(t) { return hasHeb(t) ? FONTS.filter(function (f) { return f.he !== false; }) : FONTS; }
   function design(id) { return GALLERY.find(function (g) { return g.id === id; }); }
   function item(side) { return S.items[side]; }
   function filled(it) {
@@ -284,7 +287,10 @@
     if (it.type === 'text') {
       h += '<div class="kls-label">הטקסט <span>עד ' + C.text.max + ' תווים</span></div><input class="kls-field" id="kls-txt" maxlength="' + C.text.max + '" placeholder="למשל: אחי, יעל 2026" value="' + esc(it.text || '') + '" autocomplete="off"><div class="kls-count" id="kls-txtcount">' + (it.text || '').length + '/' + C.text.max + '</div>';
       h += '<div class="kls-label">גופן</div><div class="kls-fonts">';
-      FONTS.forEach(function (f) { h += '<button type="button" class="kls-card kls-font" data-font="' + f.id + '" aria-pressed="' + (it.font === f.id) + '" style="font-family:' + esc(f.css) + ';font-weight:' + f.w + '"><b>' + esc((it.text || '').trim().slice(0, 4) || 'אבג') + '</b><small>' + esc(f.name) + '</small></button>'; });
+      var fl = fontsFor(it.text);
+      if (!fl.some(function (f) { return f.id === it.font; })) it.font = fl[0].id;
+      var sample = (it.text || '').trim().slice(0, 4) || (hasHeb(it.text) ? 'אבג' : 'Abc');
+      fl.forEach(function (f) { h += '<button type="button" class="kls-card kls-font" data-font="' + f.id + '" aria-pressed="' + (it.font === f.id) + '" style="font-family:' + esc(f.css) + ';font-weight:' + f.w + '"><b>' + esc(sample) + '</b><small>' + esc(f.name) + '</small></button>'; });
       h += '</div>' + threadPicker(it) + sizeRange(it, 'h', 'גובה אות', C.text.minLetter, Math.min(4, L.maxH), 0.1);
       h += '<div id="kls-txtwarn">' + textWarnHTML(side, it) + '</div>';
     }
@@ -368,8 +374,12 @@
     R.querySelectorAll('[data-view]').forEach(function (b) { b.onclick = function () { S.view = b.dataset.view; render(); }; });
     var sz = $('kls-size'); if (sz) sz.oninput = function () { var it = ensure(S.side); it[sz.dataset.key] = parseFloat(sz.value); $('kls-sizeout').textContent = parseFloat(sz.value).toFixed(1) + ' ס״מ'; refreshLive(); var w = $('kls-txtwarn'); if (w) w.innerHTML = textWarnHTML(S.side, it); };
     var tx = $('kls-txt'); if (tx) tx.oninput = function () {
-      var it = ensure(S.side); it.text = tx.value; $('kls-txtcount').textContent = tx.value.length + '/' + C.text.max;
-      R.querySelectorAll('.kls-font b').forEach(function (b) { b.textContent = tx.value.trim().slice(0, 4) || 'אבג'; });
+      var it = ensure(S.side), was = hasHeb(it.text); it.text = tx.value;
+      if (hasHeb(it.text) !== was) { // Hebrew ↔ English: show the fonts for that language, keep typing
+        var pos = tx.selectionStart; render(); var t2 = $('kls-txt'); if (t2) { t2.focus(); t2.setSelectionRange(pos, pos); } return;
+      }
+      $('kls-txtcount').textContent = tx.value.length + '/' + C.text.max;
+      R.querySelectorAll('.kls-font b').forEach(function (b) { b.textContent = tx.value.trim().slice(0, 4) || (hasHeb(tx.value) ? 'אבג' : 'Abc'); });
       refreshLive(); $('kls-txtwarn').innerHTML = textWarnHTML(S.side, it);
     };
     var sp = $('kls-surprise'); if (sp) sp.onclick = surprise;

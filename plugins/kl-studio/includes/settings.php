@@ -70,14 +70,25 @@ function kls_threads() {
 	);
 }
 
-/** Fonts for text. css = the web font for the preview; the embroidery itself uses the matching font in the digitising software. */
+/**
+ * Fonts for text (25.11.2026, the owner: basic fonts that convert easily in Hatch, e.g. Arial, Aharoni, FrankRuehl).
+ * hatch = the Windows font the embroiderer picks in Hatch (it converts any installed TrueType font).
+ * css   = a free web font that is a clone or revival of it, so every customer sees it the same on any device.
+ * he    = has Hebrew letters. Text with Hebrew is offered only fonts with he = true.
+ */
 function kls_fonts() {
 	return array(
-		array( 'id' => 'block', 'name' => 'בלוק', 'css' => "'Heebo',sans-serif", 'w' => 900, 'g' => 'Heebo:wght@900' ),
-		array( 'id' => 'street', 'name' => 'רחוב', 'css' => "'Karantina',sans-serif", 'w' => 700, 'g' => 'Karantina:wght@700' ),
-		array( 'id' => 'classic', 'name' => 'קלאסי', 'css' => "'Frank Ruhl Libre',serif", 'w' => 900, 'g' => 'Frank+Ruhl+Libre:wght@900' ),
-		array( 'id' => 'round', 'name' => 'עגול', 'css' => "'Secular One',sans-serif", 'w' => 400, 'g' => 'Secular+One' ),
-		array( 'id' => 'hand', 'name' => 'כתב יד', 'css' => "'Amatic SC',sans-serif", 'w' => 700, 'g' => 'Amatic+SC:wght@700' ),
+		array( 'id' => 'arial', 'name' => 'אריאל', 'hatch' => 'Arial', 'css' => "'Arimo',Arial,sans-serif", 'w' => 700, 'g' => 'Arimo:wght@700', 'he' => true ),
+		array( 'id' => 'aharoni', 'name' => 'אהרוני', 'hatch' => 'Aharoni', 'css' => "'Heebo',sans-serif", 'w' => 800, 'g' => 'Heebo:wght@800', 'he' => true ),
+		array( 'id' => 'frank', 'name' => 'פרנק־רוהל', 'hatch' => 'FrankRuehl', 'css' => "'Frank Ruhl Libre',serif", 'w' => 700, 'g' => 'Frank+Ruhl+Libre:wght@700', 'he' => true ),
+		array( 'id' => 'david', 'name' => 'דוד', 'hatch' => 'David', 'css' => "'David Libre',serif", 'w' => 700, 'g' => 'David+Libre:wght@700', 'he' => true ),
+		array( 'id' => 'miriam', 'name' => 'מרים', 'hatch' => 'Miriam', 'css' => "'Miriam Libre',sans-serif", 'w' => 700, 'g' => 'Miriam+Libre:wght@700', 'he' => true ),
+		// Block 2 is one of Hatch's own embroidery fonts (not a Windows font): the preview uses a similar bold block face.
+		array( 'id' => 'block2', 'name' => 'Block 2', 'hatch' => 'Block 2', 'css' => "'Archivo',sans-serif", 'w' => 800, 'g' => 'Archivo:wght@800', 'he' => false ),
+		array( 'id' => 'times', 'name' => 'Times', 'hatch' => 'Times New Roman', 'css' => "'Tinos','Times New Roman',serif", 'w' => 700, 'g' => 'Tinos:wght@700', 'he' => true ),
+		array( 'id' => 'courier', 'name' => 'Courier', 'hatch' => 'Courier New', 'css' => "'Cousine','Courier New',monospace", 'w' => 700, 'g' => 'Cousine:wght@700', 'he' => true ),
+		array( 'id' => 'impact', 'name' => 'Impact', 'hatch' => 'Impact', 'css' => "'Anton',Impact,sans-serif", 'w' => 400, 'g' => 'Anton', 'he' => false ),
+		array( 'id' => 'rockwell', 'name' => 'Rockwell', 'hatch' => 'Rockwell', 'css' => "'Arvo',Rockwell,serif", 'w' => 700, 'g' => 'Arvo:wght@700', 'he' => false ),
 	);
 }
 

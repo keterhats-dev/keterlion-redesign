@@ -24,9 +24,11 @@ add_action( 'wp_enqueue_scripts', function () {
 function kls_enqueue() {
 	$families = array();
 	foreach ( kls_fonts() as $f ) {
-		$families[] = 'family=' . $f['g'];
+		if ( 0 !== strpos( $f['g'], 'Heebo' ) ) { // Heebo is loaded once below, with all weights
+			$families[] = 'family=' . $f['g'];
+		}
 	}
-	$families[] = 'family=Heebo:wght@400;500;700;900';
+	$families[] = 'family=Heebo:wght@400;500;600;700;800;900';
 	$families[] = 'family=Suez+One';
 	wp_enqueue_style( 'kls-fonts', 'https://fonts.googleapis.com/css2?' . implode( '&', array_unique( $families ) ) . '&display=swap', array(), null );
 	wp_enqueue_style( 'kls-studio', KLS_URL . 'assets/studio.css', array(), KLS_VERSION );

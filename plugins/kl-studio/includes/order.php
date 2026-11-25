@@ -96,7 +96,7 @@ function kls_production_svg( $side, $it, $area ) {
 		$fs = (float) $it['h'] * 10 / 0.72;
 		$h  = max( $fs * 1.3, 10 );
 		return $head . '<svg xmlns="http://www.w3.org/2000/svg" width="' . $maxW . 'mm" height="' . round( $h, 2 ) . 'mm" viewBox="0 0 ' . $maxW . ' ' . round( $h, 2 ) . '">'
-			. '<text x="' . ( $maxW / 2 ) . '" y="' . round( $h / 2, 2 ) . '" text-anchor="middle" dominant-baseline="central" direction="rtl" font-family="' . esc_attr( $f ? $f['css'] : 'Heebo' ) . '" font-weight="' . ( $f ? (int) $f['w'] : 900 ) . '" font-size="' . round( $fs, 2 ) . '" fill="' . esc_attr( $col ) . '">' . esc_html( $it['text'] ) . '</text></svg>';
+			. '<text x="' . ( $maxW / 2 ) . '" y="' . round( $h / 2, 2 ) . '" text-anchor="middle" dominant-baseline="central" direction="rtl" font-family="' . esc_attr( $f ? "'" . $f['hatch'] . "'," . $f['css'] : 'Arial' ) . '" font-weight="' . ( $f ? (int) $f['w'] : 900 ) . '" font-size="' . round( $fs, 2 ) . '" fill="' . esc_attr( $col ) . '">' . esc_html( $it['text'] ) . '</text></svg>';
 	}
 	if ( 'logo' === $it['type'] && ! empty( $it['file'] ) && file_exists( $it['file'] ) ) {
 		$info = getimagesize( $it['file'] );
