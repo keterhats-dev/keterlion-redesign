@@ -361,7 +361,8 @@ html.kls-m-lock,html.kls-m-lock body{overflow:hidden!important;overscroll-behavi
 #kl-studio .kls-tb-prog i.on{background:var(--kls-black)}
 #kl-studio.kls.kls-m .kls-app{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:0;padding:0;border:0}
 #kl-studio.kls.kls-m .kls-stage{position:static;flex:1 1 auto;min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 12px 4px;border:0;background:var(--kls-white)}
-#kl-studio.kls.kls-m .kls-canvas{flex:1 1 auto;min-height:0;height:auto;width:auto;max-width:100%;aspect-ratio:1/1;border-radius:18px}
+#kl-studio.kls.kls-m .kls-canvas{flex:none;margin:0 auto;aspect-ratio:auto;max-width:none;border-radius:18px} /* size set by fitCap(): the biggest centred square */
+#kl-studio.kls.kls-m .kls-stage{overflow:hidden;align-self:stretch;width:100%} /* the desktop rule align-self:start pushed it to one side */
 #kl-studio.kls.kls-m .kls-views{margin:6px auto 0;flex:none}
 #kl-studio.kls.kls-m .kls-panel{flex:0 0 50%;display:flex;flex-direction:column;padding:0;min-height:0;border-top:1px solid var(--kls-edge)} /* fixed height: the cap never jumps between steps */
 #kl-studio.kls.kls-m .kls-label:not(.kls-color-label){display:none} /* the choices speak for themselves on a phone */
@@ -395,6 +396,36 @@ html.kls-m-lock,html.kls-m-lock body{overflow:hidden!important;overscroll-behavi
 /* while typing: only the field and the fonts; the cap stays above the keyboard */
 #kl-studio.kls.kls-m.kls-typing .kls-types,#kl-studio.kls.kls-m.kls-typing .kls-row,#kl-studio.kls.kls-m.kls-typing .kls-threads,#kl-studio.kls.kls-m.kls-typing .kls-sizer,#kl-studio.kls.kls-m.kls-typing .kls-label,#kl-studio.kls.kls-m.kls-typing .kls-views,#kl-studio.kls.kls-m.kls-typing #kls-txtwarn{display:none}
 #kl-studio.kls.kls-m.kls-typing .kls-panel{flex-basis:auto}
+/* small phones (short screens): a little denser so each step still fits without scrolling */
+@media (max-height:780px){
+  #kl-studio.kls.kls-m #kls-step{padding-top:8px}
+  #kl-studio.kls.kls-m .kls-type{padding:7px 4px}
+  #kl-studio.kls.kls-m .kls-font{flex-basis:64px;padding:4px 2px}
+  #kl-studio.kls.kls-m .kls-font b{font-size:17px}
+  #kl-studio.kls.kls-m .kls-tile{flex-basis:66px}
+  #kl-studio.kls.kls-m .kls-art,#kl-studio.kls.kls-m .kls-art svg{height:34px}
+  #kl-studio.kls.kls-m .kls-sizer{margin-top:6px}
+  #kl-studio.kls.kls-m .kls-sizer button{width:34px;height:34px}
+  #kl-studio.kls.kls-m .kls-th{width:26px;height:26px}
+  #kl-studio.kls.kls-m input.kls-field{padding:9px 12px}
+  #kl-studio.kls.kls-m .kls-swatches{gap:5px}
+  #kl-studio.kls.kls-m .kls-label{margin:4px 0}
+  #kl-studio.kls.kls-m .kls-seg button{padding:6px 8px}
+  #kl-studio.kls.kls-m .kls-seg button small{display:none}
+  #kl-studio.kls.kls-m .kls-swatches{gap:4px}
+  #kl-studio.kls.kls-m .kls-b2b{display:none}
+  #kl-studio.kls.kls-m .kls-minis{display:none} /* the cap above already shows the design */
+}
+/* back button next to the main one (phone), the progress bar is tappable, "edit" in the summary */
+#kl-studio.kls.kls-m .kls-btn.back{display:inline-flex;min-height:52px;padding:12px 14px;border-color:var(--kls-edge);font-weight:500}
+#kl-studio.kls.kls-m .kls-btn.back::before{content:"→";margin-inline-end:6px}
+#kl-studio.kls.kls-m .kls-btns{flex-wrap:nowrap}
+#kl-studio.kls.kls-m .kls-price b{font-size:19px}
+#kl-studio .kls-tb-prog button{width:22px;height:14px;border:0;padding:0;background:none;position:relative;cursor:pointer}
+#kl-studio .kls-tb-prog button::after{content:"";position:absolute;left:0;right:0;top:5px;height:3px;border-radius:3px;background:var(--kls-edge)}
+#kl-studio .kls-tb-prog button.on::after{background:var(--kls-black)}
+#kl-studio .kls-edit{font-size:12px;margin-inline-start:6px}
+#kl-studio.kls.kls-m .kls-canvas{cursor:pointer}
 /* quantity and summary: compact enough for the fixed panel */
 #kl-studio.kls.kls-m .kls-tiers thead,#kl-studio.kls.kls-m .kls-step .kls-note:not(.kls-nudge){display:none}
 #kl-studio.kls.kls-m .kls-tiers{margin-top:8px}

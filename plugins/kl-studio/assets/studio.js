@@ -238,8 +238,11 @@
     $('kls-next').disabled = (S.step === 1 && !active().length) || (S.step === 3 && !canBuy()) || busy;
     // top bar (phone)
     $('kls-tb-title').textContent = (S.step + 1) + ' מתוך 4 · ' + STEP_TITLES[S.step];
-    $('kls-tb-prog').innerHTML = STEPS.map(function (x, i) { return '<i class="' + (i <= S.step ? 'on' : '') + '"></i>'; }).join('');
+    // the progress bar doubles as navigation: tap a step to jump there
+    $('kls-tb-prog').innerHTML = STEPS.map(function (x, i) { return '<button type="button" data-go="' + i + '" class="' + (i <= S.step ? 'on' : '') + '" aria-label="' + (i + 1) + '. ' + STEP_TITLES[i] + '"></button>'; }).join('');
+    $('kls-tb-prog').querySelectorAll('[data-go]').forEach(function (b) { b.onclick = function () { var i = +b.dataset.go; if (i <= 1 || active().length) go(i); }; });
     $('kls-tb-back').style.visibility = S.step === 0 ? 'hidden' : 'visible';
+    $('kls-back').style.visibility = S.step === 0 ? 'hidden' : '';
   }
   function mixed(it) { return it && it.type === 'text' && hasHeb(it.text) && hasLat(it.text); }
   function canBuy() { var l = active(); return l.length > 0 && l.every(function (s) { return (item(s).type !== 'logo' || item(s).ok) && !mixed(item(s)); }) && variant().stock; }
@@ -358,7 +361,7 @@
     SIDES.forEach(function (s) { h += '<button type="button" class="kls-mini" data-view="' + s + '">' + sideSVG(s, false, 'm' + s) + '<span>' + esc(LABEL[s]) + (filled(item(s)) ? ' ●' : '') + '</span></button>'; });
     h += '</div><div class="kls-lines"><div class="kls-line"><span>' + esc(shape().name) + ', ' + esc(variant().name) + '</span><span>' + money(variant().price) + '</span></div>';
     if (!list.length) h += '<div class="kls-line"><span class="kls-warn">עוד לא בחרתם עיצוב</span><span></span></div>';
-    list.forEach(function (s, i) { h += '<div class="kls-line"><span>' + esc(LABEL[s]) + ': ' + esc(describe(s)) + '</span><span>' + linePrice(s, i) + '</span></div>'; });
+    list.forEach(function (s, i) { h += '<div class="kls-line"><span>' + esc(LABEL[s]) + ': ' + esc(describe(s)) + ' <button type="button" class="kls-link kls-edit" data-edit="' + s + '">עריכה</button></span><span>' + linePrice(s, i) + '</span></div>'; });
     h += '<div class="kls-line"><span>מחיר לכובע</span><span>' + money(perCap()) + '</span></div><div class="kls-line"><span>כמות</span><span>× ' + S.qty + '</span></div>';
     h += '<div class="kls-line total"><span>סה״כ</span><span>' + money(perCap() * S.qty) + '</span></div></div>';
     var need = list.filter(function (s) { return item(s).type === 'logo' && !item(s).ok; });
@@ -379,7 +382,7 @@
   function render() {
     renderStage(); renderStepper();
     $('kls-step').innerHTML = [stepHat, stepDesign, stepQty, stepSum][S.step]();
-    bind(); renderBar(); save();
+    bind(); renderBar(); save(); fitCap();
   }
   function refreshLive() { renderStage(); renderStepper(); renderBar(); save(); }
   function go(i) {
@@ -417,6 +420,7 @@
       };
     });
     var ls = $('kls-logo-start'); if (ls) ls.onclick = openRules;
+    R.querySelectorAll('[data-edit]').forEach(function (b) { b.onclick = function () { S.side = S.view = b.dataset.edit; go(1); }; });
     var tx = $('kls-txt'); if (tx) tx.oninput = function () {
       var it = ensure(S.side), lang = function (t) { return (hasHeb(t) ? 'h' : '') + (hasLat(t) ? 'l' : ''); }, was = lang(it.text); it.text = tx.value;
       if (lang(it.text) !== was) { // Hebrew ↔ English: show the fonts for that language, keep typing
@@ -547,6 +551,11 @@
   $('kls-next').onclick = function () { if (S.step < 3) go(S.step + 1); else addToCart(); };
   $('kls-back').onclick = function () { if (S.step > 0) go(S.step - 1); };
   $('kls-tb-back').onclick = function () { if (S.step > 0) go(S.step - 1); };
+  // in the quantity and summary steps, a tap on the cap goes back to editing the side on show
+  $('kls-canvas').addEventListener('click', function (e) {
+    if (S.step < 2 || (e.target.closest && e.target.closest('.kls-arrow'))) return;
+    S.side = S.view; go(1);
+  });
 
   /* ---------- phone "app mode": the tool fills the screen, nothing scrolls the page ---------- */
   var mq = window.matchMedia ? window.matchMedia('(max-width: 860px)') : { matches: false };
@@ -560,8 +569,18 @@
     var m = !!mq.matches;
     root.classList.toggle('kls-m', m);
     document.documentElement.classList.toggle('kls-m-lock', m);
-    fitViewport(); renderStage();
+    fitViewport(); renderStage(); fitCap();
   }
+  // phone: the cap is the biggest square that fits the free space, exactly in the middle
+  function fitCap() {
+    var cv = $('kls-canvas'), st = root.querySelector('.kls-stage');
+    if (!root.classList.contains('kls-m')) { cv.style.width = cv.style.height = ''; return; }
+    var views = $('kls-views'), vh = views ? views.offsetHeight + 8 : 0;
+    var s = Math.floor(Math.min(st.clientWidth - 24, st.clientHeight - vh - 10));
+    if (s > 0) { cv.style.width = s + 'px'; cv.style.height = s + 'px'; }
+  }
+  window.addEventListener('resize', function () { requestAnimationFrame(function () { fitViewport(); fitCap(); }); }); // also on rotating the phone
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', function () { requestAnimationFrame(fitCap); });
   if (mq.addEventListener) mq.addEventListener('change', setMode); else if (mq.addListener) mq.addListener(setMode);
   if (window.visualViewport) { window.visualViewport.addEventListener('resize', fitViewport); window.visualViewport.addEventListener('scroll', fitViewport); }
   // while typing, the panel keeps only the field and the fonts, so the cap stays visible above the keyboard
