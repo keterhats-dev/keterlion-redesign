@@ -68,6 +68,18 @@ button,input{font:inherit;color:inherit}
 .note{font-size:12px;color:var(--grey);text-align:center;margin-top:6px}
 .devnote{position:fixed;top:0;left:0;right:0;background:var(--black);color:var(--gold);font-size:11px;text-align:center;padding:3px;z-index:5}
 .loading{position:fixed;inset:0;display:grid;place-items:center;color:var(--grey);font-size:15px;background:var(--white);z-index:9}
+/* the fixed cap with the sliding strip of designs on it */
+[hidden]{display:none!important}
+.fixed{position:relative;margin:0 auto;width:var(--fw);height:var(--fw);background:var(--stage);border-radius:22px;overflow:hidden}
+.fixedcap,.fixedcap svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.fixedcap svg>image{mix-blend-mode:multiply}
+.otrack{position:absolute;inset:0;display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;direction:ltr;-webkit-overflow-scrolling:touch}
+.otrack::-webkit-scrollbar{display:none}
+.oitem{flex:0 0 var(--ow);height:100%;scroll-snap-align:start;transition:opacity .1s linear,transform .1s linear}
+.oitem svg{width:100%;height:100%;display:block;overflow:visible}
+.ospace{flex:none;height:100%}
+.sidetag{position:absolute;top:10px;left:50%;transform:translateX(-50%);background:var(--white);font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;z-index:2;pointer-events:none}
+.done{color:var(--gold)}
 @media (min-width:700px){.app{max-width:480px;margin:0 auto;border-inline:1px solid var(--edge)}}
 @media (prefers-reduced-motion:reduce){.hintswipe{animation:none}}
 </style>
@@ -82,12 +94,15 @@ button,input{font:inherit;color:inherit}
   <div class="q"><h1 id="qtitle"></h1><p id="qsub"></p></div>
   <div class="wheelwrap" id="wheelwrap">
     <div class="track" id="track"></div>
+    <!-- design stage: the cap stays put, only the designs slide across it -->
+    <div class="fixed" id="fixed" hidden><div class="fixedcap" id="fixedcap"></div><div class="otrack" id="otrack"></div></div>
     <div class="hintswipe" id="hintswipe">‹ מחליקים לצדדים ›</div>
   </div>
   <div class="label"><b id="lname"></b><span id="lcount"></span><div class="dots" id="dots"></div></div>
   <div class="extra" id="extra"></div>
   <div class="bar">
     <div class="price"><b id="price"></b><small id="psub"></small></div>
+    <button class="ghost" id="go2" hidden></button>
     <button class="go" id="go">בחרתי ←</button>
   </div>
 </div>
@@ -95,202 +110,290 @@ button,input{font:inherit;color:inherit}
 <script>
 (function () {
   'use strict';
-  var IMG = 1024, SW;
+  var IMG = 1024, SW, FW;
   var THREADS = [['2149','לבן','#F6F6F2'],['2150','שחור','#141414'],['2275','בז׳','#D9C49A'],['2296','כסף כהה','#8E9196'],['2290','חום בהיר','#A57A4E'],['2135','חום','#5A3A22'],['2050','כתום','#EE7A1E'],['2005','צהוב ניאון','#DDEB1C'],['2182','אדום בהיר','#D8343A'],['2166','ורוד','#EE86B2'],['2084','סגול','#6A3C99'],['2085','שזיף','#6E2A5A'],['2069','כחול רויאל','#1F4FB5'],['2066','כחול בהיר','#3E7BD8'],['2073','נייבי','#1E2848'],['2242','ירוק','#1E7A3C'],['2250','ירוק עלה','#6BAE3A']].map(function (t) { return { code: t[0], name: t[1], hex: t[2] }; });
   var FONTS = [['אריאל',"'Arimo',sans-serif",700,1,0],['אהרוני',"'Heebo',sans-serif",800,1,0],['פרנק',"'Frank Ruhl Libre',serif",700,1,0],['דוד',"'David Libre',serif",700,1,0],['נרקיס',"'Assistant',sans-serif",700,1,0],['טאהומה',"'Noto Sans Hebrew',sans-serif",700,1,0],['הצבי',"'Suez One',serif",400,1,0],['שרון',"'Secular One',sans-serif",400,1,0],['מנואל',"'Rubik',sans-serif",700,1,0],['מנטובה',"'Bellefair',serif",400,1,0],['סת״ם',"'Frank Ruhl Libre',serif",900,1,0],['כתב יד',"'Playpen Sans Hebrew',cursive",700,1,0],['Block 2',"'Archivo',sans-serif",800,0,1],['Arial',"'Arimo',sans-serif",700,0,1],['Times',"'Tinos',serif",700,0,1],['Impact',"'Anton',sans-serif",400,0,1],['Rockwell',"'Arvo',serif",700,0,1]]
     .map(function (f) { return { name: f[0], css: f[1], w: f[2], he: !!f[3], en: !!f[4] }; });
-  var PRICE = { dad: 100, baseball: 109 }, ADD = { gallery: 50, text: 79, logo: 129 };
+  var SIDES = ['front', 'right', 'back', 'left'], SIDE_NAME = { front: 'חזית', right: 'צד ימין', back: 'מאחור', left: 'צד שמאל' };
+  var PRICE = { dad: 100, baseball: 109 }, ADD = { gallery: 50, text: 79, logo: 129 }, EXTRA = 35;
   var M, VAR = [], GAL = [], CATS = [];
-  var S = { stage: 0, shape: 'dad', variant: null, type: null, design: null, cat: 'הכול', thread: '2149', text: '', font: 0 };
+  var S = { stage: 0, shape: 'dad', variant: null, side: 'front', items: {}, draft: null, cat: 'הכול', thread: null };
   var $ = function (id) { return document.getElementById(id); };
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function light(hex) { var n = parseInt(hex.slice(1), 16); return ((n >> 16) * 299 + (n >> 8 & 255) * 587 + (n & 255) * 114) / 1000 > 150; }
   function vById(id) { return VAR.find(function (v) { return v.id === id; }); }
+  function cur() { return vById(S.variant); }
   function variants() { return VAR.filter(function (v) { return v.shape === S.shape; }); }
-  function thread() { return THREADS.find(function (t) { return t.code === S.thread; }) || THREADS[0]; }
+  function thr(code) { return THREADS.find(function (t) { return t.code === code; }) || THREADS[0]; }
   function hasHeb(t) { return /[֐-׿]/.test(t || ''); }
   function hasLat(t) { return /[A-Za-z]/.test(t || ''); }
-  function fonts() { return hasHeb(S.text) ? FONTS.filter(function (f) { return f.he; }) : hasLat(S.text) ? FONTS.filter(function (f) { return f.en; }) : FONTS; }
+  function fontsFor(t) { return hasHeb(t) ? FONTS.filter(function (f) { return f.he; }) : hasLat(t) ? FONTS.filter(function (f) { return f.en; }) : FONTS; }
+  function done() { return SIDES.filter(function (s) { return S.items[s]; }); }
 
-  /* ---------- drawing one cap (front photo + optional embroidery) ---------- */
+  /* ---------- geometry of a side (from cap-model.json, the same data as the plugin) ---------- */
+  function geo(v, side) {
+    var sh = M.shapes[v.shape].sides[side], c = side === 'front' ? v.front : [sh.cx, sh.cy];
+    return { cx: IMG / 2 + c[0], cy: IMG / 2 + c[1], k: (v.ppcm && v.ppcm[side]) || sh.ppcm, vb: (v.vb && v.vb[side]) || sh.vb || [112, 112, 800, 800], maxW: sh.maxW, maxH: sh.maxH };
+  }
   var measure = document.createElement('canvas').getContext('2d');
-  function capSVG(v, deco) {
-    var vb = (v.vb && v.vb.front) || [112, 112, 800, 800];
-    var s = '<svg viewBox="' + vb.join(' ') + '" aria-hidden="true"><image href="' + v.img + '" width="' + IMG + '" height="' + IMG + '"/>';
-    if (deco) {
-      var k = (v.ppcm && v.ppcm.front) || 30, cx = IMG / 2 + v.front[0], cy = IMG / 2 + v.front[1], maxW = 14 * k, maxH = 6 * k;
-      var col = deco.thread ? deco.thread.hex : (light(v.hex) ? '#141414' : '#F6F6F2');
-      if (deco.design) {
-        var g = deco.design, w = Math.min(maxW, (g.dw ? g.dw / 10 : 6) * k * 1.4), h = w * g.vb[3] / g.vb[2];
-        if (h > maxH) { h = maxH; w = h * g.vb[2] / g.vb[3]; }
-        s += '<g style="color:' + col + '" filter="drop-shadow(0 1px 1px rgba(0,0,0,.35))">' + g.s.replace('<svg', '<svg x="' + (cx - w / 2) + '" y="' + (cy - h / 2) + '" width="' + w + '" height="' + h + '"') + '</g>';
-      }
-      if (deco.text) {
-        var f = deco.font, fs = 1.8 * k / 0.72;
-        measure.font = f.w + ' ' + fs + 'px ' + f.css; var tw = measure.measureText(deco.text).width;
-        if (tw > maxW) fs = fs * maxW / tw;
-        s += '<text x="' + cx + '" y="' + cy + '" text-anchor="middle" dominant-baseline="central" direction="rtl" font-family="' + esc(f.css) + '" font-weight="' + f.w + '" font-size="' + fs.toFixed(1) + '" fill="' + col + '" style="filter:drop-shadow(0 1px 1px rgba(0,0,0,.35))">' + esc(deco.text) + '</text>';
-      }
+  // one embroidery, drawn in the photo's coordinates (1024px)
+  function decoSVG(it, G) {
+    if (!it) return '';
+    var col = thr(it.thread).hex, aw = G.maxW * G.k, ah = G.maxH * G.k, sh = 'filter:drop-shadow(0 1px 1.2px rgba(0,0,0,.38))';
+    if (it.type === 'gallery') {
+      var g = GAL.find(function (x) { return x.id === it.id; }); if (!g) return '';
+      var w = Math.min(aw, (g.dw ? g.dw / 10 * 1.3 : G.maxW * 0.6) * G.k), h = w * g.vb[3] / g.vb[2];
+      if (h > ah) { h = ah; w = h * g.vb[2] / g.vb[3]; }
+      return '<g style="color:' + (g.m ? col : 'inherit') + ';' + sh + '">' + g.s.replace('<svg', '<svg x="' + (G.cx - w / 2) + '" y="' + (G.cy - h / 2) + '" width="' + w + '" height="' + h + '"') + '</g>';
     }
-    return s + '</svg>';
+    if (it.type === 'text') {
+      var f = FONTS[it.font] || FONTS[0], txt = it.text || (f.he ? 'כתרליון' : 'Keterlion'), fs = Math.min(ah * 0.7, 1.8 * G.k) / 0.72;
+      measure.font = f.w + ' ' + fs + 'px ' + f.css; var tw = measure.measureText(txt).width;
+      if (tw > aw * 0.92) fs = fs * aw * 0.92 / tw;
+      return '<text x="' + G.cx + '" y="' + G.cy + '" text-anchor="middle" dominant-baseline="central" direction="rtl" font-family="' + esc(f.css) + '" font-weight="' + f.w + '" font-size="' + fs.toFixed(1) + '" fill="' + col + '" style="' + sh + '">' + esc(txt) + '</text>';
+    }
+    return '';
+  }
+  function capSVG(v, side, withDeco, extra) {
+    var G = geo(v, side), src = v.imgs[side] || v.imgs.front;
+    return '<svg viewBox="' + G.vb.join(' ') + '" aria-hidden="true"><image href="' + src + '" width="' + IMG + '" height="' + IMG + '"/>' + (extra || '') + (withDeco ? decoSVG(S.items[side], G) : '') + '</svg>';
+  }
+  function loadSides(v) { // the side photos of the chosen cap, once
+    return Promise.all(SIDES.map(function (s) {
+      if (v.imgs[s]) return null;
+      return fetch(BASE_CAPS + v.id + '-' + s + '.jpg').then(function (r) { return r.blob(); }).then(function (b) { v.imgs[s] = URL.createObjectURL(b); });
+    }));
   }
 
-  /* ---------- the wheel ---------- */
+  /* ---------- wheel of whole caps (shape, colour, sides, summary) ---------- */
   var items = [], idx = 0, renderItem = null, track = $('track');
+  function showWheel() { $('track').hidden = false; $('fixed').hidden = true; }
   function buildWheel(list, start, render) {
-    items = list; renderItem = render; idx = Math.max(0, Math.min(start || 0, list.length - 1));
+    showWheel(); items = list; renderItem = render; idx = Math.max(0, Math.min(start || 0, list.length - 1));
     var h = '<div class="edge"></div>';
     list.forEach(function (it, i) { h += '<div class="slide" data-i="' + i + '"><div class="card"></div></div>'; });
     track.innerHTML = h + '<div class="edge"></div>';
-    fill(); requestAnimationFrame(function () { scrollTo(idx, false); wheelFx(); });
+    fill(); requestAnimationFrame(function () { track.scrollTo({ left: idx * SW }); wheelFx(); });
   }
-  function fill() { // draw only the slides near the one on show (67 designs would be heavy otherwise)
+  function fill() {
     track.querySelectorAll('.slide').forEach(function (sl) {
       var i = +sl.dataset.i, card = sl.firstChild;
       if (Math.abs(i - idx) <= 3) { if (!card.dataset.on) { card.innerHTML = renderItem(items[i], i); card.dataset.on = '1'; } }
       else if (card.dataset.on) { card.innerHTML = ''; delete card.dataset.on; }
     });
   }
-  function scrollTo(i, smooth) { track.scrollTo({ left: i * SW, behavior: smooth ? 'smooth' : 'auto' }); }
-  function wheelFx() { // neighbours shrink and fade a little: the feel of a wheel
+  function refill() { track.querySelectorAll('.card').forEach(function (c) { delete c.dataset.on; }); fill(); }
+  function wheelFx() {
     var c = track.scrollLeft + track.clientWidth / 2;
     track.querySelectorAll('.slide').forEach(function (sl) {
-      var mid = sl.offsetLeft + sl.offsetWidth / 2, d = Math.min(1, Math.abs(mid - c) / SW);
+      var d = Math.min(1, Math.abs(sl.offsetLeft + sl.offsetWidth / 2 - c) / SW);
       sl.style.transform = 'scale(' + (1 - d * 0.16) + ')'; sl.style.opacity = 1 - d * 0.45;
     });
   }
-  var raf = 0;
+  var raf = 0, onPick = function () {};
   track.addEventListener('scroll', function () {
     if (raf) return;
     raf = requestAnimationFrame(function () {
-      raf = 0; wheelFx();
-      var i = Math.round(track.scrollLeft / SW);
+      raf = 0; wheelFx(); var i = Math.round(track.scrollLeft / SW);
       if (i !== idx && i >= 0 && i < items.length) { idx = i; onPick(); fill(); }
       $('hintswipe').style.display = 'none';
     });
   }, { passive: true });
-  track.addEventListener('click', function (e) { var sl = e.target.closest('.slide'); if (sl && +sl.dataset.i !== idx) scrollTo(+sl.dataset.i, true); });
+  track.addEventListener('click', function (e) { var sl = e.target.closest('.slide'); if (sl && +sl.dataset.i !== idx) track.scrollTo({ left: +sl.dataset.i * SW, behavior: 'smooth' }); });
+
+  /* ---------- the design slider: the cap is fixed, the designs slide across it ---------- */
+  var otrack = $('otrack'), oitems = [], oidx = 0, orender = null, OW = 1, oraf = 0, onOPick = function () {};
+  function buildSlider(list, start, render) {
+    $('track').hidden = true; $('fixed').hidden = false;
+    var v = cur(), G = geo(v, S.side), scale = FW / G.vb[2];
+    OW = G.maxW * G.k * scale; document.documentElement.style.setProperty('--ow', OW + 'px');
+    var x0 = (G.cx - G.vb[0]) * scale - OW / 2; // left edge of the embroidery area on screen
+    // the cap with a faint outline of the embroidery area
+    var aw = G.maxW * G.k, ah = G.maxH * G.k, u = G.vb[2] / FW;
+    $('fixedcap').innerHTML = capSVG(v, S.side, false, '<rect x="' + (G.cx - aw / 2) + '" y="' + (G.cy - ah / 2) + '" width="' + aw + '" height="' + ah + '" fill="none" stroke="' + (light(v.hex) ? 'rgba(0,0,0,.18)' : 'rgba(255,255,255,.28)') + '" stroke-dasharray="' + 6 * u + ' ' + 5 * u + '" stroke-width="' + 1.2 * u + '" rx="' + 4 * u + '"/>') + '<span class="sidetag">' + SIDE_NAME[S.side] + '</span>';
+    oitems = list; orender = render; oidx = Math.max(0, Math.min(start || 0, list.length - 1));
+    otrack.style.scrollPaddingLeft = x0 + 'px';
+    var h = '<div class="ospace" style="width:' + x0 + 'px"></div>';
+    list.forEach(function (it, i) { h += '<div class="oitem" data-i="' + i + '"></div>'; });
+    otrack.innerHTML = h + '<div class="ospace" style="width:' + (FW - x0 - OW) + 'px"></div>';
+    ofill(); requestAnimationFrame(function () { otrack.scrollTo({ left: oidx * OW }); oFx(); });
+  }
+  function oitemSVG(inner) { // one slider cell: the embroidery area's column of the photo, so the design sits exactly on the cap
+    var G = geo(cur(), S.side), aw = G.maxW * G.k;
+    return '<svg viewBox="' + (G.cx - aw / 2) + ' ' + G.vb[1] + ' ' + aw + ' ' + G.vb[3] + '" preserveAspectRatio="xMidYMid meet">' + inner + '</svg>';
+  }
+  function ofill() {
+    otrack.querySelectorAll('.oitem').forEach(function (el) {
+      var i = +el.dataset.i;
+      if (Math.abs(i - oidx) <= 3) { if (!el.dataset.on) { el.innerHTML = oitemSVG(orender(oitems[i], i)); el.dataset.on = '1'; } }
+      else if (el.dataset.on) { el.innerHTML = ''; delete el.dataset.on; }
+    });
+  }
+  function orefill() { otrack.querySelectorAll('.oitem').forEach(function (c) { delete c.dataset.on; }); ofill(); }
+  function oFx() { // the design in the area is clear; the ones sliding in from the sides are faint and smaller
+    var c = otrack.scrollLeft + OW / 2;
+    otrack.querySelectorAll('.oitem').forEach(function (el, n) {
+      var d = Math.min(1, Math.abs(n * OW + OW / 2 - c) / OW);
+      el.style.opacity = 1 - d * 0.75; el.style.transform = 'scale(' + (1 - d * 0.3) + ')';
+    });
+  }
+  otrack.addEventListener('scroll', function () {
+    if (oraf) return;
+    oraf = requestAnimationFrame(function () {
+      oraf = 0; oFx(); var i = Math.round(otrack.scrollLeft / OW);
+      if (i !== oidx && i >= 0 && i < oitems.length) { oidx = i; onOPick(); ofill(); }
+      $('hintswipe').style.display = 'none';
+    });
+  }, { passive: true });
 
   /* ---------- stages ---------- */
-  var STAGES = ['גזרה', 'צבע', 'מה רוקמים', 'עיצוב', 'סיכום'];
+  var TOP = ['גזרה', 'צבע', 'צדדים', 'רקמה', 'סיכום'], TOP_OF = [0, 1, 2, 3, 3, 4];
   function setTop() {
-    $('stepname').textContent = (S.stage + 1) + ' מתוך ' + STAGES.length + ' · ' + STAGES[S.stage];
-    $('prog').innerHTML = STAGES.map(function (x, i) { return '<i class="' + (i <= S.stage ? 'on' : '') + '"></i>'; }).join('');
+    var t = TOP_OF[S.stage];
+    $('stepname').textContent = (t + 1) + ' מתוך ' + TOP.length + ' · ' + TOP[t];
+    $('prog').innerHTML = TOP.map(function (x, i) { return '<i class="' + (i <= t ? 'on' : '') + '"></i>'; }).join('');
     $('back').disabled = S.stage === 0;
+    $('go2').hidden = true; $('go').disabled = false; $('hintswipe').style.display = '';
   }
-  function label(name, sub) { $('lname').textContent = name; $('lcount').textContent = sub || ''; }
+  function label(name, sub) { $('lname').innerHTML = name; $('lcount').textContent = sub || ''; }
   function dots(n, i) { $('dots').innerHTML = n > 30 ? '' : Array.from({ length: n }, function (x, k) { return '<i class="' + (k === i ? 'on' : '') + '"></i>'; }).join(''); }
   function priceNow() {
-    var v = vById(S.variant), p = v ? PRICE[v.shape] : PRICE[S.shape];
-    if (S.stage >= 3 && S.type) p += ADD[S.type];
-    $('price').textContent = '₪' + p; $('psub').textContent = S.stage >= 3 && S.type ? 'כובע אחד, כולל רקמה' : 'כובע אחד';
-  }
-  var onPick = function () {};
-
-  function stage0() { // shape
-    S.stage = 0; setTop();
-    $('qtitle').textContent = 'איזה כובע?'; $('qsub').textContent = 'מחליקים על הכובע ובוחרים גזרה';
-    var list = ['dad', 'baseball'].map(function (k) { var v = VAR.find(function (x) { return x.shape === k && x.slug.indexOf('שחור') === 0; }); return { shape: k, v: v }; });
-    $('extra').innerHTML = '';
-    onPick = function () { var it = items[idx]; S.shape = it.shape; label(M.shapes[it.shape].name, M.shapes[it.shape].desc + ' · ₪' + PRICE[it.shape]); dots(items.length, idx); priceNow(); };
-    buildWheel(list, S.shape === 'baseball' ? 1 : 0, function (it) { return capSVG(it.v); });
-    onPick(); $('go').textContent = 'בחרתי ←'; $('go').disabled = false;
-  }
-  function stage1() { // colour
-    S.stage = 1; setTop();
-    $('qtitle').textContent = 'באיזה צבע?'; $('qsub').textContent = 'מחליקים עד שנעצרים על הצבע שאוהבים';
-    var list = variants(), start = Math.max(0, list.findIndex(function (v) { return v.id === S.variant; }));
-    $('extra').innerHTML = '';
-    onPick = function () { var v = items[idx]; S.variant = v.id; label(v.name, (idx + 1) + ' / ' + items.length); dots(items.length, idx); priceNow(); };
-    buildWheel(list, start, function (v) { return capSVG(v); });
-    onPick();
-  }
-  function stage2() { // type
-    S.stage = 2; setTop();
-    $('qtitle').textContent = 'מה רוקמים בחזית?'; $('qsub').textContent = 'אחר כך מחליקים על הכובע ובוחרים';
-    var v = vById(S.variant);
-    buildWheel([v], 0, function (x) { return capSVG(x); }); label('', ''); dots(0, 0);
-    var ic = { gallery: '<svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>', text: '<svg viewBox="0 0 24 24"><path d="M5 6h14M12 6v13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>', logo: '<svg viewBox="0 0 24 24"><path d="M12 16V5m0 0l-4 4m4-4l4 4M5 19h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>' };
-    $('extra').innerHTML = '<div class="types">' + [['gallery', 'ספר הרקמות', '+₪50'], ['text', 'טקסט', '+₪79'], ['logo', 'הלוגו שלכם', '+₪129']].map(function (t) {
-      return '<button class="type" data-t="' + t[0] + '">' + ic[t[0]] + '<b>' + t[1] + '</b><small>' + t[2] + '</small></button>'; }).join('') + '</div>';
-    $('extra').querySelectorAll('[data-t]').forEach(function (b) { b.onclick = function () { S.type = b.dataset.t; stage3(); }; });
-    $('go').disabled = true; $('go').textContent = 'בוחרים למעלה';
-    priceNow();
+    var v = cur(), p = v ? PRICE[v.shape] : PRICE[S.shape], list = done().map(function (s) { return S.items[s]; });
+    if (S.draft && S.stage === 4 && !S.items[S.side]) list.push(S.draft);
+    if (list.length) { p += Math.max.apply(null, list.map(function (it) { return ADD[it.type]; })) + EXTRA * (list.length - 1); }
+    $('price').textContent = '₪' + p; $('psub').textContent = list.length ? 'כובע אחד, ' + list.length + (list.length === 1 ? ' מקום רקמה' : ' מקומות רקמה') : 'כובע אחד';
   }
   function threadsRow() {
-    return '<div class="threads">' + THREADS.map(function (t) { return '<button class="th' + (t.code === S.thread ? ' on' : '') + '" data-th="' + t.code + '" style="background:' + t.hex + '" aria-label="' + t.name + '"></button>'; }).join('') + '</div>';
+    return '<div class="threads">' + THREADS.map(function (t) { return '<button class="th' + (t.code === S.draft.thread ? ' on' : '') + '" data-th="' + t.code + '" style="background:' + t.hex + '" aria-label="' + t.name + '"></button>'; }).join('') + '</div>';
   }
-  function bindThreads(redraw) {
+  function bindThreads() {
     $('extra').querySelectorAll('[data-th]').forEach(function (b) { b.onclick = function () {
-      S.thread = b.dataset.th; $('extra').querySelectorAll('.th').forEach(function (x) { x.classList.toggle('on', x === b); });
-      track.querySelectorAll('.card').forEach(function (c) { delete c.dataset.on; }); fill(); if (redraw) redraw();
+      S.draft.thread = S.thread = b.dataset.th; $('extra').querySelectorAll('.th').forEach(function (x) { x.classList.toggle('on', x === b); }); orefill();
     }; });
   }
-  function stage3() { // design on the cap
-    S.stage = 3; setTop(); $('go').textContent = 'בחרתי ←'; $('go').disabled = false;
-    var v = vById(S.variant);
-    if (!S.thread || (light(v.hex) && S.thread === '2149')) S.thread = light(v.hex) ? '2150' : '2149';
-    if (S.type === 'gallery') {
-      $('qtitle').textContent = 'איזו רקמה?'; $('qsub').textContent = 'מחליקים על הכובע בין העיצובים';
-      var list = GAL.filter(function (g) { return S.cat === 'הכול' || g.c === S.cat; });
+
+  function stShape() {
+    S.stage = 0; setTop();
+    $('qtitle').textContent = 'איזה כובע?'; $('qsub').textContent = 'מחליקים על הכובע ובוחרים גזרה'; $('extra').innerHTML = '';
+    var list = ['dad', 'baseball'].map(function (k) { return VAR.find(function (x) { return x.shape === k && x.slug.indexOf('שחור') === 0; }); });
+    onPick = function () { var v = items[idx]; S.shape = v.shape; label(M.shapes[v.shape].name, M.shapes[v.shape].desc + ' · ₪' + PRICE[v.shape]); dots(items.length, idx); priceNow(); };
+    buildWheel(list, S.shape === 'baseball' ? 1 : 0, function (v) { return capSVG(v, 'front'); }); onPick();
+    $('go').textContent = 'בחרתי ←';
+  }
+  function stColour() {
+    S.stage = 1; setTop();
+    $('qtitle').textContent = 'באיזה צבע?'; $('qsub').textContent = 'מחליקים עד שנעצרים על הצבע שאוהבים'; $('extra').innerHTML = '';
+    var list = variants(), start = Math.max(0, list.findIndex(function (v) { return v.id === S.variant; }));
+    onPick = function () { var v = items[idx]; S.variant = v.id; label(v.name, (idx + 1) + ' / ' + items.length); dots(items.length, idx); priceNow(); };
+    buildWheel(list, start, function (v) { return capSVG(v, 'front'); }); onPick();
+    $('go').textContent = 'בחרתי ←';
+  }
+  function stSides() { // the chosen cap turns between its 4 sides
+    S.stage = 2; setTop();
+    var v = cur();
+    $('qtitle').textContent = 'איפה רוקמים?'; $('qsub').textContent = 'מחליקים כדי לסובב את הכובע, ובוחרים צד';
+    $('extra').innerHTML = done().length ? '<p class="note">' + done().map(function (s) { return '<span class="done">✓</span> ' + SIDE_NAME[s]; }).join(' · ') + '</p>' : '<p class="note">החזית כלולה במחיר. כל מקום נוסף +₪' + EXTRA + '</p>';
+    loadSides(v).then(function () {
+      onPick = function () {
+        var s = SIDES[idx]; S.side = s; var it = S.items[s];
+        label(SIDE_NAME[s] + (it ? ' <span class="done">✓</span>' : ''), it ? (it.type === 'text' ? '"' + it.text + '"' : (GAL.find(function (g) { return g.id === it.id; }) || {}).short) : (s === 'front' ? 'עוד לא רקום' : 'ריק · +₪' + EXTRA));
+        dots(4, idx); priceNow();
+        $('go').textContent = (it ? 'לשנות את ה' : 'לעצב את ה') + SIDE_NAME[s] + ' ←';
+        $('go2').hidden = !done().length; $('go2').textContent = 'לסיכום';
+      };
+      buildWheel(SIDES, Math.max(0, SIDES.indexOf(S.side)), function (s) { return capSVG(v, s, true) + '<span class="tag">' + SIDE_NAME[s] + '</span>'; }); onPick();
+    });
+  }
+  function stType() {
+    S.stage = 3; setTop();
+    var v = cur();
+    $('qtitle').textContent = 'מה רוקמים ב' + SIDE_NAME[S.side] + '?'; $('qsub').textContent = 'אחר כך מחליקים על הכובע ובוחרים';
+    buildWheel([S.side], 0, function (s) { return capSVG(v, s, true); }); label('', ''); dots(0, 0);
+    var ic = { gallery: '<svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>', text: '<svg viewBox="0 0 24 24"><path d="M5 6h14M12 6v13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>', logo: '<svg viewBox="0 0 24 24"><path d="M12 16V5m0 0l-4 4m4-4l4 4M5 19h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>' };
+    $('extra').innerHTML = '<div class="types">' + [['gallery', 'ספר הרקמות', 'מחליקים בין העיצובים'], ['text', 'טקסט', 'מחליקים בין הגופנים'], ['logo', 'הלוגו שלכם', 'בכלי המלא']].map(function (t) {
+      return '<button class="type" data-t="' + t[0] + '">' + ic[t[0]] + '<b>' + t[1] + '</b><small>' + t[2] + '</small></button>'; }).join('') + '</div>' +
+      (S.items[S.side] ? '<p class="note"><button class="chip" id="rm">להסיר את הרקמה מה' + SIDE_NAME[S.side] + '</button></p>' : '');
+    $('extra').querySelectorAll('[data-t]').forEach(function (b) { b.onclick = function () { if (b.dataset.t === 'logo') return; stDesign(b.dataset.t); }; });
+    var rm = $('rm'); if (rm) rm.onclick = function () { delete S.items[S.side]; stSides(); };
+    $('go').disabled = true; $('go').textContent = 'בוחרים למעלה'; priceNow();
+  }
+  function stDesign(type) { // the slider
+    S.stage = 4; setTop();
+    var v = cur(), prev = S.items[S.side];
+    S.draft = prev && prev.type === type ? JSON.parse(JSON.stringify(prev)) : { type: type, id: null, text: '', font: 0, thread: S.thread || (light(v.hex) ? '2150' : '2149') };
+    $('go').textContent = 'בחרתי ←';
+    if (type === 'gallery') {
+      $('qtitle').textContent = 'איזו רקמה?'; $('qsub').textContent = 'הכובע נשאר, העיצובים מחליקים עליו';
+      var draw = function () {
+        var list = GAL.filter(function (g) { return S.cat === 'הכול' || g.c === S.cat; });
+        onOPick = function () { var g = oitems[oidx]; S.draft.id = g.id; label(g.short, (oidx + 1) + ' / ' + oitems.length); dots(oitems.length, oidx); priceNow(); };
+        buildSlider(list, Math.max(0, list.findIndex(function (g) { return g.id === S.draft.id; })), function (g) { return decoSVG({ type: 'gallery', id: g.id, thread: S.draft.thread }, geo(v, S.side)); });
+        onOPick();
+      };
       $('extra').innerHTML = '<div class="chips">' + ['הכול'].concat(CATS).map(function (c) { return '<button class="chip' + (c === S.cat ? ' on' : '') + '" data-c="' + esc(c) + '">' + esc(c) + '</button>'; }).join('') + '</div>' + threadsRow();
-      $('extra').querySelectorAll('[data-c]').forEach(function (b) { b.onclick = function () { S.cat = b.dataset.c; S.design = null; stage3(); }; });
-      bindThreads();
-      onPick = function () { var g = items[idx]; S.design = g.id; label(g.short, (idx + 1) + ' / ' + items.length); dots(items.length, idx); priceNow(); };
-      buildWheel(list, Math.max(0, list.findIndex(function (g) { return g.id === S.design; })), function (g) { return capSVG(v, { design: g, thread: g.m ? thread() : null }); });
-      onPick();
-    } else if (S.type === 'text') {
+      $('extra').querySelectorAll('[data-c]').forEach(function (b) { b.onclick = function () { S.cat = b.dataset.c; $('extra').querySelectorAll('.chip').forEach(function (x) { x.classList.toggle('on', x === b); }); draw(); }; });
+      bindThreads(); draw();
+    } else {
       $('qtitle').textContent = 'מה כותבים?'; $('qsub').textContent = 'כותבים, ואז מחליקים על הכובע בין הגופנים';
-      $('extra').innerHTML = '<input class="field" id="txt" maxlength="18" placeholder="הקלידו כאן, למשל: אחי" value="' + esc(S.text) + '" autocomplete="off">' + threadsRow();
-      var draw = function (keep) {
-        var fl = fonts(), cur = keep ? Math.min(idx, fl.length - 1) : 0;
-        onPick = function () { var f = items[idx]; S.font = FONTS.indexOf(f); label(f.name, (idx + 1) + ' / ' + items.length + ' גופנים'); dots(items.length, idx); priceNow(); $('go').disabled = !S.text.trim(); };
-        buildWheel(fl, cur, function (f) { return capSVG(v, { text: S.text || (f.he ? 'כתרליון' : 'Keterlion'), font: f, thread: thread() }); });
-        onPick();
+      $('extra').innerHTML = '<input class="field" id="txt" maxlength="18" placeholder="הקלידו כאן, למשל: אחי" value="' + esc(S.draft.text) + '" autocomplete="off">' + threadsRow();
+      var drawT = function (keepFont) {
+        var fl = fontsFor(S.draft.text), start = keepFont ? Math.max(0, fl.indexOf(FONTS[S.draft.font])) : 0;
+        onOPick = function () { var f = oitems[oidx]; S.draft.font = FONTS.indexOf(f); label(f.name, (oidx + 1) + ' / ' + oitems.length + ' גופנים'); dots(oitems.length, oidx); priceNow(); $('go').disabled = !S.draft.text.trim(); };
+        buildSlider(fl, start, function (f) { return decoSVG({ type: 'text', text: S.draft.text, font: FONTS.indexOf(f), thread: S.draft.thread }, geo(v, S.side)); });
+        onOPick();
       };
-      var t = $('txt'), lastLang = hasHeb(S.text) + '' + hasLat(S.text);
+      var t = $('txt'), lang = function (x) { return (hasHeb(x) ? 'h' : '') + (hasLat(x) ? 'l' : ''); }, last = lang(S.draft.text);
       t.oninput = function () {
-        S.text = t.value; var lang = hasHeb(S.text) + '' + hasLat(S.text);
-        if (lang !== lastLang) { lastLang = lang; draw(false); return; }
-        track.querySelectorAll('.card').forEach(function (c) { delete c.dataset.on; }); fill(); $('go').disabled = !S.text.trim();
+        S.draft.text = t.value; var l = lang(t.value);
+        if (l !== last) { last = l; drawT(false); return; }
+        orefill(); $('go').disabled = !t.value.trim();
       };
-      bindThreads();
-      draw(true);
-    } else { // logo: not part of this prototype
-      $('qtitle').textContent = 'הלוגו שלכם'; $('qsub').textContent = 'בהדמיה הזו מציגים רק את ההחלקה. העלאת לוגו עובדת כמו בכלי הנוכחי';
-      $('extra').innerHTML = ''; buildWheel([v], 0, function (x) { return capSVG(x); }); label('', ''); dots(0, 0);
+      bindThreads(); drawT(true);
     }
   }
-  function stage4() { // summary
-    S.stage = 4; setTop();
-    var v = vById(S.variant), f = FONTS[S.font], g = GAL.find(function (x) { return x.id === S.design; });
-    $('qtitle').textContent = 'הכובע שלכם'; $('qsub').textContent = 'בהדמיה לא מוסיפים לסל';
-    var deco = S.type === 'gallery' && g ? { design: g, thread: g.m ? thread() : null } : S.type === 'text' ? { text: S.text, font: f, thread: thread() } : null;
-    buildWheel([v], 0, function (x) { return capSVG(x, deco); });
-    label(M.shapes[v.shape].name + ' · ' + v.name, S.type === 'gallery' && g ? g.short + ', חוט ' + (g.m ? thread().name : 'בצבעי העיצוב') : S.type === 'text' ? '"' + S.text + '" · ' + f.name + ' · חוט ' + thread().name : ''); dots(0, 0);
-    $('extra').innerHTML = '<p class="note">מכאן ממשיכים לכמות ולסל, כמו בכלי הנוכחי.</p>';
+  function stSummary() {
+    S.stage = 5; setTop();
+    var v = cur();
+    $('qtitle').textContent = 'הכובע שלכם'; $('qsub').textContent = 'מחליקים כדי לראות את כל הצדדים';
+    var list = done().length ? done() : ['front'];
+    onPick = function () { var s = items[idx], it = S.items[s]; label(SIDE_NAME[s], it ? (it.type === 'text' ? '"' + it.text + '" · ' + FONTS[it.font].name : (GAL.find(function (g) { return g.id === it.id; }) || {}).short) + ' · חוט ' + thr(it.thread).name : ''); dots(items.length, idx); };
+    buildWheel(list, 0, function (s) { return capSVG(v, s, true) + '<span class="tag">' + SIDE_NAME[s] + '</span>'; }); onPick();
+    $('extra').innerHTML = '<p class="note">' + M.shapes[v.shape].name + ' · ' + v.name + '. מכאן ממשיכים לכמות ולסל, כמו בכלי הנוכחי.</p>';
     $('go').textContent = 'להוסיף לסל'; $('go').disabled = true; priceNow();
   }
-  var FLOW = [stage0, stage1, stage2, stage3, stage4];
-  $('go').onclick = function () { if (S.stage < 4) FLOW[S.stage + 1](); };
-  $('back').onclick = function () { if (S.stage > 0) FLOW[S.stage - 1](); };
+
+  $('go').onclick = function () {
+    if (S.stage === 0 || S.stage === 1) { (S.stage === 0 ? stColour : stSides)(); return; }
+    if (S.stage === 2) { stType(); return; }
+    if (S.stage === 4) { S.items[S.side] = S.draft; S.draft = null; stSides(); }
+  };
+  $('go2').onclick = function () { if (S.stage === 2) stSummary(); };
+  $('back').onclick = function () {
+    if (S.stage === 1) stShape(); else if (S.stage === 2) stColour(); else if (S.stage === 3) stSides();
+    else if (S.stage === 4) { S.draft = null; stType(); } else if (S.stage === 5) stSides();
+  };
 
   /* ---------- load (photos through fetch → blob: the preview frame blocks direct image URLs) ---------- */
-  function sizes() { SW = Math.min(window.innerWidth, 480) * 0.74; document.documentElement.style.setProperty('--sw', SW + 'px'); }
-  sizes(); window.addEventListener('resize', function () { sizes(); scrollTo(idx, false); wheelFx(); });
-  Promise.all([fetch('../assets/data/cap-model.json').then(function (r) { return r.json(); }), fetch('../assets/data/gallery.json').then(function (r) { return r.json(); })]).then(function (d) {
+  var BASE_DATA = '../assets/data/', BASE_CAPS = '../assets/caps/';
+  function sizes() {
+    var w = Math.min(window.innerWidth, 480); SW = w * 0.74;
+    var wrap = $('wheelwrap'); FW = Math.floor(Math.min(w - 24, (wrap.clientHeight || w) - 16));
+    document.documentElement.style.setProperty('--sw', SW + 'px'); document.documentElement.style.setProperty('--fw', FW + 'px');
+  }
+  sizes(); window.addEventListener('resize', function () { sizes(); });
+  Promise.all([fetch(BASE_DATA + 'cap-model.json').then(function (r) { return r.json(); }), fetch(BASE_DATA + 'gallery.json').then(function (r) { return r.json(); })]).then(function (d) {
     M = d[0];
     GAL = d[1].map(function (g) { var m = g.s.match(/viewBox="([^"]+)"/), vb = m ? m[1].trim().split(/[\s,]+/).map(Number) : [0, 0, 100, 100]; var parts = g.n.split(/\s+-\s+/), heb = parts.find(function (x) { return /[֐-׿]/.test(x); }); return { id: String(g.id), n: g.n, c: g.c, m: g.m, s: g.s, vb: vb, dw: g.dw || 0, short: (heb || parts[0]).replace(/\s*\d+(\.\d+)?\s*cm$/i, '').trim() }; });
     GAL.forEach(function (g) { if (CATS.indexOf(g.c) < 0) CATS.push(g.c); });
     return Promise.all(M.variants.map(function (v) {
-      return fetch('../assets/caps/' + v.id + '-front.jpg').then(function (r) { return r.blob(); }).then(function (b) {
-        VAR.push({ id: v.id, shape: v.shape, slug: v.slug, name: v.name, hex: v.hex, front: v.front, vb: v.vb, ppcm: v.ppcm, img: URL.createObjectURL(b) });
+      return fetch(BASE_CAPS + v.id + '-front.jpg').then(function (r) { return r.blob(); }).then(function (b) {
+        VAR.push({ id: v.id, shape: v.shape, slug: v.slug, name: v.name, hex: v.hex, front: v.front, vb: v.vb, ppcm: v.ppcm, imgs: { front: URL.createObjectURL(b) } });
       });
     }));
   }).then(function () {
     var order = M.variants.map(function (v) { return v.id; }); VAR.sort(function (a, b) { return order.indexOf(a.id) - order.indexOf(b.id); });
     S.variant = VAR.find(function (v) { return v.shape === 'dad' && v.slug.indexOf('שחור') === 0; }).id;
-    $('loading').remove(); stage0();
+    $('loading').remove(); sizes(); stShape();
   }).catch(function () { $('loading').textContent = 'לא הצלחנו לטעון. נסו לרענן.'; });
 })();
 </script>
