@@ -590,6 +590,18 @@
     pinch = null; render(); hideSel();
   }, { passive: true });
 
+  /* the site's own header may be pinned (Elementor sticky header): pin the cap right below it */
+  function siteTop() {
+    var h = document.querySelector('.elementor-location-header, header.site-header'), t = 0;
+    if (h && /sticky|fixed/.test(getComputedStyle(h).position)) t = Math.max(0, Math.round(h.getBoundingClientRect().bottom));
+    else { var bar = document.getElementById('wpadminbar'); if (bar && getComputedStyle(bar).position === 'fixed') t = bar.offsetHeight; }
+    root.style.setProperty('--kls-top', t + 'px');
+  }
+  var topT = 0;
+  window.addEventListener('scroll', function () { if (!topT) topT = requestAnimationFrame(function () { topT = 0; siteTop(); }); }, { passive: true });
+  window.addEventListener('resize', siteTop);
+  siteTop();
+
   /* swipe between sides on phones (not while moving a design) */
   var tx0 = null;
   $('kls-canvas').addEventListener('touchstart', function (e) { tx0 = e.touches[0].clientX; }, { passive: true });

@@ -18,6 +18,8 @@ function kls_defaults() {
 		'delivery'    => 'עד 7 ימים',
 		'show_title'  => 1,
 		'notify_email'=> '',
+		'page_id'     => 0,               // the page with [kl_studio]
+		'take_over'   => 0,               // 1 = the product page (Zakeke) sends visitors to the studio page instead
 	);
 }
 

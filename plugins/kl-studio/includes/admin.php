@@ -27,6 +27,8 @@ function kls_sanitize_settings( $in ) {
 		'delivery'     => sanitize_text_field( $in['delivery'] ?? $d['delivery'] ),
 		'show_title'   => empty( $in['show_title'] ) ? 0 : 1,
 		'notify_email' => sanitize_email( $in['notify_email'] ?? '' ),
+		'page_id'      => absint( $in['page_id'] ?? 0 ),
+		'take_over'    => empty( $in['take_over'] ) ? 0 : 1,
 	);
 	foreach ( $d['type_price'] as $k => $v ) {
 		$out['type_price'][ $k ] = max( 0, (float) ( $in['type_price'][ $k ] ?? $v ) );
@@ -61,6 +63,8 @@ function kls_settings_page() {
 	$row( 'גובה אות מינימלי', $num( '[min_letter]', $s['min_letter'], '0.1' ) . ' ס״מ' );
 	$row( 'גודל קובץ לוגו', $num( '[upload_mb]', $s['upload_mb'] ) . ' MB' );
 	$row( 'זמן אספקה', '<input type="text" name="' . esc_attr( $n ) . '[delivery]" value="' . esc_attr( $s['delivery'] ) . '" class="regular-text">', 'מופיע בכלי, למשל "עד 7 ימים".' );
+	$row( 'עמוד הכלי (מזהה)', $num( '[page_id]', $s['page_id'] ), 'העמוד שבו נמצא הקוד הקצר [kl_studio].' );
+	$row( 'להחליף את Zakeke', '<label><input type="checkbox" name="' . esc_attr( $n ) . '[take_over]" value="1"' . checked( $s['take_over'], 1, false ) . '> מי שמגיע לעמוד מוצר הבסיס מועבר לעמוד הכלי</label>', 'כך כל הקישורים הקיימים לעיצוב אישי מגיעים לכלי החדש. כשמבטלים את הסימון, עמוד המוצר עם Zakeke חוזר מיד.' );
 	$row( 'כותרת בראש הכלי', '<label><input type="checkbox" name="' . esc_attr( $n ) . '[show_title]" value="1"' . checked( $s['show_title'], 1, false ) . '> להציג "עצבו כובע משלכם." ומדבקה</label>' );
 	echo '</table>';
 	submit_button( 'שמירה' );

@@ -15,6 +15,14 @@ function kls_is_studio_page() {
 	return has_shortcode( (string) $post->post_content, 'kl_studio' ) || false !== strpos( (string) get_post_meta( $post->ID, '_elementor_data', true ), 'kl_studio' );
 }
 
+/** A body class on the studio page, so the theme's own page title can be hidden there (the tool has its own). */
+add_filter( 'body_class', function ( $classes ) {
+	if ( kls_is_studio_page() ) {
+		$classes[] = 'kls-page';
+	}
+	return $classes;
+} );
+
 add_action( 'wp_enqueue_scripts', function () {
 	if ( kls_is_studio_page() ) {
 		kls_enqueue();
@@ -44,6 +52,22 @@ function kls_shortcode() {
 	return '<div id="kl-studio" class="kls"><noscript>כדי לעצב כובע צריך להפעיל JavaScript בדפדפן.</noscript></div>'
 		. '<script type="application/json" id="kls-config">' . $json . '</script>';
 }
+
+/**
+ * Take over from Zakeke: the base product page (where every "עיצוב אישי" link points) sends visitors to the studio page.
+ * Off by default. Turning the setting off brings the product page with Zakeke straight back.
+ */
+add_action( 'template_redirect', function () {
+	$s = kls_settings();
+	if ( empty( $s['take_over'] ) || empty( $s['page_id'] ) || ! is_singular( 'product' ) ) {
+		return;
+	}
+	if ( (int) get_queried_object_id() !== (int) $s['product_id'] || 'publish' !== get_post_status( (int) $s['page_id'] ) ) {
+		return;
+	}
+	wp_safe_redirect( get_permalink( (int) $s['page_id'] ), 302 );
+	exit;
+}, 1 );
 
 /** Keep the studio page out of page caches: the config carries live prices, stock and a nonce. */
 add_action( 'template_redirect', function () {
