@@ -215,15 +215,14 @@
   function canBuy() { var l = active(); return l.length > 0 && l.every(function (s) { return item(s).type !== 'logo' || item(s).ok; }) && variant().stock; }
 
   function stepHat() {
-    var h = '<div class="kls-step"><h2>איזה כובע<em>?</em></h2><p class="kls-lead">בוחרים גזרה וצבע. הכובע בתצוגה משתנה מיד.</p><div class="kls-label">גזרה</div><div class="kls-shapes">';
+    var h = '<div class="kls-step"><h2>איזה כובע<em>?</em></h2><div class="kls-seg" role="radiogroup" aria-label="גזרה">';
     Object.keys(C.shapes).forEach(function (k) {
       var sh = C.shapes[k], list = C.variants.filter(function (v) { return v.shape === k; });
       if (!list.length) return;
       var min = Math.min.apply(null, list.map(function (v) { return v.price; }));
-      var pic = (list.find(function (v) { return v.slug.indexOf('שחור') === 0; }) || list[0]).img.right;
-      h += '<button type="button" class="kls-card kls-shape" data-shape="' + k + '" aria-pressed="' + (S.shape === k) + '"><img src="' + esc(pic) + '" alt="" loading="lazy"><div><b>' + esc(sh.name) + '</b><small>' + esc(sh.desc) + ' · ' + list.length + ' צבעים</small><span class="kls-pr">' + money(min) + '</span></div></button>';
+      h += '<button type="button" role="radio" data-shape="' + k + '" aria-pressed="' + (S.shape === k) + '" aria-checked="' + (S.shape === k) + '"><b>' + esc(sh.name) + '</b><small>' + esc(sh.desc.replace(/^גזרה\s+/, '')) + ' · ' + money(min) + '</small></button>';
     });
-    h += '</div><div class="kls-label">צבע <span>' + esc(variant().name) + (variant().stock ? '' : ' · אזל מהמלאי') + '</span></div><div class="kls-swatches">';
+    h += '</div><div class="kls-label kls-color-label">צבע <span><i class="kls-dot-c" style="background:' + variant().hex + '"></i>' + esc(variant().name) + (variant().stock ? '' : ' · אזל מהמלאי') + '</span></div><div class="kls-swatches" role="radiogroup" aria-label="צבע">';
     variants().forEach(function (v) {
       h += '<button type="button" class="kls-sw" data-variant="' + v.id + '" title="' + esc(v.name) + (v.stock ? '' : ' (אזל)') + '" aria-label="' + esc(v.name) + '" aria-pressed="' + (variant().id === v.id) + '" style="background:' + v.hex + '"' + (v.stock ? '' : ' disabled') + '></button>';
     });
