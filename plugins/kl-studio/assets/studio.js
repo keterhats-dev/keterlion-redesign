@@ -125,8 +125,9 @@
   function designSVG(side, editing, G) {
     var it = item(side), out = '', f = G.k / 10, ink = light(variant().hex) ? 'rgba(0,0,0,.45)' : 'rgba(255,255,255,.7)';
     if (editing) {
-      var bw = G.maxW * G.k, bh = G.maxH * G.k;
-      out += '<rect class="kls-area" x="' + (G.cx - bw / 2) + '" y="' + (G.cy - bh / 2) + '" width="' + bw + '" height="' + bh + '" fill="rgba(0,0,0,0)" stroke="' + ink + '" stroke-dasharray="8 6" stroke-width="2.5"/>';
+      // the dashed area shows only while the side is empty or while moving/resizing; otherwise it is an invisible target
+      var bw = G.maxW * G.k, bh = G.maxH * G.k, showArea = !filled(it) || drag || pinch;
+      out += '<rect class="kls-area" x="' + (G.cx - bw / 2) + '" y="' + (G.cy - bh / 2) + '" width="' + bw + '" height="' + bh + '" fill="rgba(0,0,0,0)" stroke="' + (showArea ? ink : 'none') + '" stroke-dasharray="8 6" stroke-width="2.5"/>';
     }
     if (!filled(it)) return out;
     var sz = designSize(side, it); if (!sz) return out;
@@ -138,8 +139,9 @@
       // sizes in screen pixels, converted to drawing units, so the handle is easy to grab on a phone
       var cw = ($('kls-canvas') && $('kls-canvas').clientWidth) || 600, u = vbox(side)[2] / cw;
       var pad = 5 * u, hx = G.cx - w / 2 - pad, hy = G.cy + h / 2 + pad, a = 5 * u;
-      sel = '<rect class="kls-grab" x="' + (G.cx - w / 2 - pad) + '" y="' + (G.cy - h / 2 - pad) + '" width="' + (w + pad * 2) + '" height="' + (h + pad * 2) + '" fill="rgba(0,0,0,0)" stroke="' + ink + '" stroke-width="' + 1.5 * u + '" style="cursor:move"/>' +
-        '<g class="kls-handle" style="cursor:nesw-resize"><circle cx="' + hx + '" cy="' + hy + '" r="' + 22 * u + '" fill="rgba(0,0,0,0)"/><circle cx="' + hx + '" cy="' + hy + '" r="' + 13 * u + '" fill="#171717" stroke="#fff" stroke-width="' + 2 * u + '"/>' +
+      // the frame and the handle show only while the customer touches or hovers the design (selActive)
+      sel = '<rect class="kls-grab" x="' + (G.cx - w / 2 - pad) + '" y="' + (G.cy - h / 2 - pad) + '" width="' + (w + pad * 2) + '" height="' + (h + pad * 2) + '" fill="rgba(0,0,0,0)" stroke="' + (selActive ? ink : 'none') + '" stroke-width="' + 1.5 * u + '" style="cursor:move"/>';
+      if (selActive) sel += '<g class="kls-handle" style="cursor:nesw-resize"><circle cx="' + hx + '" cy="' + hy + '" r="' + 22 * u + '" fill="rgba(0,0,0,0)"/><circle cx="' + hx + '" cy="' + hy + '" r="' + 13 * u + '" fill="#171717" stroke="#fff" stroke-width="' + 2 * u + '"/>' +
         '<path d="M' + (hx - a) + ',' + (hy + a) + ' L' + (hx + a) + ',' + (hy - a) + ' M' + (hx - a) + ',' + (hy) + ' L' + (hx - a) + ',' + (hy + a) + ' L' + (hx) + ',' + (hy + a) + ' M' + (hx + a) + ',' + (hy) + ' L' + (hx + a) + ',' + (hy - a) + ' L' + (hx) + ',' + (hy - a) + '" stroke="#fff" stroke-width="' + 1.6 * u + '" fill="none"/></g>';
     }
     if (it.type === 'gallery') {
@@ -194,6 +196,7 @@
       $('kls-layer').innerHTML = designSVG(S.view, editingNow(), geo(S.view));
     }
     cv.classList.toggle('editing', editingNow() && filled(item(S.view)));
+    hint();
     // while choosing the cap: front only, no side bar and no arrows (they appear from the design step on)
     var choosing = S.step === 0;
     cv.querySelectorAll('.kls-arrow').forEach(function (a) { a.hidden = choosing; });
@@ -283,7 +286,6 @@
     h += '</div><div class="kls-row"><button type="button" class="kls-link" id="kls-surprise">תפתיעו אותי</button>' +
       (filled(it) && (Math.abs(it.dx || 0) > 0.05 || Math.abs(it.dy || 0) > 0.05) ? '<button type="button" class="kls-link" id="kls-center">למרכז</button>' : '') +
       (it.type ? '<button type="button" class="kls-link" id="kls-clear">להסיר מ' + esc(LABEL[side]) + '</button>' : '') + '</div>';
-    if (filled(it)) h += '<p class="kls-note">על הכובע: גוררים את העיצוב כדי להזיז אותו, ומהעיגול השחור בפינה משנים גודל.</p>';
 
     if (it.type === 'gallery') {
       h += '<div class="kls-label">ספר הרקמות <span>' + GALLERY.length + ' עיצובים</span></div><div class="kls-cats">';
@@ -506,8 +508,32 @@
   $('kls-back').onclick = function () { if (S.step > 0) go(S.step - 1); };
 
   /* drag the design to move it inside the area; drag the round handle to resize */
-  var drag = null, frame = 0, dragged = false;
+  var drag = null, pinch = null, frame = 0, dragged = false, selActive = false, hideT = 0;
   function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+  /* the frame and the round handle appear while the customer touches or hovers the design, and fade 2 s later */
+  function showSel() { clearTimeout(hideT); if (!selActive) { selActive = true; renderStage(); } }
+  function hideSel(ms) {
+    clearTimeout(hideT);
+    hideT = setTimeout(function () { if (drag || pinch) return; if (selActive) { selActive = false; renderStage(); } }, ms == null ? 2000 : ms);
+  }
+  /* a one-time hint on the cap: how to move and resize */
+  var HINT = 'kls-hint-seen', touchUI = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+  function hintSeen() { try { return localStorage.getItem(HINT) === '1'; } catch (e) { return true; } }
+  function hintDone() { try { localStorage.setItem(HINT, '1'); } catch (e) {} var h = root.querySelector('.kls-hint'); if (h) h.hidden = true; }
+  function hint() {
+    var cv = $('kls-canvas'), h = cv.querySelector('.kls-hint');
+    if (!h) { h = document.createElement('div'); h.className = 'kls-hint'; cv.appendChild(h); }
+    h.textContent = touchUI ? 'גוררים כדי להזיז · שתי אצבעות לשינוי גודל' : 'גוררים כדי להזיז · מהעיגול בפינה משנים גודל';
+    h.hidden = !(editingNow() && filled(item(S.view)) && !hintSeen());
+  }
+  $('kls-canvas').addEventListener('pointermove', function (e) { // computer: hovering the design shows the frame
+    if (e.pointerType !== 'mouse' || drag || !editingNow() || !filled(item(S.side)) || !e.target.closest) return;
+    if (e.target.closest('.kls-grab, .kls-handle')) showSel(); else if (selActive) hideSel(600);
+  });
+  $('kls-canvas').addEventListener('pointerleave', function () { if (!drag) hideSel(600); });
+  document.addEventListener('pointerdown', function (e) { // a tap outside the cap hides the frame at once
+    if (selActive && !$('kls-canvas').contains(e.target)) hideSel(0);
+  });
   function svgPoint(e) {
     var svg = $('kls-canvas').querySelector('svg'), p = svg.createSVGPoint();
     p.x = e.clientX; p.y = e.clientY; return p.matrixTransform(svg.getScreenCTM().inverse());
@@ -515,13 +541,15 @@
   $('kls-canvas').addEventListener('pointerdown', function (e) {
     if (!editingNow() || !filled(item(S.side)) || !e.target.closest) return;
     var t = e.target.closest('.kls-handle, .kls-grab, .kls-area'); if (!t) return;
-    e.preventDefault(); dragged = true;
+    e.preventDefault(); dragged = true; showSel(); hintDone();
+    if (pinch) return; // a second finger: the pinch handler resizes
     var it = item(S.side), p = svgPoint(e), G = geo(S.side);
     if (t.classList.contains('kls-area')) { // tap inside the area: move the design there
       it.dx = (p.x - G.cx) / G.k; it.dy = (p.y - G.cy) / G.k; live();
       p = svgPoint(e);
     }
     drag = { mode: t.classList.contains('kls-handle') ? 'size' : 'move', x0: p.x, y0: p.y, dx0: it.dx || 0, dy0: it.dy || 0, w0: it.w, h0: it.h, G: G };
+    renderStage(); // show the dashed area right away while moving or resizing
   });
   window.addEventListener('pointermove', function (e) {
     if (!drag) return;
@@ -537,9 +565,30 @@
     live();
   }, { passive: false });
   function live() { if (frame) return; frame = requestAnimationFrame(function () { frame = 0; refreshLive(); }); }
-  function endDrag() { if (!drag) return; drag = null; render(); }
+  function endDrag() { if (!drag) return; drag = null; render(); hideSel(); }
   window.addEventListener('pointerup', endDrag);
   window.addEventListener('pointercancel', endDrag);
+
+  /* phone: two fingers resize the design (like zooming a photo) */
+  function fingers(e) { var a = e.touches[0], b = e.touches[1]; return Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY) || 1; }
+  $('kls-canvas').addEventListener('touchstart', function (e) {
+    if (e.touches.length !== 2 || !editingNow() || !filled(item(S.side))) return;
+    var it = item(S.side); drag = null; dragged = true; showSel(); hintDone();
+    pinch = { d0: fingers(e), w0: it.w, h0: it.h };
+    renderStage();
+  }, { passive: true });
+  $('kls-canvas').addEventListener('touchmove', function (e) {
+    if (!pinch || e.touches.length < 2) return;
+    e.preventDefault();
+    var it = item(S.side), L = limits(S.side), r = fingers(e) / pinch.d0;
+    if (it.type === 'text') it.h = clamp(pinch.h0 * r, C.text.minLetter, Math.min(4, L.maxH));
+    else { it.w = clamp(pinch.w0 * r, 1.5, L.maxW); var sz = designSize(S.side, it); if (sz && sz.fit) it.w = Math.round(sz.w) / 10; }
+    live();
+  }, { passive: false });
+  $('kls-canvas').addEventListener('touchend', function (e) {
+    if (!pinch || e.touches.length >= 2) return;
+    pinch = null; render(); hideSel();
+  }, { passive: true });
 
   /* swipe between sides on phones (not while moving a design) */
   var tx0 = null;

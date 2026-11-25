@@ -31,6 +31,7 @@
 .kls-canvas svg{width:100%;height:100%;display:block;user-select:none;-webkit-user-select:none}
 .kls-canvas.editing{touch-action:none}
 .kls-canvas .kls-grab,.kls-canvas .kls-area{cursor:move}
+.kls-hint{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);background:rgba(23,23,23,.78);color:#fff;font-size:12.5px;padding:6px 12px;border-radius:999px;white-space:nowrap;pointer-events:none;max-width:calc(100% - 24px);overflow:hidden;text-overflow:ellipsis}
 .kls .kls-arrow{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:var(--kls-r);background:var(--kls-black);color:var(--kls-white);border:0;padding:0;font:700 22px/1 var(--kls-f);display:grid;place-items:center;opacity:.85}
 .kls-arrow.prev{right:0}.kls-arrow.next{left:0}
 .kls-dims{font-size:13px;font-weight:500;font-variant-numeric:tabular-nums;padding-top:8px;color:var(--kls-grey)}
