@@ -224,7 +224,10 @@
     });
     h += '</div><div class="kls-label kls-color-label">צבע <span><i class="kls-dot-c" style="background:' + variant().hex + '"></i>' + esc(variant().name) + (variant().stock ? '' : ' · אזל מהמלאי') + '</span></div><div class="kls-swatches" role="radiogroup" aria-label="צבע">';
     variants().forEach(function (v) {
-      h += '<button type="button" class="kls-sw" data-variant="' + v.id + '" title="' + esc(v.name) + (v.stock ? '' : ' (אזל)') + '" aria-label="' + esc(v.name) + '" aria-pressed="' + (variant().id === v.id) + '" style="background:' + v.hex + '"' + (v.stock ? '' : ' disabled') + '></button>';
+      // a small photo of the cap itself (front, cropped like the big view) instead of a plain colour dot
+      var vb = (v.vb && v.vb.front) || VB0;
+      h += '<button type="button" class="kls-capthumb" data-variant="' + v.id + '" title="' + esc(v.name) + (v.stock ? '' : ' (אזל)') + '" aria-label="' + esc(v.name) + '" aria-pressed="' + (variant().id === v.id) + '"' + (v.stock ? '' : ' disabled') + '>' +
+        '<svg viewBox="' + vb.join(' ') + '" aria-hidden="true"><image href="' + esc(v.img.front) + '" width="' + IMG + '" height="' + IMG + '"/></svg></button>';
     });
     return h + '</div></div>';
   }
