@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>בחירת צבע ומידה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#171717;--white:#fff;--gold:#AE8E42;--line:#DDD3BD;--muted:#6B6B69}
+*{box-sizing:border-box;margin:0}
+body{background:#fff;color:var(--ink);font-family:Heebo,sans-serif}
+.note{background:#FAF8F3;border-bottom:1px solid var(--line);padding:14px 16px;font-size:14px;color:var(--muted);text-align:center;line-height:1.6}
+.note b{color:var(--ink)}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 16px;display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.prod{border-top:1px solid var(--line);padding-top:20px}
+.tag{font:500 13px Heebo;color:var(--muted);margin-bottom:12px}
+.gal{position:relative;aspect-ratio:1;background:#fff;overflow:hidden}
+.track{display:flex;height:100%;transition:transform .35s ease}
+.track img{flex:0 0 100%;width:100%;height:100%;object-fit:contain}
+.dots{display:flex;justify-content:center;gap:6px;margin:10px 0 18px}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--line);cursor:pointer}
+.dots i.on{background:var(--ink)}
+h1{font:900 26px/1.15 Heebo}
+.price{font:700 20px Heebo;margin:6px 0 18px}
+.lbl{font:500 14px Heebo;margin-bottom:8px;display:flex;gap:6px}
+.lbl span{color:var(--muted);font-weight:400}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chip{min-width:52px;height:44px;padding:0 14px;border:1px solid var(--ink);background:#fff;color:var(--ink);border-radius:4px;font:500 15px Heebo;cursor:pointer}
+.chip.on{background:var(--ink);color:#fff}
+.chip.off{border-color:var(--line);color:#bbb;text-decoration:line-through;cursor:not-allowed}
+.sw{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);cursor:pointer;position:relative}
+.sw.on:after{content:"";position:absolute;inset:-5px;border:2px solid var(--ink);border-radius:50%}
+.buy{display:flex;gap:10px}
+.qty{width:56px;height:48px;border:1px solid var(--ink);border-radius:4px;display:flex;align-items:center;justify-content:center;font:700 16px Heebo}
+.btn{flex:1;height:48px;background:var(--ink);color:#fff;border:0;border-radius:4px;font:700 16px Heebo}
+.btn.dis{background:#bdbdbd}
+.box{margin-top:18px;background:#F4F4F2;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:14px;line-height:1.5}
+.box a{font:700 14px Heebo;color:var(--ink);border-bottom:2px solid var(--gold);text-decoration:none;white-space:nowrap}
+@media (max-width:760px){.wrap{grid-template-columns:1fr;gap:28px}}
+</style>
+</head>
+<body>
+<div class="note">הדמיה בלבד, אפשר ללחוץ. כך ייראו <b>הבחירות בעמודי הפוטרים, החולצות הארוכות וכובעי הצמר</b> (רק בקטגוריות האלה, שאר האתר לא משתנה).<br>
+בחירה מחליפה מיד את התמונה, וגם אפשר להמשיך לדפדף בין כל התמונות. החלקה על תמונה של צבע אחר בכובע בוחרת את הצבע הזה.</div>
+
+<div class="wrap">
+  <section class="prod" id="sw">
+    <div class="tag">פוטר</div>
+    <div class="gal"><div class="track">
+      <img src="img/sweat-grn-1-plain.jpg" alt=""><img src="img/sweat-grn-2-print.jpg" alt=""><img src="img/sweat-grn-3-back.jpg" alt="">
+    </div></div>
+    <div class="dots"></div>
+    <h1>פוטר כתרליון בצבע ירוק</h1>
+    <div class="price">₪270.00</div>
+    <div class="lbl">דגם <span data-show="m">חלק</span></div>
+    <div class="row" data-g="m">
+      <button class="chip on" data-img="0">חלק</button>
+      <button class="chip" data-img="1">עם כיתוב KETERLION</button>
+    </div>
+    <div class="lbl">מידה <span data-show="s"></span></div>
+    <div class="row" data-g="s">
+      <button class="chip">S</button><button class="chip">M</button><button class="chip">L</button><button class="chip">XL</button><button class="chip">XXL</button><button class="chip">3XL</button>
+    </div>
+    <div class="buy"><div class="qty">1</div><button class="btn dis">הוספה לסל</button></div>
+    <div class="box"><div><b>רוצים פוטר או חולצה עם עיצוב משלכם?</b><br>גם פריט אחד, בלי מינימום</div><a href="#">לעיצוב אישי</a></div>
+  </section>
+
+  <section class="prod" id="bn">
+    <div class="tag">כובע צמר</div>
+    <div class="gal"><div class="track">
+      <img src="img/beanie-blk.jpg" alt=""><img src="img/beanie-gry.jpg" alt=""><img src="img/beanie-brd.jpg" alt=""><img src="img/beanie-cml.jpg" alt=""><img src="img/beanie-olv.jpg" alt="">
+    </div></div>
+    <div class="dots"></div>
+    <h1>כובע צמר כתרליון</h1>
+    <div class="price">₪99.00</div>
+    <div class="lbl">צבע <span data-show="c">שחור</span></div>
+    <div class="row" data-g="c">
+      <button class="sw on" title="שחור" style="background:#1A1A1A" data-img="0"></button>
+      <button class="sw" title="אפור" style="background:#6E6F70" data-img="1"></button>
+      <button class="sw" title="בורדו" style="background:#6B1F2E" data-img="2"></button>
+      <button class="sw" title="חום קאמל" style="background:#A8743F" data-img="3"></button>
+      <button class="sw" title="ירוק זית" style="background:#4A4D33" data-img="4"></button>
+    </div>
+    <div class="buy"><div class="qty">1</div><button class="btn">הוספה לסל</button></div>
+    <div class="box"><div><b>רוצים כובע עם טקסט משלכם?</b><br>גם כובע אחד, בלי מינימום</div><a href="#">לעיצוב אישי</a></div>
+  </section>
+</div>
+
+<script>
+document.querySelectorAll('.prod').forEach(p=>{
+  const track=p.querySelector('.track'),n=track.children.length,dots=p.querySelector('.dots');let i=0;
+  for(let k=0;k<n;k++){const d=document.createElement('i');d.onclick=()=>go(k,true);dots.appendChild(d);}
+  const colourRow=p.querySelector('[data-g="c"]');
+  function go(k,fromGallery){i=(k+n)%n;track.style.transform=`translateX(${i*100}%)`;[...dots.children].forEach((d,j)=>d.classList.toggle('on',j===i));
+    if(fromGallery&&colourRow){const b=colourRow.querySelector(`[data-img="${i}"]`);if(b)pick(colourRow,b,false);}}
+  function pick(row,b,move=true){row.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+    const show=p.querySelector(`[data-show="${row.dataset.g}"]`);if(show)show.textContent=b.title||b.textContent;
+    if(move&&b.dataset.img)go(+b.dataset.img,false);
+    const s=p.querySelector('[data-g="s"]');if(s)p.querySelector('.btn').classList.toggle('dis',!s.querySelector('.on'));}
+  p.querySelectorAll('.row').forEach(r=>r.querySelectorAll('button').forEach(b=>b.onclick=()=>pick(r,b)));
+  let x0=null;const g=p.querySelector('.gal');
+  g.addEventListener('pointerdown',e=>x0=e.clientX);g.addEventListener('pointerup',e=>{if(x0===null)return;const dx=e.clientX-x0;x0=null;if(Math.abs(dx)>30)go(i+(dx>0?1:-1),true);});
+  go(0,false);
+});
+</script>
+</body>
+</html>
