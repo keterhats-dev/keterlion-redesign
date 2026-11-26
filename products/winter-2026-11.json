@@ -1,6 +1,11 @@
-﻿{
+{
   "_note": "Winter 2026 products, approved by the user 26.11.2026. Created as drafts on the live site. No description for now, stock not managed (all in stock). Sizes S-3XL (user: S-XXXL; the existing size term is '3XL'). Photos: Desktop/כתרליון ניהול מלאי/תמונות/תמונות חדש/חורף - לאתר (cropped, square, white; Instagram logo strip removed). Sources in _source-map.txt there. Custom design option (+120 for sweatshirt and long sleeve) is a later, separate step (touches Zakeke / KL Studio, needs explicit approval).",
-  "categories": { "sweatshirts": 822, "long-sleeve (חולצות שרוול ארוך)": 823, "parent ביגוד (was Shirts)": 768, "wool-hat": 262 },
+  "categories": {
+    "sweatshirts": 822,
+    "long-sleeve (חולצות שרוול ארוך)": 823,
+    "parent ביגוד (was Shirts)": 768,
+    "wool-hat": 262
+  },
   "size_attribute": "pa_hat-size (id 5): S, M, L, XL, XXL, 3XL",
   "sweatshirts": {
     "price": "270",
@@ -8,10 +13,26 @@
     "sku_pattern": "SWT-{color}-{PLN|TXT}-{size}",
     "images": "sweat-{color}-1-plain, sweat-{color}-2-print, sweat-{color}-3-back",
     "products": [
-      { "id": 25602, "sku": "SWT-GRY", "name": "פוטר כתרליון בצבע אפור" },
-      { "id": 25616, "sku": "SWT-BRN", "name": "פוטר כתרליון בצבע חום" },
-      { "id": 25630, "sku": "SWT-GRN", "name": "פוטר כתרליון בצבע ירוק" },
-      { "id": 25644, "sku": "SWT-BLK", "name": "פוטר כתרליון בצבע שחור" }
+      {
+        "id": 25602,
+        "sku": "SWT-GRY",
+        "name": "פוטר כתרליון בצבע אפור"
+      },
+      {
+        "id": 25616,
+        "sku": "SWT-BRN",
+        "name": "פוטר כתרליון בצבע חום"
+      },
+      {
+        "id": 25630,
+        "sku": "SWT-GRN",
+        "name": "פוטר כתרליון בצבע ירוק"
+      },
+      {
+        "id": 25644,
+        "sku": "SWT-BLK",
+        "name": "פוטר כתרליון בצבע שחור"
+      }
     ]
   },
   "long_sleeve": {
@@ -19,15 +40,69 @@
     "sku_pattern": "LS-{color}-{size}",
     "images": "ls-{color}-1-front, ls-{color}-2-back",
     "products": [
-      { "id": 25658, "sku": "LS-BGE", "name": "חולצה ארוכה כתרליון בצבע בז'" },
-      { "id": 25666, "sku": "LS-WHT", "name": "חולצה ארוכה כתרליון בצבע לבן" },
-      { "id": 25674, "sku": "LS-BLK", "name": "חולצה ארוכה כתרליון בצבע שחור" }
+      {
+        "id": 25658,
+        "sku": "LS-BGE",
+        "name": "חולצה ארוכה כתרליון בצבע בז'"
+      },
+      {
+        "id": 25666,
+        "sku": "LS-WHT",
+        "name": "חולצה ארוכה כתרליון בצבע לבן"
+      },
+      {
+        "id": 25674,
+        "sku": "LS-BLK",
+        "name": "חולצה ארוכה כתרליון בצבע שחור"
+      }
     ]
   },
   "beanie": {
-    "id": 25682, "sku": "BEANIE", "name": "כובע צמר כתרליון", "price": "99", "categories": [262, 762],
+    "id": 25682,
+    "sku": "BEANIE",
+    "name": "כובע צמר כתרליון",
+    "price": "99",
+    "categories": [
+      262,
+      762
+    ],
     "variation_attrs": "צבע (local): שחור, אפור, בורדו, חום קאמל, ירוק זית; one size",
     "sku_pattern": "BEANIE-{BLK|GRY|BRD|CML|OLV}",
-    "replaces": [18828, 18824]
+    "replaces": [
+      18828,
+      18824
+    ]
+  },
+  "custom_design": {
+    "_note": "26.11.2026, user: same as the custom shirt (+100 print, DTG front+back up to A3, logo/text only, no gallery, same fonts), all colours. One custom product per garment, private + hidden until Zakeke is set up and tested.",
+    "pa_shirt-color new terms": {
+      "824": "אפור (grey)",
+      "825": "ירוק (green)",
+      "826": "בז' (beige)"
+    },
+    "sweatshirt": {
+      "id": 25716,
+      "url": "/product/custom-sweatshirt/",
+      "price": "270 (+100 print = 370)",
+      "sku": "KL-SWT-CUSTOM-{GRY|BRN|GRN|BLK}-{size}",
+      "colors": [
+        "grey",
+        "brown",
+        "green",
+        "black"
+      ]
+    },
+    "long_sleeve": {
+      "id": 25742,
+      "url": "/product/custom-long-sleeve/",
+      "price": "219 (+100 print = 319)",
+      "sku": "KL-LS-CUSTOM-{BGE|WHT|BLK}-{size}",
+      "colors": [
+        "beige",
+        "white",
+        "black"
+      ]
+    },
+    "page_snippet": "snippets/kl-custom-apparel.html (replaces kl-custom-shirt.html in widget 2755df3 on 22544), mockup mockups/custom-apparel/"
   }
 }
