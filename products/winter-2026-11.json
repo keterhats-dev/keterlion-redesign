@@ -1,6 +1,6 @@
-{
+﻿{
   "_note": "Winter 2026 products, approved by the user 26.11.2026. Created as drafts on the live site. No description for now, stock not managed (all in stock). Sizes S-3XL (user: S-XXXL; the existing size term is '3XL'). Photos: Desktop/כתרליון ניהול מלאי/תמונות/תמונות חדש/חורף - לאתר (cropped, square, white; Instagram logo strip removed). Sources in _source-map.txt there. Custom design option (+120 for sweatshirt and long sleeve) is a later, separate step (touches Zakeke / KL Studio, needs explicit approval).",
-  "categories": { "sweatshirts": 822, "long-sleeve": 823, "parent_shirts_ביגוד": 768, "wool-hat": 262 },
+  "categories": { "sweatshirts": 822, "long-sleeve (חולצות שרוול ארוך)": 823, "parent ביגוד (was Shirts)": 768, "wool-hat": 262 },
   "size_attribute": "pa_hat-size (id 5): S, M, L, XL, XXL, 3XL",
   "sweatshirts": {
     "price": "270",
