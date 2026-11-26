@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>עיצוב אישי לבגדים</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;overflow-x:hidden;background:#fff;font-family:Heebo,sans-serif;color:#171717}
+.note{background:#FAF8F3;border-bottom:1px solid #DDD3BD;padding:14px 16px;font-size:14px;color:#6B6B69;text-align:center;line-height:1.6}
+.note b{color:#171717}
+.wrap{max-width:1240px;margin:0 auto;padding:24px 16px}
+.hatrow{display:grid;grid-template-columns:1.1fr 1fr;gap:56px}
+.hatimg{aspect-ratio:1;border:1px solid #EEE9DD;display:grid;place-items:center;color:#bbb;font-size:15px}
+#kl-picker h1{font:900 34px/1.1 Heebo;margin:0 0 14px}
+.ghost{border:1px dashed #DDD3BD;padding:16px;color:#aaa;font-size:14px;margin:10px 0}
+.klp-bar{min-height:58px;max-width:340px;background:#171717;color:#fff;border-radius:4px;display:grid;place-items:center;font-weight:700}
+@media (max-width:767px){.hatrow{display:block}.hatimg{margin-bottom:16px}}
+</style>
+</head>
+<body class="admin-bar">
+<div class="note">הדמיה בלבד, אפשר ללחוץ. <b>עמוד העיצוב האישי</b>: למעלה 4 אריחים (כובע, חולצה, פוטר, שרוול ארוך), ולמטה בלוק אחד לבגדים שבו בוחרים קודם <b>מה מעצבים</b>, ואז צבע ומידה.<br>האזור האפור (הכובע) נשאר בדיוק כמו היום.</div>
+<div class="wrap elementor-22544">
+  <div class="hatrow" data-id="79176d6">
+    <div class="hatimg">(תמונת הכובע, לא משתנה)</div>
+    <div id="kl-picker">
+      <h1>עיצוב אישי</h1>
+      <div class="ghost">בחירת סוג כובע, צבע ושלבים, כמו היום</div>
+      <div class="klp-bar">התחילו לעצב ←</div>
+    </div>
+  </div>
+</div>
+<script>
+window.KL_MOCKUP = true; window.KL_IMG_BASE = 'img/'; window.KL_HAT_IMG = 'img/kl-custom-tee-black-swatch.jpg';
+fetch('../../snippets/kl-custom-apparel.html').then(function (r) { return r.text(); }).then(function (h) {
+  var d = new DOMParser().parseFromString(h, 'text/html');
+  d.querySelectorAll('style').forEach(function (s) { document.head.appendChild(s.cloneNode(true)); });
+  d.querySelectorAll('script').forEach(function (s) { var n = document.createElement('script'); n.textContent = s.textContent; document.body.appendChild(n); });
+});
+</script>
+</body>
+</html>
