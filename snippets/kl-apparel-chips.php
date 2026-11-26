@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 // Code Snippets "KL apparel chips" (front-end). Approved by the user 26.11.2026 ("כן תשנה גם את זה").
 // On the clothing category pages (ביגוד 768, חולצות 777, פוטרים 822, חולצות שרוול ארוך 823) the hat-type chips row
 // (3736f5d in KL Archive 2026, 23976) shows clothing categories instead: כל הביגוד · חולצות · פוטרים · חולצות שרוול ארוך.
@@ -26,6 +26,7 @@ add_action('wp_footer', function () {
   var tpl=row.querySelector('a'); var items=<?php echo wp_json_encode( $out ); ?>;
   if(tpl&&items.length){ row.innerHTML=''; items.forEach(function(it){ var a=tpl.cloneNode(false); a.textContent=it.t; a.href=it.u; if(it.c){a.className+=' kl-cur'; a.setAttribute('aria-current','page');} row.appendChild(a); }); }
   row.classList.add('kl-ready');
+  var cur=row.querySelector('.kl-cur'); if(cur){ var d=cur.getBoundingClientRect(), r=row.getBoundingClientRect(); if(d.left<r.left) row.scrollLeft-=(r.left-d.left)+16; else if(d.right>r.right) row.scrollLeft+=(d.right-r.right)+16; }
 })();
 </script>
 	<?php

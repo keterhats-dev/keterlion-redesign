@@ -24,6 +24,7 @@ add_action('wp_footer', function () {
 .kl-vp-sw.off{opacity:.3;cursor:not-allowed}
 .kl-vp-val{color:#6B6B69;font-weight:400;margin-inline-start:6px}
 form.variations_form .reset_variations{display:none!important}
+@media (max-width:480px){.kl-vp-row{gap:6px}.kl-vp-chip{min-width:0;padding:0 8px;flex:1 1 0}}
 </style>
 <script id="kl-vp-js">
 (function($){
