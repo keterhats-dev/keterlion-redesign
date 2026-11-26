@@ -1,4 +1,4 @@
-<!-- KL hat filters, v2 (26.10.2026). HTML widget f0c47ef in KL Archive 2026 (23976), right after the chips row 3736f5d.
+﻿<!-- KL hat filters, v2 (26.10.2026). HTML widget f0c47ef in KL Archive 2026 (23976), right after the chips row 3736f5d.
      On hat pages: two rows, hat type (main) and collection (second). A click filters in place: the chip turns on at once,
      products come from the WooCommerce Store API (cached by LiteSpeed for guests), the URL, title and result count update,
      and "טען עוד" replaces the numbered pagination. Choices with no products stay in place but turn off.
@@ -82,7 +82,7 @@ function card(p){ var im=p.images&&p.images[0], cart=p.add_to_cart||{};
   return '<li class="product type-product product-type-'+esc(p.type)+(p.is_in_stock?' instock':' outofstock')+(p.on_sale?' sale':'')+'"><a href="'+esc(p.permalink)+'" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">'+(p.on_sale?'<span class="onsale">מבצע!</span>':'')+img+'<h2 class="woocommerce-loop-product__title">'+p.name+'</h2><span class="price">'+p.price_html+'</span></a>'+btn+'</li>'; }
 function count(shown){ var el=W&&W.querySelector('.woocommerce-result-count'); if(el) el.textContent=total?('מציג '+shown+' מתוך '+total+' תוצאות'):'אין מוצרים בבחירה הזאת'; }
 function more(){ var box=W.querySelector('.klf-more'); if(!box){ box=document.createElement('div'); box.className='klf-more'; box.innerHTML='<button type="button">טען עוד</button>'; (W.querySelector('ul.products')||W).after(box); box.firstChild.onclick=function(){ load(page+1); }; } box.hidden=page>=pages; }
-function load(pg){ if(!W||busy) return; var ul=W.querySelector('ul.products'); if(!ul) return location.assign(url(st.t,st.c)); busy=true; var my=st;
+function load(pg){ if(!W) W=document.querySelector('.elementor-element-11c6bb9'); /* 26.11: logged-in users run this before the list exists */ if(!W||busy) return; var ul=W.querySelector('ul.products'); if(!ul) return location.assign(url(st.t,st.c)); busy=true; var my=st;
   if(pg===1) W.classList.add('klf-busy'); else W.querySelector('.klf-more button').disabled=true;
   all(st.t,st.c).then(function(d){ if(my!==st) return;
     if(st.t[0]===P&&st.c[2]){ var it=d.items.filter(function(p){ return (p.categories||[]).some(function(x){ return HATS.indexOf(x.id)>=0; }); }); d={items:it,total:it.length,pages:1}; }
@@ -102,7 +102,7 @@ R.addEventListener('click',function(e){ var a=e.target.closest('a[data-k]'); if(
 window.addEventListener('popstate',function(){ location.reload(); });
 
 /* keyword text goes under the products; phones: show the chosen chip */
-document.addEventListener('DOMContentLoaded',function(){ var d=document.querySelector('.elementor-element-6318cc7 .elementor-widget-woocommerce-archive-description'); if(d&&W){ d.classList.add('klf-seo'); W.after(d); } });
+document.addEventListener('DOMContentLoaded',function(){ var d=document.querySelector('.elementor-element-6318cc7 .elementor-widget-woocommerce-archive-description'); if(!W) W=document.querySelector('.elementor-element-11c6bb9'); if(d&&W){ d.classList.add('klf-seo'); W.after(d); } });
 function reveal(){ if(window.innerWidth>=768) return; R.querySelectorAll('a.on').forEach(function(on){ var pr=on.parentNode.getBoundingClientRect(), ar=on.getBoundingClientRect(); if(ar.left<pr.left+16) on.parentNode.scrollLeft+=ar.left-pr.left-16; }); }
 (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(function(){ requestAnimationFrame(reveal); });
 })();
